@@ -21,23 +21,23 @@ $
 $quote "
 
 $set 1
-1 "Voulez-vous vraiment exécuter cette commande ?"
+1 "Voulez-vous vraiment exÃ©cuter cette commande ?"
 2 "OK"
 3 "Annuler"
 4 "Version de DtMail"
 5 "Version de DtMail"
-6 "Vous devez sélectionner un élément de l'application.\n"
+6 "Vous devez sÃ©lectionner un Ã©lÃ©ment de l'application.\n"
 7 "DtMail - Aide"
 8 "DtMail - Aide"
 9 "Voulez-vous fermer ce dossier ?"
 10 "Vous ne pouvez pas annuler cette commande. Voulez-vous continuer ?"
 
-11 "Affiche les dossiers et fichiers cachés"
+11 "Affiche les dossiers et fichiers cachÃ©s"
 $ /* NL_COMMENT
 $  * This message replaces messages 7 and 8.
 $  */
 12 "Programme courrier : Aide"
 
 $set 2        Redefine set#
-1 "Erreur de sélection, impossible de continuer.\n"
-2 "Sélection interrompue par l'utilisateur.\n"
+1 "Erreur de sÃ©lection, impossible de continuer.\n"
+2 "SÃ©lection interrompue par l'utilisateur.\n"

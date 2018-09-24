@@ -45,20 +45,20 @@ $
 $     */
 1 utilisation : %1$s [options]\n\
 \n\
-où [options] comprennent :\n\
-   -d <display>        hôte : affiche [.écran] du serveur X Print\n\
+oÃ¹ [options] comprennent :\n\
+   -d <display>        hÃ´te : affiche [.Ã©cran] du serveur X Print\n\
    -a <alt selection>  un nom de remplacement de X-selection ("%2$s" default)\n\
-   -p <default pdm>    un pdm par défaut pour lancer ("%3$s" default)\n\
+   -p <default pdm>    un pdm par dÃ©faut pour lancer ("%3$s" default)\n\
    -P <the pdm>        le pdm pour lancer, recouvre tous les autres\n\
-   -s                  active le protocole de sécurité\n\
-   -f <auth file>      un groupe  initial d'entrées d'autorisation\n\
+   -s                  active le protocole de sÃ©curitÃ©\n\
+   -f <auth file>      un groupe  initial d'entrÃ©es d'autorisation\n\
    -l <log file>       un fichier pour enregistrer les erreurs, etc
 
-2 %1$s: erreur, impossible d'ouvrir l'écran %2$s\n
+2 %1$s: erreur, impossible d'ouvrir l'Ã©cran %2$s\n
 
-3 %1$s: erreur, un autre pdm est déjà activé (%2$s)\n
+3 %1$s: erreur, un autre pdm est dÃ©jÃ  activÃ© (%2$s)\n
 
-4 %s: erreur, impossible de créer  Xt signal pipe\n
+4 %s: erreur, impossible de crÃ©er  Xt signal pipe\n
 
 $    /* NL_COMMENT
 $ 
@@ -69,13 +69,13 @@ $       - Do not translate the word "XmbTextPropertyToTestList"
 $         in message 7.
 $ 
 $     */
-5 %s: erreur, impossible d'obtenir la propriété SelectionRequest \n
+5 %s: erreur, impossible d'obtenir la propriÃ©tÃ© SelectionRequest \n
 
-6 %s: erreur, format de propriéte SelectionRequest incorrect\n
+6 %s: erreur, format de propriÃ©te SelectionRequest incorrect\n
 
-7 %s: erreur, XmbTextPropertyToTestList a échoué pour la propriété SelectionRequest \n
+7 %s: erreur, XmbTextPropertyToTestList a Ã©chouÃ© pour la propriÃ©tÃ© SelectionRequest \n
 
-8 %s: erreur, impossible de créer message pipe\n
+8 %s: erreur, impossible de crÃ©er message pipe\n
 
 $    /* NL_COMMENT
 $ 
@@ -84,7 +84,7 @@ $
 $     */
 9 %s: erreur, impossible de fork\n
 
-10 %1$s: erreur, impossible d'exécuter "%2$s" \n
+10 %1$s: erreur, impossible d'exÃ©cuter "%2$s" \n
 
 $    /* NL_COMMENT
 $ 
@@ -94,7 +94,7 @@ $       - Do not translate the words "-display" or
 $         "-vdisplay" in message 11.
 $ 
 $     */
-11 %1$s: message exec enregistré à %2$s\n\
+11 %1$s: message exec enregistrÃ© Ã  %2$s\n\
    message d'erreur exec  = "%3$s"\n\
    erreur de code exec     = %4$s\n\
    pdm                = "%5$s"\n\
@@ -102,11 +102,11 @@ $     */
    -vdisplay          = "%7$s" \n
 
 12 %1$s: erreur, impossible d'envoyer le message final %2$s\n\
-au client demandé par le PDM à cause\n\
+au client demandÃ© par le PDM Ã  cause\n\
 d'une erreur X\n
 
 13 %1$s: erreur, impossible d'envoyer le message final %2$s\n\
-au client demandé par le PDM à cause\n\
+au client demandÃ© par le PDM Ã  cause\n\
 d'une erreur XIO \n
 
 $    /* NL_COMMENT
@@ -117,14 +117,14 @@ $       - Do not translate the words "-display" or
 $         "-vdisplay" in message 14.
 $ 
 $     */
-14 %1$s: message pdm enregistré à %2$s\n\
+14 %1$s: message pdm enregistrÃ© Ã  %2$s\n\
    pdm       = "%3$s"\n\
    -display  = "%4$s"\n\
    -vdisplay = "%5$s"\n\
    exit code = "%6$d"\n\
    stderr    = "%7$s" \n
 
-15 erreur de pdmd annexé= \n"%s" \n
+15 erreur de pdmd annexÃ©= \n"%s" \n
 
-16 %1$s: erreur, impossible d'ouvrir le fichier journal "%2$s". Enregistrement des messages stderr arrêté\n
+16 %1$s: erreur, impossible d'ouvrir le fichier journal "%2$s". Enregistrement des messages stderr arrÃªtÃ©\n
 

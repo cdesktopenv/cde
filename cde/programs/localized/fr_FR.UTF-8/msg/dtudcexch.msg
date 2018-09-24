@@ -21,23 +21,23 @@ $ *****************************************************************************
 $ ** _DtMessage set for getbdffn.c
 $ *****************************************************************************
 
-2 Sélection du fichier BDF 
-4 Le fichier sélectionné existe. L'annuler ?
-6 L'ouverture du fichier sélectionné a échoué.
+2 SÃ©lection du fichier BDF 
+4 Le fichier sÃ©lectionnÃ© existe. L'annuler ?
+6 L'ouverture du fichier sÃ©lectionnÃ© a Ã©chouÃ©.
 
 $set 4
 $ *****************************************************************************
 $ ** _DtMessage set for selectx.c
 $ *****************************************************************************
 
-2 Cette police ne contient pas de caractères définis par l'utilisateur.
-4 Impossible d'ouvrir la police sélectionnée. Vous n'avez pas d'autorisation d'accès au fichier de police ou le format du fichier est incorrect.
-6 Le fichier de police est utilisé dans une autre application UDC.
+2 Cette police ne contient pas de caractÃ¨res dÃ©finis par l'utilisateur.
+4 Impossible d'ouvrir la police sÃ©lectionnÃ©e. Vous n'avez pas d'autorisation d'accÃ¨s au fichier de police ou le format du fichier est incorrect.
+6 Le fichier de police est utilisÃ© dans une autre application UDC.
 8 Pas de police
 10 Ouvrir
 12 Annuler
-14 Utilitaire d'échange de données UDC
-16 Sélectionner les éléments
+14 Utilitaire d'Ã©change de donnÃ©es UDC
+16 SÃ©lectionner les Ã©lÃ©ments
 18 - Jeu de code :
 20 -   Style :
 22 -   Largeur :
@@ -48,9 +48,9 @@ $ *****************************************************************************
 $ ** _DtMessage set for selectxlfd.c
 $ *****************************************************************************
 
-2 Voulez-vous interrompre l'échange UDC ?
+2 Voulez-vous interrompre l'Ã©change UDC ?
 4 Il n'existe pas de UDC dans cette police
-6 Le nom XLFD n'est pas sélectionné
+6 Le nom XLFD n'est pas sÃ©lectionnÃ©
 8 Impossible d'ouvrir le fichier de polices
 10 Le fichier de polices est en cours d'utilisation dans une autre application UDC.
 
@@ -59,13 +59,13 @@ $ *****************************************************************************
 $ ** _DtMessage set for udcexc.c
 $ *****************************************************************************
 
-2 Utilitaire UDC d'échange de données
+2 Utilitaire UDC d'Ã©change de donnÃ©es
 4 Une erreur fatale a eu lieu.
 6 Impossible d'ouvrir le fichier de polices.
 8 Impossible de lire le fichier de polices.
-10 La mémoire est épuisée.
+10 La mÃ©moire est Ã©puisÃ©e.
 12 Une erreur fatale a eu lieu.
-14 Le fichier de polices spécifié n'existe pas.
+14 Le fichier de polices spÃ©cifiÃ© n'existe pas.
 16 Ce n'est pas une police pcf ou snf.
 18 Impossible d'ouvrir le fichier de liste de polices.
 20 Le format du fichier de liste de polices est incorrect.
@@ -73,18 +73,18 @@ $ *****************************************************************************
 24 Le format du fichier de liste de polices est incorrect.
 26 Impossible d'ouvrir le fichier rep. de polices.
 28 Impossible de lire le fichier rep. de polices
-30 Impossible de lire les propriétés des polices.
-32 Impossible d'obtenir la propriété de FONT.
-34 Impossible d'obtenir la propriété de FAMILY_NAME.
+30 Impossible de lire les propriÃ©tÃ©s des polices.
+32 Impossible d'obtenir la propriÃ©tÃ© de FONT.
+34 Impossible d'obtenir la propriÃ©tÃ© de FAMILY_NAME.
 36 Ce fichier de police est en cours d'utilisation dans une autre application.
 38 Impossible de verrouiller le fichier de polices.
-40 Impossible de déverrouiller le fichier de polices.
+40 Impossible de dÃ©verrouiller le fichier de polices.
 42 Im[possible d'obtenir l'information de verrou du fichier de polices.
-44 Impossible de trouver le fichier de polices spécifié.
-46 Impossible de lire la base de données NLS.
-48 Impossible d'obtenir les noms de charset de la base de données NLS.
-50 Le nom charset n'est pas défini dans la base de données NLS.
-52 La police spécifiée n'a pas été ouverte.
+44 Impossible de trouver le fichier de polices spÃ©cifiÃ©.
+46 Impossible de lire la base de donnÃ©es NLS.
+48 Impossible d'obtenir les noms de charset de la base de donnÃ©es NLS.
+50 Le nom charset n'est pas dÃ©fini dans la base de donnÃ©es NLS.
+52 La police spÃ©cifiÃ©e n'a pas Ã©tÃ© ouverte.
 54 Une erreur fatale a eu lieu.
 56 Nom XLFD           :
 58 Police d'origine (nom XLFD)  :
@@ -108,8 +108,8 @@ $ *****************************************************************************
 $ ** _DtMessage set for udcexp.c
 $ *****************************************************************************
 
-2 La création du fichier BDF a échoué
-4 Aucun index sélectionné
+2 La crÃ©ation du fichier BDF a Ã©chouÃ©
+4 Aucun index sÃ©lectionnÃ©
 6 OK
 8 Annulerl
 10 index de glyphes
@@ -119,9 +119,9 @@ $ *****************************************************************************
 $ ** _DtMessage set for udcexp.c
 $ *****************************************************************************
 
-2 Impossible d'ajouter les images glyphes de ce fichier BDF à la police.
-4 L'ouverture de la police sélectionnée a échoué. Vous n'avez pas d'autorisation d'accès au fichier de polices ou le format est incorrect.
-6 Une ou plusieurs images glyphes seront écrasées. Ecraser ?
-8 L'ouverture de la police sélectionnée a échoué. Vous n'avez pas d'autorisation d'accès au fichier de polices ou le format est incorrect.
-10 Impossible d'ajouter les images glyphes de ce fichier BDF à la police.
-12 L'enregistrement du fichier de polices a échoué.
+2 Impossible d'ajouter les images glyphes de ce fichier BDF Ã  la police.
+4 L'ouverture de la police sÃ©lectionnÃ©e a Ã©chouÃ©. Vous n'avez pas d'autorisation d'accÃ¨s au fichier de polices ou le format est incorrect.
+6 Une ou plusieurs images glyphes seront Ã©crasÃ©es. Ecraser ?
+8 L'ouverture de la police sÃ©lectionnÃ©e a Ã©chouÃ©. Vous n'avez pas d'autorisation d'accÃ¨s au fichier de polices ou le format est incorrect.
+10 Impossible d'ajouter les images glyphes de ce fichier BDF Ã  la police.
+12 L'enregistrement du fichier de polices a Ã©chouÃ©.

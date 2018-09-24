@@ -80,18 +80,18 @@ $ Messages 7, 8, 9, 11, and 12 are Change Folder error messages
 
 3 "Changer de dossier"
 
-4 "Hôte:"
+4 "HÃ´te:"
 
 7 "Le nom de dossier suivant n'est pas valide:\n\n\
 %s:%s"
 
-8 "Vous ne pouvez pas passer à ce dossier. Vous êtes\n\
-autorisé à visualiser seulement les dossiers sous\n\
-le dossier en cours. Vous ne pouvez pas préciser\n\
+8 "Vous ne pouvez pas passer Ã  ce dossier. Vous Ãªtes\n\
+autorisÃ© Ã  visualiser seulement les dossiers sous\n\
+le dossier en cours. Vous ne pouvez pas prÃ©ciser\n\
 un chemin absolu vers le nouveau dossier."
 
 9 "Cette vue est en mode restreint. Vous ne pouvez pas\n\
-passer au dossier spécifié car il n'est pas dans le\n\
+passer au dossier spÃ©cifiÃ© car il n'est pas dans le\n\
 chemin relatif du dossier restreint.\n"
 
 10 "Changement de dossier"
@@ -100,26 +100,26 @@ chemin relatif du dossier restreint.\n"
 
 12 "Entrez le nom du dossier s'il vous plait."
 
-13 "Aller à l'erreur"
+13 "Aller Ã  l'erreur"
 
 14 "Dossier de destination:"
 
-15 "Aller à"
+15 "Aller Ã "
 
-16 "Nom du système:"
+16 "Nom du systÃ¨me:"
 
-17 "Gestionnaire de fichiers - Aller à"
+17 "Gestionnaire de fichiers - Aller Ã "
 
 18 "Le nom du dossier de destination est manquant.\n\
-   Entrez un nom de dossier ou sélectionner un dossier dans la liste."
+   Entrez un nom de dossier ou sÃ©lectionner un dossier dans la liste."
 
 19 "Le nom de dossier suivant est incorrect.\n\n\
 %s"
 
 20 "Vous ne pouvez pas passer au dossier\n\n\
 %s\n\n\
-Il s'agit d'un dossier restreint que vous n'êtes\n\
-pas autorisé à visualiser."
+Il s'agit d'un dossier restreint que vous n'Ãªtes\n\
+pas autorisÃ© Ã  visualiser."
 
 $set 3        Redefine set#
 
@@ -128,27 +128,27 @@ $ Messages 2-6 are labels for the folder Status Line
 $ Message 3 is required for SUN systems  
 $ Message 2-9 are obsolete  
 
-2 "%d Fichiers %d Cachés"
+2 "%d Fichiers %d CachÃ©s"
 
-3 "%1$d Fichiers %2$d Cachés"
+3 "%1$d Fichiers %2$d CachÃ©s"
 
 4 "%3d Fichiers ..."
 
 5 "Lecture en cours ..."
 
-6 "%d Caché(s)"
+6 "%d CachÃ©(s)"
 
-7 "%d Eléments %d Masqués"
+7 "%d ElÃ©ments %d MasquÃ©s"
 
-8 "%1$d Eléments %2$d Masqués"
+8 "%1$d ElÃ©ments %2$d MasquÃ©s"
 
-9 "%3d Eléments ..."
+9 "%3d ElÃ©ments ..."
 
-10 "%d Elément(s)"
+10 "%d ElÃ©ment(s)"
 
-11 "%d Elément(s)..."
+11 "%d ElÃ©ment(s)..."
 
-12 "%d Elément(s) %d Masqué(s)"
+12 "%d ElÃ©ment(s) %d MasquÃ©(s)"
 
 $set 4        Redefine set#
 
@@ -176,42 +176,42 @@ $   containing object(s) with the same name
 
 6 "Erreur d'action"
 
-7 "Aucune action définie pour %s.\n"
+7 "Aucune action dÃ©finie pour %s.\n"
 
-8 "Il y a déjà un fichier de ce nom dans l'espace de\n\
-travail. Choisissez un nom différent."
+8 "Il y a dÃ©jÃ  un fichier de ce nom dans l'espace de\n\
+travail. Choisissez un nom diffÃ©rent."
 
-9 "Un fichier de ce nom existe déjà.\n\
-Choisissez un nom différent."
+9 "Un fichier de ce nom existe dÃ©jÃ .\n\
+Choisissez un nom diffÃ©rent."
 
-11 "Déplacement/Copie/Liaison - Avertissement"
+11 "DÃ©placement/Copie/Liaison - Avertissement"
 $ Messages 12-15 deal with multiple files/folders  
 
 12 "Les fichiers ou dossiers\n\
-suivants existent déjà dans\n\
+suivants existent dÃ©jÃ  dans\n\
 %s:"
 
 13 "\n\
-Si vous effectuez la copie, ces fichiers seront écrasés.\n\
+Si vous effectuez la copie, ces fichiers seront Ã©crasÃ©s.\n\
           Voulez-vous continuer ?\n"
 
 14 "\n\
-Si vous effectuez le déplacement, ces fichiers seront écrasés.\n\
+Si vous effectuez le dÃ©placement, ces fichiers seront Ã©crasÃ©s.\n\
           Voulez-vous continuer ?\n"
 
 15 "\n\
-Si vous effectuez la liaison, ces fichiers seront écrasés.\n\
+Si vous effectuez la liaison, ces fichiers seront Ã©crasÃ©s.\n\
           Voulez-vous continuer ?\n"
 $ Messages 16&17 deal with a single file/folder  
 
-16 "Un objet appelé\n\
+16 "Un objet appelÃ©\n\
 %s \n\
-existe déjà dans le dossier\n\
+existe dÃ©jÃ  dans le dossier\n\
 %s"
 
-17 "Un dossier appelé\n\
+17 "Un dossier appelÃ©\n\
 %s\n\
-existe déjà dans le dossier\n\
+existe dÃ©jÃ  dans le dossier\n\
 %s"
 $ Labels in rename/replace and merge/replace dialogs  
 
@@ -231,16 +231,16 @@ $ Labels in rename/replace and merge/replace dialogs
 
 29 "Aide"
 
-30 "Annuler déplacement"
+30 "Annuler dÃ©placement"
 
 31 "Annuler copie"
 
 32 "Annuler lien"
 $ Window title for overwrite dialogs  
 
-33 "Gestionnaire de fichiers - Avertissement Déplacement/Copie/Lien"
+33 "Gestionnaire de fichiers - Avertissement DÃ©placement/Copie/Lien"
 
-34 "Gestionnaire de fichiers - Avertissement déplacement"
+34 "Gestionnaire de fichiers - Avertissement dÃ©placement"
 
 35 "Gestionnaire de fichiers - Avertissement copie"
 
@@ -249,20 +249,20 @@ $ Window title for overwrite dialogs
 37 "Renommer objet - Erreur"
 
 38 "%s\n\
-existe déjà: choisissez un autre nom."
+existe dÃ©jÃ : choisissez un autre nom."
 
 39 "%s\n\
-ne peut pas être renommé en\n\
+ne peut pas Ãªtre renommÃ© en\n\
 %s\n\
 %s"
 
 40 "Remplacement objet - Erreur"
 
-$ 41 OBS- "L'icône de ce type de données est déjà affichée."
+$ 41 OBS- "L'icÃ´ne de ce type de donnÃ©es est dÃ©jÃ  affichÃ©e."
 
 51 "copie en cours"
 
-52 "déplacement en cours"
+52 "dÃ©placement en cours"
 
 53 "lien en cours"
 
@@ -270,441 +270,441 @@ $ 41 OBS- "L'icône de ce type de données est déjà affichée."
 
 56 "Remplacer les objets existants"
 
-57 "Renommer les objets existants en leur ajoutant un numéro"
+57 "Renommer les objets existants en leur ajoutant un numÃ©ro"
 
-58 "copie effectuée"
+58 "copie effectuÃ©e"
 
-59 "déplacement effectué"
+59 "dÃ©placement effectuÃ©"
 
-60 "lien établi"
+60 "lien Ã©tabli"
 
-61 "modification effectuée"
+61 "modification effectuÃ©e"
 
 68 "1 objet %s."
 
 69 "%d objets %s."
 
 70 "%s\n\
-%d objets possèdent le même nom que des objets du dossier\n\
+%d objets possÃ¨dent le mÃªme nom que des objets du dossier\n\
 %s"
 
 71 "%s\n\
-1 objet possède le même nom qu'un objet du dossier\n\
+1 objet possÃ¨de le mÃªme nom qu'un objet du dossier\n\
 %s"
 
 72 "Copier"
 
-73 "Déplacer"
+73 "DÃ©placer"
 
 74 "Lier"
 
-75 "Opération"
+75 "OpÃ©ration"
 
 76 "copier"
 
-77 "déplacer"
+77 "dÃ©placer"
 
 78 "lier"
 
-79 "opération"
+79 "opÃ©ration"
 
-80 "%s annulé - le dossier n'était pas %s.\n\n\
-Le dossier à remplacer n'a pas pu être supprimé car un objet\n\
-de ce dossier ne peut pas être supprimé.\n\
-Certains objets de ce dossier ont pu être supprimés\n\
-avant que l'opération %s ne soit interrompue."
+80 "%s annulÃ© - le dossier n'Ã©tait pas %s.\n\n\
+Le dossier Ã  remplacer n'a pas pu Ãªtre supprimÃ© car un objet\n\
+de ce dossier ne peut pas Ãªtre supprimÃ©.\n\
+Certains objets de ce dossier ont pu Ãªtre supprimÃ©s\n\
+avant que l'opÃ©ration %s ne soit interrompue."
 
 81 "%s\n\n\
-Vous ne disposez probablement pas des droits d'accès en écriture\n\
-pour l'objet qui n'a pas pu être déplacé.\n\
+Vous ne disposez probablement pas des droits d'accÃ¨s en Ã©criture\n\
+pour l'objet qui n'a pas pu Ãªtre dÃ©placÃ©.\n\
 Modifiez vos droits ou renommez manuellement le dossier sur lequel\n\
-l'opération %s est lancée."
+l'opÃ©ration %s est lancÃ©e."
 
-82 "%s annulé\n\n\
+82 "%s annulÃ©\n\n\
 %s\n\
-ne peut pas être supprimé.\n\n\
-Vous ne disposez probablement pas des droits d'accès en\n\
-écriture pour ce fichier. Modifiez vos droits ou renommez\n\
-manuellement le fichier sur lequel l'opération\n\
-%s est lancée."
+ne peut pas Ãªtre supprimÃ©.\n\n\
+Vous ne disposez probablement pas des droits d'accÃ¨s en\n\
+Ã©criture pour ce fichier. Modifiez vos droits ou renommez\n\
+manuellement le fichier sur lequel l'opÃ©ration\n\
+%s est lancÃ©e."
 
-83 "%s annulé - Aucun des objets n'a subi l'opération %s.\n\n\
- L'objet suivant n'a pas pu être automatiquement renommé\n\
+83 "%s annulÃ© - Aucun des objets n'a subi l'opÃ©ration %s.\n\n\
+ L'objet suivant n'a pas pu Ãªtre automatiquement renommÃ©\n\
 %s\n\n\
-%d objets ont été renommés avant que l'opération %s ne soit arrêtée."
+%d objets ont Ã©tÃ© renommÃ©s avant que l'opÃ©ration %s ne soit arrÃªtÃ©e."
 
 84 "%s\n\n\
-Vous ne possédez probablement pas les droits d'accès en écriture pour\n\
-l'objet désigné ci-dessus. Modifiez vos droits d'accès ou renommez \n\
-manuellement l'objet sur lequel l'opération %s est lancée."
+Vous ne possÃ©dez probablement pas les droits d'accÃ¨s en Ã©criture pour\n\
+l'objet dÃ©signÃ© ci-dessus. Modifiez vos droits d'accÃ¨s ou renommez \n\
+manuellement l'objet sur lequel l'opÃ©ration %s est lancÃ©e."
 
-85 "%s annulé - Aucun des objets n'a subi l'opération %s.\n\n\
- L'objet suivant n'a pas pu être automatiquement renommé\n\
+85 "%s annulÃ© - Aucun des objets n'a subi l'opÃ©ration %s.\n\n\
+ L'objet suivant n'a pas pu Ãªtre automatiquement renommÃ©\n\
 %s\n\n\
-1 objet a été renommé avant que l'opération %s ne soit arrêtée."
+1 objet a Ã©tÃ© renommÃ© avant que l'opÃ©ration %s ne soit arrÃªtÃ©e."
 
-86 "%s annulée - aucun des objets n'a subi l'opération %s.\n\n\
-Un dossier à remplacer n'a pas pu être supprimé.\n\
+86 "%s annulÃ©e - aucun des objets n'a subi l'opÃ©ration %s.\n\n\
+Un dossier Ã  remplacer n'a pas pu Ãªtre supprimÃ©.\n\
    Dossier: %s\n\n\
-Certains objets à l'intérieur du dossier ont été supprimés\n\
-avant que l'opération %s ne soit arrêtée.\n\n\
-%d autres objets ont été supprimés.\n\n\
-Vous ne disposez probablement pas des droits d'accès en écriture pour\n\
-le dossier ci-dessus. Modifiez vos droits d'accès ou renommez manuellement\n\
-le dossier sur lequel l'opération %s est lancée."
+Certains objets Ã  l'intÃ©rieur du dossier ont Ã©tÃ© supprimÃ©s\n\
+avant que l'opÃ©ration %s ne soit arrÃªtÃ©e.\n\n\
+%d autres objets ont Ã©tÃ© supprimÃ©s.\n\n\
+Vous ne disposez probablement pas des droits d'accÃ¨s en Ã©criture pour\n\
+le dossier ci-dessus. Modifiez vos droits d'accÃ¨s ou renommez manuellement\n\
+le dossier sur lequel l'opÃ©ration %s est lancÃ©e."
 
-87 "%s annulé - aucun des objets n'a subi l'opération %s.\n\n\
-Un dossier à remplacer n'a pas pu être supprimé.\n\
+87 "%s annulÃ© - aucun des objets n'a subi l'opÃ©ration %s.\n\n\
+Un dossier Ã  remplacer n'a pas pu Ãªtre supprimÃ©.\n\
    Dossier: %s\n\n\
-Certains objets de ce dossier ont pu être supprimés avant que\n\
-l'opération %s ne soit arrêtée.\n\n\
-1 autre objet a été supprimé.\n\n\
-Vous ne devez probablement pas disposer des droits d'accès en écriture\n\
-pour le dossier ci-dessus. Modifiez vos droits d'accès ou renommez\n\
-manuellement le dossier sur lequel l'opération %s est lancée."
+Certains objets de ce dossier ont pu Ãªtre supprimÃ©s avant que\n\
+l'opÃ©ration %s ne soit arrÃªtÃ©e.\n\n\
+1 autre objet a Ã©tÃ© supprimÃ©.\n\n\
+Vous ne devez probablement pas disposer des droits d'accÃ¨s en Ã©criture\n\
+pour le dossier ci-dessus. Modifiez vos droits d'accÃ¨s ou renommez\n\
+manuellement le dossier sur lequel l'opÃ©ration %s est lancÃ©e."
 
-88 "%s annulé - aucun des objets n'a subi l'opération %s.\n\n\
-Un fichier à remplacer n'a pas pu être supprimé.\n\
+88 "%s annulÃ© - aucun des objets n'a subi l'opÃ©ration %s.\n\n\
+Un fichier Ã  remplacer n'a pas pu Ãªtre supprimÃ©.\n\
     Fichier: %s\n\n\
-%d autres objets ont été supprimés.\n\n\
-Vous ne disposez probablement pas des droits d'accès en écriture\n\
-pour le fichier ci-dessus. Modifiez vos droits d'accès ou renommez\n\
-manuellement le fichier sur lequel l'opération %s est lancée."
+%d autres objets ont Ã©tÃ© supprimÃ©s.\n\n\
+Vous ne disposez probablement pas des droits d'accÃ¨s en Ã©criture\n\
+pour le fichier ci-dessus. Modifiez vos droits d'accÃ¨s ou renommez\n\
+manuellement le fichier sur lequel l'opÃ©ration %s est lancÃ©e."
 
-89 "%s annulé - aucun des objets n'a subi l'opération %s.\n\n\
-Un fichier à remplacer n'a pas pu être supprimé.\n\
+89 "%s annulÃ© - aucun des objets n'a subi l'opÃ©ration %s.\n\n\
+Un fichier Ã  remplacer n'a pas pu Ãªtre supprimÃ©.\n\
     Fichier: %s\n\n\
-1 autre objet a été supprimé.\n\n\
-Vous ne disposez probablement pas des droits d'accès en écriture\n\
-pour le fichier ci-dessus. Modifiez vos droits d'accès ou renommez\n\
-manuellement le fichier sur lequel l'opération %s est lancée."
+1 autre objet a Ã©tÃ© supprimÃ©.\n\n\
+Vous ne disposez probablement pas des droits d'accÃ¨s en Ã©criture\n\
+pour le fichier ci-dessus. Modifiez vos droits d'accÃ¨s ou renommez\n\
+manuellement le fichier sur lequel l'opÃ©ration %s est lancÃ©e."
 
 90 "Conflit de noms.\n\
   Cet objet se trouve sur l'espace de travail.\n\
-  Un autre objet posséde un nom identique à celui que\n\
+  Un autre objet possÃ©de un nom identique Ã  celui que\n\
   vous essayez d'entrer.\n\
   Choisissez un autre nom."
 
-91 "Arrêt copie"
+91 "ArrÃªt copie"
 
-92 "Arrêt lien"
+92 "ArrÃªt lien"
 
-93 "Arrêt déplacement"
+93 "ArrÃªt dÃ©placement"
 
 94 "Erreur"
 
-95 "Déplacement annulé - le dossier n'a pas été déplacé.\n\n\
-L'un des objets du dossier n'ayant pas pu être supprimé,\n\
-celui-ci n'a pas pu être remplacé.\n\
-Certains objets du dossier ont pu être supprimés\n\
-avant que le déplacement ne soit interrompu.\n\n\
-Vous ne disposez probablement pas des droits d'accès en écriture\n\
-sur l'objet qui n'a pas pu être supprimé.\n\
-Modifiez vos droits d'accès ou renommez manuellement\n\
-le dossier à déplacer."
+95 "DÃ©placement annulÃ© - le dossier n'a pas Ã©tÃ© dÃ©placÃ©.\n\n\
+L'un des objets du dossier n'ayant pas pu Ãªtre supprimÃ©,\n\
+celui-ci n'a pas pu Ãªtre remplacÃ©.\n\
+Certains objets du dossier ont pu Ãªtre supprimÃ©s\n\
+avant que le dÃ©placement ne soit interrompu.\n\n\
+Vous ne disposez probablement pas des droits d'accÃ¨s en Ã©criture\n\
+sur l'objet qui n'a pas pu Ãªtre supprimÃ©.\n\
+Modifiez vos droits d'accÃ¨s ou renommez manuellement\n\
+le dossier Ã  dÃ©placer."
 
-96 "Copie annulée - le dossier n'a pas été copié.\n\n\
-L'un des objets du dossier n'ayant pas pu être \n\
-supprimé, celui-ci n'a pas pu être copié.\n\
-Certains objets du dossier ont pu être supprimés avant que\n\
+96 "Copie annulÃ©e - le dossier n'a pas Ã©tÃ© copiÃ©.\n\n\
+L'un des objets du dossier n'ayant pas pu Ãªtre \n\
+supprimÃ©, celui-ci n'a pas pu Ãªtre copiÃ©.\n\
+Certains objets du dossier ont pu Ãªtre supprimÃ©s avant que\n\
 la copie ne soit interrompue.\n\n\
-Vous ne disposez probablement pas des droits d'accès en\n\
-écriture sur l'objets qui n'a pas pu être supprimé.\n\
-Modifiez vos droits d'accès ou renommez manuellement\n\
-le dossier à copier."
+Vous ne disposez probablement pas des droits d'accÃ¨s en\n\
+Ã©criture sur l'objets qui n'a pas pu Ãªtre supprimÃ©.\n\
+Modifiez vos droits d'accÃ¨s ou renommez manuellement\n\
+le dossier Ã  copier."
 
-97 "Liaison annulée - le dossier n'a pas été lié.\n\n\
-L'un des objets du dossier n'ayant pas pu être supprimé,\n\
-celui-ci n'a pas pu être remplacé.\n\
-Certains objets du dossier ont pu être supprimés avant\n\
+97 "Liaison annulÃ©e - le dossier n'a pas Ã©tÃ© liÃ©.\n\n\
+L'un des objets du dossier n'ayant pas pu Ãªtre supprimÃ©,\n\
+celui-ci n'a pas pu Ãªtre remplacÃ©.\n\
+Certains objets du dossier ont pu Ãªtre supprimÃ©s avant\n\
 que la liaison ne soit interrompue.\n\n\
-Vous ne disposez probablement des droits d'accès en écriture\n\
-sur l'objet qui n'a pas pu être supprimé.\n\
-Modifiez vos droits d'accès ou renommez manuellement\n\
-le dossier à lier."
+Vous ne disposez probablement des droits d'accÃ¨s en Ã©criture\n\
+sur l'objet qui n'a pas pu Ãªtre supprimÃ©.\n\
+Modifiez vos droits d'accÃ¨s ou renommez manuellement\n\
+le dossier Ã  lier."
 
-98 "Opération annulée - le dossier n'a pas été modifié.\n\n\
-L'un des objets du dossier n'ayant pas pu être supprimé,\n\
-celui-ci n'a pas pu être modifié.\n\
-Certains objets du dossier ont pu être supprimés avant\n\
-que l'opération ne soit interrompue.\n\n\
-Vous ne disposez probablement pas des droits d'accès en écriture\n\
-sur l'objet qui n'a pas pu être supprimé.\n\
-Modifiez les droits d'accès ou renommez manuellement\n\
-le dossier à modifier."
+98 "OpÃ©ration annulÃ©e - le dossier n'a pas Ã©tÃ© modifiÃ©.\n\n\
+L'un des objets du dossier n'ayant pas pu Ãªtre supprimÃ©,\n\
+celui-ci n'a pas pu Ãªtre modifiÃ©.\n\
+Certains objets du dossier ont pu Ãªtre supprimÃ©s avant\n\
+que l'opÃ©ration ne soit interrompue.\n\n\
+Vous ne disposez probablement pas des droits d'accÃ¨s en Ã©criture\n\
+sur l'objet qui n'a pas pu Ãªtre supprimÃ©.\n\
+Modifiez les droits d'accÃ¨s ou renommez manuellement\n\
+le dossier Ã  modifier."
 
-99 "Déplacement annulé.\n\n\
+99 "DÃ©placement annulÃ©.\n\n\
 %s\n\
-n'a pas pu être supprimé.\n\n\
-Vous ne disposez probablement pas des droits d'accès\n\
-en écriture sur le fichier.\n\
-Modifiez vos droits d'accès ou renommez manuellement\n\
-le fichier à déplacer."
+n'a pas pu Ãªtre supprimÃ©.\n\n\
+Vous ne disposez probablement pas des droits d'accÃ¨s\n\
+en Ã©criture sur le fichier.\n\
+Modifiez vos droits d'accÃ¨s ou renommez manuellement\n\
+le fichier Ã  dÃ©placer."
 
-100 "Copie annulée.\n\n\
+100 "Copie annulÃ©e.\n\n\
 %s\n\
-n'a pas pu être supprimé.\n\n\
-Vous ne disposez probablement pas des droits d'accès\n\
-en écriture sur le fichier.\n\
-Modifiez vos droits d'accès ou renommez manuellement le\n\
-fichier à copier."
+n'a pas pu Ãªtre supprimÃ©.\n\n\
+Vous ne disposez probablement pas des droits d'accÃ¨s\n\
+en Ã©criture sur le fichier.\n\
+Modifiez vos droits d'accÃ¨s ou renommez manuellement le\n\
+fichier Ã  copier."
 
-101 "Liaison annulée.\n\n\
+101 "Liaison annulÃ©e.\n\n\
 %s\n\
-n'a pas pu être supprimé.\n\n\
-Vous ne disposez probablement pas des droits d'accès\n\
-en écriture sur le fichier.\n\
-Modifiez vos droits d'accès ou renommez manuellement\n\
-le fichier à lier."
+n'a pas pu Ãªtre supprimÃ©.\n\n\
+Vous ne disposez probablement pas des droits d'accÃ¨s\n\
+en Ã©criture sur le fichier.\n\
+Modifiez vos droits d'accÃ¨s ou renommez manuellement\n\
+le fichier Ã  lier."
 
-102 "Opération annulée.\n\n\
+102 "OpÃ©ration annulÃ©e.\n\n\
 %s\n\
-n'a pas pu être supprimé.\n\n\
-Vous ne disposez probablement pas des droits d'accès en\n\
-écriture sur le fichier.\n\
-Modifiez vos droits d'accès ou renommez manuellement\n\
-le fichier à modifier."
+n'a pas pu Ãªtre supprimÃ©.\n\n\
+Vous ne disposez probablement pas des droits d'accÃ¨s en\n\
+Ã©criture sur le fichier.\n\
+Modifiez vos droits d'accÃ¨s ou renommez manuellement\n\
+le fichier Ã  modifier."
 
-103 "Déplacement annulé - aucun objet n'a été déplacé.\n\n\
-L'objet suivant n'a pas pu être renommé automatiquement:\n\
+103 "DÃ©placement annulÃ© - aucun objet n'a Ã©tÃ© dÃ©placÃ©.\n\n\
+L'objet suivant n'a pas pu Ãªtre renommÃ© automatiquement:\n\
 %s\n\n\
-%d objets ont été renommés avant que le déplacement ne soit interrompu.\n\n\
-Vous ne disposez probablement pas des droits d'accès en écriture\n\
-sur l'objet ci-dessus. Modifiez vos droits d'accès ou renommez\n\
-manuellement l'objet à déplacer."
+%d objets ont Ã©tÃ© renommÃ©s avant que le dÃ©placement ne soit interrompu.\n\n\
+Vous ne disposez probablement pas des droits d'accÃ¨s en Ã©criture\n\
+sur l'objet ci-dessus. Modifiez vos droits d'accÃ¨s ou renommez\n\
+manuellement l'objet Ã  dÃ©placer."
 
-104 "Copie annulée - aucun objet n'a été copié.\n\n\
-L'objet suivant n'a pas pu être renommé automatiquement:\n\
+104 "Copie annulÃ©e - aucun objet n'a Ã©tÃ© copiÃ©.\n\n\
+L'objet suivant n'a pas pu Ãªtre renommÃ© automatiquement:\n\
 %s\n\n\
-%d objets ont été renommés avant que la copie ne soit interrompue.\n\n\
-Vous ne disposez probablement des droits d'accès en écriture sur\n\
-l'objet ci-desssus. Modifiez vos droits d'accès ou renommez\n\
-manuellement l'objet à copier."
+%d objets ont Ã©tÃ© renommÃ©s avant que la copie ne soit interrompue.\n\n\
+Vous ne disposez probablement des droits d'accÃ¨s en Ã©criture sur\n\
+l'objet ci-desssus. Modifiez vos droits d'accÃ¨s ou renommez\n\
+manuellement l'objet Ã  copier."
 
-105 "Liaison annulée - aucun des objets n'a été lié.\n\n\
-L'objet suivant n'a pas pu être renommé automatiquement:\n\
+105 "Liaison annulÃ©e - aucun des objets n'a Ã©tÃ© liÃ©.\n\n\
+L'objet suivant n'a pas pu Ãªtre renommÃ© automatiquement:\n\
 %s\n\n\
-%d objets ont été renommés avant l'interruption de la liaison.\n\n\
-Vous ne disposez probablement pas du droit d'accès en écriture \n\
-sur l'objet ci-dessus. Modifiez les droits d'accès ou renommez\n\
-manuellement l'objet à lier."
+%d objets ont Ã©tÃ© renommÃ©s avant l'interruption de la liaison.\n\n\
+Vous ne disposez probablement pas du droit d'accÃ¨s en Ã©criture \n\
+sur l'objet ci-dessus. Modifiez les droits d'accÃ¨s ou renommez\n\
+manuellement l'objet Ã  lier."
 
-106 "Opération annulée - aucun objet n'a été modifié.\n\n\
-L'objet suivant n'a pas pu être renommé automatiquement:\n\
+106 "OpÃ©ration annulÃ©e - aucun objet n'a Ã©tÃ© modifiÃ©.\n\n\
+L'objet suivant n'a pas pu Ãªtre renommÃ© automatiquement:\n\
 %s\n\n\
-%d objets ont été renommés avant l'interruption de l'opération.\n\n\
-Vous ne disposez probablement pas du droit d'accès en écriture\n\
-sur l'objet ci-dessus. Modifiez vos droits d'accès ou renommez\n\
-manuellement l'objet à modifier."
+%d objets ont Ã©tÃ© renommÃ©s avant l'interruption de l'opÃ©ration.\n\n\
+Vous ne disposez probablement pas du droit d'accÃ¨s en Ã©criture\n\
+sur l'objet ci-dessus. Modifiez vos droits d'accÃ¨s ou renommez\n\
+manuellement l'objet Ã  modifier."
 
-107 "Déplacement annulé - aucun objet n'a été déplacé.\n\n\
-L'objet suivant n'a pas pu être renommé automatiquement:\n\
+107 "DÃ©placement annulÃ© - aucun objet n'a Ã©tÃ© dÃ©placÃ©.\n\n\
+L'objet suivant n'a pas pu Ãªtre renommÃ© automatiquement:\n\
 %s\n\n\
-1 objet a été renommé avant l'interruption du déplacement.\n\n\
-Vous ne disposez probablement pas du droit d'accès en écriture\n\
-sur l'objet ci-dessus. Modifiez vos droits d'accès ou renommez\n\
-manuellement l'objet à déplacer."
+1 objet a Ã©tÃ© renommÃ© avant l'interruption du dÃ©placement.\n\n\
+Vous ne disposez probablement pas du droit d'accÃ¨s en Ã©criture\n\
+sur l'objet ci-dessus. Modifiez vos droits d'accÃ¨s ou renommez\n\
+manuellement l'objet Ã  dÃ©placer."
 
-108 "Copie annulée - aucun objet n'a été copié.\n\n\
-L'objet suivant n'a pas pu être renommé automatiquement:\n\
+108 "Copie annulÃ©e - aucun objet n'a Ã©tÃ© copiÃ©.\n\n\
+L'objet suivant n'a pas pu Ãªtre renommÃ© automatiquement:\n\
 %s\n\n\
-1 objet a été renommé avant l'interruption de la copie.\n\n\
-Vous ne disposez probablement pas du droit d'accès en écriture\n\
-sur l'objet ci-dessus. Modifiez vos droits d'accès ou renommez\n\
-manuellement l'objet à copier."
+1 objet a Ã©tÃ© renommÃ© avant l'interruption de la copie.\n\n\
+Vous ne disposez probablement pas du droit d'accÃ¨s en Ã©criture\n\
+sur l'objet ci-dessus. Modifiez vos droits d'accÃ¨s ou renommez\n\
+manuellement l'objet Ã  copier."
 
-109 "Liaison annulée - aucun objet n'a été lié.\n\n\
-L'objet suivant n'a pas pu être renommé automatiquement:\n\
+109 "Liaison annulÃ©e - aucun objet n'a Ã©tÃ© liÃ©.\n\n\
+L'objet suivant n'a pas pu Ãªtre renommÃ© automatiquement:\n\
 %s\n\n\
-1 objet a été renommé avant l'interruption de la liaison.\n\n\
-Vous ne disposez probablement pas du droit d'accès en écriture\n\
-sur l'objet ci-dessus. Modifiez vos droits d'accès ou renommez\n\
-manuellement l'objet à lier."
+1 objet a Ã©tÃ© renommÃ© avant l'interruption de la liaison.\n\n\
+Vous ne disposez probablement pas du droit d'accÃ¨s en Ã©criture\n\
+sur l'objet ci-dessus. Modifiez vos droits d'accÃ¨s ou renommez\n\
+manuellement l'objet Ã  lier."
 
-110 "Opération annulée - aucun objet n'a été modifié.\n\n\
-L'objet suivant n'a pas pu être renommé automatiquement:\n\
+110 "OpÃ©ration annulÃ©e - aucun objet n'a Ã©tÃ© modifiÃ©.\n\n\
+L'objet suivant n'a pas pu Ãªtre renommÃ© automatiquement:\n\
 %s\n\n\
-1 objet a été renommé avant l'interruption du processus.\n\n\
-Vous ne disposez probablement pas du droit d'accès en écriture\n\
-sur l'objet ci-dessus. Modifiez vos droits d'accès ou renommez\n\
-manuellement l'objet à modifier."
+1 objet a Ã©tÃ© renommÃ© avant l'interruption du processus.\n\n\
+Vous ne disposez probablement pas du droit d'accÃ¨s en Ã©criture\n\
+sur l'objet ci-dessus. Modifiez vos droits d'accÃ¨s ou renommez\n\
+manuellement l'objet Ã  modifier."
 
-111 "Déplacement annulé - aucun objet n'a été déplacé.\n\n\
-Un dossier à remplacer n'a pas pu être supprimé.\n\
+111 "DÃ©placement annulÃ© - aucun objet n'a Ã©tÃ© dÃ©placÃ©.\n\n\
+Un dossier Ã  remplacer n'a pas pu Ãªtre supprimÃ©.\n\
    Dossier: %s\n\n\
-Certains objets du dossier ont pu être supprimés\n\
-avant l'interruption du déplacement.\n\n\
-%d autres objets ont été supprimés.\n\n\
-Vous ne disposez probablement pas du droit d'accès en écriture\n\
-sur le dossier ci-dessus. Modifiez vos droits d'accès ou renommez\n\
-manuellement le dossier à déplacer."
+Certains objets du dossier ont pu Ãªtre supprimÃ©s\n\
+avant l'interruption du dÃ©placement.\n\n\
+%d autres objets ont Ã©tÃ© supprimÃ©s.\n\n\
+Vous ne disposez probablement pas du droit d'accÃ¨s en Ã©criture\n\
+sur le dossier ci-dessus. Modifiez vos droits d'accÃ¨s ou renommez\n\
+manuellement le dossier Ã  dÃ©placer."
 
-112 "Copie annulée - aucun objet n'a été copié.\n\n\
-Un dossier à remplacer n'a pas pu être supprimé.\n\
+112 "Copie annulÃ©e - aucun objet n'a Ã©tÃ© copiÃ©.\n\n\
+Un dossier Ã  remplacer n'a pas pu Ãªtre supprimÃ©.\n\
    Dossier: %s\n\n\
-Certains objets du dossier ont pu être supprimés\n\
+Certains objets du dossier ont pu Ãªtre supprimÃ©s\n\
 avant l'interruption de la copie.\n\n\
-%d autres objets ont été supprimés.\n\n\
-Vous ne disposez probablement pas du droit d'accès en écriture\n\
-sur le dossier ci-dessus. Modifiez vos droits d'accès ou renommez\n\
-manuellement le dossier à copier."
+%d autres objets ont Ã©tÃ© supprimÃ©s.\n\n\
+Vous ne disposez probablement pas du droit d'accÃ¨s en Ã©criture\n\
+sur le dossier ci-dessus. Modifiez vos droits d'accÃ¨s ou renommez\n\
+manuellement le dossier Ã  copier."
 
-113 "Liaison annnulée - aucun objet n'a été lié.\n\n\
-Un dossier à remplacer n'a pas pu être supprimé.\n\
+113 "Liaison annnulÃ©e - aucun objet n'a Ã©tÃ© liÃ©.\n\n\
+Un dossier Ã  remplacer n'a pas pu Ãªtre supprimÃ©.\n\
    Dossier: %s\n\n\
-Certains objets du dossier ont été supprimés\n\
+Certains objets du dossier ont Ã©tÃ© supprimÃ©s\n\
 avant l'interruption de la liaison.\n\n\
-%d autres objets ont été supprimés.\n\n\
-Vous ne disposez probablement pas du droit d'accès en écriture\n\
-sur le dossier ci-dessus. Modifiez vos droits d'accès ou renommez\n\
-manuellement le dossier à lier."
+%d autres objets ont Ã©tÃ© supprimÃ©s.\n\n\
+Vous ne disposez probablement pas du droit d'accÃ¨s en Ã©criture\n\
+sur le dossier ci-dessus. Modifiez vos droits d'accÃ¨s ou renommez\n\
+manuellement le dossier Ã  lier."
 
-114 "Opération annulée - aucun objet n'a été modifié.\n\n\
-Un dossier à remplacer n'a pas pu être supprimé.\n\
+114 "OpÃ©ration annulÃ©e - aucun objet n'a Ã©tÃ© modifiÃ©.\n\n\
+Un dossier Ã  remplacer n'a pas pu Ãªtre supprimÃ©.\n\
    Dossier: %s\n\n\
-Certains objets du dossier ont pu être supprimés avant\n\
-l'interruption de l'opération.\n\n\
-%d autres objets ont été supprimés.\n\n\
-Vous ne disposez probablement pas du droit d'accès en écriture\n\
-sur le dossier ci-dessus. Redéfinissez vos droits d'accès ou \n\
-renommez manuellement le dossier à modifier."
+Certains objets du dossier ont pu Ãªtre supprimÃ©s avant\n\
+l'interruption de l'opÃ©ration.\n\n\
+%d autres objets ont Ã©tÃ© supprimÃ©s.\n\n\
+Vous ne disposez probablement pas du droit d'accÃ¨s en Ã©criture\n\
+sur le dossier ci-dessus. RedÃ©finissez vos droits d'accÃ¨s ou \n\
+renommez manuellement le dossier Ã  modifier."
 
-115 "Déplacement annulé - aucun objet n'a été déplacé.\n\n\
-Un dossier à remplacer n'a pas pu être supprimé.\n\
+115 "DÃ©placement annulÃ© - aucun objet n'a Ã©tÃ© dÃ©placÃ©.\n\n\
+Un dossier Ã  remplacer n'a pas pu Ãªtre supprimÃ©.\n\
    Dossier: %s\n\n\
-Certains objets ont pu être supprimés avant l'interruption\n\
-du déplacement.\n\n\
-1 autre objet a été supprimé.\n\n\
-Vous ne disposez probablement pas du droit d'accès en écriture\n\
-sur le dossier ci-dessus. Modifiez vos droits d'accès ou renommez\n\
-manuellement le dossier à déplacer."
+Certains objets ont pu Ãªtre supprimÃ©s avant l'interruption\n\
+du dÃ©placement.\n\n\
+1 autre objet a Ã©tÃ© supprimÃ©.\n\n\
+Vous ne disposez probablement pas du droit d'accÃ¨s en Ã©criture\n\
+sur le dossier ci-dessus. Modifiez vos droits d'accÃ¨s ou renommez\n\
+manuellement le dossier Ã  dÃ©placer."
 
-116 "Copie annulée - aucun objet n'a été copié.\n\n\
-Un dossier à remplacer n'a pas pu être supprimé. \n\
+116 "Copie annulÃ©e - aucun objet n'a Ã©tÃ© copiÃ©.\n\n\
+Un dossier Ã  remplacer n'a pas pu Ãªtre supprimÃ©. \n\
    Dossier: %s\n\n\
-Certains objets de ce dossier ont pu être supprimés\n\
+Certains objets de ce dossier ont pu Ãªtre supprimÃ©s\n\
 avant l'interruption de la copie.\n\n\
-1 autre objet a été supprimé.\n\n\
-Vous ne disposez probablement pas du droit d'accès en écriture\n\
-sur le dossier ci-dessus. Modifiez vos droits d'accès ou renommez\n\
-manuellement le dossier à copier."
+1 autre objet a Ã©tÃ© supprimÃ©.\n\n\
+Vous ne disposez probablement pas du droit d'accÃ¨s en Ã©criture\n\
+sur le dossier ci-dessus. Modifiez vos droits d'accÃ¨s ou renommez\n\
+manuellement le dossier Ã  copier."
 
-117 "Liaison annulée - aucun objet n'a été lié.\n\n\
-Un dossier à remplacer n'a pas pu être supprimé.\n\
+117 "Liaison annulÃ©e - aucun objet n'a Ã©tÃ© liÃ©.\n\n\
+Un dossier Ã  remplacer n'a pas pu Ãªtre supprimÃ©.\n\
    Dossier: %s\n\n\
-Certains objets du dossier ont pu être supprimés avant\n\
+Certains objets du dossier ont pu Ãªtre supprimÃ©s avant\n\
 l'interruption de la liaison.\n\n\
-1 autre objet a été supprimé.\n\n\
-Vous ne disposez probablement pas du droit d'accès en écriture\n\
-sur le dossier ci-dessus. Modifiez vos droits d'accès ou renommez\n\
-manuellement le dossier à lier."
+1 autre objet a Ã©tÃ© supprimÃ©.\n\n\
+Vous ne disposez probablement pas du droit d'accÃ¨s en Ã©criture\n\
+sur le dossier ci-dessus. Modifiez vos droits d'accÃ¨s ou renommez\n\
+manuellement le dossier Ã  lier."
 
-118 "Opération annulée - aucun objet n'a été modifié.\n\n\
-Un dossier à remplacer n'a pas pu être supprimé.\n\
+118 "OpÃ©ration annulÃ©e - aucun objet n'a Ã©tÃ© modifiÃ©.\n\n\
+Un dossier Ã  remplacer n'a pas pu Ãªtre supprimÃ©.\n\
    Dossier: %s\n\n\
-Certains objets de ce dossier ont pu être supprimés\n\
-avant l'interruption de l'opération.\n\n\
-1 autre objet a été supprimé.\n\n\
-Vous ne disposez probablement pas du droit d'accès en écriture\n\
-sur le dossier ci-dessus. Modifiez vos droits d'accès ou renommez\n\
-manuellement le dossier à modifier."
+Certains objets de ce dossier ont pu Ãªtre supprimÃ©s\n\
+avant l'interruption de l'opÃ©ration.\n\n\
+1 autre objet a Ã©tÃ© supprimÃ©.\n\n\
+Vous ne disposez probablement pas du droit d'accÃ¨s en Ã©criture\n\
+sur le dossier ci-dessus. Modifiez vos droits d'accÃ¨s ou renommez\n\
+manuellement le dossier Ã  modifier."
 
-119 "Déplacement annulé - aucun objet n'a été déplacé.\n\n\
-Un fichier à remplacer n'a pas pu être supprimé.\n\
+119 "DÃ©placement annulÃ© - aucun objet n'a Ã©tÃ© dÃ©placÃ©.\n\n\
+Un fichier Ã  remplacer n'a pas pu Ãªtre supprimÃ©.\n\
     Fichier: %s\n\n\
-%d autres objets ont été supprimés.\n\n\
-Vous ne disposez probablement pas du droit d'accès en écriture\n\
-sur le fichier ci-dessus. Modifiez vos droits d'accès ou renommez\n\
-manuellement le fichier à déplacer."
+%d autres objets ont Ã©tÃ© supprimÃ©s.\n\n\
+Vous ne disposez probablement pas du droit d'accÃ¨s en Ã©criture\n\
+sur le fichier ci-dessus. Modifiez vos droits d'accÃ¨s ou renommez\n\
+manuellement le fichier Ã  dÃ©placer."
 
-120 "Copie annulée - aucun objet n'a été copié.\n\n\
-Un fichier à remplacer n'a pas pu être supprimé.\n\
+120 "Copie annulÃ©e - aucun objet n'a Ã©tÃ© copiÃ©.\n\n\
+Un fichier Ã  remplacer n'a pas pu Ãªtre supprimÃ©.\n\
     Fichier: %s\n\n\
-%d autres objets ont été supprimés.\n\n\
-Vous ne disposez probablement pas du droit d'accès en écriture\n\
-sur le fichier ci-desssu. Modifiez vos droits d'accès ou renommez\n\
-manuellement le fichier à copier."
+%d autres objets ont Ã©tÃ© supprimÃ©s.\n\n\
+Vous ne disposez probablement pas du droit d'accÃ¨s en Ã©criture\n\
+sur le fichier ci-desssu. Modifiez vos droits d'accÃ¨s ou renommez\n\
+manuellement le fichier Ã  copier."
 
-121 "Liaison annulée - aucun objet n'a été lié.\n\n\
-Un fichier à remplacer n'a pas pu être supprimé.\n\
+121 "Liaison annulÃ©e - aucun objet n'a Ã©tÃ© liÃ©.\n\n\
+Un fichier Ã  remplacer n'a pas pu Ãªtre supprimÃ©.\n\
     Fichier: %s\n\n\
-%d autres objets ont été supprimés.\n\n\
-Vous ne disposez probablement pas du droit d'accès en écriture\n\
-sur le fichier ci-desssu. Modifiez vos droits d'accès ou renommez\n\
-manuellement le fichier à lier."
+%d autres objets ont Ã©tÃ© supprimÃ©s.\n\n\
+Vous ne disposez probablement pas du droit d'accÃ¨s en Ã©criture\n\
+sur le fichier ci-desssu. Modifiez vos droits d'accÃ¨s ou renommez\n\
+manuellement le fichier Ã  lier."
 
-122 "Opération annulée - aucun objet n'a été modifié.\n\n\
-Un fichier à remplacer n'a pas pu être supprimé.\n\
+122 "OpÃ©ration annulÃ©e - aucun objet n'a Ã©tÃ© modifiÃ©.\n\n\
+Un fichier Ã  remplacer n'a pas pu Ãªtre supprimÃ©.\n\
     Fichier: %s\n\n\
-%d autres objets ont été supprimés.\n\n\
-Vous ne disposez probablement pas du droit d'accès en écriture\n\
-sur le fichier ci-dessus. Modifiez vos droits d'accès ou renommez\n\
-manuellement le fichier à modifier."
+%d autres objets ont Ã©tÃ© supprimÃ©s.\n\n\
+Vous ne disposez probablement pas du droit d'accÃ¨s en Ã©criture\n\
+sur le fichier ci-dessus. Modifiez vos droits d'accÃ¨s ou renommez\n\
+manuellement le fichier Ã  modifier."
 
-123 "Déplacement annulé - aucun objet n'a été déplacé.\n\n\
-Un fichier à remplacer n'a pas pu être supprimé.\n\
+123 "DÃ©placement annulÃ© - aucun objet n'a Ã©tÃ© dÃ©placÃ©.\n\n\
+Un fichier Ã  remplacer n'a pas pu Ãªtre supprimÃ©.\n\
     Fichier: %s\n\n\
-1 autre objet a été supprimé.\n\n\
-Vous ne disposez probablement pas du droit d'accès en écriture\n\
-sur le fichier ci-dessus. Modifiez vos droits d'accès ou renommez\n\
-manuellement le fichier à déplacer."
+1 autre objet a Ã©tÃ© supprimÃ©.\n\n\
+Vous ne disposez probablement pas du droit d'accÃ¨s en Ã©criture\n\
+sur le fichier ci-dessus. Modifiez vos droits d'accÃ¨s ou renommez\n\
+manuellement le fichier Ã  dÃ©placer."
 
-124 "Copie annulée - aucun objet n'a été copié.\n\n\
-Un fichier à remplacer n'a pas pu être supprimé.\n\
+124 "Copie annulÃ©e - aucun objet n'a Ã©tÃ© copiÃ©.\n\n\
+Un fichier Ã  remplacer n'a pas pu Ãªtre supprimÃ©.\n\
     Fichier: %s\n\n\
-1 autre objet a été supprimé.\n\n\
-Vous ne disposez probablement pas du droit d'accès en écriture\n\
-sur le fichier ci-dessus. Modifiez vos droits d'accès ou renommez\n\
-manuellement le fichier à copier."
+1 autre objet a Ã©tÃ© supprimÃ©.\n\n\
+Vous ne disposez probablement pas du droit d'accÃ¨s en Ã©criture\n\
+sur le fichier ci-dessus. Modifiez vos droits d'accÃ¨s ou renommez\n\
+manuellement le fichier Ã  copier."
 
-125 "Liaison annulée - aucun objet n'a été lié.\n\n\
-Un fichier à remplacer n'a pas pu être supprimé.\n\
+125 "Liaison annulÃ©e - aucun objet n'a Ã©tÃ© liÃ©.\n\n\
+Un fichier Ã  remplacer n'a pas pu Ãªtre supprimÃ©.\n\
     Fichier: %s\n\n\
-1 autre objet a été supprimé.\n\n\
-Vous ne disposez probablement pas du droit d'accès en écriture\n\
-sur le fichier ci-dessus. Modifiez vos droits d'accès ou renommez\n\
-manuellement le fichier à lier."
+1 autre objet a Ã©tÃ© supprimÃ©.\n\n\
+Vous ne disposez probablement pas du droit d'accÃ¨s en Ã©criture\n\
+sur le fichier ci-dessus. Modifiez vos droits d'accÃ¨s ou renommez\n\
+manuellement le fichier Ã  lier."
 
-126 "Opération annulée - aucun objet n'a été modifié.\n\n\
-Un fichier à remplacer n'a pas pu être supprimé.\n\
+126 "OpÃ©ration annulÃ©e - aucun objet n'a Ã©tÃ© modifiÃ©.\n\n\
+Un fichier Ã  remplacer n'a pas pu Ãªtre supprimÃ©.\n\
     Fichier: %s\n\n\
-1 autre objet a été supprimé.\n\n\
-Vous ne disposez probablement pas du droit d'accès en écriture\n\
-sur le fichier ci-dessus. Modifiez vos droits d'accès ou renommez\n\
-manuellement le fichier à modifier."
+1 autre objet a Ã©tÃ© supprimÃ©.\n\n\
+Vous ne disposez probablement pas du droit d'accÃ¨s en Ã©criture\n\
+sur le fichier ci-dessus. Modifiez vos droits d'accÃ¨s ou renommez\n\
+manuellement le fichier Ã  modifier."
 
-127 "1 objet déplacé."
+127 "1 objet dÃ©placÃ©."
 
-128 "%d objets déplacés."
+128 "%d objets dÃ©placÃ©s."
 
-129 "1 objet copié."
+129 "1 objet copiÃ©."
 
-130 "%d objects copiés."
+130 "%d objects copiÃ©s."
 
-131 "1 objet lié."
+131 "1 objet liÃ©."
 
-132 "%d objets liés."
+132 "%d objets liÃ©s."
 
-133 "1 objet modifié."
+133 "1 objet modifiÃ©."
 
-134 "%d objets modifiés."
+134 "%d objets modifiÃ©s."
 
-135 "Impossible de déplacer l'objet %s sur lui-même."
+135 "Impossible de dÃ©placer l'objet %s sur lui-mÃªme."
 
-136 "Impossible de copier l'objet %s sur lui-même."
+136 "Impossible de copier l'objet %s sur lui-mÃªme."
 
-137 "Impossible de lier l'objet %s à lui-même."
+137 "Impossible de lier l'objet %s Ã  lui-mÃªme."
 
 138 "Impossible de renommer le(s) objet(s) suivant(s):\n\n\
 %s\n\n\
-Vous n'êtes probablement pas autorisé\n\
-à renommer ce(s) objet(s)."
+Vous n'Ãªtes probablement pas autorisÃ©\n\
+Ã  renommer ce(s) objet(s)."
 
 139 "Impossible de remplacer le(s) objet(s) suivant(s):\n\n\
 %s\n\n\
-Vous n'êtes probablement pas autorisé à\n\
+Vous n'Ãªtes probablement pas autorisÃ© Ã \n\
 remplacer ce(s) objet(s)."
-140 "Renommer le nouvel objet à : "
+140 "Renommer le nouvel objet Ã  : "
 141 "Renommer les nouveaux objets en leur annexant un nombre: "
 
 $set 10        Redefine set#
@@ -743,7 +743,7 @@ $   when the user has specified a title for dtfile windows
 
 9 "Afficher le type de fichier"
 
-10 "Le fichier sélectionné à l'origine n'existe plus."
+10 "Le fichier sÃ©lectionnÃ© Ã  l'origine n'existe plus."
 
 11 "Il est interdit d'entrer des blancs comme nom de fichier ou de dossier."
 
@@ -753,11 +753,11 @@ $   when the user has specified a title for dtfile windows
 
 16 "Nom du nouveau dossier:"
 
-20 "Erreur de création de dossier"
+20 "Erreur de crÃ©ation de dossier"
 
-21 "Erreur de création de fichier"
+21 "Erreur de crÃ©ation de fichier"
 
-22 "Impossible de créer un fichier ou un dossier sans nom."
+22 "Impossible de crÃ©er un fichier ou un dossier sans nom."
 
 23 "Nom de dossier non valide."
 
@@ -776,9 +776,9 @@ ou poser le fichier dans l'espace de travail."
 
 29 "Gestionnaire de fichiers - Nouveau fichier"
 
-30 "Déplacer un fichier"
+30 "DÃ©placer un fichier"
 
-31 "Gestionnaire de fichiers - Déplacement de fichier"
+31 "Gestionnaire de fichiers - DÃ©placement de fichier"
 
 32 "Lier un fichier"
 
@@ -788,22 +788,22 @@ ou poser le fichier dans l'espace de travail."
 
 35 "Nom d'objet:"
 
-36 "Afficher icône"
+36 "Afficher icÃ´ne"
 
-37 "Objet sélectionné:"
+37 "Objet sÃ©lectionnÃ©:"
 
 38 "Nom de la copie:"
 
 39 "Erreur de modification de nom"
 
 40 "Cet objet est une action.\n\
-   Les libellés d'icônes d'action ne peuvent pas être directement renommées."
+   Les libellÃ©s d'icÃ´nes d'action ne peuvent pas Ãªtre directement renommÃ©es."
 
-41 "L'icône correcte de ce type de données est déjà affichée."
+41 "L'icÃ´ne correcte de ce type de donnÃ©es est dÃ©jÃ  affichÃ©e."
 
-42 "Déplacer objet"
+42 "DÃ©placer objet"
 
-43 "Gestionnaire de fichiers - Déplacement d'objet"
+43 "Gestionnaire de fichiers - DÃ©placement d'objet"
 
 44 "Copier objet"
 
@@ -828,54 +828,54 @@ de la corbeille vers l'espace de travail."
 
 14 "Impossible de localiser les dossiers."
 
-16 "Un dossier ne peut pas être copié sur lui-même.\n\
+16 "Un dossier ne peut pas Ãªtre copiÃ© sur lui-mÃªme.\n\
 %s"
 
 28 "%s est introuvable."
 
-$ 29 OBS- "Afficher également (facultatif):"
+$ 29 OBS- "Afficher Ã©galement (facultatif):"
 
-30 "Impossible de déplacer ou de renommer le dossier %s.\n\
+30 "Impossible de dÃ©placer ou de renommer le dossier %s.\n\
 Vous devez fermer tous les dossiers ou sous-dossiers\n\
-affichés pour pouvoir déplacer ou renommer ce dossier."
+affichÃ©s pour pouvoir dÃ©placer ou renommer ce dossier."
 
-31 "Erreur à la lecture de %s."
+31 "Erreur Ã  la lecture de %s."
 
 32 "Impossible de renommer %s."
 
 33 "Ouverture impossible de %s."
 
-34 "Vous n'avez pas l'autorisation de déplacer %s. Vous\n\
+34 "Vous n'avez pas l'autorisation de dÃ©placer %s. Vous\n\
 pouvez toutefois copier le fichier, en le faisant glisser\n\
-tout en maintenant la touche Ctrl enfoncée."
+tout en maintenant la touche Ctrl enfoncÃ©e."
 
-35 "Impossible de copier un dossier sur lui-même."
+35 "Impossible de copier un dossier sur lui-mÃªme."
 
-36 "Impossible de créer un processus fils."
+36 "Impossible de crÃ©er un processus fils."
 
 37 "Vous ne pouvez pas poser de fichiers de\n\
 la corbeille sur l'espace de travail.\n\
 Pour retirer un objet de la corbeille,\n\
-   -Sélectez l'objet et\n\
-   -Choisissez l'action 'Redéposer'\n\
-à partir du menu fichier ou du menu contextuel de l'objet.\n\
+   -SÃ©lectez l'objet et\n\
+   -Choisissez l'action 'RedÃ©poser'\n\
+Ã  partir du menu fichier ou du menu contextuel de l'objet.\n\
 Vous pouvez ensuite faire glisser l'objet hors du Gestionnaire de fichiers\n\
 et le placer sur le fond de l'espace de travail."
 
-38 "Vous ne disposez pas des droits pour déplacer %s\n\
+38 "Vous ne disposez pas des droits pour dÃ©placer %s\n\
 Toutefois, vous pouvez copier l'objet.\n\
 Pour copier un objet:\n\
-  - Maintenez enfoncée la touche <Ctrl> et\n\
-  - faire glisser l'objet à l'aide de la souris.\n\
+  - Maintenez enfoncÃ©e la touche <Ctrl> et\n\
+  - faire glisser l'objet Ã  l'aide de la souris.\n\
 Ou\n\
-  - utilisez 'Copier vers' dans le menu 'Sélectionné' de la barre de menus."
+  - utilisez 'Copier vers' dans le menu 'SÃ©lectionnÃ©' de la barre de menus."
 
-39 "Impossible de créer le processus enfant.\n\
-   Le nombre maximal de processus pour ce système est atteint.\n\
-   Arrêtez certains processus ou programmes en cours puis\n\
+39 "Impossible de crÃ©er le processus enfant.\n\
+   Le nombre maximal de processus pour ce systÃ¨me est atteint.\n\
+   ArrÃªtez certains processus ou programmes en cours puis\n\
    relancez cette fonction."
 
-40 "Les objets source et destination sont les mêmes.\n\
+40 "Les objets source et destination sont les mÃªmes.\n\
 %s"
 
 41 "Le dossier\n\
@@ -883,69 +883,69 @@ Ou\n\
 n'existe pas."
 
 42 "Il n'existe pas d'espace disponible\n\
-   sur l'unité cible de la copie."
+   sur l'unitÃ© cible de la copie."
 
 43 "Il n'existe pas d'espace disponible\n\
-   sur l'unité cible du déplacement."
+   sur l'unitÃ© cible du dÃ©placement."
 
-44 "Aucune opération de déplacement n'a été lancée sur\n\
-   l'objet %s. Vous ne pouvez déplacer un objet dans le dossier dans lequel\n\
-   il se trouve. Vous devez entrer une destination différente (nom de dossier)\n\
-   avant de pouvoir déplacer l'objet."
+44 "Aucune opÃ©ration de dÃ©placement n'a Ã©tÃ© lancÃ©e sur\n\
+   l'objet %s. Vous ne pouvez dÃ©placer un objet dans le dossier dans lequel\n\
+   il se trouve. Vous devez entrer une destination diffÃ©rente (nom de dossier)\n\
+   avant de pouvoir dÃ©placer l'objet."
 
-45 "Aucune opération de copie n'a été lancée sur\n\
+45 "Aucune opÃ©ration de copie n'a Ã©tÃ© lancÃ©e sur\n\
    l'objet %s. Vous devez changer le dossier de destination ou le nom de copie\n\
-   avant que la copie ne soit créée."
+   avant que la copie ne soit crÃ©Ã©e."
 
-46 "Aucune opération de lien n'a été lancée sur l'objet %s.\n\
+46 "Aucune opÃ©ration de lien n'a Ã©tÃ© lancÃ©e sur l'objet %s.\n\
    Vous devez changer le dossier de destination ou le nom de copie avant que\n\
-   le lien ne soit créé."
+   le lien ne soit crÃ©Ã©."
 
-47 "Impossible de déplacer un dossier sur lui-même."
+47 "Impossible de dÃ©placer un dossier sur lui-mÃªme."
 
 48 "Impossible de copier les objets suivants dans le dossier \"%s\":\n\n\
 %s\n\n\
-Vous ne disposez probablement pas du droit d'accès\n\
-en écriture sur le dossier cible."
+Vous ne disposez probablement pas du droit d'accÃ¨s\n\
+en Ã©criture sur le dossier cible."
 
-49 "Impossible de déplacer les objets suivants dans le dossier \"%s\":\n\n\
+49 "Impossible de dÃ©placer les objets suivants dans le dossier \"%s\":\n\n\
 %s\n\n\
-Vous ne disposez probablement pas du droit d'accès\n\
-en écriture sur le dossier cible."
+Vous ne disposez probablement pas du droit d'accÃ¨s\n\
+en Ã©criture sur le dossier cible."
 
-50 "Impossible de déplacer objets suivants dans le dossier \"%s\":\n\n\
+50 "Impossible de dÃ©placer objets suivants dans le dossier \"%s\":\n\n\
 %s\n\n\
-Vous n'êtes probablement pas autorisé à \n\
-déplacer l'objet source."
+Vous n'Ãªtes probablement pas autorisÃ© Ã  \n\
+dÃ©placer l'objet source."
 $        
 $ Messages 51 - 56 are new since CDE/SI.          
 $        
 
 51 "Impossible de copier le fichier ou le dossier,\n\
-sous peine de dépasser le quota du disque cible\n\
+sous peine de dÃ©passer le quota du disque cible\n\
 de la copie."
 
-52 "Impossible de déplacer le fichier ou le dossier,\n\
-sous peine de dépasser le quota du disque cible\n\
-du déplacement."
+52 "Impossible de dÃ©placer le fichier ou le dossier,\n\
+sous peine de dÃ©passer le quota du disque cible\n\
+du dÃ©placement."
 
 53 "La copie du fichier ou du dossier n'a pas\n\
 abouti en raison de l'erreur interne\n\
 suivante:"
 
-54 "Le déplacement du fichier ou du dossier n'a\n\
+54 "Le dÃ©placement du fichier ou du dossier n'a\n\
 pas abouti en raison de l'erreur interne\n\
 suivante:"
 
-55 "Faites appel à l'administrateur système."
+55 "Faites appel Ã  l'administrateur systÃ¨me."
 
 56 "(Inconnu(es)):"
 
 $quote
 
-57 Vous n'êtes pas autorisé à déplacer \n\
+57 Vous n'Ãªtes pas autorisÃ© Ã  dÃ©placer \n\
 le fichier%s\n\
-Droit d'accès en écriture obligatoire.
+Droit d'accÃ¨s en Ã©criture obligatoire.
 
 58 Process Create Error
 59 Cannot create a child process to delete the dropped files.
@@ -958,25 +958,25 @@ $ Messages 4-6 are movement warning or error messages
 $ Message 7 is the title for the folder popup menus  
 
 $quote "
-3 "Déplacer un/des fichier(s)"
+3 "DÃ©placer un/des fichier(s)"
 
 4 "L'objet %s est dans le dossier %s.\n\
-Vous avez demandé son déplacement dans le dossier %s.\n\
-Confirmez-vous l'opération ?"
+Vous avez demandÃ© son dÃ©placement dans le dossier %s.\n\
+Confirmez-vous l'opÃ©ration ?"
 
 5 "L'objet %1$s est dans le dossier %2$s.\n\
-Vous avez demandé son déplacement dans le dossier %3$s.\n\
-Confirmez-vous l'opération ?"
+Vous avez demandÃ© son dÃ©placement dans le dossier %3$s.\n\
+Confirmez-vous l'opÃ©ration ?"
 
-6 "Au moins l'un des fichiers à déplacer vers %s ne se\n\
-trouve pas dans le même dossier que les autres.\n\
-Confirmez-vous l'opération ?"
+6 "Au moins l'un des fichiers Ã  dÃ©placer vers %s ne se\n\
+trouve pas dans le mÃªme dossier que les autres.\n\
+Confirmez-vous l'opÃ©ration ?"
 
 7 "Gestionnaire de fichiers"
 
 18 "Le dossier %s est vide."
 
-19 "Le dossier %s ne contient pas de sous-répertoires."
+19 "Le dossier %s ne contient pas de sous-rÃ©pertoires."
 
 $set 13        Redefine set#
 
@@ -987,31 +987,31 @@ $   when the user has specified a title for dtfile windows
 $ Message 23 is a text field label for the Modify Filter List dialog  
 $ Message 25 is a label for the Modify Filter List dialog  
 
-11 "Par défaut"
+11 "Par dÃ©faut"
 
-19 "Définir les options de filtrage"
+19 "DÃ©finir les options de filtrage"
 
-21 "Tout sélectionner"
+21 "Tout sÃ©lectionner"
 
-22 "Tout désélectionner"
+22 "Tout dÃ©sÃ©lectionner"
 
-23 "Chaîne de filtrage (facultatif):"
+23 "ChaÃ®ne de filtrage (facultatif):"
 
-24 "Gestionnaire de fichiers - Définition des options de filtrage"
+24 "Gestionnaire de fichiers - DÃ©finition des options de filtrage"
 
-25 "Sélectionner les types de fichiers à cacher:"
+25 "SÃ©lectionner les types de fichiers Ã  cacher:"
 
-26 "Masquer également (facultatif):"
+26 "Masquer Ã©galement (facultatif):"
 
-27 "Affiché"
+27 "AffichÃ©"
 
-28 "Masqué"
+28 "MasquÃ©"
 
 29 "Afficher aussi (facultatif):"
 
-30 "Sélectionnez les types de données à masquer."
+30 "SÃ©lectionnez les types de donnÃ©es Ã  masquer."
 
-31 "Sélectionnez les types de données à:"
+31 "SÃ©lectionnez les types de donnÃ©es Ã :"
 
 $set 14        Redefine set#
 
@@ -1030,23 +1030,23 @@ $ Messages 30-40 and 42 are labels for the Find Files dialog
 
 14 "Lancer"
 
-15 "Arrêter"
+15 "ArrÃªter"
 
 $ 18 OBS- "Le dossier %s est vide."
 
-$ 19 OBS- "Le dossier %s ne contient pas de sous-répertoire."
+$ 19 OBS- "Le dossier %s ne contient pas de sous-rÃ©pertoire."
 
-23 "Données de recherche non valides.\n\n\
-Vous devez préciser un dossier de recherche."
+23 "DonnÃ©es de recherche non valides.\n\n\
+Vous devez prÃ©ciser un dossier de recherche."
 
-26 "Données de recherche non valides.\n\n\
-Le fichier sélectionné n'existe plus."
+26 "DonnÃ©es de recherche non valides.\n\n\
+Le fichier sÃ©lectionnÃ© n'existe plus."
 
-27 "Aucun fichier ne correspond aux données de recherche."
+27 "Aucun fichier ne correspond aux donnÃ©es de recherche."
 
 29 "Recherche de fichiers ou de dossiers"
 
-30 "Complétez une ou plusieurs zones indiquant les fichiers à rechercher:"
+30 "ComplÃ©tez une ou plusieurs zones indiquant les fichiers Ã  rechercher:"
 
 31 "Nom du fichier ou du dossier:"
 
@@ -1059,39 +1059,39 @@ $ Messages 33-35 are used on hpux systems
 
 35 "Suivre liens:"
 
-36 "Ouvrir dans une nouvelle fenêtre"
+36 "Ouvrir dans une nouvelle fenÃªtre"
 
 37 "Afficher dans l'espace de travail"
 
-38 "Fichiers repérés (par contenu):"
+38 "Fichiers repÃ©rÃ©s (par contenu):"
 
-39 "Fichiers trouvés (par nom et contenu):"
+39 "Fichiers trouvÃ©s (par nom et contenu):"
 
-40 "Fichiers trouvés (par nom):"
+40 "Fichiers trouvÃ©s (par nom):"
 
-41 "Gestionnaire de fichiers - Recherche de dossiers ou de répertoires"
+41 "Gestionnaire de fichiers - Recherche de dossiers ou de rÃ©pertoires"
 
 42 "Dossier de recherche:"
 
 43 "Erreur de recherche"
 
 44 "L'argument de recherche de dossier est manquant.\n\
-Entrez le nom du dossier à partir duquel la recherche doit commencer."
+Entrez le nom du dossier Ã  partir duquel la recherche doit commencer."
 
-45 "Le fichier sélectionné n'existe plus.\n\n\
-Un utilisateur a supprimé le fichier après la fin du processus de recherche."
+45 "Le fichier sÃ©lectionnÃ© n'existe plus.\n\n\
+Un utilisateur a supprimÃ© le fichier aprÃ¨s la fin du processus de recherche."
 
 46 "Recherche"
 
-47 "Remplissez une ou plusieurs zones pour indiquer les éléments à rechercher:"
+47 "Remplissez une ou plusieurs zones pour indiquer les Ã©lÃ©ments Ã  rechercher:"
 
 48 "Ouvrir dossier"
 
 49 "Gestionnaire de fichiers - Recherche"
 
 50 "Le nom de recherche du dossier ou l'argument de contenu du dossier\n\
-est manquant. Entrez le nom du dossier à partir duquel la recherche\n\
-doit commencer ou entrez la chaîne à rechercher."
+est manquant. Entrez le nom du dossier Ã  partir duquel la recherche\n\
+doit commencer ou entrez la chaÃ®ne Ã  rechercher."
 
 $set 16        Redefine set#
 
@@ -1117,80 +1117,80 @@ $ DO NOT TRANSLATE or CHANGE or LOCALIZE MESSAGE 1
 1 ""
 $ MESSAGE 2 WILL ONLY APPEAR IN THE DT ERRORLOG FILE  
 
-2 "Impossible de créer le dossier ou les sous-dossiers .dt."
+2 "Impossible de crÃ©er le dossier ou les sous-dossiers .dt."
 $ MESSAGE 6 WILL ONLY APPEAR IN THE DT ERRORLOG FILE, and stderr  
 
 6 "Erreur de X Toolkit... Sortie.\n"
 
-16 "Sauvegarder comme options par défaut"
+16 "Sauvegarder comme options par dÃ©faut"
 $ MESSSAGES 17-21 WILL ONLY APPEAR IN THE DT ERRORLOG FILE  
 
-17 "Impossible de créer un fichier dans lequel stocker les options par défaut"
+17 "Impossible de crÃ©er un fichier dans lequel stocker les options par dÃ©faut"
 
 18 "Impossible d'ouvrir le fichier de session."
 
-19 "La spécification de dossier\n\
-%s ne correspond pas à un dossier."
+19 "La spÃ©cification de dossier\n\
+%s ne correspond pas Ã  un dossier."
 
-20 "La spécification de dossier\n\
+20 "La spÃ©cification de dossier\n\
 %s n'existe pas."
 
-21 "Spécification de dossier %s:%s non valide."
+21 "SpÃ©cification de dossier %s:%s non valide."
 
-22 "Erreur de déplacement"
+22 "Erreur de dÃ©placement"
 
 23 "\n\
 Syntaxe: %s...\n\n\
    -noview\n\n\
-\tDtfile est exécuté en mode serveur. \n\n\
+\tDtfile est exÃ©cutÃ© en mode serveur. \n\n\
    -session nom_de_fichier\n\n\
-\tDtfile est exécuté avec le fichier de session indiqué dans\n\
-\tparamètre nom_de_fichier.\n\n\
+\tDtfile est exÃ©cutÃ© avec le fichier de session indiquÃ© dans\n\
+\tparamÃ¨tre nom_de_fichier.\n\n\
    -folder dossier[,dossier,dossier]\n\
    -dir dossier[,dossier,dossier]\n\n\
-\tDtfile affiche une fenêtre pour chaque dossier indiqué dans\n\
-\tle paramètre Dossier\n\
-\tVous pouvez indiquer une liste de noms de dossiers séparés\n\
+\tDtfile affiche une fenÃªtre pour chaque dossier indiquÃ© dans\n\
+\tle paramÃ¨tre Dossier\n\
+\tVous pouvez indiquer une liste de noms de dossiers sÃ©parÃ©s\n\
 \tpar des espaces, sous la forme 'chemin'.\n\n\
    -title Titre\n\n\
-\tDtfile utilise la chaîne indiquée comme titre\n\
-\tpour ses fenêtres.\n\n\
+\tDtfile utilise la chaÃ®ne indiquÃ©e comme titre\n\
+\tpour ses fenÃªtres.\n\n\
    -help_volume volume d'aide\n\n\
-\tDtfile utilise le volume d'aide indiqué.\n\n\
+\tDtfile utilise le volume d'aide indiquÃ©.\n\n\
    -restricted\n\n\
-\tDtfile n'affiche pas les dossiers situés au-dessus du dossier\n\
-\trestreint (dossier indiqué avec l'option -dir). Si cette option\n\
-\tn'est pas spécifiée, le dossier restreint est le dossier en\n\
+\tDtfile n'affiche pas les dossiers situÃ©s au-dessus du dossier\n\
+\trestreint (dossier indiquÃ© avec l'option -dir). Si cette option\n\
+\tn'est pas spÃ©cifiÃ©e, le dossier restreint est le dossier en\n\
 \tcours de l'utilisateur.\n\n\
    -grid on/off\n\n\
-\ton     = Les fichiers sont affichés sous forme de grille.\n\
-\toff    = Les fichiers sont affichés dans un ordre aléatoire.\n\n\
+\ton     = Les fichiers sont affichÃ©s sous forme de grille.\n\
+\toff    = Les fichiers sont affichÃ©s dans un ordre alÃ©atoire.\n\n\
    -tree on/off\n\n\
-\ton     = Les fichiers sont affichés en mode dossier unique.\n"
+\ton     = Les fichiers sont affichÃ©s en mode dossier unique.\n"
 
-24 "\toff    = Les fichiers sont affichés en mode arborescent.\n\n\
+24 "\toff    = Les fichiers sont affichÃ©s en mode arborescent.\n\n\
    -tree_files /never/always/choose\n\n\
-\tnever  = Les deux états du mode arborescent sont: partiellement étendu\n\
-\tou réduit.\n\
-\talways = Les deux états du mode arborescent sont: étendu ou réduit.\n\
-\tchoose = Les trois états du mode arborescent sont: partiellement étendu,\n\
-\tétendu ou réduit.\n\n\
+\tnever  = Les deux Ã©tats du mode arborescent sont: partiellement Ã©tendu\n\
+\tou rÃ©duit.\n\
+\talways = Les deux Ã©tats du mode arborescent sont: Ã©tendu ou rÃ©duit.\n\
+\tchoose = Les trois Ã©tats du mode arborescent sont: partiellement Ã©tendu,\n\
+\tÃ©tendu ou rÃ©duit.\n\n\
    -order alphabetical/file_type/date/size\n\n\
-\tLes fichiers sont affichés dans l'ordre indiqué: alphabétique,\n\
+\tLes fichiers sont affichÃ©s dans l'ordre indiquÃ©: alphabÃ©tique,\n\
 \tpar type, date ou taille.\n\n\
    -view no_icon/large_icon/small_icon/attributes\n\n\
-\tLes fichiers sont affichés dans le format indiqué: texte seulement,\n\
-\ttexte et icônes normales, texte et icônes réduites ou avec attributs.\n\n\
+\tLes fichiers sont affichÃ©s dans le format indiquÃ©: texte seulement,\n\
+\ttexte et icÃ´nes normales, texte et icÃ´nes rÃ©duites ou avec attributs.\n\n\
    -direction ascending/descending\n\n\
-\tLes fichiers sont affichés dans le sens indiqué (croissant\n\
-\tou décroissant).\n\
+\tLes fichiers sont affichÃ©s dans le sens indiquÃ© (croissant\n\
+\tou dÃ©croissant).\n\
 -large_icon_width <size>\n\n\
    -large_icon_height <taille>\n\n\
    -small_icon_width  <taille>\n\n\
    -small_icon_height <taille>\n\n\
        Taille de la zone d'affichage dans le Gestionnaire de fichiers.\n\
-       Les images dépassant cette taille seront tronquées.\n\
-       La taille de zone d'affichage par défaut est de 38 (grand) ou de 24 (petit).\n\n"
+       Les images dÃ©passant cette taille seront tronquÃ©es.\n\
+       La taille de zone d'affichage par dÃ©faut est de 38 (grand) ou de 24 (petit).\n\n"
 
 26 "\n\
 Syntaxe (mode restreint): %s...\n\n\
@@ -1200,23 +1200,23 @@ Syntaxe (mode restreint): %s...\n\n\
 \thome des utilisateurs et/ou incluant ce dernier.\n\n"
 $ MESSSAGES 27-28 WILL ONLY APPEAR IN THE DT ERRORLOG FILE  
 
-27 "Impossible de récupérer le fichier des paramètres par défaut \n\
+27 "Impossible de rÃ©cupÃ©rer le fichier des paramÃ¨tres par dÃ©faut \n\
 pour home, utilisation de default.\n"
 
 28 "Unable to recover the saved default tool settings file, will use default.\n"
 $ Messages 29-30 are the strings displayed in a question dialog  
 
-29 "Voulez-vous sauvegarder les dimensions de la fenêtre du Gestionnaire\n\
-de fichiers, les préférences et les paramètres de filtrage ?\n\n\
-Ces valeurs seront utilisées pour toutes les fenêtres du\n\
-Gestionnaire de fichiers lancées à partir du tableau de bord."
+29 "Voulez-vous sauvegarder les dimensions de la fenÃªtre du Gestionnaire\n\
+de fichiers, les prÃ©fÃ©rences et les paramÃ¨tres de filtrage ?\n\n\
+Ces valeurs seront utilisÃ©es pour toutes les fenÃªtres du\n\
+Gestionnaire de fichiers lancÃ©es Ã  partir du tableau de bord."
 
-30 "Voulez-vous sauvegarder les dimensions de la fenêtre du Gestionnaire de\n\
-fichiers restreint, les préférences et les paramètres de filtrage ?\n\n\
-Ces valeurs seront utilisées pour toutes les fenêtres du Gestionnaire\n\
-de fichiers restreint lancées à partir du tableau de bord."
+30 "Voulez-vous sauvegarder les dimensions de la fenÃªtre du Gestionnaire de\n\
+fichiers restreint, les prÃ©fÃ©rences et les paramÃ¨tres de filtrage ?\n\n\
+Ces valeurs seront utilisÃ©es pour toutes les fenÃªtres du Gestionnaire\n\
+de fichiers restreint lancÃ©es Ã  partir du tableau de bord."
 
-32 "Gestionnaire de fichiers - Sauvegarder comme options par défaut"
+32 "Gestionnaire de fichiers - Sauvegarder comme options par dÃ©faut"
 
 34 "La copie et le lien de fichiers ou de\n\
 dossiers vers la corbeille sont impossibles."
@@ -1226,28 +1226,28 @@ $ \
 $ folder out of the Trash Can.  
 
 35 "Sauvegarder, dans le Gestionnaire d'applications, la vue,\n\
-la taille de fenêtre, les préférences et les options de filtre ?\n\n\
-Ces valeurs seront utilisées pour chaque nouvelle fenêtre\n\
-du Gestionnaire d'applications lancée à partir du tableau de bord."
+la taille de fenÃªtre, les prÃ©fÃ©rences et les options de filtre ?\n\n\
+Ces valeurs seront utilisÃ©es pour chaque nouvelle fenÃªtre\n\
+du Gestionnaire d'applications lancÃ©e Ã  partir du tableau de bord."
 
-36 "Vous ne pouvez pas copier ou lier un fichier ou un dossier à partir\n\
+36 "Vous ne pouvez pas copier ou lier un fichier ou un dossier Ã  partir\n\
 de la corbeille. Sortez l'objet de la corbeille et placez-le dans\n\
 le Gestionnaire de fichiers.\n\
 Vous pouvez alors effectuer la copie ou le lien."
 
-37 "Vous ne pouvez pas copier ou lier un fichier ou un dossier à partir\n\
+37 "Vous ne pouvez pas copier ou lier un fichier ou un dossier Ã  partir\n\
 de la corbeille. Sortez l'objet de la corbeille et placez-le dans le\n\
 Gestionnaire de fichiers.\n\
 Vous pouvez alors effectuer la copie ou le lien."
 
-38 "Spécification de dossier %s incorrecte."
+38 "SpÃ©cification de dossier %s incorrecte."
 
 $quote
 
 $ MESSSAGE 39 WILL ONLY APPEAR IN THE DT ERRORLOG FILE
-39 Impossible de lancer deuxième session du Gestionnaire de fichiers \n\
-car il est déjà ouvert sur le bureau. Pour lancer une nouvelle session \n\
-du Gestionnaire de fichiers, fermez toutes ses fenêtres en cours \n\
+39 Impossible de lancer deuxiÃ¨me session du Gestionnaire de fichiers \n\
+car il est dÃ©jÃ  ouvert sur le bureau. Pour lancer une nouvelle session \n\
+du Gestionnaire de fichiers, fermez toutes ses fenÃªtres en cours \n\
 et retirez tous ses objets de leurs espaces de travail.
 
 $ 
@@ -1284,7 +1284,7 @@ $quote "
 
 6 "V"
 
-7 "Sélectionné(s)"
+7 "SÃ©lectionnÃ©(s)"
 
 8 "S"
 
@@ -1294,7 +1294,7 @@ $quote "
 
 11 "N"
 
-16 "Caractéristiques..."
+16 "CaractÃ©ristiques..."
 
 17 "C"
 
@@ -1306,34 +1306,34 @@ $quote "
 
 23 "i"
 
-30 "Mettre à jour"
+30 "Mettre Ã  jour"
 
 33 "e"
 
-34 "Passer à..."
+34 "Passer Ã ..."
 
 37 "s"
 
-38 "Début"
+38 "DÃ©but"
 
 41 "D"
 $ NOTE: The mnemonic for Up is Message 94 in this set.  
 
-42 "Père"
+42 "PÃ¨re"
 
 46 "Nouveau"
 
 47 "N"
 
-48 "Tout sélectionner"
+48 "Tout sÃ©lectionner"
 
 51 "T"
 
-52 "Tout désélectionner"
+52 "Tout dÃ©sÃ©lectionner"
 
 55 "o"
 
-62 "Sauvegarder toutes les caractéristiques..."
+62 "Sauvegarder toutes les caractÃ©ristiques..."
 
 63 "a"
 
@@ -1345,7 +1345,7 @@ $ NOTE: The mnemonic for Up is Message 94 in this set.
 
 91 "M"
 
-92 "Passage accéléré à"
+92 "Passage accÃ©lÃ©rÃ© Ã "
 
 93 "a"
 $ NOTE: Message 94 is the mnemonic for the "Up" menu item  
@@ -1360,7 +1360,7 @@ $ NOTE: Message 94 is the mnemonic for the "Up" menu item
 
 100 "R"
 
-101 "Afficher les fichiers cachés"
+101 "Afficher les fichiers cachÃ©s"
 
 102 "i"
 
@@ -1368,19 +1368,19 @@ $ NOTE: Message 94 is the mnemonic for the "Up" menu item
 
 104 "M"
 
-105 "Généralités"
+105 "GÃ©nÃ©ralitÃ©s"
 
 106 "G"
 
-107 "Tâches"
+107 "TÃ¢ches"
 
 108 "T"
 
-109 "Référence"
+109 "RÃ©fÃ©rence"
 
 110 "R"
 
-111 "Sur l'élément"
+111 "Sur l'Ã©lÃ©ment"
 
 112 "u"
 
@@ -1396,7 +1396,7 @@ $ NOTE: Message 94 is the mnemonic for the "Up" menu item
 
 118 "F"
 
-119 "Définir les caractéristiques d'une vue..."
+119 "DÃ©finir les caractÃ©ristiques d'une vue..."
 
 120 "D"
 
@@ -1406,7 +1406,7 @@ $ NOTE: Message 94 is the mnemonic for the "Up" menu item
 
 123 "Aide"
 
-124 "Déplacer..."
+124 "DÃ©placer..."
 
 125 "D"
 
@@ -1426,7 +1426,7 @@ $ NOTE: Message 94 is the mnemonic for the "Up" menu item
 
 133 "f"
 
-134 "Aller à..."
+134 "Aller Ã ..."
 
 135 "A"
 
@@ -1440,13 +1440,13 @@ $ NOTE: Message 94 is the mnemonic for the "Up" menu item
 
 140 "Copier comme lien..."
 
-141 "Définir les options de vue..."
+141 "DÃ©finir les options de vue..."
 
-142 "Sauvegarder comme options par défaut..."
+142 "Sauvegarder comme options par dÃ©faut..."
 
 143 "S"
 
-144 "Définir les options de filtre..."
+144 "DÃ©finir les options de filtre..."
 
 145 "i"
 
@@ -1454,15 +1454,15 @@ $ NOTE: Message 94 is the mnemonic for the "Up" menu item
 
 147 "O"
 
-148 "Table des matières"
+148 "Table des matiÃ¨res"
 
 149 "m"
 
-150 "Modifier les droits d'accès..."
+150 "Modifier les droits d'accÃ¨s..."
 
-151 "Mettre à la corbeille"
+151 "Mettre Ã  la corbeille"
 
-152 "Déplacer dans..."
+152 "DÃ©placer dans..."
 
 153 "Copier dans..."
 
@@ -1470,7 +1470,7 @@ $ NOTE: Message 94 is the mnemonic for the "Up" menu item
 
 155 "Monter"
 
-156 "Afficher objets cachés"
+156 "Afficher objets cachÃ©s"
 
 157 "A propos du Gestionnaire d'applications"
 
@@ -1488,11 +1488,11 @@ $ Messages 22-28 are error messages that can be generated when dtfile
 $   tries to use the dtfile.config configuration file, this file is  
 $   used to customize the File Properties dialog  
 
-1 "Droits d'accès du fichier"
+1 "Droits d'accÃ¨s du fichier"
 
 2 "Nom de fichier:"
 
-3 "Nom du propriétaire:"
+3 "Nom du propriÃ©taire:"
 
 4 "Nom du groupe:"
 
@@ -1502,9 +1502,9 @@ $   used to customize the File Properties dialog
 
 7 "Ecriture"
 
-8 "Exécution"
+8 "ExÃ©cution"
 
-9 "Propriétaire:"
+9 "PropriÃ©taire:"
 
 10 "Groupe:"
 
@@ -1518,60 +1518,60 @@ $ DO NOT LOCALIZE MESSAGE 14
 14 "%x %X"
 
 15 "Attribut de fichier non valide.\n\n\
-L'utilisateur indiqué n'existe pas."
+L'utilisateur indiquÃ© n'existe pas."
 
 16 "Attribut de fichier non valide.\n\n\
-Le groupe indiqué n'existe pas."
+Le groupe indiquÃ© n'existe pas."
 
-17 "Erreur de caractéristiques"
+17 "Erreur de caractÃ©ristiques"
 
-18 "Est lié à:"
+18 "Est liÃ© Ã :"
 
 19 "Inconnu"
 
-21 "Gestionnaire de fichiers - Droits d'accès du fichier"
+21 "Gestionnaire de fichiers - Droits d'accÃ¨s du fichier"
 
 22 "Impossible d'ouvrir le fichier de configuration du Gestionnaire de fichiers:"
 
-24 "Libellé de zone inconnu dans le fichier de configuration du Gestionnaire de fichiers:"
+24 "LibellÃ© de zone inconnu dans le fichier de configuration du Gestionnaire de fichiers:"
 
-25 "Le fichier de configuration du Gestionnaire de fichiers ne contient pas d'informations sur l'identificateur du système de fichiers."
+25 "Le fichier de configuration du Gestionnaire de fichiers ne contient pas d'informations sur l'identificateur du systÃ¨me de fichiers."
 
-26 "Impossible de créer un processus pour la boîte de dialogue correspondant au système de fichiers."
+26 "Impossible de crÃ©er un processus pour la boÃ®te de dialogue correspondant au systÃ¨me de fichiers."
 
-27 "Une erreur s'est produite lors de l'exécution de la boîte de dialogue correspondant au système de fichiers."
+27 "Une erreur s'est produite lors de l'exÃ©cution de la boÃ®te de dialogue correspondant au systÃ¨me de fichiers."
 
-28 "Tentative d'exécution de:"
+28 "Tentative d'exÃ©cution de:"
 $ do not localize "fsDialog"  
 
-29 "Aucune valeur n'est indiquée dans la zone fsDialog du fichier de configuration de dtfile."
+29 "Aucune valeur n'est indiquÃ©e dans la zone fsDialog du fichier de configuration de dtfile."
 
 30 "Nom:"
 
-31 "Le nom du propriétaire est incorrect.\n\
-L'utilisateur indiqué n'existe pas."
+31 "Le nom du propriÃ©taire est incorrect.\n\
+L'utilisateur indiquÃ© n'existe pas."
 
 32 "Le nom du groupe est incorrect.\n\n\
-Aucun groupe d'utilisateur portant ce nom n'a été créé sur le\n\
-système.\n\
-Utilisez le programme d'administration pour créer un groupe\n\
+Aucun groupe d'utilisateur portant ce nom n'a Ã©tÃ© crÃ©Ã© sur le\n\
+systÃ¨me.\n\
+Utilisez le programme d'administration pour crÃ©er un groupe\n\
 d'utilisateurs portant ce nom."
 
-33 "Erreur de droits d'accès"
+33 "Erreur de droits d'accÃ¨s"
 
-34 "Gestionnaire de fichiers - Droits d'accès"
+34 "Gestionnaire de fichiers - Droits d'accÃ¨s"
 
-35 "La boîte de dialogue Permissions associée à l'objet\n\n\
+35 "La boÃ®te de dialogue Permissions associÃ©e Ã  l'objet\n\n\
 %s/%s\n\n\
-a été fermée. En effet, l'objet a été supprimé\n\
-du système."
+a Ã©tÃ© fermÃ©e. En effet, l'objet a Ã©tÃ© supprimÃ©\n\
+du systÃ¨me."
 
 36 "Modification des permissions - Avertissement"
 
 37 "Si vous appliquez les nouvelles permissions au dossier\n\
 en cours, vous ne pourrez plus le visualiser. Il sera\n\
-fermé automatiquement et vous n'aurez plus la\n\
-possibilité de l'ouvrir.\n\n\
+fermÃ© automatiquement et vous n'aurez plus la\n\
+possibilitÃ© de l'ouvrir.\n\n\
 Confirmez-vous la modification ?"
 
 38 File Manager Error
@@ -1583,15 +1583,15 @@ $ ****** Module: ModAttrP.c ****(developer comment only)********
 $ Messages 1 and 3 are file properties error messages  
 $ Message 2 is the title for the properties error dialog  
 
-1 "Impossible d'ouvrir le fichier, opération annulée."
+1 "Impossible d'ouvrir le fichier, opÃ©ration annulÃ©e."
 
-2 "Erreur de caractéristiques"
+2 "Erreur de caractÃ©ristiques"
 
-3 "Impossible de modifier les caractéristiques de %s."
+3 "Impossible de modifier les caractÃ©ristiques de %s."
 
 4 "Impossible d'ouvrir l'objet."
 
-5 "Définir l'erreur de droit d'accès"
+5 "DÃ©finir l'erreur de droit d'accÃ¨s"
 
 $set 23        Redefine set#
 
@@ -1600,15 +1600,15 @@ $ Messages 1 and 22 are titles for the Set Preferences dialog, Message 1 is
 $   used when the user has specified a title for dtfile windows  
 $ Messages 2-20 and 23-29 are labels for the Set Preferences dialog  
 
-1 "Définir les options de vue"
+1 "DÃ©finir les options de vue"
 
 2 "Vue"
 
 3 "Par nom"
 
-4 "Par nom et icône"
+4 "Par nom et icÃ´ne"
 
-5 "Par nom et icône réduite"
+5 "Par nom et icÃ´ne rÃ©duite"
 
 6 "Par nom, date, taille ..."
 
@@ -1616,13 +1616,13 @@ $ Messages 2-20 and 23-29 are labels for the Set Preferences dialog
 
 8 "Par dossier"
 
-9 "Par structure hiérarchique"
+9 "Par structure hiÃ©rarchique"
 
 10 "Tri"
 
 11 "Par type de fichier"
 
-12 "Alphabétique"
+12 "AlphabÃ©tique"
 
 13 "Par date"
 
@@ -1632,23 +1632,23 @@ $ Messages 2-20 and 23-29 are labels for the Set Preferences dialog
 
 16 "Croissant"
 
-17 "Décroissant"
+17 "DÃ©croissant"
 
 18 "Position"
 
-19 "Grille triée"
+19 "Grille triÃ©e"
 
-20 "Aléatoire"
+20 "AlÃ©atoire"
 
-22 "Gestionnaire de fichiers - Définition des options de vue"
+22 "Gestionnaire de fichiers - DÃ©finition des options de vue"
 
-23 "En-têtes"
+23 "En-tÃªtes"
 
-24 "Chemin d'icônes"
+24 "Chemin d'icÃ´nes"
 
 25 "Dossier en cours"
 
-26 "Ligne d'état"
+26 "Ligne d'Ã©tat"
 
 27 "Dossiers seulement"
 
@@ -1656,17 +1656,17 @@ $ Messages 2-20 and 23-29 are labels for the Set Preferences dialog
 
 29 "Dossiers et fichiers"
 
-30 "Par défaut"
+30 "Par dÃ©faut"
 
-31 "Représentation"
+31 "ReprÃ©sentation"
 
 32 "Par nom seulement"
 
-33 "Par grandes icônes"
+33 "Par grandes icÃ´nes"
 
-34 "Par petites icônes"
+34 "Par petites icÃ´nes"
 
-35 "Rangées et colonnes"
+35 "RangÃ©es et colonnes"
 
 36 "Chemin texte"
 
@@ -1696,13 +1696,13 @@ $ Messages 74, 75, 79, and 80 are trash warning messages
 
 4 "Avertissement - Corbeille"
 
-5 "Les fichiers ou dossiers suivants n'ont pas pu être placés dans la corbeille:\n"
+5 "Les fichiers ou dossiers suivants n'ont pas pu Ãªtre placÃ©s dans la corbeille:\n"
 
 6 "Il s'agit de dossiers qui ne sont pas vides ou de\n\
    fichiers pour lesquels vous ne disposez pas du droit\n\
-   d'accès en écriture. Voulez-vous continuer ?\n"
+   d'accÃ¨s en Ã©criture. Voulez-vous continuer ?\n"
 
-7 "Vous ne disposez pas du droit d'accès en écriture sur les\n\
+7 "Vous ne disposez pas du droit d'accÃ¨s en Ã©criture sur les\n\
     fichiers suivants. Voulez-vous continuer ?\n"
 
 8 "Les dossiers suivants ne sont pas vides.\n\
@@ -1710,7 +1710,7 @@ $ Messages 74, 75, 79, and 80 are trash warning messages
 
 9 "Corbeille"
 
-24 "Réintégrer"
+24 "RÃ©intÃ©grer"
 
 26 "R"
 
@@ -1718,196 +1718,196 @@ $ Messages 74, 75, 79, and 80 are trash warning messages
 
 30 "B"
 
-56 "Les fichiers suivants n'ont pas pu être réintégrés:\n"
+56 "Les fichiers suivants n'ont pas pu Ãªtre rÃ©intÃ©grÃ©s:\n"
 $ Message 58 supplements Message 56  
 
 58 "(plus %d fichiers)"
 
 73 "Broyer fichier(s)"
 
-74 "Le fichier suivant est également dans l'espace de travail:\n\
+74 "Le fichier suivant est Ã©galement dans l'espace de travail:\n\
    %s\n\
 Si vous l'amenez dans la corbeille, il\n\
-sera supprimé de l'espace de travail."
+sera supprimÃ© de l'espace de travail."
 
-75 "Les fichiers suivants sont également dans l'espace de travail:\n\
+75 "Les fichiers suivants sont Ã©galement dans l'espace de travail:\n\
    %s\n\
 Si vous les amenez dans la corbeille, ils\n\
-seront supprimés de l'espace de travail."
+seront supprimÃ©s de l'espace de travail."
 
 78 "Le Gestionnaire de fichiers n'accepte pas les\n\
 fichiers ou les dossiers dont les nom comportent\n\
 des espaces ; il est donc impossible de les supprimer.\n"
 
-79 "Le fichier %s existe déjà dans votre système\n\
+79 "Le fichier %s existe dÃ©jÃ  dans votre systÃ¨me\n\
 de fichiers dans:\n\
    %s\n\
-Si vous l'amenez dans la corbeille, il sera supprimé\n\
-du système de fichiers."
+Si vous l'amenez dans la corbeille, il sera supprimÃ©\n\
+du systÃ¨me de fichiers."
 
-80 "Les fichiers de l'espace de travail existent déjà\n\
-dans votre système de fichiers dans:\n\
+80 "Les fichiers de l'espace de travail existent dÃ©jÃ \n\
+dans votre systÃ¨me de fichiers dans:\n\
    %s\n\
 Si vous les amenez dans la corbeille, ils seront\n\
-supprimés du système de fichiers."
+supprimÃ©s du systÃ¨me de fichiers."
 
 81 "Erreur de broyage de fichier/dossier"
 
-82 "Le fichier suivant n'a pas pu être supprimé du système de fichiers:\n"
+82 "Le fichier suivant n'a pas pu Ãªtre supprimÃ© du systÃ¨me de fichiers:\n"
 
-83 "Impossible d'ouvrir le fichier .trashinfo du répertoire\n\
-   $HOME/.dt/Trash. Ce fichier étant nécessaire au fonctionnement\n\
-   de la corbeille, vérifiez les droits d'accès qui lui sont\n\
-   associés, ainsi qu'au dossier qui le contient.\n"
+83 "Impossible d'ouvrir le fichier .trashinfo du rÃ©pertoire\n\
+   $HOME/.dt/Trash. Ce fichier Ã©tant nÃ©cessaire au fonctionnement\n\
+   de la corbeille, vÃ©rifiez les droits d'accÃ¨s qui lui sont\n\
+   associÃ©s, ainsi qu'au dossier qui le contient.\n"
 
-84 "Les objets broyés sont définitivement supprimés\n\
-   du système.\n\n\
+84 "Les objets broyÃ©s sont dÃ©finitivement supprimÃ©s\n\
+   du systÃ¨me.\n\n\
    Confirmez-vous le broyage ?\n"
 
-85 "L'objet que vous supprimez est une copie liée à un objet original du\n\
+85 "L'objet que vous supprimez est une copie liÃ©e Ã  un objet original du\n\
    Gestionnaire de fichiers\n\
   (%s)\n\
-   Si vous cliquez sur OK, la copie liée et l'objet original seront supprimés.\n\n\
+   Si vous cliquez sur OK, la copie liÃ©e et l'objet original seront supprimÃ©s.\n\n\
    Si vous souhaitez supprimer l'objet uniquement,\n\
-      1) cliquez sur Annuler dans cette boîte de dialogue\n\
-      2) sélectionnez ensuite 'Retirer de l'espace de travail'\n\
+      1) cliquez sur Annuler dans cette boÃ®te de dialogue\n\
+      2) sÃ©lectionnez ensuite 'Retirer de l'espace de travail'\n\
          dans le menu contextuel de l'objet."
 
-86 "Les objets que vous supprimez sont des copies liées à des objets originaux du\n\
+86 "Les objets que vous supprimez sont des copies liÃ©es Ã  des objets originaux du\n\
    Gestionnaire de fichiers\n\
   (%s)\n\
-   Si vous cliquez sur OK, les copies liées et les objets originaux seront supprimés.\n\
+   Si vous cliquez sur OK, les copies liÃ©es et les objets originaux seront supprimÃ©s.\n\
      \n\
    Si vous souhaitez supprimer les objets uniquement,\n\
-      1) cliquez sur Annuler dans cette boîte de dialogue\n\
-      2) sélectez ensuite 'Retirer de l'espace de travail'dans le menu\n\
+      1) cliquez sur Annuler dans cette boÃ®te de dialogue\n\
+      2) sÃ©lectez ensuite 'Retirer de l'espace de travail'dans le menu\n\
       contextuel de l'objet."
 
 87 "Impossible d'ouvrir l'objet de la corbeille.\n\n\
-   Avant d'ouvrir un objet, utilisez l'option 'Redéposer' pour le\n\
+   Avant d'ouvrir un objet, utilisez l'option 'RedÃ©poser' pour le\n\
    remettre dans le Gestionnaire de fichiers."
 
-88 "Impossible d'écrire dans un fichier temporaire.\n\
-   Le système de fichiers est peut-être saturé."
+88 "Impossible d'Ã©crire dans un fichier temporaire.\n\
+   Le systÃ¨me de fichiers est peut-Ãªtre saturÃ©."
 
-89 "Impossible d'ouvrir le répertoire Corbeille\n\
+89 "Impossible d'ouvrir le rÃ©pertoire Corbeille\n\
    %s\n\
-   (Authentification, erreur de droit d'accès)\n\n\
-   Les opérations sur la corbeille ne seront pas effectuées."
+   (Authentification, erreur de droit d'accÃ¨s)\n\n\
+   Les opÃ©rations sur la corbeille ne seront pas effectuÃ©es."
 
-90 "La 'Corbeille' ne peut pas être initialisée.\n\
-   Vérifiez les points suivants:\n\
-        1)$HOME/.dt/Trash pour les droits d'accès.\n\
+90 "La 'Corbeille' ne peut pas Ãªtre initialisÃ©e.\n\
+   VÃ©rifiez les points suivants:\n\
+        1)$HOME/.dt/Trash pour les droits d'accÃ¨s.\n\
         2)Espace disque disponible.\n\
         3)Authentification."
 $ 91 is not used  
 
 91 "Une copie de l'objet suivant sur trouve sur le fond\n\
 de l'espace de travail:\n\
-Si vous déplacez cet objet dans la corbeille, il sera supprimé\n\
+Si vous dÃ©placez cet objet dans la corbeille, il sera supprimÃ©\n\
 dans le Gestionnaire de fichiers et dans l'Espace de travail."
 $ 92 is not used  
 
-92 "Une copie des objets suivants se trouve également sur\n\
+92 "Une copie des objets suivants se trouve Ã©galement sur\n\
 le fond de l'espace de travail:\n\
-Si vous déplacez ces objets dans la corbeille, ils seront supprimés \n\
+Si vous dÃ©placez ces objets dans la corbeille, ils seront supprimÃ©s \n\
 du Gestionnaire de fichiers et de l'Espace de travail."
 
-93 "Impossible d'accéder au fichier d'informations corbeille:\n\
+93 "Impossible d'accÃ©der au fichier d'informations corbeille:\n\
    %s\n\
-   Les opérations de corbeille ne seront pas effectuées.\n\
+   Les opÃ©rations de corbeille ne seront pas effectuÃ©es.\n\
    Les causes les plus probables sont les suivantes:\n\
-     - Authentification du réseau.\n\
+     - Authentification du rÃ©seau.\n\
      - Espace disque insuffisant.\n\
-     - Droits d'accès incorrects dans $HOME/.dt/Trash."
+     - Droits d'accÃ¨s incorrects dans $HOME/.dt/Trash."
 
 94 "Le Gestionnaire de fichiers ne prend pas en charge lesobjets\n\
 dont le nom comporte un espace. Ces objets ne peuvent\n\
-donc pas être supprimés.\n\
-Procédez comme suit:\n\
-  - sélectionnez 'Ouvrir terminal' dans la barre de menus du Gestionnaire de fichiers\n\
+donc pas Ãªtre supprimÃ©s.\n\
+ProcÃ©dez comme suit:\n\
+  - sÃ©lectionnez 'Ouvrir terminal' dans la barre de menus du Gestionnaire de fichiers\n\
   - lancez la commande de retrait supprimer les objets."
 
-95 "Impossible d'accéder au répertoire corbeille:\n\
+95 "Impossible d'accÃ©der au rÃ©pertoire corbeille:\n\
    %s\n\
-   Les opérations de corbeille ne seront pas effectuées.\n\
+   Les opÃ©rations de corbeille ne seront pas effectuÃ©es.\n\
    Le causes les plus probables sont les suivantes:\n\
-     - Authentification de réseau.\n\
+     - Authentification de rÃ©seau.\n\
      - Espace disque insuffisant\n\
-     - Droits d'accès incorrects."
+     - Droits d'accÃ¨s incorrects."
 
-96 "Les objets suivants ne peuvent pas être supprimés du système de fichiers:   \n"
+96 "Les objets suivants ne peuvent pas Ãªtre supprimÃ©s du systÃ¨me de fichiers:   \n"
 
-97 "Les objets suivants ne peuvent pas être placés dans la corbeille:     \n"
+97 "Les objets suivants ne peuvent pas Ãªtre placÃ©s dans la corbeille:     \n"
 
 98 "(Plus %d autre(s) objet(s))"
 $ message 99 is not used  
 
-99 "Vous ne disposez pas des droits d'accès en écriture pour le(s) fichier(s) suivant(s):\n\
+99 "Vous ne disposez pas des droits d'accÃ¨s en Ã©criture pour le(s) fichier(s) suivant(s):\n\
 Souhaitez-vous continuer ?\n"
 
 100 "Le(s) dossier(s) suivant(s) n'est pas/ne sont pas vide(s).\n\
 Souhaitez-vous continuer ?\n"
 
-101 "L'objet ou les objets suivant(s) n'a/n'ont pas pu être redéposé(s):\n"
+101 "L'objet ou les objets suivant(s) n'a/n'ont pas pu Ãªtre redÃ©posÃ©(s):\n"
 
-102 "Une copie liée de l'objet suivant se trouve sur le fond de\n\
+102 "Une copie liÃ©e de l'objet suivant se trouve sur le fond de\n\
 l'espace de travail:\n\
 %s\n\
-Si vous déplacez l'objet dans la corbeille, il sera supprimé\n\
+Si vous dÃ©placez l'objet dans la corbeille, il sera supprimÃ©\n\
 du Gestionnaire de fichiers et de l'espace de travail."
 
-103 "Une copie liée des objets suivants se trouvent sur le fond\n\
+103 "Une copie liÃ©e des objets suivants se trouvent sur le fond\n\
 de l'espace de travail:\n\
 %s\n\
-Si vous déplacez les objets dans la corbeille, ils seront supprimés\n\
+Si vous dÃ©placez les objets dans la corbeille, ils seront supprimÃ©s\n\
 du Gestionnaire de fichiers et de l'espace de travail."
 
-104 "Vous ne disposez pas des droits d'accès en écriture pour le(s) fichier(s) suivant(s):\n\
+104 "Vous ne disposez pas des droits d'accÃ¨s en Ã©criture pour le(s) fichier(s) suivant(s):\n\
 Souhaitez-vous continuer ?\n"
 
-105 "L'action par défaut de cet objet ne sera pas effectuée dans la corbeille.\n\n\
-    Pour exécuter l'action par défaut de cet objet, utilisez\n\
-    'Redéposer' pour le réintégrer au Gestionnaire de fichiers\n\
-    et exécutez l'opération."
+105 "L'action par dÃ©faut de cet objet ne sera pas effectuÃ©e dans la corbeille.\n\n\
+    Pour exÃ©cuter l'action par dÃ©faut de cet objet, utilisez\n\
+    'RedÃ©poser' pour le rÃ©intÃ©grer au Gestionnaire de fichiers\n\
+    et exÃ©cutez l'opÃ©ration."
 
 106 "A propos de la corbeille"
 
-107 "Au moins un objet du dossier suivant n'a pas pu être supprimé:\n\n\
+107 "Au moins un objet du dossier suivant n'a pas pu Ãªtre supprimÃ©:\n\n\
 %s\n\n\
-Vous n'êtes probablement pas autorisé à supprimer\n\
+Vous n'Ãªtes probablement pas autorisÃ© Ã  supprimer\n\
 cet objet."
 
 108 "Impossible de supprimer le fichier suivant:\n\n\
 %s\n\n\
-Vous n'êtes probablement pas autorisé à supprimer\n\
+Vous n'Ãªtes probablement pas autorisÃ© Ã  supprimer\n\
 cet objet."
 
-109 "Réintégrer - Avertissement"
+109 "RÃ©intÃ©grer - Avertissement"
 
-110 "Il existe déjà un objet appelé:\n\n\
+110 "Il existe dÃ©jÃ  un objet appelÃ©:\n\n\
     %s\n\n\
 Pour le remplacer par l'objet de la\n\
-corbeille, sélectionnez OK.\n\n\
-Pour le conserver, sélectionner Annuler.\n\
+corbeille, sÃ©lectionnez OK.\n\n\
+Pour le conserver, sÃ©lectionner Annuler.\n\
 Si vous souhaitez conserver les deux objets, renommez\n\
-l'objet existant et relancez la commande Réintégrer. "
+l'objet existant et relancez la commande RÃ©intÃ©grer. "
 
-111 "Réintégrer - Erreur"
+111 "RÃ©intÃ©grer - Erreur"
 
 112 "Impossible de supprimer le ou les objet(s)\n\
-suivant(s). Il ont probablement déjà été\n\
-supprimés.\n\n"
+suivant(s). Il ont probablement dÃ©jÃ  Ã©tÃ©\n\
+supprimÃ©s.\n\n"
 
 113 "Au moins un objet du dossier suivant, ou le dossier\n\
-lui-même, ne peut pas être supprimé. Vous n'êtes\n\
-probablement pas autorisé à effectuer cette opération.\n\n"
+lui-mÃªme, ne peut pas Ãªtre supprimÃ©. Vous n'Ãªtes\n\
+probablement pas autorisÃ© Ã  effectuer cette opÃ©ration.\n\n"
 
-114 "Impossible de supprimer le(s) fichier(s) suivant(s). Vous n'êtes\n\
-probablement pas autorisé à effectuer cette opération.\n\n"
+114 "Impossible de supprimer le(s) fichier(s) suivant(s). Vous n'Ãªtes\n\
+probablement pas autorisÃ© Ã  effectuer cette opÃ©ration.\n\n"
 
-115 "Le ou les objet(s) suivant(s), nécessaire(s) au fonctionnement\n\
-du Bureau, ne peu(ven)t pas être supprimé(s).\n\n"
+115 "Le ou les objet(s) suivant(s), nÃ©cessaire(s) au fonctionnement\n\
+du Bureau, ne peu(ven)t pas Ãªtre supprimÃ©(s).\n\n"
 
 $set 28        Redefine set#
 
@@ -1916,15 +1916,15 @@ $ Messages 1-3 Workspace error messages
 $ Message 4 is the title for the Workspace popup menus  
 $ Messages 5-8 are the labels and mnemonics for the Workspace obj popup menu  
 
-1 "Un fichier de ce nom existe déjà dans l'espace de travail.\n\
-Choisissez un nom différent."
+1 "Un fichier de ce nom existe dÃ©jÃ  dans l'espace de travail.\n\
+Choisissez un nom diffÃ©rent."
 
-2 "Un fichier de ce nom existe déjà dans\n\
+2 "Un fichier de ce nom existe dÃ©jÃ  dans\n\
 le dossier d'origine du fichier.\n\
-Choisissez un nom différent."
+Choisissez un nom diffÃ©rent."
 
-3 "Un fichier %s existe déjà dans cet espace de travail. Deux fichiers\n\
-de nom identique ne peuvent pas coexister dans un même espace de travail.\n\
+3 "Un fichier %s existe dÃ©jÃ  dans cet espace de travail. Deux fichiers\n\
+de nom identique ne peuvent pas coexister dans un mÃªme espace de travail.\n\
 Pour conserver les deux fichiers, renommez-en un."
 
 4 "Objet Espace de travail"
@@ -1937,27 +1937,27 @@ Pour conserver les deux fichiers, renommez-en un."
 
 8 "O"
 
-9 "Un objet possédant ce nom existe déjà sur l'espace de travail.\n\
-Choisissez un nom différent."
+9 "Un objet possÃ©dant ce nom existe dÃ©jÃ  sur l'espace de travail.\n\
+Choisissez un nom diffÃ©rent."
 
-10 "Un objet possédant ce nom existe déjà dans le dossier original\n\
+10 "Un objet possÃ©dant ce nom existe dÃ©jÃ  dans le dossier original\n\
 (le dossier d'origine de cet objet).\n\
 Choisissez un autre nom."
 
-11 "Un objet appelé %s existe déjà sur le fond de l'espace de travail.\n\
-Vous ne pouvez pas placer un objet du même nom sur l'espace de travail.\n\
+11 "Un objet appelÃ© %s existe dÃ©jÃ  sur le fond de l'espace de travail.\n\
+Vous ne pouvez pas placer un objet du mÃªme nom sur l'espace de travail.\n\
 Pour avoir ces deux objets sur l'espace de travail, renommez l'un d'eux."
 
-12 "Vous avez indiqué un espace de travail incorrect. Par défaut, l'espace\n\
-de travail Un est utilisé. Cependant, un objet appelé:\n\
+12 "Vous avez indiquÃ© un espace de travail incorrect. Par dÃ©faut, l'espace\n\
+de travail Un est utilisÃ©. Cependant, un objet appelÃ©:\n\
    %s\n\
-existe déjà sur le fond de cet espace de travail. Vous ne pouvez pas\n\
-y poser un autre objet portant le même nom.\n\
+existe dÃ©jÃ  sur le fond de cet espace de travail. Vous ne pouvez pas\n\
+y poser un autre objet portant le mÃªme nom.\n\
 Pour conserver les deux objets, renommez l'un d'entre eux."
 
 13 "L'objet:\n\
    %s\n\
-n'existe pas dans le système de fichiers."
+n'existe pas dans le systÃ¨me de fichiers."
 
 $set 29        Redefine set#
 
@@ -1973,23 +1973,23 @@ $ Messages 5-6 are help error messages
 
 2 "%s Aide"
 
-3 "L'action %s ouvre le dossier indiqué dans une nouvelle fenêtre du Gestionnaire de fichiers."
+3 "L'action %s ouvre le dossier indiquÃ© dans une nouvelle fenÃªtre du Gestionnaire de fichiers."
 
-4 "L'action %s affiche le dossier indiqué dans la fenêtre en cours du Gestionnaire de fichiers."
+4 "L'action %s affiche le dossier indiquÃ© dans la fenÃªtre en cours du Gestionnaire de fichiers."
 
 5 "Aucune aide disponible pour l'action %s."
 
 6 "Aucune aide disponible pour le type de fichier %s."
 
-7 "L'action `%s` ouvre une nouvelle fenêtre du Gestionnaire de fichiers\n\
-sur le dossier indiqué."
+7 "L'action `%s` ouvre une nouvelle fenÃªtre du Gestionnaire de fichiers\n\
+sur le dossier indiquÃ©."
 
-8 "L'action `%s` affiche le dossier requis dans la fenêtre\n\
+8 "L'action `%s` affiche le dossier requis dans la fenÃªtre\n\
 en cours du Gestionnaire de fichiers."
 
 9 "Aide sur la corbeille"
 
-10 "L'aide n'est pas disponible lorsque plusieurs objets sont sélectionnés."
+10 "L'aide n'est pas disponible lorsque plusieurs objets sont sÃ©lectionnÃ©s."
 
 $set 30        Redefine set#
 
@@ -1997,41 +1997,41 @@ $ ****** Module: SharedMsgs.c ****(developer comment only)********
 $ The following messages are used in more than one place within the  
 $ dtfile source.  Unless otherwise specified, they are error messages.  
 
-1 "Lecture impossible à partir de %s."
+1 "Lecture impossible Ã  partir de %s."
 $ Message 2 is used to format the file attributes in 'by attributes' mode  
 
 2 "%b %d %H:%M:%S %Y"
 
-3 "Impossible de déplacer ou de copier le fichier %s à partir de l'hôte %s.\n\
-Il est possible que votre système de fichiers ne soit pas monté sur l'hôte %s."
+3 "Impossible de dÃ©placer ou de copier le fichier %s Ã  partir de l'hÃ´te %s.\n\
+Il est possible que votre systÃ¨me de fichiers ne soit pas montÃ© sur l'hÃ´te %s."
 
-4 "Impossible de déplacer ou de copier le fichier %1$s à partir de l'hôte %2$s.\n\
-Il est possible que votre système de fichiers ne soit pas monté sur l'hôte %3$s."
+4 "Impossible de dÃ©placer ou de copier le fichier %1$s Ã  partir de l'hÃ´te %2$s.\n\
+Il est possible que votre systÃ¨me de fichiers ne soit pas montÃ© sur l'hÃ´te %3$s."
 
 5 "Impossible de lire %s."
 
-6 "Impossible d'écrire dans le dossier %s."
+6 "Impossible d'Ã©crire dans le dossier %s."
 
-7 "Impossible de créer %s."
+7 "Impossible de crÃ©er %s."
 
 8 "Impossible de supprimer %s."
 
-9 "Un dossier ou un fichier appelé\n\
+9 "Un dossier ou un fichier appelÃ©\n\
   %s\n\
-  existe déjà et ne peut pas être écrasé.\n\
-  Entrez un nom différent."
+  existe dÃ©jÃ  et ne peut pas Ãªtre Ã©crasÃ©.\n\
+  Entrez un nom diffÃ©rent."
 $ Message 10 is the help topic string for help on a file icon or action  
 
 10 "Description du type de fichier ou de l'action"
 
-11 "Vous ne pouvez pas préciser un chemin dans le nom de fichier."
+11 "Vous ne pouvez pas prÃ©ciser un chemin dans le nom de fichier."
 
 12 "Informations de recherche non valides.\n\n\
 Le dossier suivant n'existe pas ou n'est pas accessible:\n\n\
      %s\n"
 $ Messages 13-16 are dialog titles  
 
-13 "%s - Généralités"
+13 "%s - GÃ©nÃ©ralitÃ©s"
 
 14 "%s - Tutoriel"
 
@@ -2040,41 +2040,41 @@ $ Messages 13-16 are dialog titles
 16 "Gestionnaire de fichiers"
 $ Message 18 is appended to ".." folders  
 
-18 "(précédent)"
+18 "(prÃ©cÃ©dent)"
 $ Messages 19 and 20 are messages which appear when a user clicks item help  
 $ outside the application.  19 is the title, while 20 is the message.  
 
-19 "Aide sur l'élément - Erreur"
+19 "Aide sur l'Ã©lÃ©ment - Erreur"
 
-20 "Vous devez sélectionner un élément \n\
+20 "Vous devez sÃ©lectionner un Ã©lÃ©ment \n\
 dans le Gestionnaire de fichiers."
 $ Messages 21 and 22 are titles for error dialogs  
 
-21 "Erreur de déplacement de fichier"
+21 "Erreur de dÃ©placement de fichier"
 
 22 "Erreur de lien de fichier"
 
-23 "Impossible de créer '%s'\n\n\
-Vous ne possédez peut-être pas les droits d'accès\n\
+23 "Impossible de crÃ©er '%s'\n\n\
+Vous ne possÃ©dez peut-Ãªtre pas les droits d'accÃ¨s\n\
 corrects pour les fichiers ou les\n\
-dossiers indiqués.\n\n\
-Pour visualiser les droits d'accès, sélectionnez les objets,\n\
-puis l'option 'Modifier les droits d'accès...'"
+dossiers indiquÃ©s.\n\n\
+Pour visualiser les droits d'accÃ¨s, sÃ©lectionnez les objets,\n\
+puis l'option 'Modifier les droits d'accÃ¨s...'"
 
-24 "Vous devez sélectionner un objet dans le Gestionnaire de fichiers.\n\
-L'aide 'Sur l'élément' ne fonctionne qu'au sein de l'application\n\
+24 "Vous devez sÃ©lectionner un objet dans le Gestionnaire de fichiers.\n\
+L'aide 'Sur l'Ã©lÃ©ment' ne fonctionne qu'au sein de l'application\n\
 dans laquelle vous la lancez."
 
-25 "Impossible de créer '%s'\n\n\
-Vous ne disposez probablement pas des droits d'accès\n\
+25 "Impossible de crÃ©er '%s'\n\n\
+Vous ne disposez probablement pas des droits d'accÃ¨s\n\
 pour les fichiers ou les dossiers\n\
-concernés.\n\n\
-Pour visualiser les droits d'accès, sélectionnez l'objet,\n\
-puis 'Modifier les droits d'accès...' à partir de l'option\n\
-Sélectionnés ou du menu contextuel."
+concernÃ©s.\n\n\
+Pour visualiser les droits d'accÃ¨s, sÃ©lectionnez l'objet,\n\
+puis 'Modifier les droits d'accÃ¨s...' Ã  partir de l'option\n\
+SÃ©lectionnÃ©s ou du menu contextuel."
 
-26 "Vous devez sélectionner un objet dans le Gestionnaire d'applications.\n\
-L'aide 'Sur l'élément' ne fonctionne qu'au sein de l'application\n\
+26 "Vous devez sÃ©lectionner un objet dans le Gestionnaire d'applications.\n\
+L'aide 'Sur l'Ã©lÃ©ment' ne fonctionne qu'au sein de l'application\n\
 dans laquelle vous la lancez."
 
 $set 31        Redefine set#
@@ -2087,7 +2087,7 @@ $ Message 1 is a title for dterror
 
 1 "Erreur dt"
 
-2 "Gestionnaire de fichiers - Erreur d'ouverture de répertoire"
+2 "Gestionnaire de fichiers - Erreur d'ouverture de rÃ©pertoire"
 
 $set 33        Redefine set#
 
@@ -2096,25 +2096,25 @@ $set 33        Redefine set#
 
 2 "Dossier en cours"
 
-3 "Déplacement d'objet - Erreur"
+3 "DÃ©placement d'objet - Erreur"
 
 4 "Copie d'objet - Erreur"
 
 5 "Liaison d'objet - Erreur"
 
-6 "L'emplacement cible du déplacement:\n\n\
+6 "L'emplacement cible du dÃ©placement:\n\n\
    %s\n\n\
-n'existe pas dans le système de fichiers."
+n'existe pas dans le systÃ¨me de fichiers."
 
 7 "L'emplacement cible de la copie:\n\n\
    %s\n\n\
-n'existe pas dans le système de fichiers."
+n'existe pas dans le systÃ¨me de fichiers."
 
 8 "L'emplacement cible de la liaison:\n\n\
    %s\n\n\
-n'existe pas dans le système de fichiers."
+n'existe pas dans le systÃ¨me de fichiers."
 
-9 "L'emplacement cible du déplacement:\n\n\
+9 "L'emplacement cible du dÃ©placement:\n\n\
    %s\n\n\
 n'est pas un dossier."
 
@@ -2126,32 +2126,32 @@ n'est pas un dossier."
    %s\n\n\
 n'est pas un dossier."
 
-12 "L'objet que vous tentez de déplacer:\n\n\
+12 "L'objet que vous tentez de dÃ©placer:\n\n\
    %s\n\n\
-n'existe pas dans le système de fichiers."
+n'existe pas dans le systÃ¨me de fichiers."
 
-13 "L'un des objets que vous tentez de déplacer:\n\n\
+13 "L'un des objets que vous tentez de dÃ©placer:\n\n\
    %s\n\n\
-n'existe pas dans le système de fichiers.\n\
-Aucun objet ne sera déplacé."
+n'existe pas dans le systÃ¨me de fichiers.\n\
+Aucun objet ne sera dÃ©placÃ©."
 
 14 "L'objet que vous tentez de copier:\n\n\
    %s\n\n\
-n'existe pas dans le système de fichiers."
+n'existe pas dans le systÃ¨me de fichiers."
 
 15 "L'un des objets que vous tentez de copier:\n\n\
    %s\n\n\
-n'existe pas dans le système de fichiers.\n\
-Aucun objet ne sera copié."
+n'existe pas dans le systÃ¨me de fichiers.\n\
+Aucun objet ne sera copiÃ©."
 
 16 "L'objet que vous tentez de lier:\n\n\
    %s\n\n\
-n'existe pas dans le système de fichiers."
+n'existe pas dans le systÃ¨me de fichiers."
 
 17 "L'un des objets que vous tentez de lier:\n\n\
    %s\n\n\
-n'existe pas dans le système de fichiers.\n\
-Aucun objet ne sera lié."
+n'existe pas dans le systÃ¨me de fichiers.\n\
+Aucun objet ne sera liÃ©."
 
 $set 99        Redefine set#
 

@@ -50,11 +50,11 @@ $ *****************************************************************************
 
 36 "O"
 
-40 "Affich. fonctions étendues"
+40 "Affich. fonctions Ã©tendues"
 
 41 "A"
 
-42 "Afficher icônes"
+42 "Afficher icÃ´nes"
 
 43 "i"
 
@@ -66,7 +66,7 @@ $ *****************************************************************************
 
 48 "M"
 
-49 "Affich. icônes monochromes"
+49 "Affich. icÃ´nes monochromes"
 
 50 "m"
 
@@ -74,19 +74,19 @@ $ *****************************************************************************
 
 54 "A"
 
-60 "Généralités"
+60 "GÃ©nÃ©ralitÃ©s"
 
 61 "G"
 
-65 "Table des matières"
+65 "Table des matiÃ¨res"
 
 66 "T"
 
-70 "Tâches"
+70 "TÃ¢ches"
 
 71 "c"
 
-75 "Référence"
+75 "RÃ©fÃ©rence"
 
 76 "R"
 
@@ -106,21 +106,21 @@ $ ** Message set for  main Create Action window
 $ **  
 $ *****************************************************************************  
 
-10 "Créer une action"
+10 "CrÃ©er une action"
 
-12 "Nom (libellé de l'icône):"
+12 "Nom (libellÃ© de l'icÃ´ne):"
 
-13 "Icônes d'action:"
+13 "IcÃ´nes d'action:"
 
-20 "Commande exécutée lors du double-clic:"
+20 "Commande exÃ©cutÃ©e lors du double-clic:"
 
-21 "Commande exécutée lors du double-clic:"
+21 "Commande exÃ©cutÃ©e lors du double-clic:"
 
-22 "Commande exécutée à l'ouverture de l'action:"
+22 "Commande exÃ©cutÃ©e Ã  l'ouverture de l'action:"
 
-30 "Aide sur l'icône:"
+30 "Aide sur l'icÃ´ne:"
 
-32 "Type de fenêtre:"
+32 "Type de fenÃªtre:"
 
 34 "Graphique (X-Window)"
 
@@ -130,7 +130,7 @@ $ *****************************************************************************
 
 40 "Pas de sortie"
 
-50 "Avancée"
+50 "AvancÃ©e"
 
 52 "De base"
 
@@ -146,7 +146,7 @@ $ *****************************************************************************
 
 11 "A l'ouverture de l'action, demander aux utilisateurs:"
 
-12 "Types de données utilisant l'action:"
+12 "Types de donnÃ©es utilisant l'action:"
 
 13 "Ajouter..."
 
@@ -154,7 +154,7 @@ $ *****************************************************************************
 
 15 "Editer..."
 
-16 "Types de données pouvant être posés:"
+16 "Types de donnÃ©es pouvant Ãªtre posÃ©s:"
 
 17 "Tous"
 
@@ -169,72 +169,72 @@ $ **
 $ *****************************************************************************  
 
 10 "Le nom de l'action est manquant: indiquez-le\n\
-dans la zone Nom (libellé de l'icône)."
+dans la zone Nom (libellÃ© de l'icÃ´ne)."
 $   
 
-15 "La commande à exécuter est manquante:\n\
+15 "La commande Ã  exÃ©cuter est manquante:\n\
 indiquez-la dans la zone Commande\n\
-exécutée à l'ouverture de l'action."
+exÃ©cutÃ©e Ã  l'ouverture de l'action."
 $   
 
-20 "La liste Types de données utilisant l'action est\n\
-vide. Or, vous avez sélectionné Liste ci-dessus\n\
-seulement dans la zone Types de données pouvant être\n\
-posés. Modifiez votre sélection en Tous types de données\n\
-ou ajoutez au moins un type de données à la liste."
+20 "La liste Types de donnÃ©es utilisant l'action est\n\
+vide. Or, vous avez sÃ©lectionnÃ© Liste ci-dessus\n\
+seulement dans la zone Types de donnÃ©es pouvant Ãªtre\n\
+posÃ©s. Modifiez votre sÃ©lection en Tous types de donnÃ©es\n\
+ou ajoutez au moins un type de donnÃ©es Ã  la liste."
 $   
 
-25 "Une action et un fichier de définition sont déjà\n\
-associés à ce nom d'action.\n\
+25 "Une action et un fichier de dÃ©finition sont dÃ©jÃ \n\
+associÃ©s Ã  ce nom d'action.\n\
 Vous pouvez annuler la sauvegarde et modifier le nom\n\
-de l'action ou remplacer le fichier de définition\n\
+de l'action ou remplacer le fichier de dÃ©finition\n\
 existant. Confirmez-vous le remplacement ?"
 $   
 
-30 "La zone Commande exécutée à l'ouverture de l'action\n\
+30 "La zone Commande exÃ©cutÃ©e Ã  l'ouverture de l'action\n\
 ne comporte aucun nom de variable. Indiquez-en un\n\
-correspondant au libellé spécifié dans la zone\n\
+correspondant au libellÃ© spÃ©cifiÃ© dans la zone\n\
 A l'ouverture de l'action, demander aux utilisateurs:.\n\
 Les noms admis sont: $*, $1, $2, ..., $9."
 $   
 
-35 "Les modifications n'ont pas été sauvegardées.\n\
+35 "Les modifications n'ont pas Ã©tÃ© sauvegardÃ©es.\n\
 Voulez-vous effectuer la sauvegarde avant de sortir ?"
 $   
 
-40 "Les modifications n'ont pas été sauvegardées.\n\
+40 "Les modifications n'ont pas Ã©tÃ© sauvegardÃ©es.\n\
 Voulez-vous sauvegarder cette action avant\n\
-d'en créer une autre ?"
+d'en crÃ©er une autre ?"
 $   
 
-45 "Les modifications n'ont pas été sauvegardées.\n\
+45 "Les modifications n'ont pas Ã©tÃ© sauvegardÃ©es.\n\
 Voulez-vous effectuer la sauvegarde avant de\n\
-charger un autre fichier de définition d'action ?"
+charger un autre fichier de dÃ©finition d'action ?"
 $   
 
 50 "Le nom d'action contient un ou plusieurs\n\
-caractères incorrects.\n\
-Les caractères suivants ne sont pas autorisés:\n\
+caractÃ¨res incorrects.\n\
+Les caractÃ¨res suivants ne sont pas autorisÃ©s:\n\
   / \\ \" ' ;  (  ) ~ ! $ { } < > # @ | &"
 $   
 
-55 "Impossible de créer le fichier suivant:"
+55 "Impossible de crÃ©er le fichier suivant:"
 $   
 
 60 "Impossible d'ouvrir le fichier suivant:"
 $   
 
-65 "Le fichier suivant n'a pas pu être chargé car il n'a pas\n\
-été crée à l'aide de l'utilitaire de création d'action."
+65 "Le fichier suivant n'a pas pu Ãªtre chargÃ© car il n'a pas\n\
+Ã©tÃ© crÃ©e Ã  l'aide de l'utilitaire de crÃ©ation d'action."
 $   
 
-66 "Le fichier n'a pas pu être chargé car il n'a pas été modifié à l'aide\n\
-de l'utilitaire de création d'action. Il est possible que cette opération\n\
-ait été effectuée par l'intermédiaire d'un éditeur de texte, par exemple."
+66 "Le fichier n'a pas pu Ãªtre chargÃ© car il n'a pas Ã©tÃ© modifiÃ© Ã  l'aide\n\
+de l'utilitaire de crÃ©ation d'action. Il est possible que cette opÃ©ration\n\
+ait Ã©tÃ© effectuÃ©e par l'intermÃ©diaire d'un Ã©diteur de texte, par exemple."
 $   
 
-67 "L'utilitaire de création d'action ne permet de\n\
-modifier que les fichiers créés par son intermédiaire."
+67 "L'utilitaire de crÃ©ation d'action ne permet de\n\
+modifier que les fichiers crÃ©Ã©s par son intermÃ©diaire."
 $   
 
 68 "Impossible de charger le fichier suivant:"
@@ -243,46 +243,46 @@ $  The following messages are all part of the same message dialog
 
 70 "La nouvelle action"
 
-71 "a été placée dans votre dossier personnel."
+71 "a Ã©tÃ© placÃ©e dans votre dossier personnel."
 
-73 "Le fichier de définition d'action créé s'appelle:"
+73 "Le fichier de dÃ©finition d'action crÃ©Ã© s'appelle:"
 $   
 
 80 "Impossible de trouver toutes les dimensions de\n\
-l'icône sélectionnée."
+l'icÃ´ne sÃ©lectionnÃ©e."
 $   
 
-85 "Impossible de lancer l'éditeur d'icônes."
+85 "Impossible de lancer l'Ã©diteur d'icÃ´nes."
 $   
 
 90 "Impossible d'analyser le fichier suivant:"
 $   
 
-95 "Le fichier d'icône suivant est introuvable\n\
+95 "Le fichier d'icÃ´ne suivant est introuvable\n\
 dans le chemin de recherche."
 $   
 
-98 "L'icône sélectionnée ne figure pas dans le chemin de\n\
-recherche. Vous devez la placer dans un répertoire figurant\n\
+98 "L'icÃ´ne sÃ©lectionnÃ©e ne figure pas dans le chemin de\n\
+recherche. Vous devez la placer dans un rÃ©pertoire figurant\n\
 dans ce chemin, afin qu'elle s'affiche correctement dans\n\
 l'environnement de l'espace de travail.\n\
-Pour utiliser l'icône, sélectionnez OK.\n\
-Pour choisir une icône différente, sélectionnez Annuler."
+Pour utiliser l'icÃ´ne, sÃ©lectionnez OK.\n\
+Pour choisir une icÃ´ne diffÃ©rente, sÃ©lectionnez Annuler."
 $   
 $ ONLY TRANSLATE  "Usage"  and  "filename"  
 
 110 "Syntaxe: dtcreate [<nom_fichier>] [-?]"
 $   
 
-120 "Vous n'avez pas sélectionné de type de données\n\
-dans la liste Types de données utilisant l'action."
+120 "Vous n'avez pas sÃ©lectionnÃ© de type de donnÃ©es\n\
+dans la liste Types de donnÃ©es utilisant l'action."
 
-125 "Sélectionnez le type de données à supprimer."
+125 "SÃ©lectionnez le type de donnÃ©es Ã  supprimer."
 
-130 "Sélectionnez le type de données à éditer."
+130 "SÃ©lectionnez le type de donnÃ©es Ã  Ã©diter."
 $   
 
-150 "Le travail en cours n'a pas été sauvegardé."
+150 "Le travail en cours n'a pas Ã©tÃ© sauvegardÃ©."
 
 152 "Ne pas sauvegarder"
 
@@ -291,13 +291,13 @@ $
 
 160 "Impossible de sauvegarder la session dans le fichier:"
 
-162 "Impossible de restaurer le fichier à partir du fichier:"
+162 "Impossible de restaurer le fichier Ã  partir du fichier:"
 $   
 $ TRANSLATORS: DO NOT TRANSLATE the word "HOME" in the following message  
 
-170 "La variable d'environnement HOME n'est pas définie.\n\
-Cette variable doit être définie pour que l'action\n\
-puisse être sauvegardée."
+170 "La variable d'environnement HOME n'est pas dÃ©finie.\n\
+Cette variable doit Ãªtre dÃ©finie pour que l'action\n\
+puisse Ãªtre sauvegardÃ©e."
 
 $set 6        Redefine set#
 
@@ -321,15 +321,15 @@ $ *****************************************************************************
 
 19 "Rech. ensemble"
 
-20 "Editer une icône..."
+20 "Editer une icÃ´ne..."
 
-31 "Créer une action - Erreur"
+31 "CrÃ©er une action - Erreur"
 
-41 "Créer une action - Confirmation"
+41 "CrÃ©er une action - Confirmation"
 
-46 "Créer une action - Informations"
+46 "CrÃ©er une action - Informations"
 
-51 "Créer une action - Question"
+51 "CrÃ©er une action - Question"
 
 $set 7        Redefine set#
 
@@ -339,25 +339,25 @@ $ ** Message set for Add Datatype and Edit Datatype dialogs
 $ **  
 $ *****************************************************************************  
 
-10 "Ajouter un type de données"
+10 "Ajouter un type de donnÃ©es"
 
-11 "Editer un type de données"
+11 "Editer un type de donnÃ©es"
 
-14 "Nom de la famille du type de données:"
+14 "Nom de la famille du type de donnÃ©es:"
 
-15 "Caractéristiques:"
+15 "CaractÃ©ristiques:"
 
 16 "Editer..."
 
-17 "Aide sur l'icône de type de données:"
+17 "Aide sur l'icÃ´ne de type de donnÃ©es:"
 
-18 "Icônes du type de données:"
+18 "IcÃ´nes du type de donnÃ©es:"
 
 21 "Commandes"
 
-22 "Commande d'ouverture du type de données:"
+22 "Commande d'ouverture du type de donnÃ©es:"
 
-23 "Commande d'impression du type de données:"
+23 "Commande d'impression du type de donnÃ©es:"
 
 30 "Ouvrir"
 
@@ -372,25 +372,25 @@ $ **    Add Datatype and Edit Datatype dialogs
 $ **  
 $ *****************************************************************************  
 
-10 "Le nom de la famille du type de données est manquant.\n\
+10 "Le nom de la famille du type de donnÃ©es est manquant.\n\
 Indiquez-le dans la zone correspondante."
 $   
 
-15 "Les caractéristiques d'identification sont manquantes:\n\
-vous devez les indiquer pour que le type de données\n\
-puisse être créé. Pour ce faire, sélectionnez le bouton\n\
-Editer en regard de la liste Caractéristiques."
+15 "Les caractÃ©ristiques d'identification sont manquantes:\n\
+vous devez les indiquer pour que le type de donnÃ©es\n\
+puisse Ãªtre crÃ©Ã©. Pour ce faire, sÃ©lectionnez le bouton\n\
+Editer en regard de la liste CaractÃ©ristiques."
 $   
 
-20 "La zone Nom de la famille de type de données\n\
-contient un ou plusieurs caractères incorrects.\n\
-Les caractères suivants ne sont pas autorisés:\n\
+20 "La zone Nom de la famille de type de donnÃ©es\n\
+contient un ou plusieurs caractÃ¨res incorrects.\n\
+Les caractÃ¨res suivants ne sont pas autorisÃ©s:\n\
   / \\ \" ' ;  (  ) ~ ! $ { } < > # @ | &"
 $   
 
-25 "Ce nom est déjà utilisé pour une famille de type de\n\
-données. Modifiez-le dans la zone Nom de la famille\n\
-du type de données."
+25 "Ce nom est dÃ©jÃ  utilisÃ© pour une famille de type de\n\
+donnÃ©es. Modifiez-le dans la zone Nom de la famille\n\
+du type de donnÃ©es."
 
 $set 9        Redefine set#
 
@@ -400,7 +400,7 @@ $ ** Message set for  Identifying Characteristics dialog
 $ **  
 $ *****************************************************************************  
 
-10 "Caractéristiques"
+10 "CaractÃ©ristiques"
 
 11 "Tout inclure"
 
@@ -408,47 +408,47 @@ $ *****************************************************************************
 
 13 "Dossiers"
 
-14 "correspondant aux critères suivants:"
+14 "correspondant aux critÃ¨res suivants:"
 
-20 "Modèle de nom:"
+20 "ModÃ¨le de nom:"
 
-21 "Modèle d'autorisations:"
+21 "ModÃ¨le d'autorisations:"
 
 22 "Accessible en lecture"
 
-24 "Acessible en écriture"
+24 "Acessible en Ã©criture"
 
-25 "Exécutable"
+25 "ExÃ©cutable"
 
 27 "ET"
 
 28 "Contenu"
 
-29 "Modèle:"
+29 "ModÃ¨le:"
 
-30 "Type de données:"
+30 "Type de donnÃ©es:"
 
-31 "Chaîne"
+31 "ChaÃ®ne"
 
 32 "Octets (hex)"
 
-33 "Courtes (décimales)"
+33 "Courtes (dÃ©cimales)"
 
-34 "Longues (décimales)"
+34 "Longues (dÃ©cimales)"
 
-35 "Octet de départ:"
+35 "Octet de dÃ©part:"
 
 40 "Lecture:"
 
 41 "Ecriture:"
 
-42 "Exécution:"
+42 "ExÃ©cution:"
 
 43 "En fonction"
 
 44 "Hors fonction"
 
-45 "Indifféremment"
+45 "IndiffÃ©remment"
 
 $set 10        Redefine set#
 
@@ -458,54 +458,54 @@ $ ** Error and Information message set for Identifying Characteristics dialog
 $ **  
 $ *****************************************************************************  
 
-10 "Le modèle de nom est manquant.\n\
-Si vous sélectionnez Modèle de nom,\n\
-vous devez compléter cette zone."
+10 "Le modÃ¨le de nom est manquant.\n\
+Si vous sÃ©lectionnez ModÃ¨le de nom,\n\
+vous devez complÃ©ter cette zone."
 $   
 
 15 "Les autorisations sont manquantes.\n\
-Si vous sélectionnez Modèle d'autorisations,\n\
-vous devez sélectionner une ou plusieurs\n\
-options sous Modèle d'autorisations."
+Si vous sÃ©lectionnez ModÃ¨le d'autorisations,\n\
+vous devez sÃ©lectionner une ou plusieurs\n\
+options sous ModÃ¨le d'autorisations."
 $   
 
-20 "Le modèle de contenu est manquant. Si vous sélectionnez\n\
-Contenu comme caractéristique, la zone Modèle\n\
-figurant sous cette option doit être complétée."
+20 "Le modÃ¨le de contenu est manquant. Si vous sÃ©lectionnez\n\
+Contenu comme caractÃ©ristique, la zone ModÃ¨le\n\
+figurant sous cette option doit Ãªtre complÃ©tÃ©e."
 $   
 
-25 "La valeur d'octet de début est manquante.\n\
-Si Contenu est sélectionné, un nombre\n\
-doit être indiqué dans la zone Octet de début."
+25 "La valeur d'octet de dÃ©but est manquante.\n\
+Si Contenu est sÃ©lectionnÃ©, un nombre\n\
+doit Ãªtre indiquÃ© dans la zone Octet de dÃ©but."
 $   
 
-30 "Vous n'avez sélectionné aucune caractéristique.\n\
-Vous devez sélectionner Modèle de nom, Modèle \n\
+30 "Vous n'avez sÃ©lectionnÃ© aucune caractÃ©ristique.\n\
+Vous devez sÃ©lectionner ModÃ¨le de nom, ModÃ¨le \n\
 d'autorisations ou Contenu."
 $   
 
-45 "Le modèle de nom contient un ou plusieurs\n\
-caractères incorrects.\n\
-Les caractères suivants ne sont pas autorisés:\n\
+45 "Le modÃ¨le de nom contient un ou plusieurs\n\
+caractÃ¨res incorrects.\n\
+Les caractÃ¨res suivants ne sont pas autorisÃ©s:\n\
   / \\ \" ' ;  (  ) ~ ! $ { } < > # @ | &"
 $   
 
-46 "Le Modèle de contenu n'est pas compatible\n\
-avec le format de type de contenu sélectionné.\n\
+46 "Le ModÃ¨le de contenu n'est pas compatible\n\
+avec le format de type de contenu sÃ©lectionnÃ©.\n\
 Corrigez le format ou modifiez le type de sorte\n\
-qu'il corresponde au modèle de contenu."
+qu'il corresponde au modÃ¨le de contenu."
 $   
 
-47 "La zone Octet de début contient des caractères incorrects.\n\
-Seuls les nombres décimaux sont admis."
+47 "La zone Octet de dÃ©but contient des caractÃ¨res incorrects.\n\
+Seuls les nombres dÃ©cimaux sont admis."
 $   
 
-48 "Si vous utilisez le modèle de contenu, les performances\n\
-du Gestionnaire de fichiers risquent d'être ralenties.\n\
+48 "Si vous utilisez le modÃ¨le de contenu, les performances\n\
+du Gestionnaire de fichiers risquent d'Ãªtre ralenties.\n\
 En effet, celui-ci recherche le contenu de tous les\n\
 fichiers dans un dossier avant d'ouvrir ce dernier.\n\
 L'ouverture des dossiers est donc plus lente. \n\
-Il est conseillé d'utiliser uniquement les modèles\n\
+Il est conseillÃ© d'utiliser uniquement les modÃ¨les\n\
 de nom et d'autorisations."
 
 $set 11        Redefine set#
@@ -516,19 +516,19 @@ $ ** Message set for  Icon Selection Dialog
 $ **  
 $ *****************************************************************************  
 
-10 "Répertoires"
+10 "RÃ©pertoires"
 
-11 "Fichiers d'icônes"
+11 "Fichiers d'icÃ´nes"
 
-12 "Entrez un nom de fichier d'icône"
+12 "Entrez un nom de fichier d'icÃ´ne"
 
-20 "Chargement en cours des icônes. Veuillez patienter."
+20 "Chargement en cours des icÃ´nes. Veuillez patienter."
 
-30 "Dossiers d'icônes"
+30 "Dossiers d'icÃ´nes"
 
-50 "Le fichier d'icône indiqué est incorrect.\n\
+50 "Le fichier d'icÃ´ne indiquÃ© est incorrect.\n\
 Corrigez-le dans la zone Entrez un nom\n\
-de fichier d'icône."
+de fichier d'icÃ´ne."
 $ ONLY TRANSLATE  "Empty".   Do not translate the brackets "[" and "]".  
 
 60 "[Vide]"
@@ -543,15 +543,15 @@ $ *****************************************************************************
 
 10 "Filtre"
 
-11 "Répertoires"
+11 "RÃ©pertoires"
 
 12 "Fichiers"
 
-13 "Sélection"
+13 "SÃ©lection"
 
 20 "Ouvrir un fichier"
 
-25 "Créer une action - Ouverture"
+25 "CrÃ©er une action - Ouverture"
 
 $set 13
 $ *****************************************************************************

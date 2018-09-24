@@ -75,7 +75,7 @@ $ Message 2 is an error message
 1 "Sep             f.separator\n\
 \tBascule\\ barre\\ de\\ menus f.send_msg %d\t"
 
-2 "%s: L'option -S ne peut pas être utilisée avec les options -server ou -serverid\n"
+2 "%s: L'option -S ne peut pas Ãªtre utilisÃ©e avec les options -server ou -serverid\n"
 
 3 "Terminal"
 
@@ -85,17 +85,17 @@ $ ****** Module: DtTermSyntax.c
 $ These are the usage messages.
 $ DO NOT TRANSLATE Messages 37 or 41 ("End-of-list")
 
-1 "-/+132\t\t\t\tactiver/désactiver 80<->132 séq échap colonne"
+1 "-/+132\t\t\t\tactiver/dÃ©sactiver 80<->132 sÃ©q Ã©chap colonne"
 
-2 "-/+aw\t\t\t\tactiver/désactiver boucle auto"
+2 "-/+aw\t\t\t\tactiver/dÃ©sactiver boucle auto"
 
-3 "-bg couleur\t\t\tcouleur arrière-plan"
+3 "-bg couleur\t\t\tcouleur arriÃ¨re-plan"
 
-4 "-/+bs\t\t\t\tarrière-plan Term pour couleur sélectée EF/HF."
+4 "-/+bs\t\t\t\tarriÃ¨re-plan Term pour couleur sÃ©lectÃ©e EF/HF."
 
-5 "-display nom_écran\t\tServeur X auquel accéder"
+5 "-display nom_Ã©cran\t\tServeur X auquel accÃ©der"
 
-6 "-e args commande\t\tcommande à exécuter"
+6 "-e args commande\t\tcommande Ã  exÃ©cuter"
 
 7 "-fb police\t\t\tpolice texte gras"
 
@@ -103,53 +103,53 @@ $ DO NOT TRANSLATE Messages 37 or 41 ("End-of-list")
 
 9 "-fn police\t\t\tpolice texte normal"
 
-10 "-geometry géom\t\t\ttaille (en caractères) et position de la fenêtre"
+10 "-geometry gÃ©om\t\t\ttaille (en caractÃ¨res) et position de la fenÃªtre"
 
 11 "-help\t\t\t\timpression du message"
 
-12 "-/+iconic\t\t\tdémarrer/ne pas démarrer iconic"
+12 "-/+iconic\t\t\tdÃ©marrer/ne pas dÃ©marrer iconic"
 
-13 "-/+j\t\t\t\tactiver/désactiver défilement par saut"
+13 "-/+j\t\t\t\tactiver/dÃ©sactiver dÃ©filement par saut"
 
-14 "-/+kshMode\t\t\tactiver/désactiver mode ksh"
+14 "-/+kshMode\t\t\tactiver/dÃ©sactiver mode ksh"
 
-15 "-/+l\t\t\t\tactiver/désactiver consignation"
+15 "-/+l\t\t\t\tactiver/dÃ©sactiver consignation"
 
 16 "-lf nom_fichier\t\t\tconsignation nom_fichier"
 
-17 "-/+ls\t\t\t\tactiver/désactiver shell connexion"
+17 "-/+ls\t\t\t\tactiver/dÃ©sactiver shell connexion"
 
-18 "-/+map\t\t\t\tactiver/désactiver fenêtre mappe sur sortie pty"
+18 "-/+map\t\t\t\tactiver/dÃ©sactiver fenÃªtre mappe sur sortie pty"
 
-19 "-/+mb\t\t\t\tactiver/désactiver signal margin bell"
+19 "-/+mb\t\t\t\tactiver/dÃ©sactiver signal margin bell"
 
 20 "-ms couleur\t\t\tcouleur pointeur"
 
-21 "-n chaîne\t\t\tindique nom icône"
+21 "-n chaÃ®ne\t\t\tindique nom icÃ´ne"
 
-22 "-name chaîne\t\t\tinstance client, icône et chaînes de titre"
+22 "-name chaÃ®ne\t\t\tinstance client, icÃ´ne et chaÃ®nes de titre"
 
 23 "-nb distance\t\t\tindique distance pour signal margin bell droit"
 
-24 "-/+rw\t\t\t\tactiver/désactiver boucle inverse"
+24 "-/+rw\t\t\t\tactiver/dÃ©sactiver boucle inverse"
 
-25 "-/+sb\t\t\t\tactiver/désactiver barre défilement"
+25 "-/+sb\t\t\t\tactiver/dÃ©sactiver barre dÃ©filement"
 
-26 "-/+sf\t\t\t\tactiver/désactiver touches de fonction SUN"
+26 "-/+sf\t\t\t\tactiver/dÃ©sactiver touches de fonction SUN"
 
-27 "-sl nombre[s]\t\t\tnombre de lignes de défilement [écrans] à sauvegarder"
+27 "-sl nombre[s]\t\t\tnombre de lignes de dÃ©filement [Ã©crans] Ã  sauvegarder"
 
-28 "-ti nom\t\t\tchaîne utilisée pour l'identification programme"
+28 "-ti nom\t\t\tchaÃ®ne utilisÃ©e pour l'identification programme"
 
-29 "-title chaîne\t\t\tchaîne de titre pour fenêtre"
+29 "-title chaÃ®ne\t\t\tchaÃ®ne de titre pour fenÃªtre"
 
-30 "-tm chaîne\t\t\tmots clés et caractères de mode terminal"
+30 "-tm chaÃ®ne\t\t\tmots clÃ©s et caractÃ¨res de mode terminal"
 
 31 "-tn nom\t\t\tnom de variable d'environnement TERM"
 
-32 "-/+vb\t\t\t\tactiver/désactiver signal visual bell"
+32 "-/+vb\t\t\t\tactiver/dÃ©sactiver signal visual bell"
 
-33 "-xrm chaîne_ressource\t\tspécifications ressource supplémentaire"
+33 "-xrm chaÃ®ne_ressource\t\tspÃ©cifications ressource supplÃ©mentaire"
 
 34 "-C\t\t\t\tmode console"
 
@@ -159,11 +159,11 @@ $ DO NOT TRANSLATE Messages 37 or 41 ("End-of-list")
 
 37 "End-Of-List"
 
-38 "L'option -e doit apparaître à la fin de la ligne de commande,"
+38 "L'option -e doit apparaÃ®tre Ã  la fin de la ligne de commande,"
 
-39 "autrement, le shell utilisateur par défaut est lancé. Les options de lancement"
+39 "autrement, le shell utilisateur par dÃ©faut est lancÃ©. Les options de lancement"
 
-40 "comportant un signe plus (+) restaurent les valeurs par défaut."
+40 "comportant un signe plus (+) restaurent les valeurs par dÃ©faut."
 
 41 "End-Of-List"
 
@@ -177,7 +177,7 @@ $ DO NOT TRANSLATE Messages 37 or 41 ("End-of-list")
 50 "[%s]"
 
 51 "\r\n\n\
-Entrez \"%s -help\" pour une description détaillée.\r\n\n"
+Entrez \"%s -help\" pour une description dÃ©taillÃ©e.\r\n\n"
 
 52 "Syntaxe:\n"
 
@@ -239,7 +239,7 @@ $
 $ DO NOT TRANSLATE MESSAGE 15
 $ 
 
-1 "dtterm - Options générales"
+1 "dtterm - Options gÃ©nÃ©rales"
 
 2 "OK"
 
@@ -247,19 +247,19 @@ $
 
 4 "Aide"
 
-5 "générale"
+5 "gÃ©nÃ©rale"
 
-6 "Caractéristiques du curseur"
+6 "CaractÃ©ristiques du curseur"
 
-7 "Boîte"
+7 "BoÃ®te"
 
 8 "Soulignement"
 
 9 "Style curseur"
 
-10 "Activé"
+10 "ActivÃ©"
 
-11 "Désactivé"
+11 "DÃ©sactivÃ©"
 
 12 "Curseur clignotant"
 
@@ -275,17 +275,17 @@ $
 
 18 "Normal"
 
-19 "Arrière-plan fenêtre"
+19 "ArriÃ¨re-plan fenÃªtre"
 
-20 "Mode de défilement"
+20 "Mode de dÃ©filement"
 
-21 "Désactivé"
+21 "DÃ©sactivÃ©"
 
-22 "Activé"
+22 "ActivÃ©"
 
-23 "Défilement continu"
+23 "DÃ©filement continu"
 
-24 "Paramètres du signal"
+24 "ParamÃ¨tres du signal"
 
 25 "Audible"
 
@@ -293,9 +293,9 @@ $
 
 27 "Type signal"
 
-28 "Activé"
+28 "ActivÃ©"
 
-29 "Désactivé"
+29 "DÃ©sactivÃ©"
 
 30 "Avertissement marge"
 
@@ -319,9 +319,9 @@ $ The single-character items are the mnemonics for a menu item, where the
 $ text of the menu item is specified in the previous message
 $ Do not translate messages 24 and 28.
 
-1 "Valeurs par défaut"
+1 "Valeurs par dÃ©faut"
 
-2 "Taille fenêtre"
+2 "Taille fenÃªtre"
 
 3 "a"
 
@@ -335,7 +335,7 @@ $ Do not translate messages 24 and 28.
 
 8 "%.2f points"
 
-9 "Défaut"
+9 "DÃ©faut"
 
 10 "Taille police"
 
@@ -358,7 +358,7 @@ $   Window menu
 
 19 "m"
 
-20 "Fenêtre"
+20 "FenÃªtre"
 
 21 "n"
 $   Edit menu
@@ -388,11 +388,11 @@ $   Option menu
 
 33 "e"
 
-34 "Barre de défilement"
+34 "Barre de dÃ©filement"
 
 35 "t"
 
-36 "Général..."
+36 "GÃ©nÃ©ral..."
 
 37 "G"
 
@@ -400,15 +400,15 @@ $   Option menu
 
 39 "T"
 
-40 "Réinitialisation logiciel "
+40 "RÃ©initialisation logiciel "
 
 41 "l"
 
-42 "Réinitialisation matériel"
+42 "RÃ©initialisation matÃ©riel"
 
 43 "m"
 
-44 "Réinitialisation"
+44 "RÃ©initialisation"
 
 45 "i"
 
@@ -417,19 +417,19 @@ $   Option menu
 47 "O"
 $ Old Help menu (no longer used for CDE)
 
-48 "Généralités"
+48 "GÃ©nÃ©ralitÃ©s"
 
 49 "G"
 
-50 "Tâches"
+50 "TÃ¢ches"
 
 51 "T"
 
-52 "Référence"
+52 "RÃ©fÃ©rence"
 
 53 "f"
 
-54 "Sur l'élément"
+54 "Sur l'Ã©lÃ©ment"
 
 55 "S"
 
@@ -450,7 +450,7 @@ $ Old Help menu (no longer used for CDE)
 63 "dtterm"
 $ Current CDE Help menu
 
-64 "Généralités"
+64 "GÃ©nÃ©ralitÃ©s"
 
 65 "t"
 
@@ -458,15 +458,15 @@ $ Current CDE Help menu
 
 67 "I"
 
-68 "Table des matières"
+68 "Table des matiÃ¨res"
 
 69 "m"
 
-70 "Tâches"
+70 "TÃ¢ches"
 
 71 "T"
 
-72 "Référence"
+72 "RÃ©fÃ©rence"
 
 73 "R"
 
@@ -503,43 +503,43 @@ $ These are the messages for the terminal options dialog
 
 4 "Aide"
 
-5 "Paramètres du clavier"
+5 "ParamÃ¨tres du clavier"
 
 6 "Normal"
 
 7 "Application"
 
-8 "Séquence d'échappement curseur"
+8 "SÃ©quence d'Ã©chappement curseur"
 
-9 "Numérique"
+9 "NumÃ©rique"
 
 10 "Application"
 
-11 "Mode clavier numérique"
+11 "Mode clavier numÃ©rique"
 
 12 "Retour chariot seulement"
 
 13 "Retour chariot et avance ligne"
 
-14 "Séquence d'interligne"
+14 "SÃ©quence d'interligne"
 
-15 "Verrouillé"
+15 "VerrouillÃ©"
 
-16 "Déverrouillé"
+16 "DÃ©verrouillÃ©"
 
 17 "Touches de fonction utilisateur"
 
-18 "Paramètres de l'écran"
+18 "ParamÃ¨tres de l'Ã©cran"
 
-19 "Activé"
+19 "ActivÃ©"
 
-20 "Désactivé"
+20 "DÃ©sactivÃ©"
 
-21 "Sélecteur de mode 132 colonnes"
+21 "SÃ©lecteur de mode 132 colonnes"
 
-22 "Passage du curseur à la ligne suivante"
+22 "Passage du curseur Ã  la ligne suivante"
 
-23 "Passage du curseur à la ligne précédente"
+23 "Passage du curseur Ã  la ligne prÃ©cÃ©dente"
 
 24 "Appliquer"
 

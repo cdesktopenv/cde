@@ -27,9 +27,9 @@ $set 1
 
 2 "Options de courrier..."
 
-3 "Congé"
+3 "CongÃ©"
 
-4 "Mise à jour des caractéristiques..."
+4 "Mise Ã  jour des caractÃ©ristiques..."
 $    
 $ Strings from dtmail/RoamMenuWindow.C   
 
@@ -45,13 +45,13 @@ $ Strings from dtmail/RoamMenuWindow.C
 
 10 "Suivant"
 
-11 "Précédent"
+11 "PrÃ©cÃ©dent"
 
-12 "Répondre à l'expéditeur"
+12 "RÃ©pondre Ã  l'expÃ©diteur"
 
 13 "Imprimer"
 
-14 "Expéditeur"
+14 "ExpÃ©diteur"
 
 15 "Objet"
 
@@ -59,13 +59,13 @@ $ Strings from dtmail/RoamMenuWindow.C
 
 17 "Taille"
 
-18 "Boîte aux lettres"
+18 "BoÃ®te aux lettres"
 
 19 "Consultation nouveau courrier"
 
-20 "Ouvrir boîte aux lettres en entrée"
+20 "Ouvrir boÃ®te aux lettres en entrÃ©e"
 
-21 "Ouvrir boîte aux lettres en entrée"
+21 "Ouvrir boÃ®te aux lettres en entrÃ©e"
 
 22 "Nouveau.."
 
@@ -79,7 +79,7 @@ $ Strings from dtmail/RoamMenuWindow.C
 
 27 "Ouvrir"
 
-28 "Eliminer les messages supprimés"
+28 "Eliminer les messages supprimÃ©s"
 
 29 "Fermer"
 
@@ -95,23 +95,23 @@ $ Strings from dtmail/RoamMenuWindow.C
 
 35 "Rechercher..."
 
-36 "Tout sélectionner"
+36 "Tout sÃ©lectionner"
 
 37 "Supprimer"
 
-38 "Annuler dernière suppression"
+38 "Annuler derniÃ¨re suppression"
 
 39 "Annuler la suppression..."
 
 40 "Message"
 
-41 "Déplacer"
+41 "DÃ©placer"
 
 42 "Programme courrier - Messages"
 
 43 "Copier"
 
-44 "Tout sélectionner"
+44 "Tout sÃ©lectionner"
 
 45 "Editer"
 
@@ -119,19 +119,19 @@ $ Strings from dtmail/RoamMenuWindow.C
 
 47 "Suivant"
 
-48 "Précédent"
+48 "PrÃ©cÃ©dent"
 
-49 "En-têtes abrégés"
+49 "En-tÃªtes abrÃ©gÃ©s"
 
 50 "Par date/heure"
 
-51 "Par expéditeur"
+51 "Par expÃ©diteur"
 
 52 "Par objet"
 
 53 "Par taille"
 
-54 "Par état"
+54 "Par Ã©tat"
 
 55 "Visualiser"
 
@@ -141,37 +141,37 @@ $ Strings from dtmail/RoamMenuWindow.C
 
 58 "Faire suivre message"
 
-59 "Répondre à l'expéditeur"
+59 "RÃ©pondre Ã  l'expÃ©diteur"
 
-60 "Répondre à tous"
+60 "RÃ©pondre Ã  tous"
 
-61 "Répondre à l'expéditeur, inclure"
+61 "RÃ©pondre Ã  l'expÃ©diteur, inclure"
 
-62 "Répondre à tous, inclure"
+62 "RÃ©pondre Ã  tous, inclure"
 
 63 "Composer"
 
-64 "Déplacer"
+64 "DÃ©placer"
 
-65 "Autres boîtes aux lettres..."
+65 "Autres boÃ®tes aux lettres..."
 
 66 "Sauvegarder sous..."
 
 67 "Programme courrier - Connexions - Sauvegarder sous"
 
-68 "Tout sélectionner"
+68 "Tout sÃ©lectionner"
 
 69 "Connexions"
 
 70 "Programme courrier - Connexions"
 
-71 "Généralités"
+71 "GÃ©nÃ©ralitÃ©s"
 
-72 "Tâches"
+72 "TÃ¢ches"
 
-73 "Référence"
+73 "RÃ©fÃ©rence"
 
-74 "Sur l'élément"
+74 "Sur l'Ã©lÃ©ment"
 
 75 "Aide sur l'aide"
 
@@ -179,10 +179,10 @@ $ Strings from dtmail/RoamMenuWindow.C
 
 77 "A propos du programme courrier..."
 
-78 "Le programme courrier ne parvient pas à déterminer l'état de cette boîte\n\
-aux lettres ; fermez-la à l'aide de l'option OK et relancez le programme."
+78 "Le programme courrier ne parvient pas Ã  dÃ©terminer l'Ã©tat de cette boÃ®te\n\
+aux lettres ; fermez-la Ã  l'aide de l'option OK et relancez le programme."
 
-79 "Conversion en cours... %d %% effectué(s)"
+79 "Conversion en cours... %d %% effectuÃ©(s)"
 
 80 "Programme courrier"
 $    
@@ -196,7 +196,7 @@ $ Strings from dtmail/AttachArea.C
 $    
 $ Strings from dtmail/Attachment.C   
 
-84 "%s est une connexion exécutable. Voulez-vous l'exécuter ?"
+84 "%s est une connexion exÃ©cutable. Voulez-vous l'exÃ©cuter ?"
 
 85 "Programme courrier"
 
@@ -208,9 +208,9 @@ $ Strings from dtmail/Attachment.C
 $    
 $ Strings from dtmail/RoamCmds.C   
 
-89 "Programme courrier - Autres boîtes aux lettres"
+89 "Programme courrier - Autres boÃ®tes aux lettres"
 
-90 "Déplacer"
+90 "DÃ©placer"
 
 91 "Impression en cours..."
 
@@ -234,32 +234,32 @@ $ Strings from dtmail/RoamCmds.C
 
 101 "Annuler"
 
-102 "La fonction de réacheminement est utilisée par un programme\n\
-différent de Congé. Si ce dernier est en cours d'exécution,\n\
-il sera ajouté à l'autre programme. Confirmez-vous le\n\
-lancement du programme Congé ?"
+102 "La fonction de rÃ©acheminement est utilisÃ©e par un programme\n\
+diffÃ©rent de CongÃ©. Si ce dernier est en cours d'exÃ©cution,\n\
+il sera ajoutÃ© Ã  l'autre programme. Confirmez-vous le\n\
+lancement du programme CongÃ© ?"
 
 103 "Programme courrier"
 
-104 "Le programme Congé s'exécute déjà dans le fichier .forward. Pour savoir comment\n\
-l'arrêter et le supprimer de ce fichier, consultez la documentation appropriée.\n\
-Une fois ces opérations effectuées, relancez la commande.\0"
+104 "Le programme CongÃ© s'exÃ©cute dÃ©jÃ  dans le fichier .forward. Pour savoir comment\n\
+l'arrÃªter et le supprimer de ce fichier, consultez la documentation appropriÃ©e.\n\
+Une fois ces opÃ©rations effectuÃ©es, relancez la commande.\0"
 
-105 "Impossible d'ouvrir le fichier .vacation.msg. -- Vous ne disposez pas du droit d'écriture."
+105 "Impossible d'ouvrir le fichier .vacation.msg. -- Vous ne disposez pas du droit d'Ã©criture."
 
 106 "Le fichier .vacation.msg existe. Voulez-vous le remplacer ?"
 
-107 "Impossible d'ouvrir le fichier .vacation.msg. -- Vous ne disposez pas du droit d'écriture."
+107 "Impossible d'ouvrir le fichier .vacation.msg. -- Vous ne disposez pas du droit d'Ã©criture."
 
-108 "Je suis en congé."
+108 "Je suis en congÃ©."
 $ \t    /* NL_COMMENT   
 $ \t     * This is the default value of the subject field in the   
 $ \t     * message that gets returned to the sender when vacation   
 $ \t     * is turned on.   
 $ \t     */   
 
-109 "Je suis en congé.\n\
-Je prendrai connaissance de votre message (objet: \"$SUBJECT\") dès mon retour.\n"
+109 "Je suis en congÃ©.\n\
+Je prendrai connaissance de votre message (objet: \"$SUBJECT\") dÃ¨s mon retour.\n"
 $    
 $ Strings from dtmail/MsgScrollingList.C   
 
@@ -337,7 +337,7 @@ $ Strings from dtmail/SendMsgDialog.C
 
 130 "Editer"
 
-131 "Défaire"
+131 "DÃ©faire"
 
 132 "Couper"
 
@@ -345,17 +345,17 @@ $ Strings from dtmail/SendMsgDialog.C
 
 134 "Coller"
 
-135 "Coller (spécial)"
+135 "Coller (spÃ©cial)"
 
 136 "Entre crochets"
 
-137 "Indenté"
+137 "IndentÃ©"
 
 138 "Effacer"
 
 139 "Supprimer"
 
-140 "Tout sélectionner"
+140 "Tout sÃ©lectionner"
 
 141 "Connexions"
 
@@ -375,7 +375,7 @@ $ Strings from dtmail/SendMsgDialog.C
 
 149 "Renommer"
 
-150 "Tout sélectionner"
+150 "Tout sÃ©lectionner"
 $       /* NL_COMMENT   
 $        * This is an obsolete message.  It is replaced by message 226   
 $        * in set 1.   
@@ -385,15 +385,15 @@ $        */
 
 152 "Formater"
 
-153 "Renvoi à la ligne"
+153 "Renvoi Ã  la ligne"
 
-154 "Paramètres..."
+154 "ParamÃ¨tres..."
 
 155 "Rechercher/Remplacer..."
 
-156 "Vérif. orthographe..."
+156 "VÃ©rif. orthographe..."
 
-157 "Modèles"
+157 "ModÃ¨les"
 
 158 "Programme courrier - Connexions"
 
@@ -410,7 +410,7 @@ $ Strings from dtmail/ViewMsgDialog.C
 
 161 "Copier"
 
-162 "Tout sélectionner"
+162 "Tout sÃ©lectionner"
 
 163 "Editer"
 
@@ -418,7 +418,7 @@ $ Strings from dtmail/ViewMsgDialog.C
 
 165 "Programme courrier - Connexions - Sauvegarder sous"
 
-166 "Tout sélectionner"
+166 "Tout sÃ©lectionner"
 
 167 "Connexions"
 
@@ -426,13 +426,13 @@ $ Strings from dtmail/ViewMsgDialog.C
 
 169 "Programme courrier - Texte"
 
-170 "Généralités"
+170 "GÃ©nÃ©ralitÃ©s"
 
-171 "Tâches"
+171 "TÃ¢ches"
 
-172 "Référence"
+172 "RÃ©fÃ©rence"
 
-173 "Sur l'élément"
+173 "Sur l'Ã©lÃ©ment"
 
 174 "Aide sur l'aide"
 
@@ -461,7 +461,7 @@ $  /* NL_COMMENT
 $   * This is an obsolete message.  Replaced by message 220 in set 1   
 $   */   
 
-184 "Tout rechercher & sélectionner"
+184 "Tout rechercher & sÃ©lectionner"
 
 185 "Effacer"
 
@@ -481,25 +481,25 @@ $   */
 
 193 "Faire suivre"
 
-194 "Arrière"
+194 "ArriÃ¨re"
 $  /* NL_COMMENT   
 $   * This message replaces message 184 in set 1   
 $   */   
 $    
 $ Strings from dtmail/Editor.C   
 
-195 "------------- Début message réacheminé -------------\n\n"
+195 "------------- DÃ©but message rÃ©acheminÃ© -------------\n\n"
 
-196 "------------- Début message inclus -------------\n\n"
+196 "------------- DÃ©but message inclus -------------\n\n"
 
-197 "------------- Fin message réacheminé -------------\n\n"
+197 "------------- Fin message rÃ©acheminÃ© -------------\n\n"
 
 198 "------------- Fin message inclus -------------\n\n"
 $    
 $ Strings from dtmail/XmTextEditor.C   
 
 199 "\n\
-------------- Début message inclus -------------\n"
+------------- DÃ©but message inclus -------------\n"
 
 200 "\n\
 ------------- Fin message inclus -------------\n"
@@ -507,7 +507,7 @@ $
 $ Strings from dtmail/DtEditor.C   
 
 201 "\n\
-------------- Début message inclus -------------\n"
+------------- DÃ©but message inclus -------------\n"
 
 202 "\n\
 ------------- Fin message inclus -------------\n"
@@ -516,43 +516,43 @@ $ Strings from dtmail/ComposeCmds.C
 
 203 "Programme courrier "
 
-204 "Impossible de créer une fenêtre composée."
+204 "Impossible de crÃ©er une fenÃªtre composÃ©e."
 
 205 "Programme courrier"
 
-206 "Impossible de créer une fenêtre composée."
+206 "Impossible de crÃ©er une fenÃªtre composÃ©e."
 
 207 "Programme courrier"
 
-208 "Impossible de créer une fenêtre composée."
+208 "Impossible de crÃ©er une fenÃªtre composÃ©e."
 
 209 "Programme courrier"
 
-210 "Impossible de créer une fenêtre composée."
+210 "Impossible de crÃ©er une fenÃªtre composÃ©e."
 
 211 "Programme courrier"
 
-212 "Le modèle n'existe pas."
+212 "Le modÃ¨le n'existe pas."
 
 213 "Programme courrier"
 
-214 "Le modèle est altéré."
+214 "Le modÃ¨le est altÃ©rÃ©."
 
 215 "Programme courrier"
 
-216 "La mémoire est insuffisante pour le chargement du modèle."
+216 "La mÃ©moire est insuffisante pour le chargement du modÃ¨le."
 
 217 "Programme courrier"
 
-218 "Le modèle est altéré."
+218 "Le modÃ¨le est altÃ©rÃ©."
 $    
 $ Strings from dtmail/SortCmd.C   
 
 219 "Tri en cours..."
 
-220 "Tout sélectionner"
+220 "Tout sÃ©lectionner"
 
-221 "Boîte aux lettres en entrée"
+221 "BoÃ®te aux lettres en entrÃ©e"
 
 222 "%a %b %d %k:%M"
 $ /* NL_COMMENT   
@@ -581,7 +581,7 @@ $  */
 226 "Afficher liste"
 
 $ String from Undelete.C, Deleted Messages window title
-227 "Programme courrier - messages supprimés"
+227 "Programme courrier - messages supprimÃ©s"
 
 $ Strings from SendMsgDialog.C, Add Bcc, Delete Bcc menu buttons
 228 "Ajouter"
@@ -601,8 +601,8 @@ $         * string is displayed when there is one matching message,
 $         * and the second string is displayed when there is more than
 $         * one.  The %d is the number of messages that matched.
 $         */
-232 "1 message sélectionné"
-233 "%d messages sélectionnés "
+232 "1 message sÃ©lectionnÃ©"
+233 "%d messages sÃ©lectionnÃ©s "
 
 $  /* NL_COMMENT
 $   * This string is displayed on the find dialog status line when
@@ -666,7 +666,7 @@ $
 $ "-NEW"
 245 "Ouvrir"
 $ "-NEW"
-246 "Autres boîtes aux lettres..."
+246 "Autres boÃ®tes aux lettres..."
 
 $ 
 $ Message 247 is the label for the command in the Aliases menu
@@ -726,7 +726,7 @@ $ "-NEW"
 262 "lettre morte message"
 
 $ "-NEW"
-263 "La pièce jointe '%s' prend %d kilooctets.\nAjouter la p.-j. ?"
+263 "La piÃ¨ce jointe '%s' prend %d kilooctets.\nAjouter la p.-j. ?"
 
 
 
@@ -737,28 +737,28 @@ $set 2        Redefine set#
 
 1 "Programme courrier"
 
-2 "ToolTalk n'est pas initialisé ; l'exécution du programme courrier est impossible.\n\
-Lancez /usr/dt/bin/dtsession ou adressez-vous à l'administrateur système."
+2 "ToolTalk n'est pas initialisÃ© ; l'exÃ©cution du programme courrier est impossible.\n\
+Lancez /usr/dt/bin/dtsession ou adressez-vous Ã  l'administrateur systÃ¨me."
 
-3 "Impossible d'initialiser les fenêtres. Abandon en cours.\n"
+3 "Impossible d'initialiser les fenÃªtres. Abandon en cours.\n"
 
-4 "L'installation du programme courrier présente\n\
-des erreurs ; le programme ne peut pas être\n\
-lancé car le groupe d'exécution est incorrect."
+4 "L'installation du programme courrier prÃ©sente\n\
+des erreurs ; le programme ne peut pas Ãªtre\n\
+lancÃ© car le groupe d'exÃ©cution est incorrect."
 
-5 "Vous n'êtes pas autorisé à visualiser %s."
+5 "Vous n'Ãªtes pas autorisÃ© Ã  visualiser %s."
 $ \t    /* NL_COMMENT   
 $ \t     * The %s is the name of the mailbox the user doesn't have   
 $ \t     * permission to view.   
 $ \t     */   
 
-6 "La boîte aux lettres %s est un répertoire ; son ouverture est impossible."
+6 "La boÃ®te aux lettres %s est un rÃ©pertoire ; son ouverture est impossible."
 
 7 "Impossible de vider %s (conteneur inexistant)."
 
-8 "Le conteneur %s a été vidé."
+8 "Le conteneur %s a Ã©tÃ© vidÃ©."
 
-9 "Erreur - %s n'a pas été vidé."
+9 "Erreur - %s n'a pas Ã©tÃ© vidÃ©."
 
 10 "Programme courrier"
 
@@ -769,31 +769,31 @@ $ \t     */
 13 "Programme courrier"
 
 14 "Avant de lancer la commande \"Sauvegarder sous\",\n\
-vous devez sélectionner une connexion."
+vous devez sÃ©lectionner une connexion."
 
 15 "Erreur - Impossible d'obtenir mailrc."
 
-16 "Aucun message sélectionné."
+16 "Aucun message sÃ©lectionnÃ©."
 $ \t/* NL_COMMENT   
 $ \t * No mail message has been selected by the user.   
 $ \t */   
 
-17 "\"%s\" a été modifié. Confirmez-vous la suppression ?"
+17 "\"%s\" a Ã©tÃ© modifiÃ©. Confirmez-vous la suppression ?"
 
 18 "Erreur: Impossible d'inclure le fichier %s."
 
 19 "Avant de lancer la commande \"Sauvegarder sous\",\n\
-vous devez sélectionner une connexion."
+vous devez sÃ©lectionner une connexion."
 
 20 "Avant de lancer la commande \"Sauvegarder sous\",\n\
-vous devez sélectionner une connexion."
+vous devez sÃ©lectionner une connexion."
 
 21 "Programme courrier"
 
-22 "Des erreurs de syntaxes irréparables ont eu lieu dans le fichier ~/.mailrc.\nVérifiez les autres messages du terminal. Corrigez les erreurs et relancez dtmail.\nSi vous continuez, vous ne pourrez peut-être pas sauvegarder les modifications effectuées \ndans la boîte de dialogue options."
+22 "Des erreurs de syntaxes irrÃ©parables ont eu lieu dans le fichier ~/.mailrc.\nVÃ©rifiez les autres messages du terminal. Corrigez les erreurs et relancez dtmail.\nSi vous continuez, vous ne pourrez peut-Ãªtre pas sauvegarder les modifications effectuÃ©es \ndans la boÃ®te de dialogue options."
 23 "Continuer"
 24 "Quitter"
-25 " Des erreurs de syntaxes irréparables ont eu lieu dans le fichier ~/.mailrc.\nVous pouvez appliquer les configurations d'options de courrier dans la session en cours mais \nvous ne pourrez pas les sauvegarder dans le fichier." 
+25 " Des erreurs de syntaxes irrÃ©parables ont eu lieu dans le fichier ~/.mailrc.\nVous pouvez appliquer les configurations d'options de courrier dans la session en cours mais \nvous ne pourrez pas les sauvegarder dans le fichier." 
 
 $ 
 $ Messages for file locking dialog displayed from the Advanced option pane.
@@ -821,16 +821,16 @@ $set 3        Redefine set#
 
 2 "Initialisation en cours..."
 
-3 "La boîte aux lettres %s n'existe pas.\n\
-Voulez-vous la créer ?"
+3 "La boÃ®te aux lettres %s n'existe pas.\n\
+Voulez-vous la crÃ©er ?"
 
 4 "Programme courrier"
 
 5 "OK"
 
-6 "La boîte aux lettres %s est verrouillée.\n\
-Vous pouvez la déverrouiller manuellement et relancer\n\
-l'opération ou faire appel à l'administrateur système."
+6 "La boÃ®te aux lettres %s est verrouillÃ©e.\n\
+Vous pouvez la dÃ©verrouiller manuellement et relancer\n\
+l'opÃ©ration ou faire appel Ã  l'administrateur systÃ¨me."
 
 7 "Programme courrier"
 
@@ -844,9 +844,9 @@ l'opération ou faire appel à l'administrateur système."
 
 12 "%s"
 
-13 "Message %d sur %d, %d nouveau(x), %d supprimé(s)."
+13 "Message %d sur %d, %d nouveau(x), %d supprimÃ©(s)."
 
-14 "Message %d sur %d, %d nouveau(x), %d supprimé(s)."
+14 "Message %d sur %d, %d nouveau(x), %d supprimÃ©(s)."
 $ \t/* NL_COMMENT   
 $ \t * The user will see the following message display as:   
 $ \t * "Message 3 of 10, 2 new, 6 deleted"   
@@ -862,22 +862,22 @@ $ \t\t * mailbox and the user is asked if he wants to destroy
 $ \t\t * the messages marked for deletion.   
 $ \t\t */   
 
-17 "Voulez-vous détruire les messages sélectionnés\n\
-pour la suppression dans cette boîte aux lettres ?"
+17 "Voulez-vous dÃ©truire les messages sÃ©lectionnÃ©s\n\
+pour la suppression dans cette boÃ®te aux lettres ?"
 
 18 "OK"
 
 19 "Annuler"
 
-20 "Ouverture de la boîte aux lettres..."
+20 "Ouverture de la boÃ®te aux lettres..."
 
-21 "%s existe déjà.\n\
-Voulez-vous l'écraser ?"
+21 "%s existe dÃ©jÃ .\n\
+Voulez-vous l'Ã©craser ?"
 
 22 "Programme courrier"
 
-23 "Impossible d'écraser %s.\n\
-Vérifiez les droits d'accès et faites une nouvelle tentative."
+23 "Impossible d'Ã©craser %s.\n\
+VÃ©rifiez les droits d'accÃ¨s et faites une nouvelle tentative."
 
 24 "Programme courrier"
 
@@ -895,7 +895,7 @@ Vérifiez les droits d'accès et faites une nouvelle tentative."
 
 31 "OK"
 
-32 "Elimination des messages supprimés..."
+32 "Elimination des messages supprimÃ©s..."
 
 33 "OK"
 
@@ -903,9 +903,9 @@ Vérifiez les droits d'accès et faites une nouvelle tentative."
 
 35 "Impossible d'ouvrir %s."
 
-36 "Impossible d'allouer la mémoire."
+36 "Impossible d'allouer la mÃ©moire."
 
-37 "Récapitulatif des connexions"
+37 "RÃ©capitulatif des connexions"
 
 38 "connexion"
 
@@ -916,68 +916,68 @@ $ \t */
 
 40 "connexions"
 
-41 "supprimé(es)"
+41 "supprimÃ©(es)"
 
-42 "%s existe déjà. Confirmez-vous le remplacement ?"
+42 "%s existe dÃ©jÃ . Confirmez-vous le remplacement ?"
 
 43 "Impossible de remplacer %s."
 
-44 "Impossible de créer %s."
+44 "Impossible de crÃ©er %s."
 
-45 "Impossible de créer %s."
+45 "Impossible de crÃ©er %s."
 
 46 "Conteneur vide"
 
-47 "%s existe déjà.\n\
-Voulez-vous l'écraser ?"
+47 "%s existe dÃ©jÃ .\n\
+Voulez-vous l'Ã©craser ?"
 
 48 "Programme courrier"
 
-49 "Impossible d'écraser %s.\n\
-Vérifiez les droits d'accès et faites une nouvelle tentative."
+49 "Impossible d'Ã©craser %s.\n\
+VÃ©rifiez les droits d'accÃ¨s et faites une nouvelle tentative."
 
 50 "Programme courrier"
 
-51 "Impossible de créer %s."
+51 "Impossible de crÃ©er %s."
 
 52 "Programme courrier"
 
-53 "Impossible d'écrire dans %s."
+53 "Impossible d'Ã©crire dans %s."
 
 54 "Programme courrier"
 
-55 "Impossible de créer %s."
+55 "Impossible de crÃ©er %s."
 
 56 "Programme courrier"
 
 57 "Renommer les connexions en"
 
-58 "La fenêtre composée contient du texte\n\
-ou des connexions qui seront perdues à la\n\
-fermeture de la fenêtre.\n\
+58 "La fenÃªtre composÃ©e contient du texte\n\
+ou des connexions qui seront perdues Ã  la\n\
+fermeture de la fenÃªtre.\n\
 Confirmez-vous la fermeture ?"
 
-59 "Mémoire insuffisante"
+59 "MÃ©moire insuffisante"
 
-60 "La mémoire est insuffisante pour le chargement du fichier .vacation.msg existant."
+60 "La mÃ©moire est insuffisante pour le chargement du fichier .vacation.msg existant."
 
 61 "Programme courrier"
 
-62 "Le fichier .vacation.msg existant est altéré."
+62 "Le fichier .vacation.msg existant est altÃ©rÃ©."
 
-63 "Sélectionnez un message à déplacer."
+63 "SÃ©lectionnez un message Ã  dÃ©placer."
 
-64 "Sélectionnez un message à copier."
+64 "SÃ©lectionnez un message Ã  copier."
 
-65 "%d messages déplacés dans %s."
+65 "%d messages dÃ©placÃ©s dans %s."
 
-66 "%d message déplacé dans %s."
+66 "%d message dÃ©placÃ© dans %s."
 
-67 "%d messages copiés dans %s."
+67 "%d messages copiÃ©s dans %s."
 
-68 "%d message copié dans %s."
+68 "%d message copiÃ© dans %s."
 
-69 "La vue existe déjà : mise au premier plan en cours."
+69 "La vue existe dÃ©jÃ  : mise au premier plan en cours."
 $ \t/* NL_COMMENT   
 $ \t* The current mail message selected is already displayed in a separate   
 $ \t* window.  Therefore this 'separate' window will be raised in front   
@@ -998,13 +998,13 @@ $ \t*/
 
 76 "OK"
 
-77 "Il peut y avoir des modifications non enregistrées dans une connexion ouverte.\nL'envoi du message rompra la connexion.\n. Les modifications non sauvegardées ne seront pas incluses dans le message\n. Utilisez Sauvegarder sous pour enregistrer les modifications après la rupture de la connexion mais elles n'en feront pas partie \n."
+77 "Il peut y avoir des modifications non enregistrÃ©es dans une connexion ouverte.\nL'envoi du message rompra la connexion.\n. Les modifications non sauvegardÃ©es ne seront pas incluses dans le message\n. Utilisez Sauvegarder sous pour enregistrer les modifications aprÃ¨s la rupture de la connexion mais elles n'en feront pas partie \n."
 78 "Initialisations des Options de courrier..."
-79 "Détruire et Quitter"
-80 "Ne pas détruire et Quitter"
-81 "Cette connexion contient des commandes qui peuvent causer des problèmes\ngraves.  Il vous est conseillé de ne l'exécuterque si vous\nêtes sûr que cela ne présente aucun danger.\n\nDans ce cas, appuyez sur OK,\nsinon appuyez sur Annuler."
-82 "Cette boîte aux lettres a un autre utilisateur.\nVoulez-vous en demander l'accès exclusif ?"
-83 "Le programme courrier ne peut pas obtenir les droits exclusifs de cette boîte aux lettres .\nVoulez-vous l'ouvrir en lecture seule ?"
+79 "DÃ©truire et Quitter"
+80 "Ne pas dÃ©truire et Quitter"
+81 "Cette connexion contient des commandes qui peuvent causer des problÃ¨mes\ngraves.  Il vous est conseillÃ© de ne l'exÃ©cuterque si vous\nÃªtes sÃ»r que cela ne prÃ©sente aucun danger.\n\nDans ce cas, appuyez sur OK,\nsinon appuyez sur Annuler."
+82 "Cette boÃ®te aux lettres a un autre utilisateur.\nVoulez-vous en demander l'accÃ¨s exclusif ?"
+83 "Le programme courrier ne peut pas obtenir les droits exclusifs de cette boÃ®te aux lettres .\nVoulez-vous l'ouvrir en lecture seule ?"
 
 $            /* NL_COMMENT
 $             * The following sentence means %d number of mail messages have
@@ -1012,7 +1012,7 @@ $             * been deleted from the mail folder.  This is the plural form
 $             * of the message that gets printed if more than one message
 $             * is moved.
 $             */
-84 "%d messages supprimés"
+84 "%d messages supprimÃ©s"
 
 $            /* NL_COMMENT
 $             * The following sentence means %d number of mail messages have
@@ -1020,7 +1020,7 @@ $             * been deleted from the mail folder.  This is the singular
 $             * form of the message that gets printed if only one message
 $             * is moved.
 $             */
-85 "%d message supprimé"
+85 "%d message supprimÃ©"
 86 "Recherche du nouveau courrier en cours..."
 $		/* NL_COMMENT
 $		 * This dialog comes up when the user tries to quit the
@@ -1028,20 +1028,20 @@ $		 * mailbox.  The user is asked if they want to destroy
 $		 * the deleted messages.
 $		 */
 87 "Programme courrier - Fermer"
-88 "Détruire les messages supprimés et fermer cette boîte aux lettres ?"
-89 "Détruire et Fermer"
+88 "DÃ©truire les messages supprimÃ©s et fermer cette boÃ®te aux lettres ?"
+89 "DÃ©truire et Fermer"
 90 "Conserver et Fermer"
 $        /* NL_COMMENT
 $         * Post a dialog explaining that the action was invalid
 $         */
-91 "Impossible d'exécuter une action incorrecte."
+91 "Impossible d'exÃ©cuter une action incorrecte."
 $        /* NL_COMMENT
 $         * Post a dialog explaining that the action failed.
 $         */
-92 "Exécution de l'action a échoué !"
-93 "L'icône sélectionnée %s est un fichier exécutable.\nCliquez sur OK pour l'exécuter ou sur Annuler pour Quitter."
+92 "ExÃ©cution de l'action a Ã©chouÃ© !"
+93 "L'icÃ´ne sÃ©lectionnÃ©e %s est un fichier exÃ©cutable.\nCliquez sur OK pour l'exÃ©cuter ou sur Annuler pour Quitter."
 
-94 " Le programme courrier ne peut pas obtenir les droits exclusifs de cette boîte aux lettres parce que le système ne répond pas.\n\nDans ce cas seulement, vous pouvez choisir de l'ouvrir en lecture seule \n ou en lecture-écriture sans l'exclusivité du droit d'accès \n (Ceci n'est possible que si personne d'autre n'utilise la boîte aux lettres)."
+94 " Le programme courrier ne peut pas obtenir les droits exclusifs de cette boÃ®te aux lettres parce que le systÃ¨me ne rÃ©pond pas.\n\nDans ce cas seulement, vous pouvez choisir de l'ouvrir en lecture seule \n ou en lecture-Ã©criture sans l'exclusivitÃ© du droit d'accÃ¨s \n (Ceci n'est possible que si personne d'autre n'utilise la boÃ®te aux lettres)."
 95 "Lecture seule"
 96 "Lecture-Ecriture"
 
@@ -1080,7 +1080,7 @@ $set 5        Redefine set#
 2 "Programme courrier"
 
 3 "Si vous envoyez le message sous cette forme,\n\
-\t    les modifications apportées aux connexions\n\
+\t    les modifications apportÃ©es aux connexions\n\
 \t    seront perdues."
 $    /* NL_COMMENT   
 $     * The user tried to send a messages without saving changes in   
@@ -1088,15 +1088,15 @@ $     * some open attachments.  This warning makes sure that is what
 $     * the user intended.   
 $     */   
 
-4 "Sélectionnez une seule connexion\n\
+4 "SÃ©lectionnez une seule connexion\n\
 \t    et relancez la commande Renommer."
 $       /* NL_COMMENT   
 $        * Mailer ran out of memory.  Ask the user to quit some other   
 $        * applications so there will be more memory available.   
 $        */   
 
-5 "Certaines adresses indiquées dans le message sont incorrectes,\n\
-et ne font référence à aucun utilisateur connu. Assurez-vous que\n\
+5 "Certaines adresses indiquÃ©es dans le message sont incorrectes,\n\
+et ne font rÃ©fÃ©rence Ã  aucun utilisateur connu. Assurez-vous que\n\
 toutes les adresses sont correctes et faites une nouvelle tentative."
 $       /* NL_COMMENT   
 $        * Mailer ran out of memory.  Ask the user to quit some other   
@@ -1104,21 +1104,21 @@ $        * applications so there will be more memory available.
 $        */   
 
 6 "Le programme courrier ne dispose pas\n\
-de suffisamment de mémoire pour transmettre\n\
-ce message. Mettez fin à d'autres applications\n\
-et relancez l'opération."
+de suffisamment de mÃ©moire pour transmettre\n\
+ce message. Mettez fin Ã  d'autres applications\n\
+et relancez l'opÃ©ration."
 $       /* NL_COMMENT   
 $        * There was an error from the mail transport (sendmail).   
 $        */   
 
 7 "Une erreur s'est produite lors de la transmission du\n\
-message. Vérifiez que celui-ci est arrivé à destination.\n\
+message. VÃ©rifiez que celui-ci est arrivÃ© Ã  destination.\n\
 Si tel n'est pas le cas, relancez la transmission."
 
 $       /* NL_COMMENT
 $        * User trying to send a message that has no addressed recipient.
 $        */
-8 "Essayer Envoyer après avoir spécifié le ou les destinataires du message dans \nles zones A:, Cc:, ou Bcc:."
+8 "Essayer Envoyer aprÃ¨s avoir spÃ©cifiÃ© le ou les destinataires du message dans \nles zones A:, Cc:, ou Bcc:."
 
 
 $set 12        Redefine set#
@@ -1132,20 +1132,20 @@ $set 12        Redefine set#
 
 4 "Impossible de connecter les fichiers FIFO suivants: %s."
 
-5 "Impossible de connecter les fichiers spéciaux par caractères suivants: %s."
+5 "Impossible de connecter les fichiers spÃ©ciaux par caractÃ¨res suivants: %s."
 
-6 "Impossible de connecter les répertoires suivants: %s."
+6 "Impossible de connecter les rÃ©pertoires suivants: %s."
 
-7 "Impossible de connecter les fichiers spéciaux par blocs suivants: %s."
+7 "Impossible de connecter les fichiers spÃ©ciaux par blocs suivants: %s."
 
 8 "Impossible de connecter les fichiers de prise suivants: %s."
 
 $set 13        Redefine set#
 
 
-1 "Impossible de créer"
+1 "Impossible de crÃ©er"
 
-2 "Impossible d'écrire"
+2 "Impossible d'Ã©crire"
 $    
 $ Strings from dtmail/AttachCmds.C   
 
@@ -1158,11 +1158,11 @@ $set 14        Redefine set#
 
 3 "Impossible de connecter les fichiers FIFO suivants: %s."
 
-4 "Impossible de connecter les fichiers spéciaux par caractères suivants: %s."
+4 "Impossible de connecter les fichiers spÃ©ciaux par caractÃ¨res suivants: %s."
 
-5 "Impossible de connecter les répertoires suivants: %s."
+5 "Impossible de connecter les rÃ©pertoires suivants: %s."
 
-6 "Impossible de connecter les fichiers spéciaux par blocs suivants: %s."
+6 "Impossible de connecter les fichiers spÃ©ciaux par blocs suivants: %s."
 
 7 "Impossible de connecter les fichiers de prise suivants: %s."
 
@@ -1178,14 +1178,14 @@ $set 14        Redefine set#
 
 
 $set 15
-1 "Des modifications ne sont pas sauvegardées.\nVous pouvez les sauvegarder, les supprimer\nou retourner à l'emplacement précédent dans la boîte de dialogue."
+1 "Des modifications ne sont pas sauvegardÃ©es.\nVous pouvez les sauvegarder, les supprimer\nou retourner Ã  l'emplacement prÃ©cÃ©dent dans la boÃ®te de dialogue."
 2 "Sauvegarder"
 3 "Supprimer"
 $ 
 $ The followings are added by IBM for 41J release
 $ 
 $set 20
-1 "La boîte aux lettres %s est déjà ouverte."
+1 "La boÃ®te aux lettres %s est dÃ©jÃ  ouverte."
 $ The above message is used in RoamMenuWindow::open
 $ See AIXC cmvc defect 175920
 2 "Utilisez le nom local : "
@@ -1250,8 +1250,8 @@ $	multiple messages should be printed in separate spool jobs.
 $	Message 13 is the label used on the Toggle Button to indicate that
 $	lines which would extend beyond the edge of the printed page be 
 $	"wrapped" to the next line.
-12 "Imprimer séparément"
-13 "Utiliser Retour à la ligne"
+12 "Imprimer sÃ©parÃ©ment"
+13 "Utiliser Retour Ã  la ligne"
 
 
 $	Messages 14 - 15 are status messages for the PrintToFile function.
@@ -1260,8 +1260,8 @@ $	Message 14 indicates that the PrintToFile function was unsuccessful.
 $	Message 15 indicates that the PrintToFile function was successful.
 $       NOTE:  'Print to File' should be translated as in DtPrint.msg
 $               Set 1, Message 3.
-14 "'Imprimer au fichier' a échoué."
-15 "'Imprimer au fichier ' a réussi."
+14 "'Imprimer au fichier' a Ã©chouÃ©."
+15 "'Imprimer au fichier ' a rÃ©ussi."
 
 $       NL_COMMENT 
 $          Messages 16 - 19 are obsolete, and have been replaced by 24
@@ -1274,8 +1274,8 @@ $	Message 18 indicates that the pdm couldnt connect to the video display.
 $	Message 19 indicates that the pdm couldnt connect to the print display.
 16 "Pas de PDM dans l' environement."
 17 "Impossible de lancer le PDM."
-18 "Pas de connexion autorisée entre le PDM et l'écran Vidéo."
-19 " Pas de connexion autorisée entre le PDM et l'écran d'Impression."
+18 "Pas de connexion autorisÃ©e entre le PDM et l'Ã©cran VidÃ©o."
+19 " Pas de connexion autorisÃ©e entre le PDM et l'Ã©cran d'Impression."
 
 $	Message 20 is the label used on the Push Button to bring up
 $	the printing options dialog from the DtPrintSetupDialog.
@@ -1286,7 +1286,7 @@ $       Message 21 is used for the title string on the DtPrintSetupDialog.
 $       Message 22 is used to alert the user to the fact that the mailer
 $                  cannot close the mailer window until a task (usually
 $                  a print job) has terminated.
-22 "Fermeture imminente :  attendez la fin de la tâche..."
+22 "Fermeture imminente :  attendez la fin de la tÃ¢che..."
 
 $	Message 23 is used to alert the user to the fact that the X Print
 $		   Server cannot complete the print request due to a lack
@@ -1294,7 +1294,7 @@ $		   of resources.
 23 "Le serveur d'impression X manque temporairement de ressources."
 
 $       Messages 24 & 25 are used to handle errors from the PDM
-24	"Erreur du Gestionnaire d'impression (PDM) - configuration a échoué."
+24	"Erreur du Gestionnaire d'impression (PDM) - configuration a Ã©chouÃ©."
 25	"Continuer"
 
 
@@ -1318,12 +1318,12 @@ $	Message 7 put the Page Nmbr msg header in the page header/footer field.
 $	Message 8 put the User Name msg header in the page header/footer field.
 $set 22
 1 "Vide"
-2 "En-tête CC "
-3 "En-tête Date "
-4 "En-tête De"
-5 "En-tête Objet"
-6 "En-tête A"
-7 "Numéro de page"
+2 "En-tÃªte CC "
+3 "En-tÃªte Date "
+4 "En-tÃªte De"
+5 "En-tÃªte Objet"
+6 "En-tÃªte A"
+7 "NumÃ©ro de page"
 8 "Nom de l'utilisateur"
 
 $ 
@@ -1342,7 +1342,7 @@ $set 23
 
 1 "Aucun"
 2 "Standard"
-3 "Abrégé"
+3 "AbrÃ©gÃ©"
 4 "Tous"
 
 $ 
@@ -1361,9 +1361,9 @@ $
 $set 24
 1 "Nouvelle Ligne"
 2 "Ligne en blanc"
-3 "Ligne de caractères "
+3 "Ligne de caractÃ¨res "
 4 "Nouvelle Page"
-5 "Nouvelle tâche"
+5 "Nouvelle tÃ¢che"
 
 $ 
 $	The following set was added to support CDEnext printing based on
@@ -1376,11 +1376,11 @@ $set 25
 $ 
 $	Label for the option menu used to specify which message headers are
 $	printed.
-1 "En-têtes des messages imprimés :  "
+1 "En-tÃªtes des messages imprimÃ©s :  "
 $ 
 $	Label for the option menu used to specify which how multiple messages
 $	are separated.
-2 "Séparer les messages multiples par :  "
+2 "SÃ©parer les messages multiples par :  "
 
 $ 
 $	The following set was added to support CDEnext printing based on
@@ -1414,20 +1414,20 @@ $set 27
 4 "IMAP"
 5 "POP2"
 
-6 "Distribution (système) automatique"
+6 "Distribution (systÃ¨me) automatique"
 
-7 "Récupération sur serveur distant"
+7 "RÃ©cupÃ©ration sur serveur distant"
 8 "Protocole du serveur:"
 9 "Nom du Serveur:"
 10 "Nom Utilisateur:"
 11 "Mot de Passe:"
 12 "Retenir le mot de passe"
-13 "Effacer du serveur après récupération"
-14 "Récupérer les anciens messages"
+13 "Effacer du serveur aprÃ¨s rÃ©cupÃ©ration"
+14 "RÃ©cupÃ©rer les anciens messages"
 
-15 "Récupération personnalisée"
-16 "commande à éxécuter:"
+15 "RÃ©cupÃ©ration personnalisÃ©e"
+16 "commande Ã  Ã©xÃ©cuter:"
 
-17 "Pas de chemin pour la boîte aux lettres."
-18 "Chemin de la boîte aux lettres locale :"
+17 "Pas de chemin pour la boÃ®te aux lettres."
+18 "Chemin de la boÃ®te aux lettres locale :"
 

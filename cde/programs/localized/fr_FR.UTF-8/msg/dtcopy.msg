@@ -25,15 +25,15 @@ $ ****** Module: main_dtcopy.c ******
 
 10 "Syntaxe: %s [options ...] source cible\n"
 
-11 "Gestionnaire de fichiers - Déplacer un dossier"
+11 "Gestionnaire de fichiers - DÃ©placer un dossier"
 
-12 "Gestionnaire de fichiers - Copier un répertoire"
+12 "Gestionnaire de fichiers - Copier un rÃ©pertoire"
 
-13 "%s n'a(ont) pas été supprimé(s) suite à des erreurs."
+13 "%s n'a(ont) pas Ã©tÃ© supprimÃ©(s) suite Ã  des erreurs."
 
-14 "Opération terminée."
+14 "OpÃ©ration terminÃ©e."
 
-15 "Annulé(s) dans"
+15 "AnnulÃ©(s) dans"
 $ ** Message 20 - 32  
 $ ** LongFileOpNames ... message number = op + 20.  
 
@@ -51,11 +51,11 @@ $ ** LongFileOpNames ... message number = op + 20.
 
 26 "copie de"
 
-27 "création du répertoire"
+27 "crÃ©ation du rÃ©pertoire"
 
 28 "copie de lien"
 
-29 "création de lien"
+29 "crÃ©ation de lien"
 
 30 "en cours"
 
@@ -73,38 +73,38 @@ $ ****** Module: copydialog.c ******
 
 2 "Suspendre"
 
-3 "Déplacer:"
+3 "DÃ©placer:"
 
 4 "Copier:"
 
 5 "Dans dossier:"
 
-7 "Cette action va annuler l'opération de copie. Tous les\n\
-fichiers copiés resteront dans le dossier de destination."
+7 "Cette action va annuler l'opÃ©ration de copie. Tous les\n\
+fichiers copiÃ©s resteront dans le dossier de destination."
 
-10 "Cette action va annuler le déplacement. Tous les fichiers\n\
-déplacés resteront dans le dossier de destination."
+10 "Cette action va annuler le dÃ©placement. Tous les fichiers\n\
+dÃ©placÃ©s resteront dans le dossier de destination."
 
 11 "Copier dossier - Avertissement"
 
-12 "Déplacer dossier - Avertissement"
+12 "DÃ©placer dossier - Avertissement"
 
 13 "Annuler copie"
 
 14 "Continuer copie"
 
-15 "Annuler déplacement"
+15 "Annuler dÃ©placement"
 
-16 "Continuer déplacement"
+16 "Continuer dÃ©placement"
 
-17 "Déplacé"
+17 "DÃ©placÃ©"
 
-18 "Copié"
+18 "CopiÃ©"
 
-19 Impossible de déplacer le dossier sur lui-même\n\
+19 Impossible de dÃ©placer le dossier sur lui-mÃªme\n\
 %s\n\n
 
-20 Impossible de copier le dossier sur lui-même\n\
+20 Impossible de copier le dossier sur lui-mÃªme\n\
 %s\n\n
 
 
@@ -119,22 +119,22 @@ $ ****** Module: errordialog.c ******
 
 3 "Copie de dossier - Erreur"
 
-4 "Déplacement de dossier - Erreur"
+4 "DÃ©placement de dossier - Erreur"
 
-5 "Déplacement de dossier - Erreur"
+5 "DÃ©placement de dossier - Erreur"
 
 6 "Copie d'objet - Erreur"
 
 7 "Suppression d'objet (corbeille) - Erreur"
 
-8 "Vous n'êtes pas autorisé à mettre l'objet\n\n\
+8 "Vous n'Ãªtes pas autorisÃ© Ã  mettre l'objet\n\n\
     %s\n\n\
 dans la corbeille.\n\n\
-Pour vous accorder l'autorisation d'accéder en lecture \n\
-à l'objet, utilisez l'option Modifier les droits d'accès\n\
-du menu instantané de l'objet ou du menu Sélectionné(s).\n\n\n\
+Pour vous accorder l'autorisation d'accÃ©der en lecture \n\
+Ã  l'objet, utilisez l'option Modifier les droits d'accÃ¨s\n\
+du menu instantanÃ© de l'objet ou du menu SÃ©lectionnÃ©(s).\n\n\n\
 Remarque: Si l'objet est un dossier, vous devez \n\
-également avoir accès en lecture à tous les objets\n\
+Ã©galement avoir accÃ¨s en lecture Ã  tous les objets\n\
 qu'il contient pour pouvoir le mettre dans la corbeille."
 
 9 Impossible d'ouvrir %s
@@ -144,12 +144,12 @@ $set 5        Redefine set#
 
 $ ****** Module: overwrtdialog.c ******  
 
-1 "Un fichier appelé\n\
+1 "Un fichier appelÃ©\n\
 %s\n\
-existe déjà dans le dossier\n\
+existe dÃ©jÃ  dans le dossier\n\
 %s"
 
-2 "Déplacement de dossier - Ecraser le fichier"
+2 "DÃ©placement de dossier - Ecraser le fichier"
 
 3 "Remplacer le fichier existant"
 
@@ -166,12 +166,12 @@ existe déjà dans le dossier\n\
 9 "Copie de dossier - Remplacer le fichier"
 
 10 "%s\n\
-existe déjà: choisissez un autre nom."
+existe dÃ©jÃ : choisissez un autre nom."
 
 11 "Remplacement de fichier - Erreur"
 
 12 "%s\n\
-ne peut pas être renommé en\n\
+ne peut pas Ãªtre renommÃ© en\n\
 %s\n\
 %s"
 
@@ -188,10 +188,10 @@ $ ** Button labels.
 
 4 "Aide"
 
-5 "Copie de répertoire - Aide"
+5 "Copie de rÃ©pertoire - Aide"
 
 6 "Continuer"
 
 7 "Annuler la copie"
 
-8 "Annuler le déplacement"
+8 "Annuler le dÃ©placement"

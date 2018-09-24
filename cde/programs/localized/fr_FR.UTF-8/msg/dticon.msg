@@ -33,15 +33,15 @@ $ **
 $ ** messages 10-16 are for the FileSelectionBox widget (default labels)  
 $ *****************************************************************************  
 
-2 "Editeur d'icônes - E-S de fichier"
+2 "Editeur d'icÃ´nes - E-S de fichier"
 
-4 "Editeur d'icônes - E-S de fichier"
+4 "Editeur d'icÃ´nes - E-S de fichier"
 
-6 "Editeur d'icônes - Sauvegarder sous"
+6 "Editeur d'icÃ´nes - Sauvegarder sous"
 
-8 "Editeur d'icônes - Ouverture de fichier"
+8 "Editeur d'icÃ´nes - Ouverture de fichier"
 
-10 "Mettre à jour"
+10 "Mettre Ã  jour"
 
 12 "Dossiers"
 
@@ -51,7 +51,7 @@ $ *****************************************************************************
 
 17 "Entrez un nom de fichier:"
 
-18 "Mettre à jour"
+18 "Mettre Ã  jour"
 
 20 "SANS TITRE"
 
@@ -68,7 +68,7 @@ $ *****************************************************************************
 
 2 "newIconDialog"
 
-4 "Editeur d'icônes - Redimensionnement"
+4 "Editeur d'icÃ´nes - Redimensionnement"
 
 6 "OK"
 
@@ -87,7 +87,7 @@ $ ** _DtMessage set for queryDialog.c
 $ **  
 $ *****************************************************************************  
 
-2 "Editeur d'icônes - Avertissement"
+2 "Editeur d'icÃ´nes - Avertissement"
 
 6 "OK"
 $ ** DO NOT LOCALIZE - the user should never see this message  
@@ -103,7 +103,7 @@ $ ** _DtMessage set for stdErrDialog.c
 $ **  
 $ *****************************************************************************  
 
-2 "Editeur d'icônes - Erreur"
+2 "Editeur d'icÃ´nes - Erreur"
 
 4 "Continuer"
 
@@ -167,22 +167,22 @@ $ ** DO NOT LOCALIZE messages 2-48, they appear in the errorlog only
 
 48 "No memory(5)"
 
-50 "Impossible d'initialiser l'application de stockage des icônes."
+50 "Impossible d'initialiser l'application de stockage des icÃ´nes."
 
-52 "Utilisation du paramètre -f non valide."
+52 "Utilisation du paramÃ¨tre -f non valide."
 
-54 "Utilisation incorrecte du paramètre -i."
+54 "Utilisation incorrecte du paramÃ¨tre -i."
 
-56 "Utilisation du paramètre -session non valide."
+56 "Utilisation du paramÃ¨tre -session non valide."
 
 58 "Taille non valide."
 
-60 "La saisie de l'image a échoué."
+60 "La saisie de l'image a Ã©chouÃ©."
 
-62 "Echec de l'opération.\n\
-La table des couleurs est saturée."
+62 "Echec de l'opÃ©ration.\n\
+La table des couleurs est saturÃ©e."
 
-64 "Paramètre de dimension non valide."
+64 "ParamÃ¨tre de dimension non valide."
 
 66 "(SANS NOM)"
 
@@ -193,13 +193,13 @@ $ ** _DtMessage set for dtIconShell.c
 $ **  
 $ *****************************************************************************  
 
-1 "Editeur d'icônes"
+1 "Editeur d'icÃ´nes"
 
 2 "2 couleurs"
 
-3 "Editeur d'icônes -  (SANS NOM)"
+3 "Editeur d'icÃ´nes -  (SANS NOM)"
 
-4 "Bienvenue dans l'éditeur d'icônes."
+4 "Bienvenue dans l'Ã©diteur d'icÃ´nes."
 
 6 "Remplir"
 
@@ -211,13 +211,13 @@ $ *****************************************************************************
 
 14 "Premier plan"
 
-16 "Arrière-plan"
+16 "ArriÃ¨re-plan"
 
 18 "Ombrage du haut"
 
 20 "Ombrage du bas"
 
-22 "Sélection"
+22 "SÃ©lection"
 
 24 "Transparence"
 $ ** message 26-198 are menu items with corresponding mnemonics  
@@ -293,23 +293,23 @@ $ ** (for set grouping information, see the comment at the end-of-file)
 
 98 "e"
 
-100 "Redimensionner l'icône..."
+100 "Redimensionner l'icÃ´ne..."
 
 102 "u"
 
-104 "Ajouter point de repère"
+104 "Ajouter point de repÃ¨re"
 
 106 "S"
 
-108 "Supprimer point de repère"
+108 "Supprimer point de repÃ¨re"
 
 110 "S"
 
-112 "Saisir image écran"
+112 "Saisir image Ã©cran"
 
 114 "E"
 
-116 "Effacer l'icône"
+116 "Effacer l'icÃ´ne"
 
 118 "E"
 
@@ -317,7 +317,7 @@ $ ** (for set grouping information, see the comment at the end-of-file)
 
 122 "G"
 
-124 "Grille affichée"
+124 "Grille affichÃ©e"
 
 128 "B"
 
@@ -357,19 +357,19 @@ $ ** (for set grouping information, see the comment at the end-of-file)
 
 168 "G"
 
-170 "Généralités..."
+170 "GÃ©nÃ©ralitÃ©s..."
 
 172 "T"
 
-174 "Tâches..."
+174 "TÃ¢ches..."
 
 176 "R"
 
-178 "Référence..."
+178 "RÃ©fÃ©rence..."
 
 180 "u"
 
-182 "Sur l'élément"
+182 "Sur l'Ã©lÃ©ment"
 
 188 "i"
 
@@ -377,16 +377,16 @@ $ ** (for set grouping information, see the comment at the end-of-file)
 
 192 "A"
 
-194 "A propos de l'éditeur d'icônes..."
+194 "A propos de l'Ã©diteur d'icÃ´nes..."
 
 196 "A"
 
 198 "Aide"
 $ ** message 200-are used in the "instruction" line for current drawing mode  
 
-200 "Mode d'édition en cours:"
+200 "Mode d'Ã©dition en cours:"
 
-202 "(Coloré)"
+202 "(ColorÃ©)"
 
 204 "Crayon"
 
@@ -406,7 +406,7 @@ $ ** message 200-are used in the "instruction" line for current drawing mode
 
 220 "Effacer"
 
-222 "Sélection"
+222 "SÃ©lection"
 
 224 "Non valide"
 
@@ -417,10 +417,10 @@ $ ** _DtMessage set for help.c
 $ **  
 $ *****************************************************************************  
 
-2 "Editeur d'icônes - Aide"
+2 "Editeur d'icÃ´nes - Aide"
 
-4 "Vous devez sélectionner un élément\n\
-dans l'éditeur d'icônes."
+4 "Vous devez sÃ©lectionner un Ã©lÃ©ment\n\
+dans l'Ã©diteur d'icÃ´nes."
 
 $set 16        Redefine set#
 
@@ -430,33 +430,33 @@ $ **
 $ *****************************************************************************  
 
 2 "Le fichier est inaccessible ou\n\
-contient des données non valides."
+contient des donnÃ©es non valides."
 
-4 "Impossible d'écrire les données dans le fichier."
+4 "Impossible d'Ã©crire les donnÃ©es dans le fichier."
 
 6 "Cette fonction n'est pas encore disponible."
 
-8 "Aucune image précédente\n\
+8 "Aucune image prÃ©cÃ©dente\n\
 disponible."
 
 10 "Largeur et/ou hauteur\n\
-spécifiée(s) non valide(s)."
+spÃ©cifiÃ©e(s) non valide(s)."
 
-12 "Aucune zone sélectionnée."
+12 "Aucune zone sÃ©lectionnÃ©e."
 
-14 "Aucune zone n'a encore été\n\
-coupée ou copiée."
+14 "Aucune zone n'a encore Ã©tÃ©\n\
+coupÃ©e ou copiÃ©e."
 
-16 "L'icône en cours n'a pas été sauvegardée.\n\n\
+16 "L'icÃ´ne en cours n'a pas Ã©tÃ© sauvegardÃ©e.\n\n\
 Vos modifications seront perdues."
 
-20 "Vérifiez les autorisations associées au fichier."
+20 "VÃ©rifiez les autorisations associÃ©es au fichier."
 
-22 "Impossible de restaurer la session à partir du fichier."
+22 "Impossible de restaurer la session Ã  partir du fichier."
 
-24 "La session n'a pas pu être sauvegardée dans le fichier."
+24 "La session n'a pas pu Ãªtre sauvegardÃ©e dans le fichier."
 
-25 "Ce fichier existe déjà.\n\n\
+25 "Ce fichier existe dÃ©jÃ .\n\n\
 Voulez-vous le remplacer ?"
 
 $set 18
@@ -466,7 +466,7 @@ $ **
 $ *****************************************************************************
 $quote
 
-2 Taille de l'image capturée = %dx%d
+2 Taille de l'image capturÃ©e = %dx%d
 
 $ ****************************************************************************  
 $ ** End of _DtMessage Catalog File  

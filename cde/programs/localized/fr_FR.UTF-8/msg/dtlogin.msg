@@ -57,13 +57,13 @@ $
 $ messages 7 through 11 are options button menu items   
 $    
 
-7 "Restauration de l'écran de connexion"
+7 "Restauration de l'Ã©cran de connexion"
 
-8 "Connexion à partir de la ligne de commande"
+8 "Connexion Ã  partir de la ligne de commande"
 
 9 "Version..."
 
-10 "Session monofenêtre"
+10 "Session monofenÃªtre"
 
 11 "Langue"
 $    
@@ -92,22 +92,22 @@ $
 18 "* Interruption de la connexion au Bureau CDE...\r\n\
 *\r\n"
 
-19 "* Appuyez sur [Entrée] pour afficher une invite de connexion.\r\n\
+19 "* Appuyez sur [EntrÃ©e] pour afficher une invite de connexion.\r\n\
 *\r\n"
 
-20 "* Connexion. Le Bureau CDE sera relancé peu après la déconnexion.\r\n\
+20 "* Connexion. Le Bureau CDE sera relancÃ© peu aprÃ¨s la dÃ©connexion.\r\n\
 *\r\n"
 
 21 "* Reprise de la connexion au Bureau CDE...\r\n\
 *\r\n"
 
-22 "* Lancement de la connexion au Bureau CDE sur l'écran %1$s...\r\n\
+22 "* Lancement de la connexion au Bureau CDE sur l'Ã©cran %1$s...\r\n\
 *\r\n"
 
-23 "* Attendez que l'écran de connexion du Bureau CDE s'affiche pour vous connecter.\r\n\
+23 "* Attendez que l'Ã©cran de connexion du Bureau CDE s'affiche pour vous connecter.\r\n\
 *\r\n"
 
-24 "* Le serveur X ne peut pas être lancé sur l'écran %1$s...\r\n\
+24 "* Le serveur X ne peut pas Ãªtre lancÃ© sur l'Ã©cran %1$s...\r\n\
 *\r\n"
 $ messages 25 is a options button menu item   
 
@@ -123,7 +123,7 @@ $
 $ 27 replaces 10 as the label for the failsafe option menu item
 $quote
 $ 
-27 Session monofenêtre
+27 Session monofenÃªtre
 
 $ 
 $  Sun specific message catalog id numbers in MC_LABEL_SET messages.
@@ -134,7 +134,7 @@ $
 $ 
 $  Following used in Language menu.  
 $  "to" used in phrases like "ja to zh" locales
-74 à
+74 Ã 
 
 
 $set 2
@@ -143,9 +143,9 @@ $ set 2 is error messages
 $    
 
 $quote "
-1 "Connexion incorrecte ; réessayez."
+1 "Connexion incorrecte ; rÃ©essayez."
 
-2 "Impossible de passer au répertoire home."
+2 "Impossible de passer au rÃ©pertoire home."
 
 3 "Impossible d'ouvrir une session. Le nombre maximal d'utilisateurs est atteint."
 $ message 4 is a lengthy message that should be localized to correspond to    
@@ -155,7 +155,7 @@ $ the language.
 Vous devez choisir un mot de passe initial pour \n\
 votre compte, ou votre mot de passe actuel n'est \n\
 plus valable.\n\n\
-Après avoir défini votre mot de passe,\n\
+AprÃ¨s avoir dÃ©fini votre mot de passe,\n\
 vous devez vous connecter de nouveau\n\
 en vous servant du nouveau mot de passe."
 
@@ -163,15 +163,15 @@ en vous servant du nouveau mot de passe."
 
 6 "Erreur de connexion, ID de groupe non valide."
 
-7 "Erreur de connexion, ID de vérification non valide."
+7 "Erreur de connexion, ID de vÃ©rification non valide."
 
-8 "Erreur de connexion, option de vérification non valide."
+8 "Erreur de connexion, option de vÃ©rification non valide."
 
 9 "Les connexions ne sont pas actives."
 
-10 "Seul l'utilisateur root peut exécuter %1$s.\n"
+10 "Seul l'utilisateur root peut exÃ©cuter %1$s.\n"
 
-11 "Reconstitution de la liste de langues par défaut à partir de %1$s.\n"
+11 "Reconstitution de la liste de langues par dÃ©faut Ã  partir de %1$s.\n"
 
 12 "Relecture des fichiers de configuration et de serveurs.\n"
 
@@ -179,9 +179,9 @@ en vous servant du nouveau mot de passe."
 
 14 "Relecture du fichier de serveurs %1$s.\n"
 
-15 "Relecture du fichier d'accès %1$s.\n"
+15 "Relecture du fichier d'accÃ¨s %1$s.\n"
 
-16 "dtlogin: mémoire saturée pour la routine.\n"
+16 "dtlogin: mÃ©moire saturÃ©e pour la routine.\n"
 
 $set 3
 
@@ -215,49 +215,49 @@ $
 1 "\n\
 Connexion - Aide :\n\
 \n\
-Remplissez l'écran de connexion pour vous\n\
-identifier auprès du système.\n\n\
+Remplissez l'Ã©cran de connexion pour vous\n\
+identifier auprÃ¨s du systÃ¨me.\n\n\
 \n\
 Pour vous connecter :\n\
-       1) Tapez votre nom d'utilisateur et appuyez sur <Entrée>,\n\
-          ou cliquez sur [OK] (si vous n'avez pas créé d'utilisateur,\n\
+       1) Tapez votre nom d'utilisateur et appuyez sur <EntrÃ©e>,\n\
+          ou cliquez sur [OK] (si vous n'avez pas crÃ©Ã© d'utilisateur,\n\
           entrez \"root\" comme nom d'utilisateur).\n\
-       2) Tapez votre mot de passe et appuyez sur <Entrée>,\n\
+       2) Tapez votre mot de passe et appuyez sur <EntrÃ©e>,\n\
           ou cliquez sur [OK].\n\n\
 \n\
 [Lancement] :\n\
-    Effacez les données que vous avez entrées\n\
+    Effacez les donnÃ©es que vous avez entrÃ©es\n\
     et recommencez.\n\n\
 \n\
 [Options] :\n\
    Permet de modifier les options de la session.\n\
 \n\
-   Amenez le pointeur sur Options et maintenez enfoncé \n\
+   Amenez le pointeur sur Options et maintenez enfoncÃ© \n\
    le bouton 1 de la souris. Faites glisser le pointeur \n\
-   sur l'option voulue et relâchez le bouton de la \n\
-   souris pour sélectionner la fonction appropriée. \n\
+   sur l'option voulue et relÃ¢chez le bouton de la \n\
+   souris pour sÃ©lectionner la fonction appropriÃ©e. \n\
    Les choix possibles sont :\n\n\
 \n\
-    Langue - change la langue utilisée\n\
-   Session - sélectionne le Bureau de l'utilisateur\n\
+    Langue - change la langue utilisÃ©e\n\
+   Session - sÃ©lectionne le Bureau de l'utilisateur\n\
              favori\n\
-      En cours - lance votre plus récente session\n\
-      Initiale - lance votre session initiale (si vous en avez créé une)\n\
-      <nom d'affichage> - En cours - lance votre session la plus récente pour\n\
-          l'écran donné\n\
+      En cours - lance votre plus rÃ©cente session\n\
+      Initiale - lance votre session initiale (si vous en avez crÃ©Ã© une)\n\
+      <nom d'affichage> - En cours - lance votre session la plus rÃ©cente pour\n\
+          l'Ã©cran donnÃ©\n\
       <nom d'affichage> - Initiale - lance votre session initiale pour\n\
-          l'écran donné\n\
-       Session  mono-fenêtre- lance une session mono-fenêtre.\n\
-   Connexion à partir de la ligne de commande - passe à la ligne de commande\n\
+          l'Ã©cran donnÃ©\n\
+       Session  mono-fenÃªtre- lance une session mono-fenÃªtre.\n\
+   Connexion Ã  partir de la ligne de commande - passe Ã  la ligne de commande\n\
    Ecran de connexion - relance le serveur X-r\n\
 \n\
-Cliquez sur l'arrière-plan à l'aide de l'un des boutons\n\
-de la souris pour régénérer l'écran, lorsqu'il est rendu\n\
-illisible par l'apparition de messages système.\n\n\
+Cliquez sur l'arriÃ¨re-plan Ã  l'aide de l'un des boutons\n\
+de la souris pour rÃ©gÃ©nÃ©rer l'Ã©cran, lorsqu'il est rendu\n\
+illisible par l'apparition de messages systÃ¨me.\n\n\
 \n\
-Pour afficher des informations d'aide supplémentaires,\n\
-ouvrez une session puis cliquez sur l'icône du Gestionnaire\n\
-d'aidesituée sur le tableau de bord. (représentée par des \n\
+Pour afficher des informations d'aide supplÃ©mentaires,\n\
+ouvrez une session puis cliquez sur l'icÃ´ne du Gestionnaire\n\
+d'aidesituÃ©e sur le tableau de bord. (reprÃ©sentÃ©e par des \n\
 livres et un point d'interrogation. \n\
 Consultez ensuite le volume d'aide concernant le Gestionnaire \n\
 de connexion.\n"
@@ -267,76 +267,76 @@ $ message 2 is generated when you attempt to start a system whose id is
 $ set to unknown or if it is not configured for networking.   
 
 2 "\n\
-Il est recommandé d'attribuer un nom unique à votre \n\
-station de travail, qui est actuellement identifiée \n\
+Il est recommandÃ© d'attribuer un nom unique Ã  votre \n\
+station de travail, qui est actuellement identifiÃ©e \n\
 par \"inconnue\".\n\n"
 $ message 3 is generated when the help button on the chooser screen is clicked.   
 
 3 "\n\
-Sélecteur - Aide\n\n\
-Cet écran permet de choisir le serveur avec lequel la connexion\n\
-doit être établie.\n\n\
-Il contient une liste dont les entrées sont divisées en deux\n\
-parties. La première indique les noms de réseau des serveurs\n\
-disponibles, la seconde contient des informations dépendantes\n\
-du gestionnaire de connexion qui s'exécute sur le serveur \n\
-concerné. Lorsque le Bureau CDE est installé sur un serveur,\n\
-le nombre d'utilisateurs (ou terminaux tty) connectés s'affiche,\n\
-ainsi que l'utilisation moyenne de la mémoire au cours des\n\
-5, 10 et 15 dernières minutes.\n\n\
-Pour choisir un serveur, sélectionnez la ligne\n\
+SÃ©lecteur - Aide\n\n\
+Cet Ã©cran permet de choisir le serveur avec lequel la connexion\n\
+doit Ãªtre Ã©tablie.\n\n\
+Il contient une liste dont les entrÃ©es sont divisÃ©es en deux\n\
+parties. La premiÃ¨re indique les noms de rÃ©seau des serveurs\n\
+disponibles, la seconde contient des informations dÃ©pendantes\n\
+du gestionnaire de connexion qui s'exÃ©cute sur le serveur \n\
+concernÃ©. Lorsque le Bureau CDE est installÃ© sur un serveur,\n\
+le nombre d'utilisateurs (ou terminaux tty) connectÃ©s s'affiche,\n\
+ainsi que l'utilisation moyenne de la mÃ©moire au cours des\n\
+5, 10 et 15 derniÃ¨res minutes.\n\n\
+Pour choisir un serveur, sÃ©lectionnez la ligne\n\
 correspondante.\n\n\
-Une fois cette opération effectuée, sélectionnez le bouton\n\
-OK ; l'écran de connexion au serveur choisi s'affiche.\n\n\
-[Mettre la liste à jour]\n\
+Une fois cette opÃ©ration effectuÃ©e, sÃ©lectionnez le bouton\n\
+OK ; l'Ã©cran de connexion au serveur choisi s'affiche.\n\n\
+[Mettre la liste Ã  jour]\n\
    Cette option permet de remplacer la liste en cours par \n\
    celle des serveurs avec lesquels la connexion est possible.\n\n\
 [Options]\n\
    Cette option permet de modifier les options de la session.\n\n\
    Amenez le pointeur sur ce bouton, appuyez sur le bouton 1\n\
-   de la souris et maintenez-le enfoncé. Pour sélectionner une\n\
-   option, amenez le pointeur dessus, puis relâchez le bouton\n\
+   de la souris et maintenez-le enfoncÃ©. Pour sÃ©lectionner une\n\
+   option, amenez le pointeur dessus, puis relÃ¢chez le bouton\n\
    de la souris. Les options disponibles sont les suivantes :\n\n\
-   Langue (permet de modifier la langue utilisée)\n\
+   Langue (permet de modifier la langue utilisÃ©e)\n\
    Ecran de connexion (permet de relancer le serveur X)\n\n\
-Pour régénérer l'écran lorsqu'il est rendu illisible par\n\
-l'apparition de messages système, cliquez sur l'arrière-plan\n\
-à l'aide de l'un des boutons de la souris.\n\n"
+Pour rÃ©gÃ©nÃ©rer l'Ã©cran lorsqu'il est rendu illisible par\n\
+l'apparition de messages systÃ¨me, cliquez sur l'arriÃ¨re-plan\n\
+Ã  l'aide de l'un des boutons de la souris.\n\n"
 
 $set 4
 
 $ set 4 is log error messages   
 $    
 
-1 "Fichier d'accès \"%1$s\", hôte \"%2$s\" introuvable.\n"
+1 "Fichier d'accÃ¨s \"%1$s\", hÃ´te \"%2$s\" introuvable.\n"
 
 2 "ReadHostEntry\n"
 
-3 "Fichier d'accès %1$2s, écran %1$2s inconnu.\n"
+3 "Fichier d'accÃ¨s %1$2s, Ã©cran %1$2s inconnu.\n"
 
-4 "Impossible d'ouvrir le fichier de contrôle d'accès %1%s, aucune demande XDMCP ne sera acceptée.\n"
+4 "Impossible d'ouvrir le fichier de contrÃ´le d'accÃ¨s %1%s, aucune demande XDMCP ne sera acceptÃ©e.\n"
 
-5 "Erreur de vérification d'identité domaine/OS: %1$s (%2$s/%3$s)."
+5 "Erreur de vÃ©rification d'identitÃ© domaine/OS: %1$s (%2$s/%3$s)."
 
 6 "Impossible d'ouvrir le fichier d'autorisation du serveur %1$s.\n"
 
-7 "Impossible d'écrire le fichier d'autorisation du serveur %1$s.\n"
+7 "Impossible d'Ã©crire le fichier d'autorisation du serveur %1$s.\n"
 
 8 "saveAddr"
 
-9 "Erreur lors de l'obtention de la configuration d'interface de réseau."
+9 "Erreur lors de l'obtention de la configuration d'interface de rÃ©seau."
 
 10 "setAuthNumber"
 
 11 "Impossible de verrouiller le fichier d'autorisation %1$s ou de sauvegarde %2$s.\n"
 
-12 "Impossible de déplacer le fichier d'autorisation.\n"
+12 "Impossible de dÃ©placer le fichier d'autorisation.\n"
 
-13 "Impossible de créer ou de verrouiller le fichier de pid %1$s.\n"
+13 "Impossible de crÃ©er ou de verrouiller le fichier de pid %1$s.\n"
 
 14 "Impossible de verrouiller le fichier de pid %1$s, un autre processus Dtlogin est en cours (pid %2$d).\n"
 
-15 "Impossible d'accéder au fichiers de serveurs %1$s.\n"
+15 "Impossible d'accÃ©der au fichiers de serveurs %1$s.\n"
 
 16 "NewDisplay"
 
@@ -344,35 +344,35 @@ $
 
 18 "TrimErrorLog(): la taille maximale du journal des erreurs est 200 ko.\n"
 
-19 "Le fichier de serveurs ne contient pas de nom d'écran.\n"
+19 "Le fichier de serveurs ne contient pas de nom d'Ã©cran.\n"
 
-20 "Type d'écran manquant pour %1$s.\n"
+20 "Type d'Ã©cran manquant pour %1$s.\n"
 
-21 "Le nom hôte %1$s est incorrect. Valeur attribuée à DISPLAY: 0.\n"
+21 "Le nom hÃ´te %1$s est incorrect. Valeur attribuÃ©e Ã  DISPLAY: 0.\n"
 
-22 "Le type %1$s ne correspond pas à l'écran %2$s.\n"
+22 "Le type %1$s ne correspond pas Ã  l'Ã©cran %2$s.\n"
 
-23 "Dépassement de délai de la pseudo restauration.\n"
+23 "DÃ©passement de dÃ©lai de la pseudo restauration.\n"
 
 24 "GetResource"
 
-25 "Espace insuffisant pour la réallocation d'argument.\n"
+25 "Espace insuffisant pour la rÃ©allocation d'argument.\n"
 
 26 "Impossible d'ouvrir le fichier de configuration %1$s.\n"
 
-27 "Arguments supplémentaires sur la ligne de commande:"
+27 "Arguments supplÃ©mentaires sur la ligne de commande:"
 
 28 "StartServer(): pas d'argument.\n"
 
-29 "Le serveur %1$s ne peut pas être exécuté.\n"
+29 "Le serveur %1$s ne peut pas Ãªtre exÃ©cutÃ©.\n"
 
 30 "Echec du fork de StartServer(), veille.\n"
 
-31 "Défaillance inattendue du serveur.\n"
+31 "DÃ©faillance inattendue du serveur.\n"
 
-32 "Erreur liée à XOpenDisplay(%1$s), tentative #%2$d, abandon.\n"
+32 "Erreur liÃ©e Ã  XOpenDisplay(%1$s), tentative #%2$d, abandon.\n"
 
-33 "La tentative #%1$d d'ouverture du serveur a échoué pour %2$s, abandon.\n"
+33 "La tentative #%1$d d'ouverture du serveur a Ã©chouÃ© pour %2$s, abandon.\n"
 
 34 "Erreur d'E-S fatale %d (%1$s).\n"
 
@@ -380,43 +380,43 @@ $
 
 36 "Echec du lancement de la session.\n"
 
-37 "AVERTISSEMENT: protection impossible de l'écran %1$s.\n"
+37 "AVERTISSEMENT: protection impossible de l'Ã©cran %1$s.\n"
 
-38 "AVERTISSEMENT: protection impossible du clavier associé à l'écran %1$s.\n"
+38 "AVERTISSEMENT: protection impossible du clavier associÃ© Ã  l'Ã©cran %1$s.\n"
 
-39 "BLS - Impossible d'obtenir les informations de comptabilité..\n"
+39 "BLS - Impossible d'obtenir les informations de comptabilitÃ©..\n"
 
-40 "BLS - Impossible d'obtenir les informations de comptabilité protégées.\n"
+40 "BLS - Impossible d'obtenir les informations de comptabilitÃ© protÃ©gÃ©es.\n"
 
-41 "BLS - Impossible de vérifier le niveau de sensibilité.\n"
+41 "BLS - Impossible de vÃ©rifier le niveau de sensibilitÃ©.\n"
 
-42 "BLS - Impossible de passer à l'utilisateur: %1$s.\n"
+42 "BLS - Impossible de passer Ã  l'utilisateur: %1$s.\n"
 
 43 "AFS - Echec de setgroups() lors du lancement de la session.\n"
 
 44 "Echec de setuid pour l'utilisateur %s, errno = %d.\n"
 
-45 "Pas de répertoire home %1$s pour l'utilisateur %2$s, utilisation de /\n"
+45 "Pas de rÃ©pertoire home %1$s pour l'utilisateur %2$s, utilisation de /\n"
 
-46 "Echec de l'exéecution de la session %1$s.\n"
+46 "Echec de l'exÃ©ecution de la session %1$s.\n"
 
 47 "Pas de commande/argument pour la session.\n"
 
-48 "Impossible de lancer la session pour %s, échec de fork.\n"
+48 "Impossible de lancer la session pour %s, Ã©chec de fork.\n"
 
-49 "Dtlogin ne peut pas exécuter kill pour le client.\n"
+49 "Dtlogin ne peut pas exÃ©cuter kill pour le client.\n"
 
-50 "Impossible d'exécuter %1$s.\n"
+50 "Impossible d'exÃ©cuter %1$s.\n"
 
-51 "Fork impossible pour l'exécution de %1$s.\n"
+51 "Fork impossible pour l'exÃ©cution de %1$s.\n"
 
-52 "Nom de vérification d'identité \"%1$s\" incorrect. Utilisez AFS, Kerberos ou la valeur par défaut.\n"
+52 "Nom de vÃ©rification d'identitÃ© \"%1$s\" incorrect. Utilisez AFS, Kerberos ou la valeur par dÃ©faut.\n"
 
-53 "Impossible d'exécuter Dtgreet %1$s pour %2$s.\n"
+53 "Impossible d'exÃ©cuter Dtgreet %1$s pour %2$s.\n"
 
-54 "Fork impossible pour l'exécution de Dtgreet %1$s.\n"
+54 "Fork impossible pour l'exÃ©cution de Dtgreet %1$s.\n"
 
-55 "Echec de la création de prise sur le port %1$d.\n"
+55 "Echec de la crÃ©ation de prise sur le port %1$d.\n"
 
 56 "Erreur lors de la liaison de l'adresse de prise %1$d, errno = %2$d.\n"
 
@@ -426,37 +426,37 @@ $
 
 59 "parseArgs"
 
-60 "La lecture du répertoire %1$s a pris plus de %2$d secondes. Abandon...\n"
+60 "La lecture du rÃ©pertoire %1$s a pris plus de %2$d secondes. Abandon...\n"
 
-61 "%s appartient à plus de %1$d groupes, %2$s ignoré.\n"
+61 "%s appartient Ã  plus de %1$d groupes, %2$s ignorÃ©.\n"
 
-62 "Erreur liée à audwrite(): l'appelant n'est pas le superutilisateur.\n"
+62 "Erreur liÃ©e Ã  audwrite(): l'appelant n'est pas le superutilisateur.\n"
 
-63 "Erreur liée à audwrite(): numéro d'événement incorrect dans l'enregistrement de vérification.\n"
+63 "Erreur liÃ©e Ã  audwrite(): numÃ©ro d'Ã©vÃ©nement incorrect dans l'enregistrement de vÃ©rification.\n"
 
-64 "Erreur liée à audwrite(): errno = %1$d.\n"
+64 "Erreur liÃ©e Ã  audwrite(): errno = %1$d.\n"
 
-65 "Echec de la vérification d'identité AFS: %1$s.\n"
+65 "Echec de la vÃ©rification d'identitÃ© AFS: %1$s.\n"
 
-66 "Le compte de %1$s est périmé. Adressez-vous à l'administrateur système.\n"
+66 "Le compte de %1$s est pÃ©rimÃ©. Adressez-vous Ã  l'administrateur systÃ¨me.\n"
 
-67 "Arrêt du serveur %1$s.\n"
+67 "ArrÃªt du serveur %1$s.\n"
 
 68 "Impossible d'ouvrir le fichier bitmap du logo: %1$s.\n"
 
-69 "Impossible de lire le catalogue de messages \"%1$s\". Utilisation de la langue par défaut."
+69 "Impossible de lire le catalogue de messages \"%1$s\". Utilisation de la langue par dÃ©faut."
 
-70 "Impossible d'initialiser l'écran %1$s. Saisie probable du serveur.\n"
+70 "Impossible d'initialiser l'Ã©cran %1$s. Saisie probable du serveur.\n"
 
-71 "(%1$s): La largeur du passe-partout de l'écran de connexion est supérieure à celle de l'écran, utilisation de la valeur par défaut. Unité de mesure: pixels.\n"
+71 "(%1$s): La largeur du passe-partout de l'Ã©cran de connexion est supÃ©rieure Ã  celle de l'Ã©cran, utilisation de la valeur par dÃ©faut. UnitÃ© de mesure: pixels.\n"
 
-72 "(%1$s) La hauteur du passe-partout de l'écran de connexion est supérieure à celle de l'écran, utilisation de la valeur par défaut. Unité de mesure: pixels.\n"
+72 "(%1$s) La hauteur du passe-partout de l'Ã©cran de connexion est supÃ©rieure Ã  celle de l'Ã©cran, utilisation de la valeur par dÃ©faut. UnitÃ© de mesure: pixels.\n"
 
 $set 5
 
 $ set 5 is for other stuff specific to chooser.   
 
-1 "Sélectionnez le serveur auquel vous voulez vous connecter:"
+1 "SÃ©lectionnez le serveur auquel vous voulez vous connecter:"
 $ 1 is the title/instructions for the chooser dialog   
 
 2 "Nom du serveur                 Informations"
@@ -464,7 +464,7 @@ $                                ^
 $                                | This needs to start in this column   
 $ 2 is the headings for the list   
 
-3 "Mettre la liste à jour"
+3 "Mettre la liste Ã  jour"
 
 $set 99
 

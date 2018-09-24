@@ -62,10 +62,10 @@ $ error dialog.
 $ This is the label for the error dialog which occurs when the user enters  
 $ and invalid password into the password dialog.  
 
-3 "Le mot de passe entré ne correspond pas\n\
+3 "Le mot de passe entrÃ© ne correspond pas\n\
 au mot de passe de l'utilisateur %s.\n\n\
-Entrez-le de nouveau ou sélectionnez\n\
-Annuler pour mettre fin à l'opération."
+Entrez-le de nouveau ou sÃ©lectionnez\n\
+Annuler pour mettre fin Ã  l'opÃ©ration."
 $ This is the title for the password error dialog  
 
 4 "Appel d'actions - Erreur de mot de passe"
@@ -83,13 +83,13 @@ $ collect the user's password.
 $ This is the message displayed in the 'unknown user' dialog  
 
 8 "%s est un nom d'utilisateur inconnu.\n\n\
-L'action demandée ne sera pas exécutée."
+L'action demandÃ©e ne sera pas exÃ©cutÃ©e."
 $ This is the title for the 'unknown user' dialog  
 
 9 "Appel d'actions - Utilisateur inconnu"
 $ This is for when the user has failed to supply an action name  
 
-10 "Aucun nom d'action n'a été indiqué.\n"
+10 "Aucun nom d'action n'a Ã©tÃ© indiquÃ©.\n"
 $ This is for when we are unable to open the display  
 
 11 "Impossible d'ouvrir l'affichage."

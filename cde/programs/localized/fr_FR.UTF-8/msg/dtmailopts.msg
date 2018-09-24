@@ -21,19 +21,19 @@ $ ** You can edit this comment and add comments below each message.
 
 1 "Messagerie - Options de messagerie"
 
-2 "Catégorie:"
+2 "CatÃ©gorie:"
 
-3 "Liste des en-têtes de message"
+3 "Liste des en-tÃªtes de message"
 
 4 "Vue message"
 
-5 "Fenêtre de composition"
+5 "FenÃªtre de composition"
 
 6 "Archivage des messages"
 
-7 "Congés"
+7 "CongÃ©s"
 
-8 "Modèles"
+8 "ModÃ¨les"
 
 9 "Alias"
 
@@ -41,9 +41,9 @@ $ ** You can edit this comment and add comments below each message.
 
 11 "Afficher pour: destinataire lorsque le courrier provient de moi"
 
-12 "Afficher numéros de message"
+12 "Afficher numÃ©ros de message"
 
-13 "Délai vérification nouveau courrier:"
+13 "DÃ©lai vÃ©rification nouveau courrier:"
 
 14 "Secondes"
 
@@ -55,17 +55,17 @@ $ ** You can edit this comment and add comments below each message.
 
 18 "Ecran"
 
-19 "En-têtes"
+19 "En-tÃªtes"
 
-20 "Supprimer messages effacés:"
+20 "Supprimer messages effacÃ©s:"
 
-21 "A la fermeture de la boîte aux lettres"
+21 "A la fermeture de la boÃ®te aux lettres"
 
 22 "Afficher demande de confirmation"
 
-23 "L'en-tête abrégé ne comportera pas:"
+23 "L'en-tÃªte abrÃ©gÃ© ne comportera pas:"
 
-24 "Zones d'en-tête:"
+24 "Zones d'en-tÃªte:"
 
 25 "x-lignes"
 
@@ -73,7 +73,7 @@ $ ** You can edit this comment and add comments below each message.
 
 27 "expire"
 
-28 "Zones masquées:"
+28 "Zones masquÃ©es:"
 
 29 "Ajouter"
 
@@ -81,9 +81,9 @@ $ ** You can edit this comment and add comments below each message.
 
 31 "Modifier"
 
-33 "Rangées"
+33 "RangÃ©es"
 
-34 "Largeur des caractères"
+34 "Largeur des caractÃ¨res"
 
 36 "Affichage liste des connexions"
 
@@ -95,41 +95,41 @@ $ ** You can edit this comment and add comments below each message.
 
 40 "bcc"
 
-41 "retour-reçu"
+41 "retour-reÃ§u"
 
 42 "Etiquette de menu:"
 
-50 "Zone d'en-tête:"
+50 "Zone d'en-tÃªte:"
 
-51 "Valeur par défaut:"
+51 "Valeur par dÃ©faut:"
 
-52 "Chaîne d'indentation"
+52 "ChaÃ®ne d'indentation"
 
-53 "Inclure dans réponse:"
+53 "Inclure dans rÃ©ponse:"
 
 54 "Chemin / Nom de fichier:"
 
 55 "Commencer consultation:"
 
-57 "Déplacer menu"
+57 "DÃ©placer menu"
 
 58 "et Copie dans menu:"
 
-59 "Afficher jusqu'à:"
+59 "Afficher jusqu'Ã :"
 
-60 "Boîtes aux lettres récemment consultées"
+60 "BoÃ®tes aux lettres rÃ©cemment consultÃ©es"
 
-61 "Boîte aux lettres affectée aux messages:"
+61 "BoÃ®te aux lettres affectÃ©e aux messages:"
 
 62 "Consignation de tous les messages"
 
-63 "Congés:"
+63 "CongÃ©s:"
 
 64 "EF"
 
 65 "HF"
 
-66 "Avant congés = jeter"
+66 "Avant congÃ©s = jeter"
 
 67 "Objet:"
 
@@ -139,7 +139,7 @@ $ ** You can edit this comment and add comments below each message.
 
 71 "Etiquette de menu:"
 
-72 "Modèles:"
+72 "ModÃ¨les:"
 
 73 "Alias:"
 
@@ -147,23 +147,23 @@ $ ** You can edit this comment and add comments below each message.
 
 75 "Alias:"
 
-76 "Mise à jour boîte aux lettres:"
+76 "Mise Ã  jour boÃ®te aux lettres:"
 
-77 "Fréquente"
+77 "FrÃ©quente"
 
 78 "Occasionnelle"
 
-79 "Par défaut:"
+79 "Par dÃ©faut:"
 
 80 "Affichage des avis de confirmation"
 
 81 "Utiliser le codage MIME strict"
 
-82 "Utiliser verrouillage de fichier courrier sensible au réseau"
+82 "Utiliser verrouillage de fichier courrier sensible au rÃ©seau"
 
-83 "Ignorer nom hôte dans adresse (allnet)"
+83 "Ignorer nom hÃ´te dans adresse (allnet)"
 
-84 "Inclusion lorsque je \"Réponds à tous\" (moi_aussi)"
+84 "Inclusion lorsque je \"RÃ©ponds Ã  tous\" (moi_aussi)"
 
 85 "Utiliser nom local: nom_utilisateur ="
 
@@ -192,12 +192,12 @@ $	"Category" option menu in the "Mailer - Options" dialog.
 $	This menu button is used to select printing options pane.
 $	This message is in the same menu as messages 4 - 10 above.
 $ "NEW-"
-93 "Récupération Courrier"
+93 "RÃ©cupÃ©ration Courrier"
 
 $ 
 $	Used to construct the label on the confirm attachment in the
 $	compose pane.
 $ "NEW-"
-94 "Confirmer pièces-jointes après:"
+94 "Confirmer piÃ¨ces-jointes aprÃ¨s:"
 $ "NEW-"
 95 "kilooctets"

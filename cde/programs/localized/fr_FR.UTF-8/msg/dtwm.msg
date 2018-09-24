@@ -125,7 +125,7 @@ $ YOU DON'T NEED TO LOCALIZE THIS MESSAGE
 $    This is the message in the confirm dialog for logging out of DT Lite
 $  You'll see it when pressing the Exit button from DT lite
 
-9 "Déconnexion ?"
+9 "DÃ©connexion ?"
 $    This is the message in the confirm dialog for restarting dtwm
 
 10 "Relancer le Gestionnaire de l'espace de travail ?"
@@ -135,11 +135,11 @@ $    This is the message in the confirm dialog for quitting dtwm
 $    This is the message in the confirm dialog for toggling to standard
 $         PM (Presentation Manager) behavior from custom behavior
 
-12 "Comportement par défaut ?"
+12 "Comportement par dÃ©faut ?"
 $    This is the message in the confirm dialog for toggling back from
 $         PM (Presentation Manager) behavior to custom behavior
 
-13 "Comportement personnalisé ?"
+13 "Comportement personnalisÃ© ?"
 
 $set 26        Redefine set#
 
@@ -147,7 +147,7 @@ $    THIS COMMENT FOR DTWM TEAM ONLY -- WmFunction.c --
 $    This entire set is written to an error file.
 $ YOU DON'T NEED TO LOCALIZE THIS SET.
 
-1 "Echec du redémarrage du gestionnaire de fenêtres. Programme introuvable ou impossible à exécuter."
+1 "Echec du redÃ©marrage du gestionnaire de fenÃªtres. Programme introuvable ou impossible Ã  exÃ©cuter."
 
 2 "Failed to unmanage screen %d"
 
@@ -169,18 +169,18 @@ $    THIS COMMENT FOR DTWM TEAM ONLY -- WmHelp.c --
 $    Messages 1 and 2 go to an error file.
 $ YOU DON'T NEED TO LOCALIZE MESSAGES 1-2
 
-1 "sélection objet: souris inaccessible"
+1 "sÃ©lection objet: souris inaccessible"
 
-2 "Echec de l'aide sur l'élément. Un autre programme utilise la souris."
+2 "Echec de l'aide sur l'Ã©lÃ©ment. Un autre programme utilise la souris."
 $ Message 3 is an error message that appears when you are using Item Help
 $ and select on something outside of the Workspace Manager
 
-3 "Vous devez sélectionner une boîte de dialogue du Gestionnaire\n\
-de l'espace de travail, un élément du tableau de bord\n\
-ou un élément d'un panneau secondaire."
+3 "Vous devez sÃ©lectionner une boÃ®te de dialogue du Gestionnaire\n\
+de l'espace de travail, un Ã©lÃ©ment du tableau de bord\n\
+ou un Ã©lÃ©ment d'un panneau secondaire."
 $ Message 4 is the title of the Help On Item Error dialog
 
-4 "Gestionnaire de l'espace de travail - Erreur d'aide sur l'élément"
+4 "Gestionnaire de l'espace de travail - Erreur d'aide sur l'Ã©lÃ©ment"
 
 $set 30        Redefine set#
 
@@ -251,7 +251,7 @@ $
 $   The mnemonic should also be chosen such such that it does not
 $        conflict with another mnemonic in the menu.
 
-3 "\"Compacter icônes\" _p  Alt Maj<Key>F7 f.pack_icons\n"
+3 "\"Compacter icÃ´nes\" _p  Alt Maj<Key>F7 f.pack_icons\n"
 $    This message goes to an error file.
 $ YOU DON'T NEED TO LOCALIZE THIS MESSAGE
 
@@ -319,7 +319,7 @@ $ DO NOT LOCALIZE MESSAGES 1 THROUGH 13.
 13 "Insufficient memory for screen names"
 $     This is the default title for the icon box
 
-14 "Icônes"
+14 "IcÃ´nes"
 $    Message 15 goes to an error file.
 $ YOU DON'T NEED TO LOCALIZE THIS MESSAGE
 
@@ -400,10 +400,10 @@ $    THIS COMMENT FOR DTWM TEAM ONLY -- WmPresence.c --
 $    This message goes to an error file.
 $ YOU DON'T NEED TO LOCALIZE THIS MESSAGE.
 
-1 "Impossible de créer une boîte de dialogue pour l'espace de travail."
+1 "Impossible de crÃ©er une boÃ®te de dialogue pour l'espace de travail."
 $    This tells what window the occupy workspace dialog is operating on.
 
-2 "Fenêtre:"
+2 "FenÃªtre:"
 $    This is the label for the workspace list in the occupy workspace dialog
 
 3 "Espaces de travail:"
@@ -414,10 +414,10 @@ $        from the occupy workspace dialog
 $    This message goes to an error file.
 $ YOU DON'T NEED TO LOCALIZE THIS MESSAGE.
 
-5 "Mémoire insuffisante pour créer boîte de dialogue d'occupation de l'espace de travail."
+5 "MÃ©moire insuffisante pour crÃ©er boÃ®te de dialogue d'occupation de l'espace de travail."
 $    This tells what window the occupy workspace dialog is operating on.
 
-6 "Icône:"
+6 "IcÃ´ne:"
 
 $set 54        Redefine set#
 
@@ -693,20 +693,20 @@ $    This item normalizes a window
 49 "Restaurer _R  f.restore"
 $    This item moves a window
 
-50 "Déplacer _D  f.move"
+50 "DÃ©placer _D  f.move"
 $    This item resizes a window
 
 51 "Dimensionner _m  f.resize"
 $    This item changes a window into an icon
 
-52 "Réduire _u  f.minimize"
+52 "RÃ©duire _u  f.minimize"
 $    This item makes a window as large as allowed (determined by a number
 $         of factors)
 
 53 "Agrandir _A  f.maximize"
 $    This item lowers a window below other windows
 
-54 "Derrière _i  f.lower"
+54 "DerriÃ¨re _i  f.lower"
 $    This item brings up the occupy workspace dialog.  The character
 $    sequence  "\\.\\.\\."  will appear as "..." in the menu . DO NOT CHANGE
 $    THE  "\\.\\.\\."  CHARACTERS
@@ -721,7 +721,7 @@ $    This item removes a window from a workspace.  This item will appear in
 $    in the menu as  "Unoccupy Workspace"  with the first e in the title underlined
 $    to indicate this is a mnemonic for this item.
 
-57 "Libérer\\ espace\\ de\\ travail _b  f.remove"
+57 "LibÃ©rer\\ espace\\ de\\ travail _b  f.remove"
 $    This is the default title of the "occupy workspace" dialog
 
 59 "Occuper l'espace de travail"
@@ -731,15 +731,15 @@ $    similarly to their corresponding item above.
 
 60 "Restaurer _R Alt<Key>F5 f.restore"
 
-61 "Déplacer _c  Alt<Key>F7   f.move"
+61 "DÃ©placer _c  Alt<Key>F7   f.move"
 
 62 "Dimensionner _n  Alt<Key>F8   f.resize"
 
-63 "Réduire _u  Alt<Key>F9 f.minimize"
+63 "RÃ©duire _u  Alt<Key>F9 f.minimize"
 
 64 "Agrandir _x  Alt<Key>F10 f.maximize"
 
-65 "Derrière _r  Alt<Key>F3   f.lower"
+65 "DerriÃ¨re _r  Alt<Key>F3   f.lower"
 $    Messages 66 to 68 go to an error file.
 $ YOU DON'T NEED TO LOCALIZE MESSAGES 66 TO 68.
 
@@ -778,9 +778,9 @@ $    THIS COMMENT FOR DTWM TEAM ONLY -- WmWrkspace.c --
 $    This entire set is written to an error file.
 $ YOU DON'T NEED TO LOCALIZE THIS SET.
 
-1 "Mémoire insuffisante pour caractéristique occupation espace de travail"
+1 "MÃ©moire insuffisante pour caractÃ©ristique occupation espace de travail"
 
-2 "Mémoire insuffisante pour caractéristique occupation espace de travail"
+2 "MÃ©moire insuffisante pour caractÃ©ristique occupation espace de travail"
 
 3 "Insufficient memory to update workspace info"
 
@@ -804,7 +804,7 @@ $ YOU DON'T NEED TO LOCALIZE THIS SET.
 
 13 "Insufficient memory to save resources."
 
-14 "Le nombre maximal d'espaces de travail est %d. Aucun nouvel espace de travail n'a été créé."
+14 "Le nombre maximal d'espaces de travail est %d. Aucun nouvel espace de travail n'a Ã©tÃ© crÃ©Ã©."
 
 $set 82        Redefine set#
 
@@ -812,34 +812,34 @@ $    THIS COMMENT FOR DTWM TEAM ONLY -- PopupMenu.c --
 $    This entire set should be localized.
 $ Message 1 is the title of the Delete Locked Control Error dialog
 
-1 "Gestionnaire de l'espace de travail - Erreur de suppression d'objet de commande verrouillé"
+1 "Gestionnaire de l'espace de travail - Erreur de suppression d'objet de commande verrouillÃ©"
 $ Message 2 is the title of the Delete Control dialog
 
 2 "Gestionnaire de l'espace de travail - Supprimer objet de commande"
 $ Message 3 is the title of the Delete Locked Subpanel Error dialog
 
-3 "Gestionnaire de l'espace de travail - Erreur de suppression de panneau secondaire verrouillé"
+3 "Gestionnaire de l'espace de travail - Erreur de suppression de panneau secondaire verrouillÃ©"
 $ Message 4 is the title of the Delete Subpanel dialog
 
 4 "Gestionnaire de l'espace de travail - Supprimer panneau secondaire"
 $ Message 5 is the message in the Delete Locked Control Error dialog
 
-5 "Cet objet de commande est verrouillé ; il ne peut pas être supprimé."
+5 "Cet objet de commande est verrouillÃ© ; il ne peut pas Ãªtre supprimÃ©."
 $ Message 6 is the message in the Delete Control dialog
 
-6 "Etes-vous sûr(e) de vouloir supprimer cet objet de commande ?"
+6 "Etes-vous sÃ»r(e) de vouloir supprimer cet objet de commande ?"
 $ Message 7 is the message in the Delete Locked Subpanel Error dialog
 
-7 "Ce panneau secondaire est verrouillé ; il ne peut pas être supprimé."
+7 "Ce panneau secondaire est verrouillÃ© ; il ne peut pas Ãªtre supprimÃ©."
 $ Message 8 is the message in the Delete Control dialog when more than
 $ exits in the subpanel to be deleted.
 
 8 "Ce panneau secondaire contient plusieurs objets de\n\
-commande. Etes-vous sûr(e) de vouloir le supprimer ?"
+commande. Etes-vous sÃ»r(e) de vouloir le supprimer ?"
 $ Message 9 is the message in the Delete Control dialog when only the
 $ copy of the main panel control exists in the subpanel.
 
-9 "Etes-vous sûr(e) de vouloir supprimer ce panneau secondaire ?"
+9 "Etes-vous sÃ»r(e) de vouloir supprimer ce panneau secondaire ?"
 $ Message 10 - 19 are the menu title, menu items, and mnemonics in the
 $ Main/Subpanel Menu.
 $ 
@@ -910,17 +910,17 @@ $ Message 31 - 40 are the pieces for the deletion dialogs
 31 "Supprimer un objet de commande:"
 
 32 "Si vous supprimez cet objet de commande, vous ne pourrez\n\
-pas le restaurer à l'aide de la zone de pose \"Installer une icône\".\n\n\
-Vous pourrez la restaurer ultérieurement à l'aide de l'action \n\
+pas le restaurer Ã  l'aide de la zone de pose \"Installer une icÃ´ne\".\n\n\
+Vous pourrez la restaurer ultÃ©rieurement Ã  l'aide de l'action \n\
 \"RestaurerPanneau\" du Gestionnaire d'applications.\n\n\
 Voulez-vous vraiment supprimer cet objet de commande ?"
 
 33 "Supprimer le panneau secondaire:"
 
 34 "Si vous supprimez ce panneau secondaire, vous ne pourrez\n\
-pas restaurer la totalité des objets de commande qu'il contient\n\
-à l'aide de la zone de pose \"Installer une icône\".\n\n\
-Vous pourrez le restaurer ultérieurement à l'aide de l'action \n\
+pas restaurer la totalitÃ© des objets de commande qu'il contient\n\
+Ã  l'aide de la zone de pose \"Installer une icÃ´ne\".\n\n\
+Vous pourrez le restaurer ultÃ©rieurement Ã  l'aide de l'action \n\
 \"Restaurer panneau\" du Gestionnaire d'applications.\n\n\
 Voulez-vous vraiment supprimer ce panneau secondaire ?"
 $ Used for the name of a newly created workspace.
@@ -928,7 +928,7 @@ $ Used for the name of a newly created workspace.
 35 "Nouveau"
 $ Used for Install Icon title in Install Icon popup menu.
 
-36 "Icône d'installation"
+36 "IcÃ´ne d'installation"
 
 $set 84        Redefine set#
 
@@ -937,7 +937,7 @@ $    This entire set should be localized.
 $ 
 $ Message used for the label of the dynamic install area.
 
-1 "Installer une icône"
+1 "Installer une icÃ´ne"
 
 $set 86        Redefine set#
 
@@ -947,23 +947,23 @@ $ The next two messages are used for workspace naming errors
 
 1 "Gestionnaire de l'espace de travail - Erreur nouveau nom"
 
-2 "Le nom de l'espace de travail est non valide ou existe déjà."
+2 "Le nom de l'espace de travail est non valide ou existe dÃ©jÃ ."
 $ The next three messages are used for the dynamical install error dialog.
 
-3 "Gestionnaire de l'espace de travail - Erreur d'installation d'icône"
+3 "Gestionnaire de l'espace de travail - Erreur d'installation d'icÃ´ne"
 
-4 "Installer une icône:"
+4 "Installer une icÃ´ne:"
 $ Messages 5 and 6 are old. They are replaced by messaged 8 and 9.
 
-5 "Ce nom est déjà attribué à une icône."
+5 "Ce nom est dÃ©jÃ  attribuÃ© Ã  une icÃ´ne."
 
 6 "Erreur de commande"
 
 7 "Fichier introuvable"
 
-8 "Une icône de ce nom existe déjà."
+8 "Une icÃ´ne de ce nom existe dÃ©jÃ ."
 
-9 "Gestionnaire de l'espace de travail - Erreur d'action sur icône"
+9 "Gestionnaire de l'espace de travail - Erreur d'action sur icÃ´ne"
 
 $set 99        Redefine set#
 

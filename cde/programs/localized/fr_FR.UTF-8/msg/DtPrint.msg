@@ -72,9 +72,9 @@ $quote
 
 $ Label values
 $ 
-2 Imprimantes supplémentaires...
+2 Imprimantes supplÃ©mentaires...
 3 Imprimer dans le fichier :
-4 Sélectionner le fichier...
+4 SÃ©lectionner le fichier...
 5 Annuler
 6 Exemplaires :
 7 Aide
@@ -87,7 +87,7 @@ $ Warning messages
 $ Note: do not localize the chars %s
 12 Le nombre de copies est hors limites.
 13 Le mode de configuration de l'impression est incorrect.
-14 Le mode de configuration de l'impression ne peut pas être modifié.
+14 Le mode de configuration de l'impression ne peut pas Ãªtre modifiÃ©.
 
 $ Label values
 $ 
@@ -99,16 +99,16 @@ $ Note: do not localize the chars %s
 17 L'imprimante %s ne se trouve pas sur le serveur d'imprimante %s
 18 Impossible de se connecter au serveur d'imprimante %s
 19 Le serveur X %s ne prend pas l'impression en charge
-20 Impossible de définir une imprimante par défaut
+20 Impossible de dÃ©finir une imprimante par dÃ©faut
 21 Impossible de trouver un serveur d'impression X print pour %s
 22 Pas de nom d'imprimante dans l'identificateur : %s
 23 La destination de l'impression est incorrecte.
-24 Conversion du texte composé impossible.
-25 Pas d'argument nécessaire pour la conversion de la ressource.
+24 Conversion du texte composÃ© impossible.
+25 Pas d'argument nÃ©cessaire pour la conversion de la ressource.
 
 $ Label values
 $ 
-26 Sélectionner l'erreur d'imprimante
+26 SÃ©lectionner l'erreur d'imprimante
 
 $ Warning messages
 $ Note: do not localize the chars %s
@@ -117,12 +117,12 @@ $ Note: do not localize the chars %s
 $ Label values
 $ 
 28 pas de description
-29 Sélectionner le fichier
+29 SÃ©lectionner le fichier
 30 Information de l'imprimante
 31 Format:
-32 Modèle de l'imprimante :
+32 ModÃ¨le de l'imprimante :
 33 Imprimantes:
-34 Imprimantes supplémentaires
+34 Imprimantes supplÃ©mentaires
 35 Imprimer sur l'imprimante
 36 Nom du fichier:
 37 Configuration de l'impression - Aide
@@ -146,11 +146,11 @@ $
 $ 
 $ Label values for Header/Footer Frame
 $ 
-6 "En-têtes et pieds de page"
-7 "Supérieur gauche :"
-8 "Supérieur droit :"
-9 "Inférieur gauche :"
-10 "Inférieur droit :"
+6 "En-tÃªtes et pieds de page"
+7 "SupÃ©rieur gauche :"
+8 "SupÃ©rieur droit :"
+9 "InfÃ©rieur gauche :"
+10 "InfÃ©rieur droit :"
 
 $set 3
 $ *************************************************************
@@ -163,5 +163,5 @@ $quote
 
 $ Label values for Margin Frame
 1 Envoyer le courrier 
-2 Titre de la page bannière :
+2 Titre de la page banniÃ¨re :
 3 Imprimer les options de commande :

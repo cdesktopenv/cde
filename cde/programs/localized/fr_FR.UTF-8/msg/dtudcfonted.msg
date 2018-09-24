@@ -21,46 +21,46 @@ $ ** _DtMessage set for ufont.c
 $ *****************************************************************************
 
 $ This is footer message when registration of the character.
-2 Enregistrement en cours à l'intérieur.
+2 Enregistrement en cours Ã  l'intÃ©rieur.
 
 $ Message4-8 are error messages when registration of the character.
-4 L'enregistrement du caractère a échoué.
+4 L'enregistrement du caractÃ¨re a Ã©chouÃ©.
 6 Code incorrect.
-8 Impossible d'ajouter parce que l'allocation de mémoire est impossible.
+8 Impossible d'ajouter parce que l'allocation de mÃ©moire est impossible.
 
 $ Message10-16 are error messages when copying of the character.
-10 Le caractère du code spécifié n'existe pas.
-12 Il y a une erreur dans le code d'origine de la copie spécifiée.
-14 Il y a une erreur dans le code de destination de la copie spécifiée.
-16 Il n'y a pas de caractère dans la zone spécifiée.
+10 Le caractÃ¨re du code spÃ©cifiÃ© n'existe pas.
+12 Il y a une erreur dans le code d'origine de la copie spÃ©cifiÃ©e.
+14 Il y a une erreur dans le code de destination de la copie spÃ©cifiÃ©e.
+16 Il n'y a pas de caractÃ¨re dans la zone spÃ©cifiÃ©e.
 
 $ This is footer message.
-18 Patientez un moment, s'il vous plaît.
+18 Patientez un moment, s'il vous plaÃ®t.
 
 $ This is error message when copying of the character.
-20 Le fichier de code d'origine de la copie n'est pas spécifié.
+20 Le fichier de code d'origine de la copie n'est pas spÃ©cifiÃ©.
 
 $ Message22-24 are error message of user defined character
-22 Les informations du caractère défini par l'utilisateur ne peuvent pas être recueillies.\nAucune police spécifiée.
-24 Les informations du caractère défini par l'utilisateur ne peuvent pas être recueillies.\nPlusieurs polices sont spécifiées.
+22 Les informations du caractÃ¨re dÃ©fini par l'utilisateur ne peuvent pas Ãªtre recueillies.\nAucune police spÃ©cifiÃ©e.
+24 Les informations du caractÃ¨re dÃ©fini par l'utilisateur ne peuvent pas Ãªtre recueillies.\nPlusieurs polices sont spÃ©cifiÃ©es.
 
 $ UDC is User Defined Character.
-26 Il n'existe pas de zones UDC pour les polices spécifiées.
+26 Il n'existe pas de zones UDC pour les polices spÃ©cifiÃ©es.
 
-28 Mémoire épuisée.
-30 L'information de la zone UDC est illégale.
-32 Erreur de lecture du fichier de police.\nLa zone de modèles est brisée.
+28 MÃ©moire Ã©puisÃ©e.
+30 L'information de la zone UDC est illÃ©gale.
+32 Erreur de lecture du fichier de police.\nLa zone de modÃ¨les est brisÃ©e.
 
 $ Dtudcfonted is name of this application.
-34 Dtudcfonted ne peut pas modifier les polices de caractères proportionnelles.
+34 Dtudcfonted ne peut pas modifier les polices de caractÃ¨res proportionnelles.
 
-36 Des modifications n'ont pas été sauvegardées.\nVoulez-vous les sauvegarder avant l'ouverture ?
-38 Des modifications n'ont pas été sauvegardées.\nVoulez-vous les sauvegarder avant de quitter ?
-40 Au cours du traitement des copies, l'image glyphe \n des plages suivantes est modifiée.\nProcéder au traitement des copies ?\n\n
-42 Pas de droit en écriture pour cette police. Changez le mode d'accès du fichier avant de le sauvegarder.\n
+36 Des modifications n'ont pas Ã©tÃ© sauvegardÃ©es.\nVoulez-vous les sauvegarder avant l'ouverture ?
+38 Des modifications n'ont pas Ã©tÃ© sauvegardÃ©es.\nVoulez-vous les sauvegarder avant de quitter ?
+40 Au cours du traitement des copies, l'image glyphe \n des plages suivantes est modifiÃ©e.\nProcÃ©der au traitement des copies ?\n\n
+42 Pas de droit en Ã©criture pour cette police. Changez le mode d'accÃ¨s du fichier avant de le sauvegarder.\n
 
 $ There are user-visible labels in font-open dialog.
-100 Sélectionner les éléments
+100 SÃ©lectionner les Ã©lÃ©ments
 102 -        Jeu de codes :
 104 -          Style:
 106 -          Largeur :
@@ -71,7 +71,7 @@ $ There are user-visible labels in font-open dialog.
 $ There are user-visible labels in menubar.
 114 Police
 116 Edition
-118 Caractère
+118 CaractÃ¨re
 120 Information
 
 $ There are user-visible labels in File menu.
@@ -90,7 +90,7 @@ $ Message135 is copy of cut&copy
 138 Faire pivoter
 140 Rotation verticale
 142 Rotation horizontale
-144 Défaire
+144 DÃ©faire
 
 $ There are user-visible labels in Character menu.
 $ Message148 is copy of character
@@ -125,10 +125,10 @@ $ There are user-visible labels in delete notice dialog.
 $ This format is `Message180 (?? Message182)' and `Message184 (?? Message186)'.
 $ These Message180 and Message182 are used in only one character.
 $ These Message184 and Message186 are used in plural characters.
-180 Le caractère suivant sera supprimé.
-182 caractère
-184 Les caractères suivants seront supprimés.
-186 caractères
+180 Le caractÃ¨re suivant sera supprimÃ©.
+182 caractÃ¨re
+184 Les caractÃ¨res suivants seront supprimÃ©s.
+186 caractÃ¨res
 188 Registre complet
 190 Code :
 192 Plage du code :
@@ -138,22 +138,22 @@ $ There are footer message label.
 
 $ There are user-visible labels in code dialog.
 196 code...
-198 Page précédente
+198 Page prÃ©cÃ©dente
 200 Page suivante
 202 Appliquer
 
 $ There are title.
-204 Editeur de caractère défini par l'utilisateur : Question
-206 Editeur de caractère défini par l'utilisateur: Avertissement
-208 Editeur de caractère défini par l'utilisateur: Erreur
+204 Editeur de caractÃ¨re dÃ©fini par l'utilisateur : Question
+206 Editeur de caractÃ¨re dÃ©fini par l'utilisateur: Avertissement
+208 Editeur de caractÃ¨re dÃ©fini par l'utilisateur: Erreur
 
 $ There are error message of libfal.
 300 Une erreur fatale a eu lieu.
 301 Impossible d'ouvrir le fichier de polices.
 302 Impossible de lire le fichier de polices.
-303 Mémoire épuisée.
+303 MÃ©moire Ã©puisÃ©e.
 304 Une erreur fatale a eu lieu.
-305 Le fichier de polices spécifié n'existe pas.
+305 Le fichier de polices spÃ©cifiÃ© n'existe pas.
 306 Ce n'est pas une police pcf ou snf.
 307 Impossible d'ouvrir le fichier de liste de polices.
 308 Le format du fichier de liste de polices est incorrect.
@@ -161,16 +161,16 @@ $ There are error message of libfal.
 310 Le format du fichier de liste de polices est incorrect.
 311 Impossible d'ouvrir le fichier rep. de polices.
 312 Impossible de lire le fichier rep. de polices.
-313 Impossible de lire les propriétés des polices.
-314 Impossible d'obtenir la propriété de FONT.
-315 Impossible d'obtenir la propriété de FAMILY_NAME.
-316 Ce fichier de polices est déjà ouvert dans une autre application.
+313 Impossible de lire les propriÃ©tÃ©s des polices.
+314 Impossible d'obtenir la propriÃ©tÃ© de FONT.
+315 Impossible d'obtenir la propriÃ©tÃ© de FAMILY_NAME.
+316 Ce fichier de polices est dÃ©jÃ  ouvert dans une autre application.
 317 Impossible de verrouiller le fichier de polices.
-318 Impossible de déverrouiller le fichier de polices.
-319 Impossible d'obtenir l'information de verrou à partir du fichier de polices.
-320 Impossible de trouver le fichier de polices spécifié.
-321 Impossible de lire la base de données NLS.
-322 Impossible d'obtenir les noms charset de la base de données NLS.
-323 Le nom de Charset n'est pas défini dans la base de données NLS.
-324 Le fichier de polices spécifié n'a pas été ouvert.
+318 Impossible de dÃ©verrouiller le fichier de polices.
+319 Impossible d'obtenir l'information de verrou Ã  partir du fichier de polices.
+320 Impossible de trouver le fichier de polices spÃ©cifiÃ©.
+321 Impossible de lire la base de donnÃ©es NLS.
+322 Impossible d'obtenir les noms charset de la base de donnÃ©es NLS.
+323 Le nom de Charset n'est pas dÃ©fini dans la base de donnÃ©es NLS.
+324 Le fichier de polices spÃ©cifiÃ© n'a pas Ã©tÃ© ouvert.
 325 Une erreur fatale a eu lieu.

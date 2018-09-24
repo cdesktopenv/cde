@@ -44,7 +44,7 @@ $
 $  This is the message that appears in the "Printer:" field when no  
 $  printer name has been specified.  
 
-10 "Par défaut"
+10 "Par dÃ©faut"
 $  This is the label that appears in the title bar of the print dialog.  
 
 20 "Imprimer"
@@ -57,16 +57,16 @@ $  This is the label for the field indicating the name of the printer.
 $  This is the message that will appear in the "Printer:" field if no printer  
 $  has been specified.  
 
-50 "Par défaut"
+50 "Par dÃ©faut"
 $  This is the label for the field indicating the number of copies to print.  
 
 60 "Exemplaires:"
 $  This is the label for the field indicating the title for the banner page.  
 
-70 "Titre de la page bannière:"
+70 "Titre de la page banniÃ¨re:"
 $  This is the label for the field indicating if page numbers are to be added.  
 
-80 "Imprimer les numéros de page"
+80 "Imprimer les numÃ©ros de page"
 $  This is thef label for the field indicating additional options for the  
 $  "lp" command.  
 
@@ -99,11 +99,11 @@ $  or does not exist.
 $  This message is added to the error dialog when the file is not readable   
 $  by the user invoking dtlp.  
 
-134 "Vous n'êtes pas autorisé à lire ce fichier."
+134 "Vous n'Ãªtes pas autorisÃ© Ã  lire ce fichier."
 $  This message is added to the error dialog when there is a general failure   
 $  in setting up to print.  
 
-136 "Vérifiez que ce fichier existe."
+136 "VÃ©rifiez que ce fichier existe."
 $  This is the label that appears in the title bar of the error dialog.  
 
 160 "Informations"
@@ -116,7 +116,7 @@ $  This is the label for the field indicating the file(s) that will be printed.
 
 $  This is used as the window title of the Select Printer dialog and a button
 $  in that dialog.
-180 "Sélectionner l'imprimante"
+180 "SÃ©lectionner l'imprimante"
 
 $  This is the label for the printer list in the Select Printer dialog.
 190 "Imprimantes disponibles :"
@@ -131,7 +131,7 @@ $  File is not printable or does not exist.
 210 "Ce fichier n'est pas imprimable ou n'existe pas."
 
 $  File is not printable or does not exist.
-220 "Aucune imprimante définie par le système ou aucune imprimante en service."
+220 "Aucune imprimante dÃ©finie par le systÃ¨me ou aucune imprimante en service."
 
 $  Printer does not exist.
 230 "L'imprimante n'existe pas."
@@ -140,13 +140,13 @@ $  Printer is not enabled.
 240 "L'imprimante n'est pas en service."
 
 $  No default printer.
-250 "Pas de destination d'imprimante par défaut."
+250 "Pas de destination d'imprimante par dÃ©faut."
 
 $  Printer not accepting requests.
 260 "L'imprimante n'accepte plus de demandes."
 
 $  Number of copies is not a positive integer.
-270 "Le nombre de copies doit être un nombre positif."
+270 "Le nombre de copies doit Ãªtre un nombre positif."
 
 
 $set 99        Redefine set#

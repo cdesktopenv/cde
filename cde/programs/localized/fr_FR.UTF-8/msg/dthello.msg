@@ -43,7 +43,7 @@ Lancement en cours...\n\n"
 $    Default startup message (written before the contents  
 $    of the default file, /etc/copyright).  
 
-3 "Démarrage \n\
+3 "DÃ©marrage \n\
 du Bureau CDE\n\n"
 
 $set 4        Redefine set#
@@ -61,22 +61,22 @@ $ Messages 4 and 5 are both used when there is a syntax error on
 $ the command line invoking dthello  
 $   
 
-4 "Syntaxe: %s [-display <écran>] [-fg <couleur>] [-bg <couleur>]\\\n"
+4 "Syntaxe: %s [-display <Ã©cran>] [-fg <couleur>] [-bg <couleur>]\\\n"
 
 5 "[-font <police>] [-string <message>] [-file <nom>] [-timeout <secondes>]\n"
 $ _DtMessage 6 occurs when an font can't be loaded  
 $  the likely causes: (1) the font was incorrectly specified  
 $                     (2) it is not available on this server  
 
-6 "%1$s: L'écran %2$s ne reconnaît pas la police %3$s.\n"
+6 "%1$s: L'Ã©cran %2$s ne reconnaÃ®t pas la police %3$s.\n"
 
 7 "%1$s: Impossible d'ouvrir le fichier %2$s.\n"
 
-8 "%1$s: Impossible de définir l'arrière-plan à %2$s, utilisation de %3$s.\n"
+8 "%1$s: Impossible de dÃ©finir l'arriÃ¨re-plan Ã  %2$s, utilisation de %3$s.\n"
 
-9 "%1$s: Impossible de définir le premier plan à %2$s, utilisation de %3$s.\n"
+9 "%1$s: Impossible de dÃ©finir le premier plan Ã  %2$s, utilisation de %3$s.\n"
 
-10 "%s: Mémoire insuffisante (SeparateTextLines).\n"
+10 "%s: MÃ©moire insuffisante (SeparateTextLines).\n"
 
 $set 99        Redefine set#
 

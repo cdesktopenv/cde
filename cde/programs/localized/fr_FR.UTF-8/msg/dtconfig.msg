@@ -22,33 +22,33 @@ $quote "
 $set 10
 
 
-1 "ne peut être utilisé que par le super-utilisateur.\n"
+1 "ne peut Ãªtre utilisÃ© que par le super-utilisateur.\n"
 $  
 
-2 "L'environnement du Bureau AIXwindows est maintenant défini comme interface \n\
-utilisateur par défaut. Cette interface apparaît lors de la connexion de tous\n\
-les utilisateurs du système. Pour que cette modification soit prise en compte,\n\
-vous devez arrêter, puis redémarrer le système.\n"
+2 "L'environnement du Bureau AIXwindows est maintenant dÃ©fini comme interface \n\
+utilisateur par dÃ©faut. Cette interface apparaÃ®t lors de la connexion de tous\n\
+les utilisateurs du systÃ¨me. Pour que cette modification soit prise en compte,\n\
+vous devez arrÃªter, puis redÃ©marrer le systÃ¨me.\n"
 $  
 
-3 "La ligne de commande est maintenant définie comme interface \n\
-utilisateur par défaut. Cette interface apparaît lors de la \n\
-connexion de tous les utilisateurs du système. Pour que cette \n\
-modification soit prise en compte, vous devez arrêter, puis \n\
-redémarrer le système.\n"
+3 "La ligne de commande est maintenant dÃ©finie comme interface \n\
+utilisateur par dÃ©faut. Cette interface apparaÃ®t lors de la \n\
+connexion de tous les utilisateurs du systÃ¨me. Pour que cette \n\
+modification soit prise en compte, vous devez arrÃªter, puis \n\
+redÃ©marrer le systÃ¨me.\n"
 
-4 "L'environnement du Bureau AIXwindows est déjà défini comme interface \n\
-utilisateur par défaut.\n"
+4 "L'environnement du Bureau AIXwindows est dÃ©jÃ  dÃ©fini comme interface \n\
+utilisateur par dÃ©faut.\n"
 $  
 
-5 "La ligne de commande est déjà définie comme interface utilisateur par défaut.\n"
+5 "La ligne de commande est dÃ©jÃ  dÃ©finie comme interface utilisateur par dÃ©faut.\n"
 $  
 
 6 "Syntaxe: %s\n\
-  -e (démarrage automatique de dtlogin activé)\n\
-  -d (démarrage automatique de dtlogin désactivé)\n\
-  -kill (arrêt de dtlogin)\n\
-  -reset (réinitialisation de dtlogin, relecture des fichiers de configuration)\n"
+  -e (dÃ©marrage automatique de dtlogin activÃ©)\n\
+  -d (dÃ©marrage automatique de dtlogin dÃ©sactivÃ©)\n\
+  -kill (arrÃªt de dtlogin)\n\
+  -reset (rÃ©initialisation de dtlogin, relecture des fichiers de configuration)\n"
 $  
 
 7 "Trop d'arguments \n"
@@ -57,12 +57,12 @@ $
 8 "Un argument est requis\n"
 $  
 
-9 "Impossible de désactiver xdm ; consultez les pages man de xdm\n\
+9 "Impossible de dÃ©sactiver xdm ; consultez les pages man de xdm\n\
 et faites une nouvelle tentative.\n\
  "
 $  
 
-10 "Dtlogin n'est pas en cours d'exécution.\n"
+10 "Dtlogin n'est pas en cours d'exÃ©cution.\n"
 $ ***************************************************************************** 
 $ **  Message set 20: For Sun Platforms 
 $ ***************************************************************************** 
@@ -74,21 +74,21 @@ $
 1 "Utilitaide de configuration du Bureau CDE"
 $  
 
-2 "%s -d     (démarrage automatique désactivé)"
+2 "%s -d     (dÃ©marrage automatique dÃ©sactivÃ©)"
 
-3 "%s -e     (démarrage automatique activé)"
+3 "%s -e     (dÃ©marrage automatique activÃ©)"
 
-4 "%s -kill  (arrêt de dtlogin)"
+4 "%s -kill  (arrÃªt de dtlogin)"
 
-5 "%s -reset (réinitialisation de dtlogin)"
+5 "%s -reset (rÃ©initialisation de dtlogin)"
 
-6 "%s -p     (mise à jour de l'action d'impression)"
+6 "%s -p     (mise Ã  jour de l'action d'impression)"
 $  
 $ In above messages 2 through 6, only translate words between 
 $ left "(" and right "). 
 $  
 
-7 "%s: Ce script doit être exécuté en tant que root."
+7 "%s: Ce script doit Ãªtre exÃ©cutÃ© en tant que root."
 
 8 "Syntaxe: Trop d'arguments"
 
@@ -96,31 +96,31 @@ $
 
 10 "Echec de l'option."
 
-11 "Impossible d'exécuter %s."
+11 "Impossible d'exÃ©cuter %s."
 
-12 "Echec de la désactivation."
+12 "Echec de la dÃ©sactivation."
 
 13 "Impossible de supprimer %s."
 
-14 "terminé"
+14 "terminÃ©"
 
-15 "Le démarrage automatique du Bureau est désactivé."
+15 "Le dÃ©marrage automatique du Bureau est dÃ©sactivÃ©."
 
-16 "Echec de la désactivation."
+16 "Echec de la dÃ©sactivation."
 
 17 "%s est introuvable."
 
-18 "Impossible de créer %s."
+18 "Impossible de crÃ©er %s."
 
-19 "Impossible de créer %s."
+19 "Impossible de crÃ©er %s."
 
-20 "Le démarrage automatique du Bureau est activé."
+20 "Le dÃ©marrage automatique du Bureau est activÃ©."
 
-21 "dtlogin est arrêté (commande kill)."
+21 "dtlogin est arrÃªtÃ© (commande kill)."
 
-22 "Les ressources de configuration de dtlogin ont été rechargées."
+22 "Les ressources de configuration de dtlogin ont Ã©tÃ© rechargÃ©es."
 
-23 "La mise à jour de l'action d'impression est terminée."
+23 "La mise Ã  jour de l'action d'impression est terminÃ©e."
 
 24 "Syntaxe:"
 $ 
@@ -130,16 +130,16 @@ $
 $	In above messages 25 and 26, only translate words between
 $	left "(" and right ").
 $ 
-27 "A la prochaine initialisation, les éléments suivants seront exécutés à partir de /usr/dt/bin"
+27 "A la prochaine initialisation, les Ã©lÃ©ments suivants seront exÃ©cutÃ©s Ã  partir de /usr/dt/bin"
 $ 
 28 "    rpc.ttdbserverd         (ToolTalk)"
 29 "    rpc.cmsd                (Gestionnaire d'agenda)"
-30 "    dtspcd                  (Contrôle de sous procédure)"
+30 "    dtspcd                  (ContrÃ´le de sous procÃ©dure)"
 $ 
 $  Keep column allignment on messages 28 thru 30.  
 $  Only translate what's beteen ( )'s
 $ 
-31 " A la prochaine initialisation, les éléments suivants seront exécutés à partir de /usr/openwin/bin"
+31 " A la prochaine initialisation, les Ã©lÃ©ments suivants seront exÃ©cutÃ©s Ã  partir de /usr/openwin/bin"
 $ 
 32 "    rpc.ttdbserverd         (ToolTalk)"
 33 "    rpc.cmsd                (Gestionnaire d'agenda)"

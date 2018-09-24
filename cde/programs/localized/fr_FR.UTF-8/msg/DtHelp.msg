@@ -58,7 +58,7 @@ $ Messages 1 through 6 are the pulldown menus for the File menu.
 
 4 "F"
 
-5 "Nouvelle fenêtre..."
+5 "Nouvelle fenÃªtre..."
 
 6 "N"
 $ Messages 7 through 8 are the pulldown menus for the Edit menu.   
@@ -86,19 +86,19 @@ $ Messages 11 through 16 are the pulldown menus for the Navigate menu.
 16 "H"
 $ Messages 17 through 28 are the pulldown menus for the Help menu.   
 
-17 "Généralités - Aide sur l'aide"
+17 "GÃ©nÃ©ralitÃ©s - Aide sur l'aide"
 
 18 "G"
 
-19 "Table des matières"
+19 "Table des matiÃ¨res"
 
 20 "T"
 
-21 "Tâches"
+21 "TÃ¢ches"
 
 22 "T"
 
-23 "Référence"
+23 "RÃ©fÃ©rence"
 
 24 "R"
 
@@ -140,13 +140,13 @@ $ Messages 50 through 55 are used to display formatting errors within the
 $ help dialog and quick help dialog widgets.   
 $    
 
-50 "Mise en forme des données de la chaîne impossible."
+50 "Mise en forme des donnÃ©es de la chaÃ®ne impossible."
 
-51 "Mise en forme des données dynamiques de la chaîne impossible."
+51 "Mise en forme des donnÃ©es dynamiques de la chaÃ®ne impossible."
 
-52 "Mise en forme de la page de manuel impossible: elle n'existe pas ou elle est altérée."
+52 "Mise en forme de la page de manuel impossible: elle n'existe pas ou elle est altÃ©rÃ©e."
 
-53 "Mise en forme des données du fichier texte impossible: le fichier n'existe pas ou il est altéré."
+53 "Mise en forme des donnÃ©es du fichier texte impossible: le fichier n'existe pas ou il est altÃ©rÃ©."
 
 54 "Mise en forme du sujet d'aide impossible."
 
@@ -156,7 +156,7 @@ $ Messages 56 and 67 are displayed when a hypertext link type is selected but
 $ not supported within the current application.   
 $    
 
-56 "Cette application n'accepte pas le lien d'hypertexte sélectionné."
+56 "Cette application n'accepte pas le lien d'hypertexte sÃ©lectionnÃ©."
 
 57 "Cette application n'accepte pas les liens avec les pages de manuel."
 $    
@@ -164,11 +164,11 @@ $ Messages 58 through 62  are used when bad or null help volumes or
 $ locationId's are used.   
 $    
 
-58 "L'aide en ligne demandée n'est pas installée ou n'est pas dans le chemin d'aide adéquat. Pour plus de détails sur l'installation de l'aide en ligne, reportez-vous à la documentation sur le produit.\n"
+58 "L'aide en ligne demandÃ©e n'est pas installÃ©e ou n'est pas dans le chemin d'aide adÃ©quat. Pour plus de dÃ©tails sur l'installation de l'aide en ligne, reportez-vous Ã  la documentation sur le produit.\n"
 
-59 "Aucun ID d'emplacement spécifié."
+59 "Aucun ID d'emplacement spÃ©cifiÃ©."
 
-60 "Aucun volume d'aide spécifié."
+60 "Aucun volume d'aide spÃ©cifiÃ©."
 
 61 "Volume d'aide:"
 
@@ -184,7 +184,7 @@ $
 $    
 $ New messages added after early msg cat freeze; not in order   
 
-80 "Le type d'aide indiqué est incorrect."
+80 "Le type d'aide indiquÃ© est incorrect."
 
 $set 3        Redefine set#
 
@@ -193,7 +193,7 @@ $ These messages are used as labels for the History Dialog.
 
 1 "Utilitaire d'affichage de l'historique - Aide"
 
-2 "Volumes d'aide consultés:"
+2 "Volumes d'aide consultÃ©s:"
 
 3 "Fermer"
 
@@ -205,13 +205,13 @@ $ These messages are used as labels for the History Dialog.
 
 7 "Messages d'aide"
 
-8 "Sujets d'aide consultés:"
+8 "Sujets d'aide consultÃ©s:"
 
-9 "Fichiers d'aide consultés:"
+9 "Fichiers d'aide consultÃ©s:"
 
-10 "Pages de manuel consultées:"
+10 "Pages de manuel consultÃ©es:"
 
-11 "Messages d'aide consultés:"
+11 "Messages d'aide consultÃ©s:"
 
 $set 4        Redefine set#
 
@@ -242,13 +242,13 @@ $ 20-25: paper size label and sizes
 25 "B5 (182 x 257 mm)"
 $ 30-33: help volume-specific printing options   
 
-30 "Sujets à imprimer"
+30 "Sujets Ã  imprimer"
 
 31 "Sujet en cours"
 
 32 "Sujets en cours et sous-sujets"
 
-33 "Table des matières et index"
+33 "Table des matiÃ¨res et index"
 
 34 "Tous les sujets du volume"
 $ 40-42: buttons at bottom of dialog   
@@ -298,41 +298,41 @@ $ " (%s)"
 
 5 "Tous les volumes"
 
-6 "Sélection"
+6 "SÃ©lection"
 
-7 "Sélectionner les volumes..."
+7 "SÃ©lectionner les volumes..."
 
 8 "Afficher"
 
 9 "Index complet"
 
-10 "Entrées comportant:"
+10 "EntrÃ©es comportant:"
 
-11 "Aller à"
+11 "Aller Ã "
 
 12 "Lancer la recherche"
 
 13 "Continuer la recherche"
 
-14 "Arrêter la recherche"
+14 "ArrÃªter la recherche"
 
 15 "Fermer"
 
 16 "Aide"
 
-17 "Recherche en cours... Volumes détectés: %d"
+17 "Recherche en cours... Volumes dÃ©tectÃ©s: %d"
 
 18 "Recherche en cours... Volumes restants: %d"
 
-19 "Aucune entrée d'index détectée."
+19 "Aucune entrÃ©e d'index dÃ©tectÃ©e."
 
 20 "Index complet"
 
-21 "Entrées comportant \"%s\""
+21 "EntrÃ©es comportant \"%s\""
 
-22 "Aucun volume sélectionné"
+22 "Aucun volume sÃ©lectionnÃ©"
 
-23 "Sélectionnez les options de recherche ci-dessus."
+23 "SÃ©lectionnez les options de recherche ci-dessus."
 $ Do NOT translate messages 25-31   
 $ " "   
 
@@ -365,12 +365,12 @@ $ kind of topic messages
 35 "Format inconnu"
 $ specialized title of Search Volume Selection dialog   
 
-40 "Sélection d'un volume de recherche - Aide"
+40 "SÃ©lection d'un volume de recherche - Aide"
 $ additional messages (late addition caused this ordering)   
 
-50 "Aucune entrée d'index détectée. Lancez la recherche sur tous les volumes."
+50 "Aucune entrÃ©e d'index dÃ©tectÃ©e. Lancez la recherche sur tous les volumes."
 
-51 "Aucune entrée d'index détectée. Lancez la recherche sur un autre mot."
+51 "Aucune entrÃ©e d'index dÃ©tectÃ©e. Lancez la recherche sur un autre mot."
 
 60 "("
 
@@ -451,26 +451,26 @@ Echec de DtHelpReturnSelectedWidget().\n"
 $ Messages 10 and up were added after message catalogs were taken   
 $ for translation.  They are not in any order or chosen location.   
 
-10 "Exécuter"
+10 "ExÃ©cuter"
 
-11 "Ne pas exécuter"
+11 "Ne pas exÃ©cuter"
 
-12 "Le volume d'aide a tenté d'exécuter un alias de commande.\n\
-Or, celui-ci ('%s') n'est pas défini."
+12 "Le volume d'aide a tentÃ© d'exÃ©cuter un alias de commande.\n\
+Or, celui-ci ('%s') n'est pas dÃ©fini."
 
-13 "Le volume d'aide a tenté d'exécuter une commande. Or, pour des raisons\n\
-de sécurité, la fonction d'exécution automatique des commandes est \n\
-désactivée. La commande est la suivante : %s"
+13 "Le volume d'aide a tentÃ© d'exÃ©cuter une commande. Or, pour des raisons\n\
+de sÃ©curitÃ©, la fonction d'exÃ©cution automatique des commandes est \n\
+dÃ©sactivÃ©e. La commande est la suivante : %s"
 
-14 " Le volume d'aide a tenté d'exécuter une commande en tant qu'utilisateur root\n\
-mais le répertoire personnel de \"%s\"  ($HOME) ne correspond pas au répertoire \n\
-personnel de l'utilisateur root. Ceci peut conduire à l'exécution de commandes \n\
-non anticipées.\n\
+14 " Le volume d'aide a tentÃ© d'exÃ©cuter une commande en tant qu'utilisateur root\n\
+mais le rÃ©pertoire personnel de \"%s\"  ($HOME) ne correspond pas au rÃ©pertoire \n\
+personnel de l'utilisateur root. Ceci peut conduire Ã  l'exÃ©cution de commandes \n\
+non anticipÃ©es.\n\
 \n\
 La commande est la suivante :  \"%s\"\n\
 \n\
-Remarque : à l'avenir, pour éviter cela :\n\
- exécutez \"su - root\"  plutôt que \"su root\".\n"
+Remarque : Ã  l'avenir, pour Ã©viter cela :\n\
+ exÃ©cutez \"su - root\"  plutÃ´t que \"su root\".\n"
 $ End Message set 8   
 
 $set 9        Redefine set#
@@ -489,18 +489,18 @@ $ help dialog.
 
 4 "Index..."
 
-5 "Niveau supérieur"
+5 "Niveau supÃ©rieur"
 
 $set 10        Redefine set#
 
 $ *****  Module: VolSelect.c  *****   
 $ Message 1 is the default label used to label the volume selection dialog.   
 
-1 "Sélection d'un volume - Aide"
+1 "SÃ©lection d'un volume - Aide"
 
 2 "Volumes d'aide"
 
-3 "Sélectionnez un ou plusieurs volumes d'aide."
+3 "SÃ©lectionnez un ou plusieurs volumes d'aide."
 
 4 "Fermer"
 

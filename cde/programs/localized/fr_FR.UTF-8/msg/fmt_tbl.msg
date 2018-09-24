@@ -19,13 +19,13 @@ $ message #1 indicates the list of 2byte punctuation, special characters
 $ and double consonants that cannot start a line. 
 $  
 
-1 "<place list here>"
+1 "Â<place list here>"
 $  
 $ message #2 indicates the list of 2byte punctuation, special characters 
 $ and double consonants that cannot end a line. 
 $  
 
-2 "<place list here>"
+2 "Â<place list here>"
 $  
 $ message #3 indicates whether the language wants all end-of-lines in 
 $ text to be changed into spaces.  I.E.  in english if you had 

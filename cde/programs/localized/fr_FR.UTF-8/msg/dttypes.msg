@@ -26,7 +26,7 @@ $ Do not Translate
 8 ""
 $ Do not Translate  
 
-9 "chargé à partir de %s\n"
+9 "chargÃ© Ã  partir de %s\n"
 
 10 "Inconnu"
 
@@ -74,7 +74,7 @@ $ Translate "error" only
 
 25 "Syntaxe:  dttypes [-help]\n\
 \tdttypes [-type nom_fichier]\n\
-\tdttypes [-db base_données] [-w [rec_name reg_exp] [fld_name reg_exp]\n\
+\tdttypes [-db base_donnÃ©es] [-w [rec_name reg_exp] [fld_name reg_exp]\n\
 \t\t\t[fld_value reg_exp]]\n\
 \t\t[-l [rec_name] [rec_info] [fld_name reg_exp] [fld_value]]\n"
 $ Translate only the following: "filename" "database" "regexp"  
@@ -90,7 +90,7 @@ $ Do not Translate
 29 "--------------------- %s ----------------\n"
 $ Do not Translate  
 
-30 "Base de données incorrecte\n"
+30 "Base de donnÃ©es incorrecte\n"
 
 31 "Argument incorrect\n"
 
@@ -105,4 +105,4 @@ $ do not translate "-w" or "-l"
 35 "-help"
 $ Do not Translate  
 
-36 "erreur dans expression régulière %s\n"
+36 "erreur dans expression rÃ©guliÃ¨re %s\n"

@@ -51,13 +51,13 @@ $ *****  Module: PrintTopics.c *****
 $   
 $ ** LOCALIZE THESE MESSAGES **  
 
-1 "%s Erreur: Le type d'aide est par sujet, mais aucun volume d'aide n'est indiqué.\n"
+1 "%s Erreur: Le type d'aide est par sujet, mais aucun volume d'aide n'est indiquÃ©.\n"
 
 2 "%s Erreur: impossible de localiser le volume d'aide %s\n"
 
 3 "%s Erreur: erreur lors du traitement du volume d'aide %s\n"
 
-4 "%s Erreur: l'allocation de la mémoire n'a pas abouti\n"
+4 "%s Erreur: l'allocation de la mÃ©moire n'a pas abouti\n"
 
 5 "%s Erreur: impossible d'obtenir des informations sur le sujet:\n\
 volume %s, ID_emplacement %s\n"
@@ -68,7 +68,7 @@ $ String used to replace $SECTNUM when printing the index section
 10 "Index"
 $ String used to replace $SECTNUM when printing the table of contents section  
 
-11 "Table des matières"
+11 "Table des matiÃ¨res"
 $ ** DO NOT LOCALIZE THESE MESSAGES **  
 $ index entry, page number  
 
@@ -89,15 +89,15 @@ $ *****  Module: PrintManStrFile.c *****
 $   
 $ ** LOCALIZE THESE MESSAGES **  
 
-1 "%s Erreur: le type d'aide porte sur la chaine, mais aucune donnée de chaîne n'est indiquée.\n"
+1 "%s Erreur: le type d'aide porte sur la chaine, mais aucune donnÃ©e de chaÃ®ne n'est indiquÃ©e.\n"
 
-2 "%s Erreur: le type d'aide est chaîne dynamique, mais aucune donnée de chaîne n'est indiquée.\n"
+2 "%s Erreur: le type d'aide est chaÃ®ne dynamique, mais aucune donnÃ©e de chaÃ®ne n'est indiquÃ©e.\n"
 
-3 "%s Erreur: le type d'aide est page man, mais aucune page man n'est indiquée.\n"
+3 "%s Erreur: le type d'aide est page man, mais aucune page man n'est indiquÃ©e.\n"
 
-4 "%s Erreur: le type d'aide est fichier, mais aucun fichier d'aide n'est indiqué.\n"
+4 "%s Erreur: le type d'aide est fichier, mais aucun fichier d'aide n'est indiquÃ©.\n"
 
-5 "%s Erreur: l'allocation de mémoire n'a pas abouti\n"
+5 "%s Erreur: l'allocation de mÃ©moire n'a pas abouti\n"
 
 $set 5        Redefine set#
 
@@ -112,70 +112,70 @@ $ **DO LOCALIZE** the option argument (e.g. number) and description.
 
 2 "Syntaxe: dthelpprint [options]\n"
 
-3 "Options de contrôle d'impression:\n"
+3 "Options de contrÃ´le d'impression:\n"
 
-4 "\t-printer nom_imprimante  imprimante à utiliser\n"
+4 "\t-printer nom_imprimante  imprimante Ã  utiliser\n"
 
-5 "\t-copies nombre        nombre de copies à imprimer\n"
+5 "\t-copies nombre        nombre de copies Ã  imprimer\n"
 
-6 "\t-outputFile nom_fichier  écrire la sortie dans ce fichier\n"
+6 "\t-outputFile nom_fichier  Ã©crire la sortie dans ce fichier\n"
 
-7 "\t-paperSize taille     adapter l'impression au format de papier indiqué\n"
+7 "\t-paperSize taille     adapter l'impression au format de papier indiquÃ©\n"
 $ Do NOT localize the paper size names help_papersize_xxx  
 
 8 "\t\tsize = { help_papersize_letter|help_papersize_legal|\n"
 
 9 "\t\t         help_papersize_executive|help_papersize_a4|help_papersize_b5}\n"
 
-10 "\t-display nom_écran  écran à partir duquel obtenir les ressources\n"
+10 "\t-display nom_Ã©cran  Ã©cran Ã  partir duquel obtenir les ressources\n"
 
-11 "\t-name                 nom de programme à utiliser pour obtenir les ressources\n"
+11 "\t-name                 nom de programme Ã  utiliser pour obtenir les ressources\n"
 
-12 "\t-class                nom de classe à utiliser pour l'obtention des ressources\n"
+12 "\t-class                nom de classe Ã  utiliser pour l'obtention des ressources\n"
 
-13 "\t-xrm chaîne_ressource   ressources supplémentaires\n"
+13 "\t-xrm chaÃ®ne_ressource   ressources supplÃ©mentaires\n"
 
-14 "Options de contrôle d'impression:\n"
+14 "Options de contrÃ´le d'impression:\n"
 
-15 "\t-helpType type        type de données d'aide\n"
+15 "\t-helpType type        type de donnÃ©es d'aide\n"
 
-16 "\t\ttype = 0 (volume d'aide), 1 (chaîne), 2 (page man), 3 (fichier d'aide)\n"
+16 "\t\ttype = 0 (volume d'aide), 1 (chaÃ®ne), 2 (page man), 3 (fichier d'aide)\n"
 
-17 "\t-helpVolume volume    chemin d'accès complet du fichier de volume d'aide\n"
+17 "\t-helpVolume volume    chemin d'accÃ¨s complet du fichier de volume d'aide\n"
 
 18 "\t-locationId emplacement  nom du sujet d'aide dans le volume\n"
 
-19 "\t-all                  imprime les sujets, la table des matières et l'index du volume\n"
+19 "\t-all                  imprime les sujets, la table des matiÃ¨res et l'index du volume\n"
 
 20 "\t-sub                  impression des ID_emplacement et des sujets annexes\n"
 
 21 "\t-one                  impression de l'ID_emplacement\n"
 
-22 "\t-toc                  impression du volume d'aide de table des matières\n"
+22 "\t-toc                  impression du volume d'aide de table des matiÃ¨res\n"
 
 23 "\t-index                Impression du volume d'aide index\n"
 
-24 "\t-frontMatter          impression du volume d'aide en-tête\n"
+24 "\t-frontMatter          impression du volume d'aide en-tÃªte\n"
 
 25 "\t-manPage nom_pageman  nom de la page man\n"
 
-26 "\t-stringData chaîne    Texte d'aide à imprimer\n"
+26 "\t-stringData chaÃ®ne    Texte d'aide Ã  imprimer\n"
 
 27 "\t-helpFile nom_fichier    fichier contenant le texte d'aide\n"
 
-28 "\t-jobTitle titre       chaîne de titre pour le travail d'impression\n"
+28 "\t-jobTitle titre       chaÃ®ne de titre pour le travail d'impression\n"
 
-29 "\t-topicTitle titre     chaîne de titre pour le texte d'aide\n"
+29 "\t-topicTitle titre     chaÃ®ne de titre pour le texte d'aide\n"
 $ Warning and error messages  
 $ Do NOT localize the default size name help_papersize_letter  
 
-40 "%s Avertissement: format de papier incorrect '%s'.  help_papersize_letter utilisé.\n"
+40 "%s Avertissement: format de papier incorrect '%s'.  help_papersize_letter utilisÃ©.\n"
 
-41 "%s Avertissement: Format de papier ou taille/largeur manquante.  help_papersize_letter utilisé.\n"
+41 "%s Avertissement: Format de papier ou taille/largeur manquante.  help_papersize_letter utilisÃ©.\n"
 
-42 "%s Avertissement: Impossible d'ouvrir l'écran %s\n"
+42 "%s Avertissement: Impossible d'ouvrir l'Ã©cran %s\n"
 
-45 "Erreur: impossible d'allouer la mémoire pour le fichier temporaire\n"
+45 "Erreur: impossible d'allouer la mÃ©moire pour le fichier temporaire\n"
 $ ** DO NOT LOCALIZE THESE MESSAGES **  
 $ arg order: directory prefix processid filecnt suffix  
 

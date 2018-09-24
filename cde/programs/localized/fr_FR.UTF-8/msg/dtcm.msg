@@ -18,7 +18,7 @@ $set 1
 7 "\n\n\
 \t** Rendez-vous (agenda) **\n\n\
 \tDate:\t%s\n\
-\tDébut:\t%s\n\
+\tDÃ©but:\t%s\n\
 \tFin:\t%s\n\
 \tObjet:\t%s"
 
@@ -32,37 +32,37 @@ $set 1
 
 12 "pm"
 
-13 "De %02d%02d à %02d%02d"
+13 "De %02d%02d Ã  %02d%02d"
 
-16 "Impossible de supprimer l'agenda par défaut."
+16 "Impossible de supprimer l'agenda par dÃ©faut."
 
-17 "Sélectionnez un nom pour la suppression."
+17 "SÃ©lectionnez un nom pour la suppression."
 
-20 "Date incorrecte dans la zone Jusqu'à."
+20 "Date incorrecte dans la zone Jusqu'Ã ."
 
 21 "Modifier liste..."
 
 22 "Options du menu Parcourir"
 
-23 "Semaine préc."
+23 "Semaine prÃ©c."
 
 24 "Cette semaine"
 
 25 "Semaine proch."
 
-26 "Mois préc."
+26 "Mois prÃ©c."
 
 27 "Ce mois-ci"
 
-28 "Jusqu'à:"
+28 "Jusqu'Ã :"
 
 29 "Planifier..."
 
 30 "Courrier..."
 
-31 "Agenda affiché"
+31 "Agenda affichÃ©"
 
-32 "Agendas affichés"
+32 "Agendas affichÃ©s"
 
 33 "Jour"
 
@@ -70,7 +70,7 @@ $set 1
 
 35 "Mois"
 
-36 "Année"
+36 "AnnÃ©e"
 
 37 "Fuseau horaire..."
 
@@ -98,9 +98,9 @@ $set 1
 
 77 "Aide"
 
-79 "Tâches..."
+79 "TÃ¢ches..."
 
-80 "Référence..."
+80 "RÃ©fÃ©rence..."
 
 82 "Aide sur l'aide..."
 
@@ -118,13 +118,13 @@ $set 1
 
 90 "Une erreur s'est produite lors de l'ouverture du fichier d'agenda."
 
-91 "rpc.cmsd ne répond pas pour votre nom d'utilisateur.\n\
-Assurez-vous que le processus inetd s'exécute et que l'entrée\n\
-relative à rpc.cmsd dans le fichier inetd.conf est correcte."
+91 "rpc.cmsd ne rÃ©pond pas pour votre nom d'utilisateur.\n\
+Assurez-vous que le processus inetd s'exÃ©cute et que l'entrÃ©e\n\
+relative Ã  rpc.cmsd dans le fichier inetd.conf est correcte."
 
 92 "Nom d'utilisateur"
 
-93 "Hôte"
+93 "HÃ´te"
 
 94 "Erreur - Agenda"
 
@@ -140,15 +140,15 @@ relative à rpc.cmsd dans le fichier inetd.conf est correcte."
 
 100 "PAS DE NOM"
 
-101 "rpc.cmsd ne répond pas pour"
+101 "rpc.cmsd ne rÃ©pond pas pour"
 
-102 "rpc.cmsd ne répond pas pour votre nom d'utilisateur.\n\
-Assurez-vous que le processus inetd s'exécute et que l'entrée\n\
-relative à rpc.cmsd dans le fichier inetd.conf est correcte."
+102 "rpc.cmsd ne rÃ©pond pas pour votre nom d'utilisateur.\n\
+Assurez-vous que le processus inetd s'exÃ©cute et que l'entrÃ©e\n\
+relative Ã  rpc.cmsd dans le fichier inetd.conf est correcte."
 
 103 "Nom d'utilisateur"
 
-104 "Hôte"
+104 "HÃ´te"
 
 105 "Erreur - Agenda"
 
@@ -156,23 +156,23 @@ relative à rpc.cmsd dans le fichier inetd.conf est correcte."
 
 107 "%s: PAS DE NOM"
 
-108 "Aucun emplacement d'agenda indiqué pour"
+108 "Aucun emplacement d'agenda indiquÃ© pour"
 
-109 "Aucun emplacement indiqué. Ajoutez un nom hôte dans la zone Vue initiale de\n\
-l'agenda (option Afficher les paramètres du menu Caractéristiques). Si vous \n\
-avez lancé DTCM avec l'option -c, vérifiez que vous avez indiqué un nom hôte."
+109 "Aucun emplacement indiquÃ©. Ajoutez un nom hÃ´te dans la zone Vue initiale de\n\
+l'agenda (option Afficher les paramÃ¨tres du menu CaractÃ©ristiques). Si vous \n\
+avez lancÃ© DTCM avec l'option -c, vÃ©rifiez que vous avez indiquÃ© un nom hÃ´te."
 
 110 "Erreur - Agenda"
 
 111 "Continuer"
 
-112 "Les versions de DTCM et rpc.cmsd sont différentes."
+112 "Les versions de DTCM et rpc.cmsd sont diffÃ©rentes."
 
 113 "Agenda"
 
 114 "Janvier"
 
-115 "Février"
+115 "FÃ©vrier"
 
 116 "Mars"
 
@@ -184,7 +184,7 @@ avez lancé DTCM avec l'option -c, vérifiez que vous avez indiqué un nom hôte."
 
 120 "Juillet"
 
-121 "Août"
+121 "AoÃ»t"
 
 122 "Septembre"
 
@@ -192,11 +192,11 @@ avez lancé DTCM avec l'option -c, vérifiez que vous avez indiqué un nom hôte."
 
 124 "Novembre"
 
-125 "Décembre"
+125 "DÃ©cembre"
 
 126 "Jan"
 
-127 "Fév"
+127 "FÃ©v"
 
 128 "Mar"
 
@@ -208,7 +208,7 @@ avez lancé DTCM avec l'option -c, vérifiez que vous avez indiqué un nom hôte."
 
 132 "Jul"
 
-133 "Aoû"
+133 "AoÃ»"
 
 134 "Sep"
 
@@ -216,7 +216,7 @@ avez lancé DTCM avec l'option -c, vérifiez que vous avez indiqué un nom hôte."
 
 136 "Nov"
 
-137 "Déc"
+137 "DÃ©c"
 
 138 "Dim"
 
@@ -300,7 +300,7 @@ avez lancé DTCM avec l'option -c, vérifiez que vous avez indiqué un nom hôte."
 
 178 "%s est en cours de visualisation."
 
-186 "Les versions de DTCM et rpc.cmsd sont différentes."
+186 "Les versions de DTCM et rpc.cmsd sont diffÃ©rentes."
 
 187 "Syntaxe:\n\
 \tdtcm_delete [-c agenda] [-d <mm/jj/aa>] [-v vue]\n"
@@ -310,23 +310,23 @@ Impossible d'ouvrir l'agenda %s.\n"
 
 189 "INCONNU"
 
-190 "Elément à supprimer (numéro) ? "
+190 "ElÃ©ment Ã  supprimer (numÃ©ro) ? "
 
 191 "Syntaxe:\n\
 \tdtcm_insert [ -c agenda ] [-d <mm/jj/aa>] [ -v vue ]\n"
 
-192 "                   [-w chaîne] [-s <HH:MMam/pm>] [-e <HH:MMam/pm>]\n"
+192 "                   [-w chaÃ®ne] [-s <HH:MMam/pm>] [-e <HH:MMam/pm>]\n"
 
-193 "Indiquez les informations relatives au rendez-vous à ajouter.\n\
-Les valeurs par défaut apparaissent entre parenthèses.\n"
+193 "Indiquez les informations relatives au rendez-vous Ã  ajouter.\n\
+Les valeurs par dÃ©faut apparaissent entre parenthÃ¨ses.\n"
 
 194 "Agenda (%s): "
 
 195 "Date (%s): "
 
-196 "Début (%s): "
+196 "DÃ©but (%s): "
 
-197 "Vous avez indiqué une heure incorrecte ; corrigez-la.\n"
+197 "Vous avez indiquÃ© une heure incorrecte ; corrigez-la.\n"
 
 198 "Fin (%s): "
 
@@ -334,11 +334,11 @@ Les valeurs par défaut apparaissent entre parenthèses.\n"
 
 200 "Une fois"
 
-201 "Répéter (%s): "
+201 "RÃ©pÃ©ter (%s): "
 
 202 "Une fois"
 
-203 "pas de défaut"
+203 "pas de dÃ©faut"
 
 204 "Pour (%s): "
 
@@ -355,20 +355,20 @@ Impossible d'ouvrir l'agenda \"%s\".\n"
 
 209 "INCONNU"
 
-210 "Le rendez-vous sera planifié dans l'agenda en cours.\n\
-Confirmez-vous cette opération ?"
+210 "Le rendez-vous sera planifiÃ© dans l'agenda en cours.\n\
+Confirmez-vous cette opÃ©ration ?"
 
 211 "Planifier dans"
 
 212 "Planifier rendez-vous"
 
-214 "Rendez-vous planifié: %s\n"
+214 "Rendez-vous planifiÃ©: %s\n"
 
-218 "La DATE indiquée est incorrecte"
+218 "La DATE indiquÃ©e est incorrecte"
 
-219 "L'heure de DEBUT indiquée est incorrecte."
+219 "L'heure de DEBUT indiquÃ©e est incorrecte."
 
-220 "L'heure de FIN indiquée est incorrecte."
+220 "L'heure de FIN indiquÃ©e est incorrecte."
 
 221 "La zone DATE est vide ou manquante."
 
@@ -376,13 +376,13 @@ Confirmez-vous cette opération ?"
 
 223 "La zone COMMENTAIRE est vide ou manquante."
 
-224 "Incompatibilité entre les zones REPETER et POUR."
+224 "IncompatibilitÃ© entre les zones REPETER et POUR."
 
-225 "Le rendez-vous planifié a été annulé."
+225 "Le rendez-vous planifiÃ© a Ã©tÃ© annulÃ©."
 
 226 "Erreur interne lors de la planification du rendez-vous."
 
-227 "Le rendez-vous planifié a été annulé."
+227 "Le rendez-vous planifiÃ© a Ã©tÃ© annulÃ©."
 
 228 "Charger rendez-vous"
 
@@ -390,7 +390,7 @@ Confirmez-vous cette opération ?"
 
 230 "Faire glisser rendez-vous"
 
-231 "Sélectionnez un rendez-vous et faites le glisser de nouveau."
+231 "SÃ©lectionnez un rendez-vous et faites le glisser de nouveau."
 
 232 "Continuer"
 
@@ -404,7 +404,7 @@ Confirmez-vous cette opération ?"
 
 238 "XCreateBitmapFromData() n'a pas abouti pour le masque.\n"
 
-239 "DragStart a retourné une valeur NULLE.\n"
+239 "DragStart a retournÃ© une valeur NULLE.\n"
 
 242 "am"
 
@@ -416,8 +416,8 @@ Confirmez-vous cette opération ?"
 
 246 "pm"
 
-247 "L'heure de fin de ce rendez-vous est antérieure\n\
-à son heure de début. Voulez-vous le planifier pour\n\
+247 "L'heure de fin de ce rendez-vous est antÃ©rieure\n\
+Ã  son heure de dÃ©but. Voulez-vous le planifier pour\n\
 le lendemain ?"
 
 248 "Planification rendez-vous"
@@ -428,33 +428,33 @@ le lendemain ?"
 
 252 "Annuler rendez-vous"
 
-253 "Sélectionnez un rendez-vous, puis Annuler."
+253 "SÃ©lectionnez un rendez-vous, puis Annuler."
 
 254 "Continuer"
 
 255 "Annuler rendez-vous"
 
-256 "Une erreur interne s'est produite lors de la sélection\n\
-du rendez-vous. Celui-ci n'a pas été annulé."
+256 "Une erreur interne s'est produite lors de la sÃ©lection\n\
+du rendez-vous. Celui-ci n'a pas Ã©tÃ© annulÃ©."
 
 257 "Continuer"
 
 258 "Modifier rendez-vous"
 
-259 "Sélectionnez un rendez-vous, puis Modifier."
+259 "SÃ©lectionnez un rendez-vous, puis Modifier."
 
 260 "Continuer"
 
 261 "Modifier rendez-vous"
 
-262 "Une erreur interne s'est produite lors de la sélection\n\
-du rendez-vous. Celui-ci n'a pas été modifié."
+262 "Une erreur interne s'est produite lors de la sÃ©lection\n\
+du rendez-vous. Celui-ci n'a pas Ã©tÃ© modifiÃ©."
 
 263 "Continuer"
 
 267 "Modifier rendez-vous"
 
-268 "Ce rendez-vous fait partie d'une série récurrente.\n\
+268 "Ce rendez-vous fait partie d'une sÃ©rie rÃ©currente.\n\
 Confirmez-vous la modification...?"
 
 270 "Ce rendez-vous uniquement"
@@ -465,7 +465,7 @@ Confirmez-vous la modification...?"
 
 273 "Annuler rendez-vous"
 
-274 "Ce rendez-vous fait partie d'une série récurrente.\n\
+274 "Ce rendez-vous fait partie d'une sÃ©rie rÃ©currente.\n\
 Confirmez-vous l'annulation...?"
 
 276 "Ce rendez-vous uniquement"
@@ -490,15 +490,15 @@ Confirmez-vous l'annulation...?"
 
 289 "Aide"
 
-290 "Indiquez une chaîne à rechercher."
+290 "Indiquez une chaÃ®ne Ã  rechercher."
 
 291 "Rendez-vous introuvable."
 
-292 "%d occurrences trouvées."
+292 "%d occurrences trouvÃ©es."
 
 293 "Date:"
 
-294 "Jusqu'à"
+294 "Jusqu'Ã "
 
 296 "Aide"
 
@@ -512,34 +512,34 @@ Confirmez-vous l'annulation...?"
 
 304 "Courrier..."
 
-305 "Insérer réunion"
+305 "InsÃ©rer rÃ©union"
 
-306 "Sélectionnez un agenda, puis Insérer."
+306 "SÃ©lectionnez un agenda, puis InsÃ©rer."
 
 307 "Continuer"
 
 308 "Annuler rendez-vous"
 
-309 "Sélectionnez un rendez-vous, puis Annuler."
+309 "SÃ©lectionnez un rendez-vous, puis Annuler."
 
 310 "Continuer"
 
 311 "Annuler rendez-vous"
 
-312 "Une erreur interne s'est produite lors de la sélection\n\
-du rendez-vous. Celui-ci n'a pas été annulé."
+312 "Une erreur interne s'est produite lors de la sÃ©lection\n\
+du rendez-vous. Celui-ci n'a pas Ã©tÃ© annulÃ©."
 
 313 "Continuer"
 
-314 "Annuler réunion"
+314 "Annuler rÃ©union"
 
-315 "Sélectionnez un agenda, puis Annuler."
+315 "SÃ©lectionnez un agenda, puis Annuler."
 
 316 "Continuer"
 
 317 "Annuler rendez-vous"
 
-318 "Ce rendez-vous fait partie d'une série récurrente.\n\
+318 "Ce rendez-vous fait partie d'une sÃ©rie rÃ©currente.\n\
 Confirmez-vous l'annulation...?"
 
 320 "Ce rendez-vous uniquement"
@@ -550,26 +550,26 @@ Confirmez-vous l'annulation...?"
 
 323 "Modifier rendez-vous"
 
-324 "Sélectionnez un rendez-vous, puis Modifier."
+324 "SÃ©lectionnez un rendez-vous, puis Modifier."
 
 325 "Continuer"
 
 326 "Modifier rendez-vous"
 
-327 "Une erreur interne s'est produite lors de la sélection\n\
-du rendez-vous. Celui-ci n'a pas été modifié."
+327 "Une erreur interne s'est produite lors de la sÃ©lection\n\
+du rendez-vous. Celui-ci n'a pas Ã©tÃ© modifiÃ©."
 
 328 "Continuer"
 
-329 "Modifier réunion"
+329 "Modifier rÃ©union"
 
-330 "Sélectionnez un agenda, puis Modifier."
+330 "SÃ©lectionnez un agenda, puis Modifier."
 
 331 "Continuer"
 
 332 "Modifier rendez-vous"
 
-333 "Ce rendez-vous fait partie d'une série récurrente.\n\
+333 "Ce rendez-vous fait partie d'une sÃ©rie rÃ©currente.\n\
 Confirmez-vous la modification...?"
 
 335 "Ce rendez-vous uniquement"
@@ -580,86 +580,86 @@ Confirmez-vous la modification...?"
 
 340 "Agenda"
 
-341 "Accès"
+341 "AccÃ¨s"
 
-342 "Insérer"
+342 "InsÃ©rer"
 
 343 "Modifier"
 
 348 "Ajouter permission"
 
-349 "Editeur de réunions"
+349 "Editeur de rÃ©unions"
 
-350 "Erreur de sélection, impossible de continuer.\n"
+350 "Erreur de sÃ©lection, impossible de continuer.\n"
 
-351 "Sélection interrompue par l'utilisateur.\n"
+351 "SÃ©lection interrompue par l'utilisateur.\n"
 
-352 "Vous devez sélectionner un élément de l'application.\n"
+352 "Vous devez sÃ©lectionner un Ã©lÃ©ment de l'application.\n"
 
 353 "Sans horaire"
 
-354 "Toute la journée"
+354 "Toute la journÃ©e"
 
 355 "Impossible d'ouvrir le fichier callog.\n\
-L'opération a été annulée. Agenda"
+L'opÃ©ration a Ã©tÃ© annulÃ©e. Agenda"
 
-356 "Par demande utilisateur, opération annulée.\n\
+356 "Par demande utilisateur, opÃ©ration annulÃ©e.\n\
 Agenda"
 
 357 "Valeur incorrecte dans la zone DATE.\n\
-L'opération a été annulée. Agenda"
+L'opÃ©ration a Ã©tÃ© annulÃ©e. Agenda"
 
 358 "Valeur incorrecte dans la zone DEBUT.\n\
-L'opération a été annulée. Agenda"
+L'opÃ©ration a Ã©tÃ© annulÃ©e. Agenda"
 
 359 "Valeur incorrecte dans la zone FIN.\n\
-L'opération a été annulée. Agenda"
+L'opÃ©ration a Ã©tÃ© annulÃ©e. Agenda"
 
 360 "Vous devez indiquer une DATE.\n\
-L'opération a été annulée. Agenda"
+L'opÃ©ration a Ã©tÃ© annulÃ©e. Agenda"
 
 361 "Vous devez indiquer une valeur de DEBUT.\n\
-L'opération a été annulée. Agenda"
+L'opÃ©ration a Ã©tÃ© annulÃ©e. Agenda"
 
 362 "Vous devez indiquer des COMMENTAIRES.\n\
-L'opération a été annulée. Agenda"
+L'opÃ©ration a Ã©tÃ© annulÃ©e. Agenda"
 
 363 "Valeurs REPETER et POUR incorrectes ou incompatibles.\n\
-L'opération a été annulée. Agenda"
+L'opÃ©ration a Ã©tÃ© annulÃ©e. Agenda"
 
-364 "L'opération de l'éditeur a échoué."
+364 "L'opÃ©ration de l'Ã©diteur a Ã©chouÃ©."
 
 365 "Continuer"
 
-367 "L'agenda existe déjà.\n\
-L'opération a été annulée. Agenda"
+367 "L'agenda existe dÃ©jÃ .\n\
+L'opÃ©ration a Ã©tÃ© annulÃ©e. Agenda"
 
 368 "L'agenda n'existe pas.\n\
-L'opération a été annulée. Agenda"
+L'opÃ©ration a Ã©tÃ© annulÃ©e. Agenda"
 
-370 "Erreur d'autorisation. Permission refusée.\n\
-L'opération a été annulée. Agenda"
+370 "Erreur d'autorisation. Permission refusÃ©e.\n\
+L'opÃ©ration a Ã©tÃ© annulÃ©e. Agenda"
 
-378 "Erreur d'allocation de mémoire - Mémoire insuffisante.\n\
-L'opération a été annulée. Agenda"
+378 "Erreur d'allocation de mÃ©moire - MÃ©moire insuffisante.\n\
+L'opÃ©ration a Ã©tÃ© annulÃ©e. Agenda"
 
 383 "Erreur inconnue.\n\
-L'opération a été annulée. Agenda"
+L'opÃ©ration a Ã©tÃ© annulÃ©e. Agenda"
 
-386 "L'heure de fin de ce rendez-vous est antérieure à son heure de début.\n\
+386 "L'heure de fin de ce rendez-vous est antÃ©rieure Ã  son heure de dÃ©but.\n\
 Voulez-vous le planifier pour le lendemain ?"
 
 387 "Planifier rendez-vous"
 
 389 "Lendemain"
 
-390 "Confidentialité:"
+390 "ConfidentialitÃ©:"
 
 391 "Emplacement de l'agenda utilisateur:"
 
-392 "Début et fin de la journée:"
+392 "DÃ©but et fin de la journÃ©e:"
 
-393 "Début:"
+393 "DÃ©but:"
 
 394 "Fin:"
 
@@ -669,9 +669,9 @@ Voulez-vous le planifier pour le lendemain ?"
 
 397 "24 heures"
 
-398 "Vue par défaut:"
+398 "Vue par dÃ©faut:"
 
-399 "Année"
+399 "AnnÃ©e"
 
 400 "Mois"
 
@@ -681,15 +681,15 @@ Voulez-vous le planifier pour le lendemain ?"
 
 403 "Vue initiale de l'agenda:"
 
-404 "Accès utilisateur"
+404 "AccÃ¨s utilisateur"
 
-405 "Sélectionnez au moins une permission."
+405 "SÃ©lectionnez au moins une permission."
 
 406 "Continuer"
 
-407 "Paramètres d'accès groupe -- Supprimer"
+407 "ParamÃ¨tres d'accÃ¨s groupe -- Supprimer"
 
-408 "Sélectionnez d'abord un nom."
+408 "SÃ©lectionnez d'abord un nom."
 
 409 "Continuer"
 
@@ -703,13 +703,13 @@ Voulez-vous le planifier pour le lendemain ?"
 
 414 "Supprimer nom"
 
-415 "P = Parcourir I = Insérer S = Supprimer"
+415 "P = Parcourir I = InsÃ©rer S = Supprimer"
 
 416 "Permissions:"
 
 417 "Parcourir"
 
-418 "Insérer"
+418 "InsÃ©rer"
 
 419 "Supprimer"
 
@@ -721,7 +721,7 @@ Voulez-vous le planifier pour le lendemain ?"
 
 423 "Imprimante:"
 
-424 "Répertoire:"
+424 "RÃ©pertoire:"
 
 425 "Options:"
 
@@ -733,11 +733,11 @@ Voulez-vous le planifier pour le lendemain ?"
 
 429 "Position:"
 
-430 "Pouces à partir de la gauche"
+430 "Pouces Ã  partir de la gauche"
 
-431 "Pouces à partir du bas"
+431 "Pouces Ã  partir du bas"
 
-432 "Unités:"
+432 "UnitÃ©s:"
 
 433 "Exemplaires:"
 
@@ -757,29 +757,29 @@ Voulez-vous le planifier pour le lendemain ?"
 
 441 "AA | MM | JJ"
 
-442 "Séparateur de date:"
+442 "SÃ©parateur de date:"
 
 443 "Espace"
 
 444 "Sauvegarder options d'agenda"
 
-445 "Une erreur s'est produite lors de l'écriture sur ~/.desksetdefaults. Assurez-vous\n\
-que vous disposez des permissions permettant d'effectuer cette opération."
+445 "Une erreur s'est produite lors de l'Ã©criture sur ~/.desksetdefaults. Assurez-vous\n\
+que vous disposez des permissions permettant d'effectuer cette opÃ©ration."
 
 446 "Continuer"
 
 447 "Lire les options d'agenda"
 
 448 "Une erreur s'est produite lors de la lecture de ~/.desksetdefaults. Assurez-vous\n\
-que vous disposez des permissions permettant d'effectuer cette opération."
+que vous disposez des permissions permettant d'effectuer cette opÃ©ration."
 
 449 "Continuer"
 
 450 "Editeur de rendez-vous - Aide"
 
-451 "Les modifications effectuées n'ont pas été sauvegardées.\n\
-Vous pouvez les sauvegarder, les annuler ou revenir à\n\
-l'emplacement précédent dans la boîte de dialogue."
+451 "Les modifications effectuÃ©es n'ont pas Ã©tÃ© sauvegardÃ©es.\n\
+Vous pouvez les sauvegarder, les annuler ou revenir Ã \n\
+l'emplacement prÃ©cÃ©dent dans la boÃ®te de dialogue."
 
 452 "Sauvegarder"
 
@@ -791,15 +791,15 @@ l'emplacement précédent dans la boîte de dialogue."
 
 458 "Agenda -  Options"
 
-459 "Catégorie:"
+459 "CatÃ©gorie:"
 
 460 "Appliquer"
 
 463 "Aide"
 
-464 "ps_open_file(): Indiquez un répertoire ou un fichier.\n"
+464 "ps_open_file(): Indiquez un rÃ©pertoire ou un fichier.\n"
 
-465 "ps_open_file(): Répertoire %s incorrect.\n"
+465 "ps_open_file(): RÃ©pertoire %s incorrect.\n"
 
 466 "w+"
 
@@ -811,11 +811,11 @@ l'emplacement précédent dans la boîte de dialogue."
 
 470 "Matin"
 
-471 "Après-midi"
+471 "AprÃ¨s-midi"
 
 472 "pm"
 
-473 "Liste des activités (Gestionnaire d'agenda)"
+473 "Liste des activitÃ©s (Gestionnaire d'agenda)"
 
 474 "Liste des rendez-vous (Gestionnaire d'agenda)"
 
@@ -873,40 +873,40 @@ l'emplacement précédent dans la boîte de dialogue."
 
 508 "Vue annuelle (Gestionnaire d'agenda)"
 
-523 "Liste des activités: Année %d."
+523 "Liste des activitÃ©s: AnnÃ©e %d."
 
-524 "Liste des rendez-vous: Année %d."
+524 "Liste des rendez-vous: AnnÃ©e %d."
 
-525 "Liste des activités: %s"
+525 "Liste des activitÃ©s: %s"
 
 526 "Liste des rendez-vous: %s"
 
-527 "Liste des activités: Semaine %s"
+527 "Liste des activitÃ©s: Semaine %s"
 
 528 "Liste des rendez-vous: Semaine %s"
 
-529 "Liste des activités: %s"
+529 "Liste des activitÃ©s: %s"
 
 530 "Liste des rendez-vous: %s"
 
 531 "Tous les %d %s"
 
-532 "DTCM: Répéter tous les"
+532 "DTCM: RÃ©pÃ©ter tous les"
 
-533 "Répéter tous les:"
+533 "RÃ©pÃ©ter tous les:"
 
-534 "Fréquence:"
+534 "FrÃ©quence:"
 
 535 "Pour:"
 
-536 "Confidentialité:"
+536 "ConfidentialitÃ©:"
 
 537 "Planification des rendez-vous"
 
 538 "Voulez-vous planifier ce rendez-vous pour\n\
-la dernière ou la 4e semaine du mois ?"
+la derniÃ¨re ou la 4e semaine du mois ?"
 
-540 "Dernière semaine"
+540 "DerniÃ¨re semaine"
 
 541 "4e semaine"
 
@@ -928,59 +928,59 @@ la dernière ou la 4e semaine du mois ?"
 
 565 "Auteur"
 
-566 "Supprimer activité"
+566 "Supprimer activitÃ©"
 
-567 "Sélectionnez une activité, puis Supprimer."
+567 "SÃ©lectionnez une activitÃ©, puis Supprimer."
 
 568 "Continuer"
 
-569 "Supprimer activité"
+569 "Supprimer activitÃ©"
 
 570 "Une erreur interne s'est produite lors de la\n\
-sélection de l'activité. Celle-ci n'a pas été supprimée."
+sÃ©lection de l'activitÃ©. Celle-ci n'a pas Ã©tÃ© supprimÃ©e."
 
 571 "Continuer"
 
-572 "Supprimer activité"
+572 "Supprimer activitÃ©"
 
-573 "Cette activité fait partie d'une série récurrente.\n\
+573 "Cette activitÃ© fait partie d'une sÃ©rie rÃ©currente.\n\
 Confirmez-vous la suppression...?"
 
-575 "Cette activité uniquement"
+575 "Cette activitÃ© uniquement"
 
 576 "Avancer"
 
 577 "Toutes"
 
-578 "Modifier activité"
+578 "Modifier activitÃ©"
 
-579 "Cette activié fait partie d'une série récurrente.\n\
+579 "Cette activiÃ© fait partie d'une sÃ©rie rÃ©currente.\n\
 Confirmez-vous la modification...?"
 
-581 "Cette activité uniquement"
+581 "Cette activitÃ© uniquement"
 
 582 "Avancer"
 
 583 "Toutes"
 
-584 "Modifier activité"
+584 "Modifier activitÃ©"
 
-585 "Sélectionnez une activité, puis Modifier."
+585 "SÃ©lectionnez une activitÃ©, puis Modifier."
 
 586 "Continuer"
 
-587 "Modifier activité"
+587 "Modifier activitÃ©"
 
 588 "Une erreur interne s'est produite lors de la\n\
-sélection de l'activité. Celle-ci n'a pas été modifiée."
+sÃ©lection de l'activitÃ©. Celle-ci n'a pas Ã©tÃ© modifiÃ©e."
 
 589 "Continuer"
 
-590 "Echéance:"
+590 "EchÃ©ance:"
 
-591 "Editeur d'activités"
+591 "Editeur d'activitÃ©s"
 
-595 "Semaine commençant le %s"
+595 "Semaine commenÃ§ant le %s"
 
 596 "Lundi %d"
 
@@ -998,7 +998,7 @@ sélection de l'activité. Celle-ci n'a pas été modifiée."
 
 603 "Entrez un nom dans la zone Nom d'utilisateur."
 
-604 "fait déjà partie de la liste."
+604 "fait dÃ©jÃ  partie de la liste."
 
 605 "Aide"
 
@@ -1014,25 +1014,25 @@ sélection de l'activité. Celle-ci n'a pas été modifiée."
 
 611 "Continuer"
 
-612 "Généralités..."
+612 "GÃ©nÃ©ralitÃ©s..."
 
 613 "A propos de l'agenda..."
 
 617 "Aujourd'hui"
 
-618 "Vous devez indiquer un paramètre pour l'argument -session.\n"
+618 "Vous devez indiquer un paramÃ¨tre pour l'argument -session.\n"
 
-619 "Entrez un nom d'agenda sous la forme: <utilisateur>@<nom_hôte>"
+619 "Entrez un nom d'agenda sous la forme: <utilisateur>@<nom_hÃ´te>"
 
 620 "Agenda inconnu. Nom requis: <nom>%s"
 
-621 "Entrez un nom d'agenda sous la forme: <utilisateur>@<nom_hôte>"
+621 "Entrez un nom d'agenda sous la forme: <utilisateur>@<nom_hÃ´te>"
 
-622 "Agenda inconnu. Nom hôte requis: %s@<nom_hôte>"
+622 "Agenda inconnu. Nom hÃ´te requis: %s@<nom_hÃ´te>"
 
-623 "L'agenda n'affiche pas les dates antérieures au 1er janvier 1970."
+623 "L'agenda n'affiche pas les dates antÃ©rieures au 1er janvier 1970."
 
-624 "L'agenda n'affiche pas les dates postérieures au 31 décembre 2037."
+624 "L'agenda n'affiche pas les dates postÃ©rieures au 31 dÃ©cembre 2037."
 
 625 "Moins"
 
@@ -1044,13 +1044,13 @@ sélection de l'activité. Celle-ci n'a pas été modifiée."
 
 629 "Plus"
 
-631 "%d occurrence(s) trouvée(s)"
+631 "%d occurrence(s) trouvÃ©e(s)"
 
-632 "Sélectionnez un rendez-vous à afficher dans la liste."
+632 "SÃ©lectionnez un rendez-vous Ã  afficher dans la liste."
 
-633 "Agenda sélectionné"
+633 "Agenda sÃ©lectionnÃ©"
 
-634 "Agendas sélectionnés"
+634 "Agendas sÃ©lectionnÃ©s"
 
 635 "Moins"
 
@@ -1058,17 +1058,17 @@ sélection de l'activité. Celle-ci n'a pas été modifiée."
 
 637 "Plus"
 
-641 "Le serveur n'est pas parvenu à obtenur l'adresse de réseau\n\
-de l'emplacement indiqué: nom hôte incorrect."
+641 "Le serveur n'est pas parvenu Ã  obtenur l'adresse de rÃ©seau\n\
+de l'emplacement indiquÃ©: nom hÃ´te incorrect."
 
-642 "Le démon rpc.cmsd n'est pas enregistré. Vérifiez \n\
-qu'il est installé correctement sur le système."
+642 "Le dÃ©mon rpc.cmsd n'est pas enregistrÃ©. VÃ©rifiez \n\
+qu'il est installÃ© correctement sur le systÃ¨me."
 
-643 "Impossible d'accéder à l'agenda. Agenda"
+643 "Impossible d'accÃ©der Ã  l'agenda. Agenda"
 
 644 "Heures de rendez-vous:"
 
-645 "Durée:"
+645 "DurÃ©e:"
 
 646 "Minutes"
 
@@ -1104,15 +1104,15 @@ qu'il est installé correctement sur le système."
 
 666 "Plus"
 
-667 "L'agenda n'affiche pas les dates antérieures au 1er janvier 1970."
+667 "L'agenda n'affiche pas les dates antÃ©rieures au 1er janvier 1970."
 
-668 "L'agenda n'affiche pas les dates postérieures au 31 décembre 2037."
+668 "L'agenda n'affiche pas les dates postÃ©rieures au 31 dÃ©cembre 2037."
 
 670 "Dtcm"
 
 671 "Version"
 
-672 "Révision"
+672 "RÃ©vision"
 
 674 "Copyright (c) 1993, 1994:"
 
@@ -1128,9 +1128,9 @@ qu'il est installé correctement sur le système."
 
 680 "Fermer"
 
-681 "Développeurs"
+681 "DÃ©veloppeurs"
 
-682 "Cette application a été conçue par:"
+682 "Cette application a Ã©tÃ© conÃ§ue par:"
 
 683 "Fermer"
 
@@ -1155,13 +1155,13 @@ qu'il est installé correctement sur le système."
 696 "Syntaxee:\n\
 \tdtcm_admin [ -d ] [ -a action ] [ -c agenda][ -s <mm/jj/aa> ] [ -e <mm/jj/aa> ] [-f nom_fichier]\n"
 
-697 "Vous avez indiqué une opération de gestion non prise en charge (\"%s\").\n"
+697 "Vous avez indiquÃ© une opÃ©ration de gestion non prise en charge (\"%s\").\n"
 
 698 "\n\
 Impossible d'ouvrir le fichier en sortie \"%s\".\n"
 
 699 "\n\
-Impossible d'ouvrir le fichier en entrée \"%s\".\n"
+Impossible d'ouvrir le fichier en entrÃ©e \"%s\".\n"
 
 700 "Supprimer"
 
@@ -1169,7 +1169,7 @@ Impossible d'ouvrir le fichier en entrée \"%s\".\n"
 
 703 "contexte"
 
-704 "Année %d"
+704 "AnnÃ©e %d"
 
 705 "%s"
 
@@ -1177,29 +1177,29 @@ Impossible d'ouvrir le fichier en entrée \"%s\".\n"
 
 707 "%s"
 
-708 "Le mode de répétition de ce rendez-vous est inconnu ; toutes les\n\
-occurrences vont être modifées. Confirmez-vous la suppression ?"
+708 "Le mode de rÃ©pÃ©tition de ce rendez-vous est inconnu ; toutes les\n\
+occurrences vont Ãªtre modifÃ©es. Confirmez-vous la suppression ?"
 
 710 "Continuer"
 
-711 "Le mode de répétition de ce rendez-vous est inconnu ; toutes les\n\
-occurrences vont être supprimées. Confirmez-vous la suppression ?"
+711 "Le mode de rÃ©pÃ©tition de ce rendez-vous est inconnu ; toutes les\n\
+occurrences vont Ãªtre supprimÃ©es. Confirmez-vous la suppression ?"
 
 712 "Continuer"
 
-713 "Vous devez sélectionner la date de début avant la date de fin."
+713 "Vous devez sÃ©lectionner la date de dÃ©but avant la date de fin."
 
 714 "La liste ne contient aucun rendez-vous ; l'affichage est impossible."
 
 715 "Agenda - Rechercher par la date"
 
-716 "Le mode de répétition de ce rendez-vous est inconnu ; toutes les\n\
-occurrences vont être modififées. Confirmez-vous la suppression ?"
+716 "Le mode de rÃ©pÃ©tition de ce rendez-vous est inconnu ; toutes les\n\
+occurrences vont Ãªtre modififÃ©es. Confirmez-vous la suppression ?"
 
 717 "Continuer"
 
-718 "Le mode de répétition de ce rendez-vous est inconnu ; toutes les\n\
-occurrences vont être modifiées. Confirmez-vous la modification ?"
+718 "Le mode de rÃ©pÃ©tition de ce rendez-vous est inconnu ; toutes les\n\
+occurrences vont Ãªtre modifiÃ©es. Confirmez-vous la modification ?"
 
 720 "Continuer"
 
@@ -1207,16 +1207,16 @@ occurrences vont être modifiées. Confirmez-vous la modification ?"
 
 722 "Heure accessible aux autres"
 
-723 "Aucune donnée accessible aux autres"
+723 "Aucune donnÃ©e accessible aux autres"
 
-724 "Des commentaires doivent être indiqués pour les rendez-vous\n\
-sans horaire. L'opération a été annulée. Agenda"
+724 "Des commentaires doivent Ãªtre indiquÃ©s pour les rendez-vous\n\
+sans horaire. L'opÃ©ration a Ã©tÃ© annulÃ©e. Agenda"
 
-725 "L'entrée d'agenda n'existe pas.\n\
-L'opération a été annulée. Agenda"
+725 "L'entrÃ©e d'agenda n'existe pas.\n\
+L'opÃ©ration a Ã©tÃ© annulÃ©e. Agenda"
 
-727 "Dépassement de délai de la requête. Vérifiez que\n\
-rpc.cmsd est installé correctement sur le système."
+727 "DÃ©passement de dÃ©lai de la requÃªte. VÃ©rifiez que\n\
+rpc.cmsd est installÃ© correctement sur le systÃ¨me."
 
 728 "Agenda - Imprimer"
 
@@ -1238,9 +1238,9 @@ rpc.cmsd est installé correctement sur le système."
 
 737 "Aide"
 
-738 "Liste d'accès:"
+738 "Liste d'accÃ¨s:"
 
-739 "Droits d'accès:"
+739 "Droits d'accÃ¨s:"
 
 740 "Ajouter"
 
@@ -1250,31 +1250,31 @@ rpc.cmsd est installé correctement sur le système."
 
 743 "Publique:"
 
-744 "Semi-privé:"
+744 "Semi-privÃ©:"
 
-745 "Privé:"
+745 "PrivÃ©:"
 
 746 "Visualiser"
 
-747 "Insérer"
+747 "InsÃ©rer"
 
 748 "Modifier"
 
-749 "Pour ajouter un élément à la liste d'accès, vous devez définir son nom et ses droits d'accès."
+749 "Pour ajouter un Ã©lÃ©ment Ã  la liste d'accÃ¨s, vous devez dÃ©finir son nom et ses droits d'accÃ¨s."
 
-750 "Paramètres d'accès groupe -- Ajouter"
+750 "ParamÃ¨tres d'accÃ¨s groupe -- Ajouter"
 
-751 "Cette entrée figure déjà dans la liste d'accès. Voulez-vous la modifier ?"
+751 "Cette entrÃ©e figure dÃ©jÃ  dans la liste d'accÃ¨s. Voulez-vous la modifier ?"
 
-752 "Paramètres d'accès groupe -- Ajouter"
+752 "ParamÃ¨tres d'accÃ¨s groupe -- Ajouter"
 
 753 "Modifier"
 
-755 "Paramètres d'accès groupe -- Modifier"
+755 "ParamÃ¨tres d'accÃ¨s groupe -- Modifier"
 
-756 "Pour modifier un élément de la liste d'accès, vous devez indiquer son nom et ses droits d'accès."
+756 "Pour modifier un Ã©lÃ©ment de la liste d'accÃ¨s, vous devez indiquer son nom et ses droits d'accÃ¨s."
 
-757 "Paramètres d'accès groupe -- Modifier"
+757 "ParamÃ¨tres d'accÃ¨s groupe -- Modifier"
 
 758 "minuit"
 
@@ -1284,13 +1284,13 @@ rpc.cmsd est installé correctement sur le système."
 
 761 "Supprimer"
 
-762 "Paramètres par défaut de l'éditeur"
+762 "ParamÃ¨tres par dÃ©faut de l'Ã©diteur"
 
-763 "Afficher les paramètres"
+763 "Afficher les paramÃ¨tres"
 
 764 "Listes et autorisations"
 
-765 "Paramètres de l'imprimante"
+765 "ParamÃ¨tres de l'imprimante"
 
 766 "Format de date"
 
@@ -1300,28 +1300,28 @@ rpc.cmsd est installé correctement sur le système."
 
 772 "Vous ne pouvez pas sauvegarder un emplacement\n\
 d'agenda vide ou contenant des espaces.\n\
-Les caractéristiques n'ont pas été sauvegardées."
+Les caractÃ©ristiques n'ont pas Ã©tÃ© sauvegardÃ©es."
 
 773 "Vous ne pouvez pas sauvegarder une vue initiale\n\
 d'agenda vide ou contenant des espaces.\n\
-Les caractéristiques n'ont pas été sauvegardées."
+Les caractÃ©ristiques n'ont pas Ã©tÃ© sauvegardÃ©es."
 
 774 "ps_open_file(): Pour effectuer la copie, vous devez indiquer un nom de fichier.\n"
 
 775 "Vous devez indiquer le rappel suivant.\n\
-L'opération a été annulée. Agenda"
+L'opÃ©ration a Ã©tÃ© annulÃ©e. Agenda"
 
 776 "Un rappel ne doit pas contenir d'espaces.\n\
-L'opération a été annulée. Agenda"
+L'opÃ©ration a Ã©tÃ© annulÃ©e. Agenda"
 
-777 "Les valeurs d'avance doivent être numériques et,\n\
-éventuellement, signées. L'opération a été annulée. Agenda"
+777 "Les valeurs d'avance doivent Ãªtre numÃ©riques et,\n\
+Ã©ventuellement, signÃ©es. L'opÃ©ration a Ã©tÃ© annulÃ©e. Agenda"
 
-778 "Liste des activités - Aide"
+778 "Liste des activitÃ©s - Aide"
 
-779 "Les modifications n'ont pas été sauvegardées.\n\
+779 "Les modifications n'ont pas Ã©tÃ© sauvegardÃ©es.\n\
 Vous pouvez les sauvegarder, les annuler ou revenir\n\
-à l'emplacement précédent dans la boîte de dialogue."
+Ã  l'emplacement prÃ©cÃ©dent dans la boÃ®te de dialogue."
 
 780 "Supprimer"
 
@@ -1331,7 +1331,7 @@ Vous pouvez les sauvegarder, les annuler ou revenir\n\
 
 783 "En attente"
 
-784 "Terminé"
+784 "TerminÃ©"
 
 785 "OK"
 
@@ -1339,27 +1339,27 @@ Vous pouvez les sauvegarder, les annuler ou revenir\n\
 
 788 "Aide"
 
-789 "Type d'activité:"
+789 "Type d'activitÃ©:"
 
 790 "contexte"
 
-791 "Le mode de répétition de cette activité est inconnu ; toutes les\n\
-occurrences vont être modifiées. Confirmez-vous la modification ?"
+791 "Le mode de rÃ©pÃ©tition de cette activitÃ© est inconnu ; toutes les\n\
+occurrences vont Ãªtre modifiÃ©es. Confirmez-vous la modification ?"
 
 793 "Continuer"
 
-794 "Le mode de répétition de ce rendez-vous est inconnu ; toutes les\n\
-occurrences vont être modifiées. Confirmez-vous la modification ?"
+794 "Le mode de rÃ©pÃ©tition de ce rendez-vous est inconnu ; toutes les\n\
+occurrences vont Ãªtre modifiÃ©es. Confirmez-vous la modification ?"
 
 796 "Continuer"
 
-797 "Activité"
+797 "ActivitÃ©"
 
-798 "Echéance:"
+798 "EchÃ©ance:"
 
-799 "Terminé"
+799 "TerminÃ©"
 
-800 "Insérer"
+800 "InsÃ©rer"
 
 801 "Modifier"
 
@@ -1369,7 +1369,7 @@ occurrences vont être modifiées. Confirmez-vous la modification ?"
 
 805 "Aide"
 
-806 "Année %d"
+806 "AnnÃ©e %d"
 
 807 "%s"
 
@@ -1377,17 +1377,17 @@ occurrences vont être modifiées. Confirmez-vous la modification ?"
 
 809 "%s"
 
-810 "Entrez une date de début postérieure au 1/1/1970."
+810 "Entrez une date de dÃ©but postÃ©rieure au 1/1/1970."
 
-811 "Date de début incorrecte."
+811 "Date de dÃ©but incorrecte."
 
-812 "Entrez un date de fin antérieure au 1/1/2038."
+812 "Entrez un date de fin antÃ©rieure au 1/1/2038."
 
 813 "Date de fin incorrecte."
 
-814 "Vous devez indiquer une date postérieure à 1969 et antérieure à 2038."
+814 "Vous devez indiquer une date postÃ©rieure Ã  1969 et antÃ©rieure Ã  2038."
 
-815 "Vous devez indiquer une date postérieure à 1969 et antérieure à 2038."
+815 "Vous devez indiquer une date postÃ©rieure Ã  1969 et antÃ©rieure Ã  2038."
 
 816 "Jours"
 
@@ -1395,21 +1395,21 @@ occurrences vont être modifiées. Confirmez-vous la modification ?"
 
 818 "Mois"
 
-819 "La valeur indiquée pour la durée doit être un entier non signé.\n\
-Les caractéristiques n'ont pas été sauvegardées."
+819 "La valeur indiquÃ©e pour la durÃ©e doit Ãªtre un entier non signÃ©.\n\
+Les caractÃ©ristiques n'ont pas Ã©tÃ© sauvegardÃ©es."
 
-820 "La valeur de début doit être une heure correcte.\n\
-Les caractéristiques n'ont pas été sauvegardées."
+820 "La valeur de dÃ©but doit Ãªtre une heure correcte.\n\
+Les caractÃ©ristiques n'ont pas Ã©tÃ© sauvegardÃ©es."
 
-$ 821 "Vous avez indiqué une largeur incorrecte pour l'impression.\n\
-$ Les caractéristiques n'ont pas été sauvegardées."
+$ 821 "Vous avez indiquÃ© une largeur incorrecte pour l'impression.\n\
+$ Les caractÃ©ristiques n'ont pas Ã©tÃ© sauvegardÃ©es."
 $ "print width" has been replaced by "right margin".
-821	"Vous avez indiqué une valeur incorrecte pour la marge de droite.\n Les caractéristiques n'ont pas été sauvegardées."
+821	"Vous avez indiquÃ© une valeur incorrecte pour la marge de droite.\n Les caractÃ©ristiques n'ont pas Ã©tÃ© sauvegardÃ©es."
 
-$  "Vous avez indiqué une hauteur incorrecte pour l'impression.\n\
-$ Les caractéristiques n'ont pas été sauvegardées."
+$  "Vous avez indiquÃ© une hauteur incorrecte pour l'impression.\n\
+$ Les caractÃ©ristiques n'ont pas Ã©tÃ© sauvegardÃ©es."
 $ "print height" has been replaced by "bottom margin".
-822	"Vous avez indiqué une valeur incorrecte pour la marge du bas.\n Les caractéristiques n'ont pas été sauvegardées."
+822	"Vous avez indiquÃ© une valeur incorrecte pour la marge du bas.\n Les caractÃ©ristiques n'ont pas Ã©tÃ© sauvegardÃ©es."
 
 825 "Jours"
 
@@ -1419,7 +1419,7 @@ $ "print height" has been replaced by "bottom margin".
 
 828 "Date:"
 
-829 "Début:"
+829 "DÃ©but:"
 
 830 "AM"
 
@@ -1433,25 +1433,25 @@ $ "print height" has been replaced by "bottom margin".
 
 835 "Commentaires:"
 
-836 "Fréquence"
+836 "FrÃ©quence"
 
-837 "Insérer/Modifier activité"
+837 "InsÃ©rer/Modifier activitÃ©"
 
 839 "Agenda: Rappel"
 
 840 "Fermer"
 
-841 "Sélectionnez \"Ajouter un nom\" pour ajouter un nom ou \"Appliquer\" pour valider les modifications."
+841 "SÃ©lectionnez \"Ajouter un nom\" pour ajouter un nom ou \"Appliquer\" pour valider les modifications."
 
 842 "Les informations transmises ne contiennent\n\
 aucun rendez-vous."
 
-843 "L'opération de glisser-poser n'a pas abouti."
+843 "L'opÃ©ration de glisser-poser n'a pas abouti."
 
 844 "Les informations transmises sont introuvables."
 
-845 "L'opération de glisser-poser n'a pas abouti.\n\
-Erreur interne de cohérence."
+845 "L'opÃ©ration de glisser-poser n'a pas abouti.\n\
+Erreur interne de cohÃ©rence."
 
 846 "Sauvegarder"
 
@@ -1479,13 +1479,13 @@ Erreur interne de cohérence."
 
 858 "Tous les ans"
 
-859 "De lundi à vendredi"
+859 "De lundi Ã  vendredi"
 
 860 "Lun, Mer, Ven"
 
 861 "Mardi, Jeudi"
 
-862 "Répéter tous les..."
+862 "RÃ©pÃ©ter tous les..."
 
 863 "2"
 
@@ -1523,35 +1523,35 @@ Erreur interne de cohérence."
 
 880 "Aide"
 
-881 "Erreur interne #1: Identificateur d'agenda/entrée incorrect.\n\
-L'opération a été annulée. Agenda"
+881 "Erreur interne #1: Identificateur d'agenda/entrÃ©e incorrect.\n\
+L'opÃ©ration a Ã©tÃ© annulÃ©e. Agenda"
 
 882 "Erreur interne #2: Identificateur de session incorrect.\n\
-L'opération a été annulée. Agenda"
+L'opÃ©ration a Ã©tÃ© annulÃ©e. Agenda"
 
-883 "Erreur interne #3: Données incorrectes.\n\
-L'opération a été annulée. Agenda"
+883 "Erreur interne #3: DonnÃ©es incorrectes.\n\
+L'opÃ©ration a Ã©tÃ© annulÃ©e. Agenda"
 
-884 "Erreur interne #4: Valeur indiquée pour un attribut\n\
-en lecture seule. L'opération a été annulée. Agenda"
+884 "Erreur interne #4: Valeur indiquÃ©e pour un attribut\n\
+en lecture seule. L'opÃ©ration a Ã©tÃ© annulÃ©e. Agenda"
 
-885 "Erreur interne #5: Type de données incorrect indiqué pour1\n\
-une valeur d'attribut. L'opération a été annulée. Agenda"
+885 "Erreur interne #5: Type de donnÃ©es incorrect indiquÃ© pour1\n\
+une valeur d'attribut. L'opÃ©ration a Ã©tÃ© annulÃ©e. Agenda"
 
-886 "Erreur interne #6: L'attribut indiqué n'est pas pris en charge\n\
-par cette version de l'agenda. L'opération a été annulée. Agenda"
+886 "Erreur interne #6: L'attribut indiquÃ© n'est pas pris en charge\n\
+par cette version de l'agenda. L'opÃ©ration a Ã©tÃ© annulÃ©e. Agenda"
 
-887 "Erreur interne #7: La fonction indiquée n'est pas prise en charge\n\
-par cette version de l'agenda. L'opération a été annulée. Agenda"
+887 "Erreur interne #7: La fonction indiquÃ©e n'est pas prise en charge\n\
+par cette version de l'agenda. L'opÃ©ration a Ã©tÃ© annulÃ©e. Agenda"
 
-888 "Erreur interne #8: L'opérateur indiqué est incorrect.\n\
-L'opération a été annulée. Agenda"
+888 "Erreur interne #8: L'opÃ©rateur indiquÃ© est incorrect.\n\
+L'opÃ©ration a Ã©tÃ© annulÃ©e. Agenda"
 
 890 "Erreur - Fonctions d'agenda"
 
 891 "Imprimer"
 
-892 "Les dates indiquées pour l'impression doivent être comprises entre 1969 et 2038."
+892 "Les dates indiquÃ©es pour l'impression doivent Ãªtre comprises entre 1969 et 2038."
 
 893 "Imprimer"
 
@@ -1563,54 +1563,54 @@ L'opération a été annulée. Agenda"
 
 897 "Imprimer"
 
-898 "La date \"A\" indiquée pour l'impression doit être postérieure à la date \"De\"."
+898 "La date \"A\" indiquÃ©e pour l'impression doit Ãªtre postÃ©rieure Ã  la date \"De\"."
 
-899 "Début de la liste d'activités: %s"
+899 "DÃ©but de la liste d'activitÃ©s: %s"
 
-900 "Début de la liste de rendez-vous: %s"
+900 "DÃ©but de la liste de rendez-vous: %s"
 
-901 "Répéter tous les..."
+901 "RÃ©pÃ©ter tous les..."
 
-902 "De lundi à vendredi"
+902 "De lundi Ã  vendredi"
 
 903 "Lun, Mer, Ven"
 
 904 "Mardi, Jeudi"
 
-905 "Répéter tous les..."
+905 "RÃ©pÃ©ter tous les..."
 
-906 "Faire glisser activité"
+906 "Faire glisser activitÃ©"
 
 907 "Espace insuffisant pour le fichier d'agenda.\n\
-L'opération a été annulée. Agenda"
+L'opÃ©ration a Ã©tÃ© annulÃ©e. Agenda"
 
-908 "Vous ne pouvez pas définir une valeur de rappel vide.\n\
-Les caractéristiques n'ont pas été sauvegardées."
+908 "Vous ne pouvez pas dÃ©finir une valeur de rappel vide.\n\
+Les caractÃ©ristiques n'ont pas Ã©tÃ© sauvegardÃ©es."
 
-909 "Vous ne pouvez pas définir une valeur de rappel contenant\n\
-un espace. Les caractéristiques n'ont pas été sauvegardées."
+909 "Vous ne pouvez pas dÃ©finir une valeur de rappel contenant\n\
+un espace. Les caractÃ©ristiques n'ont pas Ã©tÃ© sauvegardÃ©es."
 
-910 "Les valeurs de rappel doivent être des nombres, éventuellement\n\
-signés. Les caractéristiques n'ont pas été sauvegardées."
+910 "Les valeurs de rappel doivent Ãªtre des nombres, Ã©ventuellement\n\
+signÃ©s. Les caractÃ©ristiques n'ont pas Ã©tÃ© sauvegardÃ©es."
 
-$ 911 "Vous avez indiqué une position incorrecte pour le décalage à gauche.\n\
-$ Les caractéristiques n'ont pas été sauvegardées."
+$ 911 "Vous avez indiquÃ© une position incorrecte pour le dÃ©calage Ã  gauche.\n\
+$ Les caractÃ©ristiques n'ont pas Ã©tÃ© sauvegardÃ©es."
 $ "position from left offset" has been changed to "left margin".
-911	"Vous avez indiqué une valeur incorrecte pour la marge de gauche.\n Les caractéristiques n'ont pas été sauvegardées."
+911	"Vous avez indiquÃ© une valeur incorrecte pour la marge de gauche.\n Les caractÃ©ristiques n'ont pas Ã©tÃ© sauvegardÃ©es."
 
-$ 912 "Vous avez indiqué une position incorrecte pour le décalage à droite.\n\
-$ Les caractéristiques n'ont pas été sauvegardées."
+$ 912 "Vous avez indiquÃ© une position incorrecte pour le dÃ©calage Ã  droite.\n\
+$ Les caractÃ©ristiques n'ont pas Ã©tÃ© sauvegardÃ©es."
 $ "position from right offset" has been changed to "top margin".
-912	"Vous avez indiqué une valeur incorrecte pour la marge du haut.\n Les caractéristiques n'ont pas été sauvegardées."
+912	"Vous avez indiquÃ© une valeur incorrecte pour la marge du haut.\n Les caractÃ©ristiques n'ont pas Ã©tÃ© sauvegardÃ©es."
 
-913 "La première ligne des commentaires associés à une activité doit contenir du texte."
+913 "La premiÃ¨re ligne des commentaires associÃ©s Ã  une activitÃ© doit contenir du texte."
 
-914 "L'opération de l'éditeur d'agenda n'a pas abouti."
+914 "L'opÃ©ration de l'Ã©diteur d'agenda n'a pas abouti."
 
-915 "L'opération de l'éditeur d'agenda n'a pas abouti."
+915 "L'opÃ©ration de l'Ã©diteur d'agenda n'a pas abouti."
 
-916 "La durée doit être inférieure à 24 heures.\n\
-Les caractéristiques n'ont pas été sauvegardées."
+916 "La durÃ©e doit Ãªtre infÃ©rieure Ã  24 heures.\n\
+Les caractÃ©ristiques n'ont pas Ã©tÃ© sauvegardÃ©es."
 
 917 "Graphique\n\
 manquant"
@@ -1620,9 +1620,9 @@ manquant"
 
 919 "Agenda"
 
-920 "affiché."
+920 "affichÃ©."
 
-921 "Impossible d'accéder à l'agenda:"
+921 "Impossible d'accÃ©der Ã  l'agenda:"
 
 922 "A propos de l'agenda"
 
@@ -1640,7 +1640,7 @@ manquant"
 
 929 "Annuler"
 
-930 "Insérer"
+930 "InsÃ©rer"
 
 931 "Modifier"
 
@@ -1708,19 +1708,19 @@ manquant"
 
 963 "Agenda - Editeur de menus"
 
-964 "Sur l'élément"
+964 "Sur l'Ã©lÃ©ment"
 
-965 "Liste des activités..."
+965 "Liste des activitÃ©s..."
 
-966 "Activité..."
+966 "ActivitÃ©..."
 
 967 "Version du serveur Agenda"
 
-968 "Version données Agenda"
+968 "Version donnÃ©es Agenda"
 
-969 "Répétition (fréquence)"
+969 "RÃ©pÃ©tition (frÃ©quence)"
 
-970 "La valeur de répétition doit être un entier sans signe."
+970 "La valeur de rÃ©pÃ©tition doit Ãªtre un entier sans signe."
 
 971 "Heure Agenda"
 
@@ -1728,22 +1728,22 @@ manquant"
 
 973 "Rechercher tous"
 974 "Rechercher de"
-975 "à"
+975 "Ã "
 976 "Type de rapport :"
 977 "Vue quotidienne"
 978 "Vue hebdomadaire"
 979 "Vue mensuelle"
 980 "Vue annuelle"
 981 "Liste de rendez-vous"
-982 "Liste des activités"
+982 "Liste des activitÃ©s"
 983 "Nom de l'utilisateur"
-984 " Ce rendez-vous fait partie d'une série récurrente.\n Confirmer l'insertion...?"
+984 " Ce rendez-vous fait partie d'une sÃ©rie rÃ©currente.\n Confirmer l'insertion...?"
 985 "Rappels"
 986 "Bip"
 987 "Clignoter"
-988 "Message instantané"
+988 "Message instantanÃ©"
 989 "Message"
-990 "Expédier à :"
+990 "ExpÃ©dier Ã  :"
 992 "%A, %e %B, %Y"
 $ 	/* NL_COMMENT
 $ 	   Attention Translator:
@@ -1757,7 +1757,7 @@ $ 	   strftime conversion string: "%A, %B %e, %Y" is used.
 $ 
 $ 	   Use the appropriate strftime conversion for your locale.
 $ 	*/
-993 "Semaine commençant le %A %e %B %Y"
+993 "Semaine commenÃ§ant le %A %e %B %Y"
 $ 	/* NL_COMMENT
 $ 	   Attention Translator:
 $ 
@@ -1777,27 +1777,27 @@ $ 	*/
 995 "semaines"
 996 "deux semaines"
 997 "mois"
-998 "années"
+998 "annÃ©es"
 1002 "Contribue aussi :"
 1003 "Ce rendez-vous existe dans un autre agenda.\nConfirmer la modification ?"
 1004 "Ce rendez-vous existe dans un autre agenda.\n Confirmer la suppression ?"
 1005 "Supprimer de"
 1006 "Changer dans"
-1007 " Une erreur interne s'est produite lors de la sélection\n\
-du rendez-vous. Celui-ci n'a pas été modifié."
+1007 " Une erreur interne s'est produite lors de la sÃ©lection\n\
+du rendez-vous. Celui-ci n'a pas Ã©tÃ© modifiÃ©."
 1008 "Agenda rendez-vous : Aide"
-1009 " Une erreur interne s'est produite lors de la sélection\n\
-de l'activité. Celle-ci n'a pas été modifiée."
+1009 " Une erreur interne s'est produite lors de la sÃ©lection\n\
+de l'activitÃ©. Celle-ci n'a pas Ã©tÃ© modifiÃ©e."
 1010 "Agenda : Comparer les agendas"
-1011 "Valeur incorrecte dans la zone \"Echéance\".\nOpération annulée. Agenda"
+1011 "Valeur incorrecte dans la zone \"EchÃ©ance\".\nOpÃ©ration annulÃ©e. Agenda"
 
-1012 "Agenda -  Liste d'activités"
+1012 "Agenda -  Liste d'activitÃ©s"
 
-1042 "Insérer accès refusé: "
-1043 "Supprimer accès refusé : "
-1044 "Visualiser accès refusé : "
+1042 "InsÃ©rer accÃ¨s refusÃ©: "
+1043 "Supprimer accÃ¨s refusÃ© : "
+1044 "Visualiser accÃ¨s refusÃ© : "
 1045 "Annuler pour"
-1046 "Rendez-vous annulé\n"
+1046 "Rendez-vous annulÃ©\n"
 1047 "This appointment: '%s' has an end\n"
 $ 	/* NL_COMMENT
 $ 	   
@@ -1818,9 +1818,9 @@ $ 	   The text <appt text> and [Y/N] should not be translated.
 $ 
 $ 	*/
 1048 " L'heure de fin de ce rendez-vous \n"
-1049 " est antérieure à son heure de début.\n"
+1049 " est antÃ©rieure Ã  son heure de dÃ©but.\n"
 1050 " Voulez-vous le planifier pour le lendemain ? [Y/N]  "
-1051 " Le rendez-vous '%s'fait partie d'une série récurrente.  "
+1051 " Le rendez-vous '%s'fait partie d'une sÃ©rie rÃ©currente.  "
 $ 		/* NL_COMMENT
 $ 
 $ 		   Message numbers 1051-1057 are printed to stdout and
@@ -1840,16 +1840,16 @@ $ 		*/
 1055 "\n\t3.  Supprimer en avant"
 1056 "\n\t4.  Annuler"
 1057 "\n\tOption [1-4]: "
-1058 "Date spécifiée incorrecte.\n"
-1059 "Heure de début spécifiée incorrecte.\n"
-1060 "Heure de fin spécifiée incorrecte.\n"
+1058 "Date spÃ©cifiÃ©e incorrecte.\n"
+1059 "Heure de dÃ©but spÃ©cifiÃ©e incorrecte.\n"
+1060 "Heure de fin spÃ©cifiÃ©e incorrecte.\n"
 1061 "Zone Date vide ou manquante.\n"
-1062 "Zone Début vide ou manquante.\n"
+1062 "Zone DÃ©but vide ou manquante.\n"
 1063 "Zone Commentaires vide ou manquante.\n"
-1064 "Zones Répéter et Pour incompatibles.\n"
-1065 "Insérer rendez-vous a été annulé\n"
-1066 "Rendez-vous n'a pas été inséré."
-1067 "Date spécifiée incorrecte :"
+1064 "Zones RÃ©pÃ©ter et Pour incompatibles.\n"
+1065 "InsÃ©rer rendez-vous a Ã©tÃ© annulÃ©\n"
+1066 "Rendez-vous n'a pas Ã©tÃ© insÃ©rÃ©."
+1067 "Date spÃ©cifiÃ©e incorrecte :"
 1068 "Rendez-vous pour"
 1069 "Pas de rendez-vous pour"
 1070 "Agenda : Erreur - Comparer les agendas"
@@ -1858,10 +1858,10 @@ $ 		*/
 1074 "Rendez-vous agenda"
 1075 " Agenda : Erreur - Changer rendez-vous"
 1076 " Agenda : Aide"
-1078 " Agenda : Liste d'accès et permissions - Ajouter"
-1079 " Agenda : Erreur - Paramètres d'éditeur"
-1083 " Agenda : Erreur - Afficher paramètres"
-1085 " Agenda : Erreur - Paramètres de l'imprimante"
+1078 " Agenda : Liste d'accÃ¨s et permissions - Ajouter"
+1079 " Agenda : Erreur - ParamÃ¨tres d'Ã©diteur"
+1083 " Agenda : Erreur - Afficher paramÃ¨tres"
+1085 " Agenda : Erreur - ParamÃ¨tres de l'imprimante"
 
 1086 "Agenda - Liste de rendez-vous"
 
@@ -1983,23 +1983,23 @@ $		1105 was 986 from IBM.
 $ 	*/
 
 1100 "\n\n\
-\t** Activité (agenda) **\n\n\
-\tEchéance:\t%s\n\
+\t** ActivitÃ© (agenda) **\n\n\
+\tEchÃ©ance:\t%s\n\
 \tHeure:\t%s\n\
 \tCommentaires:\t\t%s"
 
-1101 "Insérer rendez-vous"
+1101 "InsÃ©rer rendez-vous"
 
-1102 "Insérer activité"
+1102 "InsÃ©rer activitÃ©"
 
-1103 "Cette activité fait partie d'une série récurrente.\n\
-Voulez-vous l'insérer...?"
+1103 "Cette activitÃ© fait partie d'une sÃ©rie rÃ©currente.\n\
+Voulez-vous l'insÃ©rer...?"
 
 1104 "Valeur incorrecte dans la zone Heure.\n\
-L'opération a été annulée. Agenda."
+L'opÃ©ration a Ã©tÃ© annulÃ©e. Agenda."
 
 1105 "Vous devez indiquer une heure.\n\
-L'opération a été annulée. Agenda."
+L'opÃ©ration a Ã©tÃ© annulÃ©e. Agenda."
 
 $ Message numbers 1106-1110 represent choices for the content of
 $ left and right headers and footers on the printed page.  These
@@ -2007,7 +2007,7 @@ $ items are displayed in option menus in the "Printer Settings..."
 $ category of the "Options..." dialog.
 1106	"Date"
 1107	"Id utilisateur"
-1108	"Numéro de page"
+1108	"NumÃ©ro de page"
 1109	"Type de rapport"
 1110	"Aucun"
 $ Message 1111 is placed in the title bar of an error dialog if an
@@ -2015,7 +2015,7 @@ $ error is encountered when the user invokes "Setup..." from the
 $ "Print..." dialog box.  Message 1112 is the text displayed in
 $ that error dialog.
 1111	"Agenda Erreur - Configuration de l'impression"
-1112	"Erreur du Gestionnaire d'impression (PDM) - configuration a échoué."
+1112	"Erreur du Gestionnaire d'impression (PDM) - configuration a Ã©chouÃ©."
 $ Message 1113 is the error message displayed if the user selects
 $ "Print" from the "Print..." dialog box while an invalid printer
 $ name is specified.
@@ -2031,7 +2031,7 @@ $ if the operation completes successfully when the user invokes "Print"
 $ from the "Print..." dialog box with the "Print to File" toggle
 $ selected.  Message 1117 is the text displayed in that information dialog.
 1116	"Agenda : Imprimer dans le fichier"
-1117	"Imprimer dans le fichier terminé."
+1117	"Imprimer dans le fichier terminÃ©."
 $ Message 1118 is placed in the title bar of a warning dialog if a
 $ font cannot be found during the "Print" operation.  Message 1119
 $ is the text displayed in that warning dialog; the %s will be replaced
@@ -2041,14 +2041,14 @@ $ by the name of the font.
 $ 
 $ Message 1120 appears in an error dialog when an appointment cannot
 $   be scheduled.
-1120	"L'événement ne peut avoir lieu dans le temps donné.\nL'opération a été annulée."
+1120	"L'Ã©vÃ©nement ne peut avoir lieu dans le temps donnÃ©.\nL'opÃ©ration a Ã©tÃ© annulÃ©e."
 
 $ 
 $ Message 1121 is placed in the title bar of a warning dialog if a
 $ print job fails because the Print Server returns BadAlloc.  Message
 $ 1122 is the text displayed in that warning dialog.
 1121	"Agenda : Erreur du serveur d'impression"
-1122	"Le travail d'impression a échoué.\n\nLe serveur d'impression X manque temporairement de ressources."
+1122	"Le travail d'impression a Ã©chouÃ©.\n\nLe serveur d'impression X manque temporairement de ressources."
 
 $set 2
 $ *****************************************************************************

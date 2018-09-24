@@ -24,40 +24,40 @@ $ // DTME_NoError
 1 "Aucune erreur n'a eu lieu."
 
 $ // DTME_AlreadyLocked
-2 "Le dossier est verrouillé par une autre session."
+2 "Le dossier est verrouillÃ© par une autre session."
 
 $ // DTME_BadArg
-3 "Un argument incorrect a remplacé un paramètre de l'opération."
+3 "Un argument incorrect a remplacÃ© un paramÃ¨tre de l'opÃ©ration."
 
 $ // DTME_BadMailAddress
-4 "Impossible de traiter l'adresse de courrier spécifiée."
+4 "Impossible de traiter l'adresse de courrier spÃ©cifiÃ©e."
 
 $ // DTME_BadRunGroup
-5 "Le programme dtmail n'est pas exécuté en tant que groupe \"mail\"."
+5 "Le programme dtmail n'est pas exÃ©cutÃ© en tant que groupe \"mail\"."
 
 $ // DTME_FileCreateFailed
-6 "Création du fichier demandé impossible."
+6 "CrÃ©ation du fichier demandÃ© impossible."
 
 $ // DTME_FolderNotSet
-7 "La boîte aux lettres à incorporer n'est pas définie."
+7 "La boÃ®te aux lettres Ã  incorporer n'est pas dÃ©finie."
 
 $ // DTME_GetLockRefused
-8 "Refus de l'utilisateur de retirer le verrou d'une boîte aux lettres verrouillée."
+8 "Refus de l'utilisateur de retirer le verrou d'une boÃ®te aux lettres verrouillÃ©e."
 
 $ // DTME_ImplFailure
-9 "Impossible à l'implémentation spécifiée d'exécuter l'opération demandée."
+9 "Impossible Ã  l'implÃ©mentation spÃ©cifiÃ©e d'exÃ©cuter l'opÃ©ration demandÃ©e."
 
 $ // DTME_InitializationFailed
 10 "Impossible d'initialiser l'instance."
 
 $ // DTME_InternalFailure
-11 "Une panne interne s'est produite au cours de l'opération."
+11 "Une panne interne s'est produite au cours de l'opÃ©ration."
 
 $ // DTME_InvalidError
 12 "La structure de l'erreur est incorrecte."
 
 $ // DTME_InvalidOperationSequence
-13 "Tentative d'opération avant l'initialisation de l'instance."
+13 "Tentative d'opÃ©ration avant l'initialisation de l'instance."
 
 $ // DTME_MD5ChecksumFailed
 14 "La signature MD5 n'est pas compatible avec le contenu du message."
@@ -66,169 +66,169 @@ $ // DTME_MailTransportFailed
 15 "Communication impossible avec le transport du courrier."
 
 $ // DTME_NoDataType
-16 "Aucun type de données compatible avec le type de transport."
+16 "Aucun type de donnÃ©es compatible avec le type de transport."
 
 $ // DTME_NoImplementations
-17 "Impossible de trouver des implémentations dans la bibliothèque de courrier."
+17 "Impossible de trouver des implÃ©mentations dans la bibliothÃ¨que de courrier."
 
 $ // DTME_NoMailBox
-18 "Initialisation de la boîte aux lettres au moment du chargement."
+18 "Initialisation de la boÃ®te aux lettres au moment du chargement."
 
 $ // DTME_NoMemory
-19 "Pas de mémoire disponible pour l'opération."
+19 "Pas de mÃ©moire disponible pour l'opÃ©ration."
 
 $ // DTME_NoMsgCat
 20 "Le catalogue de messages de DtMail n'existe pas."
 
 $ // DTME_NoNewMail
-21 "Pas de nouveau courrier à incorporer."
+21 "Pas de nouveau courrier Ã  incorporer."
 
 $ // DTME_NoObjectValue
 22 "Valeur de l'objet introuvable."
 
 $ // DTME_NoSuchFile
-23 "La boîte aux lettres n'existe pas et vous n'avez pas demandé sa création."
+23 "La boÃ®te aux lettres n'existe pas et vous n'avez pas demandÃ© sa crÃ©ation."
 
 $ // DTME_NoSuchImplementation
-24 "L'implémentation spécifiée n'esiste pas."
+24 "L'implÃ©mentation spÃ©cifiÃ©e n'esiste pas."
 
 $ // DTME_NoSuchType
-25 "Le type de données n'existe pas dans la bibliothèque."
+25 "Le type de donnÃ©es n'existe pas dans la bibliothÃ¨que."
 
 $ // DTME_NoUser
 26 "Impossible d'identifier l'utilisateur de la session."
 
 $ // DTME_NotInbox
-27 "Le fichier spécifié n'est pas une boîte aux lettres."
+27 "Le fichier spÃ©cifiÃ© n'est pas une boÃ®te aux lettres."
 
 $ // DTME_NotLocked
-28 "L'accès de la boîte aux lettres n'est pas verrouillé."
+28 "L'accÃ¨s de la boÃ®te aux lettres n'est pas verrouillÃ©."
 
 $ // DTME_NotMailBox
-29 "Le fichier demandé n'est pas une boîte aux lettres d'un format connu dans cette implémentation."
+29 "Le fichier demandÃ© n'est pas une boÃ®te aux lettres d'un format connu dans cette implÃ©mentation."
 
 $ // DTME_NotSupported
-30 "L'implémentation en cours ne prend pas en charge cette opération."
+30 "L'implÃ©mentation en cours ne prend pas en charge cette opÃ©ration."
 
 $ // DTME_ObjectAccessFailed
-31 "Impossible d'accéder à un objet indispensable à l'opération."
+31 "Impossible d'accÃ©der Ã  un objet indispensable Ã  l'opÃ©ration."
 
 $ // DTME_ObjectCreationFailed
-32 " Impossible de créer un objet indispensable à l'opération."
+32 " Impossible de crÃ©er un objet indispensable Ã  l'opÃ©ration."
 
 $ // DTME_ObjectInUse
-33 "Tentative d'initialisation d'un objet déjà initialisé."
+33 "Tentative d'initialisation d'un objet dÃ©jÃ  initialisÃ©."
 
 $ // DTME_ObjectInvalid
-34 "Vous avez fait référence à un objet incorrect."
+34 "Vous avez fait rÃ©fÃ©rence Ã  un objet incorrect."
 
 $ // DTME_OpenContainerInterrupted
-35 "L'utilisateur a interrompu l'ouverture de la boîte aux lettres."
+35 "L'utilisateur a interrompu l'ouverture de la boÃ®te aux lettres."
 
 $ // DTME_OperationInvalid
-36 "Une erreur interne a eu lieu au cours de l'exécution de l'opération."
+36 "Une erreur interne a eu lieu au cours de l'exÃ©cution de l'opÃ©ration."
 
 $ // DTME_OtherOwnsWrite
-37 "Le droit en écriture de la boîte aux lettres appartient à un autre programme de courrier."
+37 "Le droit en Ã©criture de la boÃ®te aux lettres appartient Ã  un autre programme de courrier."
 
 $ // DTME_RequestDenied
-38 "L'autre session a refusé la demande de verrou ou de copie."
+38 "L'autre session a refusÃ© la demande de verrou ou de copie."
 
 $ // DTME_TTFailure
 39 "Impossible de traiter un messageToolTalk."
 
 $ // DTME_TransportFailed
-40 "Le transport de distribution de courrier a échoué."
+40 "Le transport de distribution de courrier a Ã©chouÃ©."
 
 $ // DTME_UnknownFormat
 41 "Le message ne fait pas partie d'un format pris en charge."
 
 $ // DTME_UnknownOpenError
-42 "Une erreur inconnue a eu lieu lors de l'ouverture de la boîte aux lettres."
+42 "Une erreur inconnue a eu lieu lors de l'ouverture de la boÃ®te aux lettres."
 
 $ // DTME_UserAbort
-43 "L'utilisateur a abandonné l'opération."
+43 "L'utilisateur a abandonnÃ© l'opÃ©ration."
 
 $ // DTME_UserInterrupted
-44 "L'utilisateur a interrompu l'opération."
+44 "L'utilisateur a interrompu l'opÃ©ration."
 
 $ // DTME_ObjectReadOnly
-45 "Les autorisations de la boîte aux lettres sont en lecture seule."
+45 "Les autorisations de la boÃ®te aux lettres sont en lecture seule."
 
 $ // DTME_NoPermission
-46 "L'utilisateur n'a pas d'autorisation d'accès à la boîte aux lettres."
+46 "L'utilisateur n'a pas d'autorisation d'accÃ¨s Ã  la boÃ®te aux lettres."
 
 $ // DTME_IsDirectory
-47 "Le chemin spécifié est un répertoire."
+47 "Le chemin spÃ©cifiÃ© est un rÃ©pertoire."
 
 $ // DTME_CannotRemoveStaleMailboxLockFile
-48 "Impossible de verrouiller la boîte aux lettres (impossible de supprimer le fichier ancien verrou).\nFichier Ancien verrou : %s\nRaison : %s"
+48 "Impossible de verrouiller la boÃ®te aux lettres (impossible de supprimer le fichier ancien verrou).\nFichier Ancien verrou : %s\nRaison : %s"
 
 $ // DTME_CannotCreateMailboxLockFile
-49 "Impossible de verrouiller la boîte aux lettres (impossible de créer un fichier verrou).\nMailbox lock file : %s\nRaison : %s"
+49 "Impossible de verrouiller la boÃ®te aux lettres (impossible de crÃ©er un fichier verrou).\nMailbox lock file : %s\nRaison : %s"
 
 $ // DTME_CannotCreateMailboxLockFile_NoPermission
-50 "Impossible de créer un fichier verrou et de verrouiller la boîte aux lettres parce que l'utilisateur \nne peut accéder ni à la boîte aux lettres ni au répertoire qui la contient "
+50 "Impossible de crÃ©er un fichier verrou et de verrouiller la boÃ®te aux lettres parce que l'utilisateur \nne peut accÃ©der ni Ã  la boÃ®te aux lettres ni au rÃ©pertoire qui la contient "
 
 $ // DTME_CannotCreateMailboxLockFile_IsDirectory
-51 "Impossible de créer un fichier verrou et de verrouiller la boîte aux lettres parce qu'il \nexiste déjà un répertoire de même nom."
+51 "Impossible de crÃ©er un fichier verrou et de verrouiller la boÃ®te aux lettres parce qu'il \nexiste dÃ©jÃ  un rÃ©pertoire de mÃªme nom."
 
 $ // DTME_CannotCreateMailboxLockFile_NoSuchFile
-52 "Impossible de créer un fichier verrou et de verrouiller la boîte aux lettres parce que l'un\ndes composants de son chemin n'est pas un répertoire."
+52 "Impossible de crÃ©er un fichier verrou et de verrouiller la boÃ®te aux lettres parce que l'un\ndes composants de son chemin n'est pas un rÃ©pertoire."
 
 $ // DTME_CannotCreateMailboxLockFile_RemoteAccessLost
-53 " Impossible de créer un fichier verrou et de verrouiller la boîte aux lettres parce que \nvous n'avez plus accès au système éloigné sur lequel le fichier a été créé."
+53 " Impossible de crÃ©er un fichier verrou et de verrouiller la boÃ®te aux lettres parce que \nvous n'avez plus accÃ¨s au systÃ¨me Ã©loignÃ© sur lequel le fichier a Ã©tÃ© crÃ©Ã©."
 
 $ // DTME_CannotObtainInformationOnOpenMailboxFile
-54 "Impossible d'obtenir des informations au sujet du fichier boîte aux lettres courant.\nFichier boîte aux lettres : %s\nRaison : %s"
+54 "Impossible d'obtenir des informations au sujet du fichier boÃ®te aux lettres courant.\nFichier boÃ®te aux lettres : %s\nRaison : %s"
 
 $ // DTME_CannotCreateTemporaryMailboxFile
-55 "Impossible de créer un fichier boîte aux lettres temporaire.\nFichier boîte aux lettres temporaire : %s\nRaison : %s"
+55 "Impossible de crÃ©er un fichier boÃ®te aux lettres temporaire.\nFichier boÃ®te aux lettres temporaire : %s\nRaison : %s"
 
 $ // DTME_CannotCreateTemporaryMailboxFile_NoPermission
-56 " Impossible de créer un fichier boîte aux lettres temporaire parce que l'utilisateur ne peut accéder \nni à la boîte aux lettres ni au répertoire qui la contient."
+56 " Impossible de crÃ©er un fichier boÃ®te aux lettres temporaire parce que l'utilisateur ne peut accÃ©der \nni Ã  la boÃ®te aux lettres ni au rÃ©pertoire qui la contient."
 
 $ // DTME_CannotCreateTemporaryMailboxFile_IsDirectory
-57 " Impossible de créer un fichier boîte aux lettres temporaire parce qu'il existe déjà\nun répertoire du même nom."
+57 " Impossible de crÃ©er un fichier boÃ®te aux lettres temporaire parce qu'il existe dÃ©jÃ \nun rÃ©pertoire du mÃªme nom."
 
 $ // DTME_CannotCreateTemporaryMailboxFile_NoSuchFile
-58 " Impossible de créer un fichier boîte aux lettres temporaire parce que l'un\ndes composants de son chemin n'est pas un répertoire."
+58 " Impossible de crÃ©er un fichier boÃ®te aux lettres temporaire parce que l'un\ndes composants de son chemin n'est pas un rÃ©pertoire."
 
 $ // DTME_CannotCreateTemporaryMailboxFile_RemoteAccessLost
-59 " Impossible de créer un fichier boîte aux lettres temporaire parce que \nvous n'avez plus accès au système éloigné sur lequel le fichier a été créé."
+59 " Impossible de crÃ©er un fichier boÃ®te aux lettres temporaire parce que \nvous n'avez plus accÃ¨s au systÃ¨me Ã©loignÃ© sur lequel le fichier a Ã©tÃ© crÃ©Ã©."
 
 $ // DTME_CannotSetPermissionsOfTemporaryMailboxFile
-60 "Impossible de définir les autorisations du fichier boîte aux lettres temporaire.\nFichier boîte aux lettres temporaire : %s\nAutorisations demandées : %o\nRaison : %s"
+60 "Impossible de dÃ©finir les autorisations du fichier boÃ®te aux lettres temporaire.\nFichier boÃ®te aux lettres temporaire : %s\nAutorisations demandÃ©es : %o\nRaison : %s"
 
 $ // DTME_CannotSetOwnerOfTemporaryMailboxFile
-61 "Impossible d'établir l'utilisateur du fichier boîte aux lettres.\nFichier boîte aux lettres temporaire : %s\nUid du propriétaire demandée : %d\nRaison: %s"
+61 "Impossible d'Ã©tablir l'utilisateur du fichier boÃ®te aux lettres.\nFichier boÃ®te aux lettres temporaire : %s\nUid du propriÃ©taire demandÃ©e : %d\nRaison: %s"
 
 $ // DTME_CannotSetGroupOfTemporaryMailboxFile
-62 "Impossible d'établir un groupe de fichiers boîte aux lettres temporaire.\nFichier boîte aux lettres temporaire : %s\nGid du groupe demandé : %d\nRaison: %s"
+62 "Impossible d'Ã©tablir un groupe de fichiers boÃ®te aux lettres temporaire.\nFichier boÃ®te aux lettres temporaire : %s\nGid du groupe demandÃ© : %d\nRaison: %s"
 
 $ // DTME_CannotWriteToTemporaryMailboxFile
-63 "Pas de permission en écriture dans le fichier boîte aux lettres temporaire.\nFichier boîte aux lettres temporaire : %s\nRaison : %s"
+63 "Pas de permission en Ã©criture dans le fichier boÃ®te aux lettres temporaire.\nFichier boÃ®te aux lettres temporaire : %s\nRaison : %s"
 
 $ // DTME_CannotWriteToTemporaryMailboxFile_ProcessLimitsExceeded
-64 " Pas de permission en écriture dans le fichier boîte aux lettres temporaire parce que\nla limite de taille ou la taille maximale a été atteinte."
+64 " Pas de permission en Ã©criture dans le fichier boÃ®te aux lettres temporaire parce que\nla limite de taille ou la taille maximale a Ã©tÃ© atteinte."
 
 $ // DTME_CannotWriteToTemporaryMailboxFile_RemoteAccessLost
-65 " Pas de permission en écriture dans le fichier boîte aux lettres temporaire parce que\nvous n'avez plus accès au système éloigné sur lequel il a été créé."
+65 " Pas de permission en Ã©criture dans le fichier boÃ®te aux lettres temporaire parce que\nvous n'avez plus accÃ¨s au systÃ¨me Ã©loignÃ© sur lequel il a Ã©tÃ© crÃ©Ã©."
 
 $ // DTME_CannotWriteToTemporaryMailboxFile_NoFreeSpaceLeft
-66 " Pas de permission en écriture dans le fichier boîte aux lettres temporaire parce qu'il n'y a plus\nd'espace disponible sur le périphérique sur lequel il a été créé."
+66 " Pas de permission en Ã©criture dans le fichier boÃ®te aux lettres temporaire parce qu'il n'y a plus\nd'espace disponible sur le pÃ©riphÃ©rique sur lequel il a Ã©tÃ© crÃ©Ã©."
 
 $ // DTME_CannotReadNewMailboxFile
-67 "Impossible de lire le nouveau fichier boîte aux lettres\nRaison : %s"
+67 "Impossible de lire le nouveau fichier boÃ®te aux lettres\nRaison : %s"
 
 $ // DTME_CannotReadNewMailboxFile_OutOfMemory
-68 " Impossible de lire le nouveau fichier boîte aux lettres parce que la mémoire est insuffisante pour l'opération"
+68 " Impossible de lire le nouveau fichier boÃ®te aux lettres parce que la mÃ©moire est insuffisante pour l'opÃ©ration"
 
 $ // DTME_CannotRemoveMailboxLockFile
-69 "Impossible de déverrouiller (Impossible de supprimer le fichier verrou).\nFichier verrou boîte aux lettres : %s\nRaison : %s"
+69 "Impossible de dÃ©verrouiller (Impossible de supprimer le fichier verrou).\nFichier verrou boÃ®te aux lettres : %s\nRaison : %s"
 
 $ // DTME_CannotRenameNewMailboxFileOverOld
-70 "Impossible de renommer le nouveau fichier boîte aux lettres comme l'ancien.\nCe dernier existe toujours mais le contenu complet et correct de la boîte aux lettres a été sauvegardé\ndans le nouveau fichier.\nVous devez rectifier ceci manuellement aussitôt que possible.\nFichier boîte aux lettres ancien : %s\nNouveau fichier boîte aux lettres : %s\nRaison : %s"
+70 "Impossible de renommer le nouveau fichier boÃ®te aux lettres comme l'ancien.\nCe dernier existe toujours mais le contenu complet et correct de la boÃ®te aux lettres a Ã©tÃ© sauvegardÃ©\ndans le nouveau fichier.\nVous devez rectifier ceci manuellement aussitÃ´t que possible.\nFichier boÃ®te aux lettres ancien : %s\nNouveau fichier boÃ®te aux lettres : %s\nRaison : %s"
 
 $ // DTME_InternalAssertionFailure
 71 "Une erreur interne s'est produite au cours de l'application.\nIl est impossible de continuer.\nCondition d'erreur : %s\n"

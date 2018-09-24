@@ -106,44 +106,44 @@ PositionL "Position"
 
 CloseL "Fermeture"
 
-StartFindL "Démarrer recherche"
+StartFindL "DÃ©marrer recherche"
 
-StopFindL "Arrêter recherche"
+StopFindL "ArrÃªter recherche"
 
 SearchL "Recherche de %s...\n\n\
-Appuyez sur Arrêter pour interrompre"
+Appuyez sur ArrÃªter pour interrompre"
 $ Find Information dialog messages  
 
 NoMatchesL "Pas de travail correspondant"
 
 NotFoundMessageL "Le travail n'existe plus ou \n\
-l'imprimante est arrêtée."
+l'imprimante est arrÃªtÃ©e."
 $ ----- Modify Show Dialog -----  
 
 ModifyShowTitleL "%s - Modifier la liste d'affichage"
 
-SelectPrintersToBeShowL "Sélectionner imprimantes à afficher"
+SelectPrintersToBeShowL "SÃ©lectionner imprimantes Ã  afficher"
 
-SelectAllL "Tout sélectionner"
+SelectAllL "Tout sÃ©lectionner"
 
-DeselectAllL "Tout désélectionner"
+DeselectAllL "Tout dÃ©sÃ©lectionner"
 $ ----- Set Options Dialog -----  
 
-SetOptionsTitleL "%s - Définir les options"
+SetOptionsTitleL "%s - DÃ©finir les options"
 
-RepresentationL "Représentation"
+RepresentationL "ReprÃ©sentation"
 
-LargeIconL "Grandes icônes"
+LargeIconL "Grandes icÃ´nes"
 
-SmallIconL "Petites icônes"
+SmallIconL "Petites icÃ´nes"
 
 NameOnlyL "Nom uniquement"
 
 DetailsL "Informations"
 
-ShowLabelsL "Affichage libellés"
+ShowLabelsL "Affichage libellÃ©s"
 
-JobsToShowL "Travaux à afficher"
+JobsToShowL "Travaux Ã  afficher"
 
 OnlyMineL "Travaux personnels uniquement"
 
@@ -155,12 +155,12 @@ ProblemFlagL "Signal d'erreur"
 
 InformationLineL "Ligne de message"
 
-UpdateIntervalL "Mises à jour"
+UpdateIntervalL "Mises Ã  jour"
 
 IntervalL "Intervalle (en secondes)"
 $ ----- Print Job Properties Dialog -----  
 
-PrintJobPropsTitleL "%s - Caractéristiques travail d'impression"
+PrintJobPropsTitleL "%s - CaractÃ©ristiques travail d'impression"
 
 PrinterL "Imprimante"
 
@@ -174,9 +174,9 @@ Position1L "Position:"
 
 JobNameL "Nom de travail:"
 
-JobNumberL "Numéro de travail:"
+JobNumberL "NumÃ©ro de travail:"
 
-OwnerL "Propriétaire:"
+OwnerL "PropriÃ©taire:"
 
 DateL "Date:"
 
@@ -185,11 +185,11 @@ TimeL "Heure:"
 SizeL "Taille:"
 $ ----- Printer Properties Dialog -----  
 
-PrinterPropsTitleL "%s - Caractéristiques d'imprimante"
+PrinterPropsTitleL "%s - CaractÃ©ristiques d'imprimante"
 
-IconLabelL "Libellé d'icône:"
+IconLabelL "LibellÃ© d'icÃ´ne:"
 
-IconGroupTitleL "Icônes:"
+IconGroupTitleL "IcÃ´nes:"
 
 FindSetL "Rechercher ensemble..."
 
@@ -199,9 +199,9 @@ PrinterStatusL "Etat:"
 
 PrintQueueL "File d'attente d'impression:"
 
-DeviceL "Nom d'unité:"
+DeviceL "Nom d'unitÃ©:"
 
-DeviceNL "Unité %d:"
+DeviceNL "UnitÃ© %d:"
 
 UpL "EF - En fonction"
 
@@ -216,11 +216,11 @@ $ ----- Find Set Dialog -----
 
 FindSetTitleL "%s - Rechercher ensemble"
 
-IconFoldersL "Dossiers icônes:"
+IconFoldersL "Dossiers icÃ´nes:"
 
-IconTitleL "Icônes"
+IconTitleL "IcÃ´nes"
 
-LoadingIconsL "Chargement des icônes %1$d de %2$d..."
+LoadingIconsL "Chargement des icÃ´nes %1$d de %2$d..."
 $ %1 is a counter and %2 is the total number of icons  
 $ ----- "Cancel" Print Job Confirmation Dialog -----  
 
@@ -233,12 +233,12 @@ PrinterStatusTitleL "%s - Etat imprimante"
 
 PrinterDownL "La file d'attente d'impression %s est hors fonction."
 
-DeviceDownL "L'unité %s est hors fonction."
+DeviceDownL "L'unitÃ© %s est hors fonction."
 $ ----- Failed Action Dialog -----  
 
 FailedActionTitleL "%s - %s n'a pas abouti"
 
-FailedMessageL "Impossible d'appliquer l'action '%s' à\n\
+FailedMessageL "Impossible d'appliquer l'action '%s' Ã \n\
   %s. Reportez-vous au code cause ci-dessous.\n\n\
 %s"
 $ ----- Main Window Information Line Messages -----  
@@ -249,13 +249,13 @@ SearchingL "Recherche des imprimantes..."
 
 ShowingMyJobsL "Affichage des travaux personnels uniquement"
 
-PrintersHiddenL "%d Imprimantes %d Cachés"
+PrintersHiddenL "%d Imprimantes %d CachÃ©s"
 
 JobsL "%d Travaux"
 
-UpdatingActionsL "Mise à jour de la base de données d'actions..."
+UpdatingActionsL "Mise Ã  jour de la base de donnÃ©es d'actions..."
 
-UpdatingL "Mise à jour de %s..."
+UpdatingL "Mise Ã  jour de %s..."
 $ Do not translate EditLangL for this release  
 
 EditLangL "Edition de /etc/dt/appconfig/types/%s"
@@ -279,7 +279,7 @@ ExitMnemonicL "t"
 ExitAcceleratorL "Alt+F4"
 $ ----- Selected Menu Messages -----  
 
-SelectedMenuL "Sélectionné(s)"
+SelectedMenuL "SÃ©lectionnÃ©(s)"
 
 SelectedAcceleratorL "S"
 $ For Print Jobs Only - "Cancel" means to remove a print job from the printer.  
@@ -312,13 +312,13 @@ $ Do not translate RenameMnemonicL for this release
 RenameMnemonicL "m"
 $ Do not translate StartChoiceL for this release  
 
-StartChoiceL "Démarrer mise en file d'attente"
+StartChoiceL "DÃ©marrer mise en file d'attente"
 $ Do not translate StartMnemonicL for this release  
 
 StartMnemonicL "D"
 $ Do not translate StopChoiceL for this release  
 
-StopChoiceL "Arrêter mise en file d'attente"
+StopChoiceL "ArrÃªter mise en file d'attente"
 $ Do not translate StopMnemonicL for this release  
 
 StopMnemonicL "t"
@@ -330,13 +330,13 @@ $ Do not translate EnableMnemonicL for this release
 EnableMnemonicL "i"
 $ Do not translate DisableChoiceL for this release  
 
-DisableChoiceL "Désactiver impression"
+DisableChoiceL "DÃ©sactiver impression"
 $ Do not translate DisableMnemonicL for this release  
 
 DisableMnemonicL "D"
 $ For Both Printers and Print Jobs  
 
-PropertiesChoiceL "Caractéristiques..."
+PropertiesChoiceL "CaractÃ©ristiques..."
 
 PropertiesMnemonicL "C"
 
@@ -351,7 +351,7 @@ ViewMenuL "Visualiser"
 
 ViewAcceleratorL "V"
 
-SetOptionsChoiceL "Définir les options..."
+SetOptionsChoiceL "DÃ©finir les options..."
 
 SetOptionsMnemonicL "o"
 
@@ -362,19 +362,19 @@ $ ----- Help Menu Messages -----
 $ "Help" Menu uses the "HelpChoiceL" message  
 $ "Help" Accelerator uses the "HelpMnemonicL" message  
 
-OverviewChoiceL "Généralités"
+OverviewChoiceL "GÃ©nÃ©ralitÃ©s"
 
 OverviewMnemonicL "l"
 
-TaskChoiceL "Tâches"
+TaskChoiceL "TÃ¢ches"
 
 TaskMnemonicL "T"
 
-ReferenceChoiceL "Référence"
+ReferenceChoiceL "RÃ©fÃ©rence"
 
 ReferenceMnemonicL "R"
 
-OnItemChoiceL "Sur l'élément"
+OnItemChoiceL "Sur l'Ã©lÃ©ment"
 
 OnItemMnemonicL "u"
 
@@ -394,35 +394,35 @@ $ ----- Misc Messages -----
 
 EmptyL "[ Vide ]"
 
-FoundNoPrintersL "Aucune imprimante trouvée."
+FoundNoPrintersL "Aucune imprimante trouvÃ©e."
 
 NotAvailableL "non disponible"
 
-NoDefaultPrinter1L "Il n'existe pas d'imprimante système par défaut."
+NoDefaultPrinter1L "Il n'existe pas d'imprimante systÃ¨me par dÃ©faut."
 
-NoDefaultPrinter2L "Reportez-vous au guide d'utilisation pour plus de détails\n\
-sur la définition de l'environnement d'impression par défaut LPDEST."
+NoDefaultPrinter2L "Reportez-vous au guide d'utilisation pour plus de dÃ©tails\n\
+sur la dÃ©finition de l'environnement d'impression par dÃ©faut LPDEST."
 $ %1 is the name of the program, and %2 is either '-edit' or '-populate'.  
 
-RootUserL "%1$s: Vous devez être root pour utiliser l'option %2$s."
+RootUserL "%1$s: Vous devez Ãªtre root pour utiliser l'option %2$s."
 $ ----- Command Line Help -----  
 $ This message is show when the user enters 'dtprintinfo -help'  
 $ on the command line. The %s is a printer list generated by the program.  
 
 CommandLineHelpL "dtprintinfo\n\n\
-    Le démarrage de dtprintinfo sans options affiche l'imprimante LPDEST\n\
-    ou l'imprimante par défaut si LPDEST n'est pas définie.\n\n\
+    Le dÃ©marrage de dtprintinfo sans options affiche l'imprimante LPDEST\n\
+    ou l'imprimante par dÃ©faut si LPDEST n'est pas dÃ©finie.\n\n\
 dtprintinfo -p <imprimante>\n\n\
-    Pour visualiser une imprimante spécifique, utilisez l'option -p et\n\
+    Pour visualiser une imprimante spÃ©cifique, utilisez l'option -p et\n\
     l'un des noms de files d'attente suivants:\n\n\
 %s\n\
 dtprintinfo -all\n\n\
     Pour visualiser toutes les imprimantes, utilisez l'option -all.\n\n\
 dtprintinfo -populate\n\n\
     L'option -populate n'est disponible que pour root. Cette\n\
-    option crée des actions imprimante par défaut pour les imprimantes\n\
-    /etc/dt/appconfig/types/LANG. Si LANG n'est pas défini, les actions\n\
-    sont créées dans /etc/dt/appconfig/types/C."
+    option crÃ©e des actions imprimante par dÃ©faut pour les imprimantes\n\
+    /etc/dt/appconfig/types/LANG. Si LANG n'est pas dÃ©fini, les actions\n\
+    sont crÃ©Ã©es dans /etc/dt/appconfig/types/C."
 
-NoRemoteCancelL "Le serveur d'impression n'a pas donné le numéro de la tâche d'impression.\nCertains serveurs n'autorisent pas l'annulation éloignée.\n des tâches d'impression. Si c'est le cas, contactez \n l'administrateur du serveur."
+NoRemoteCancelL "Le serveur d'impression n'a pas donnÃ© le numÃ©ro de la tÃ¢che d'impression.\nCertains serveurs n'autorisent pas l'annulation Ã©loignÃ©e.\n des tÃ¢ches d'impression. Si c'est le cas, contactez \n l'administrateur du serveur."
 FindAcceleratorKeySeq "Ctrl+f"

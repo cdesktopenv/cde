@@ -23,7 +23,7 @@ $ message file created 1993
 "
 
 2 "\"1386-102 \n\
-Entrez %s -help pour afficher une description complète.\n\n\
+Entrez %s -help pour afficher une description complÃ¨te.\n\n\
 "
 
 3 "1386-103 Syntaxe:\n\
@@ -32,7 +32,7 @@ Entrez %s -help pour afficher une description complète.\n\n\
 "
 
 5 "1386-105    %-28s %s\n\
-\t mode correspond à:\n\
+\t mode correspond Ã :\n\
 \", \"-mode mode\" ou \"animation mode"
 
 7 "1386-107 Mode inconnu: "
@@ -40,29 +40,29 @@ Entrez %s -help pour afficher une description complète.\n\n\
 10 "1386-110 Impossible d'allouer: %s\n\
 "
 
-11 "1386-111 %d pixels alloués.\n\
+11 "1386-111 %d pixels allouÃ©s.\n\
 "
 
-17 "1386-117 %s: Impossible d'ouvrir l'écran %s.\n\
+17 "1386-117 %s: Impossible d'ouvrir l'Ã©cran %s.\n\
 "
 
-18 "1386-118 %s: GetResource - impossible d'allouer de la mémoire."
+18 "1386-118 %s: GetResource - impossible d'allouer de la mÃ©moire."
 
 19 "1386-119 %s: Argument -display incorrect, \"%s\".\n\
 "
 
-20 "1386-120 L'argument -batchcount doit être positif."
+20 "1386-120 L'argument -batchcount doit Ãªtre positif."
 
-21 "1386-121 L'argument -saturation doit être compris entre 0 et 1."
+21 "1386-121 L'argument -saturation doit Ãªtre compris entre 0 et 1."
 
-25 "1386-125 %s: Seuls %d écrans peuvent être pris en charge.\n\
+25 "1386-125 %s: Seuls %d Ã©crans peuvent Ãªtre pris en charge.\n\
 "
 
-30 "1386-130 L'argument -delay doit être positif."
+30 "1386-130 L'argument -delay doit Ãªtre positif."
 
 35 "1386-135 Impossible d'allouer: %s, utilisation de %s.\n\
 "
 
-40 "%s: Impossible de localiser la fenêtre dans laquelle le dessin doit être réalisé.\n\
-        Si vous utilisez l'option -create, %s crée sa propre fenêtre.\n\
+40 "%s: Impossible de localiser la fenÃªtre dans laquelle le dessin doit Ãªtre rÃ©alisÃ©.\n\
+        Si vous utilisez l'option -create, %s crÃ©e sa propre fenÃªtre.\n\
 "

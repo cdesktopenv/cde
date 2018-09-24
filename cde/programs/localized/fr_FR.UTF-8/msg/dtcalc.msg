@@ -72,7 +72,7 @@ $
 
 2 "Oct"
 
-3 "Déc"
+3 "DÃ©c"
 
 4 "Hex"
 $ 
@@ -115,7 +115,7 @@ $
 
 14 "Options"
 
-15 "Registres de mémoire"
+15 "Registres de mÃ©moire"
 
 16 "Conversion ASCII"
 $ 
@@ -131,28 +131,28 @@ $
 
 19 "G"
 
-20 "Généralités"
+20 "GÃ©nÃ©ralitÃ©s"
 $ 
 $ Message 21 is the mnemonic for Message 22
 $ 
 
 21 "T"
 
-22 "Tâches"
+22 "TÃ¢ches"
 $ 
 $ Message 23 is the mnemonic for Message 24
 $ 
 
 23 "R"
 
-24 "Référence"
+24 "RÃ©fÃ©rence"
 $ 
 $ Message 25 is the mnemonic for Message 26
 $ 
 
 25 "S"
 
-26 "Sur l'élément"
+26 "Sur l'Ã©lÃ©ment"
 $ 
 $ Message 27 is the mnemonic for Message 28
 $ 
@@ -171,7 +171,7 @@ $
 $ Message 31 is an simple error message.
 $ 
 
-31 "Impossible d'ouvrir l'écran.\n"
+31 "Impossible d'ouvrir l'Ã©cran.\n"
 $ 
 $ Messages 32 and 33 are button labels for dialog boxes.
 $ 
@@ -189,7 +189,7 @@ $ Message 35 - Gets put in the "Functions" popup when no functions have been
 $  defined by the users.
 $ 
 
-35 "Aucune fonction définie."
+35 "Aucune fonction dÃ©finie."
 $ 
 $ Message 36 and 37 are titles to two types of dialogs.
 $ 
@@ -204,7 +204,7 @@ $
 
 38 "b"
 
-39 "Table des matières"
+39 "Table des matiÃ¨res"
 $ 
 $ 40 -  This is the mnemonic for the 'Memory Registers...'  option on
 $  the Option menu pulldown.  (message 15 set 2)
@@ -290,9 +290,9 @@ $
 
 11 "Exp"
 
-12 "Précision"
+12 "PrÃ©cision"
 
-13 "Mémoriser"
+13 "MÃ©moriser"
 
 14 "Rappeler"
 
@@ -307,7 +307,7 @@ $
 $ Message 19 - Sqrt is short for square root.
 $ 
 
-19 "R_carrée"
+19 "R_carrÃ©e"
 
 20 "("
 
@@ -404,9 +404,9 @@ $ Message 57 is "Control u"
 
 58 "E - Exp"
 
-59 "P - Préc"
+59 "P - PrÃ©c"
 
-60 "M - Mém"
+60 "M - MÃ©m"
 
 61 "R - Rpl"
 
@@ -498,9 +498,9 @@ $
 $ Messages 107-118 are dialog/popup titles.
 $ 
 
-107 "Précision"
+107 "PrÃ©cision"
 
-108 "Base numérique"
+108 "Base numÃ©rique"
 
 109 "Constantes"
 
@@ -514,27 +514,27 @@ $
 
 115 "Rappeler"
 
-116 "Dépl. à droite"
+116 "DÃ©pl. Ã  droite"
 
-117 "Mémoriser"
+117 "MÃ©moriser"
 
-118 "Type trigonométrique"
+118 "Type trigonomÃ©trique"
 $ 
 $ Messages 119-128 are the messages describing the Constants listed when the
 $ Constant popup is brought up.  NOTE: don't translate <=>
 $ 
 
-119 "kilomètres/heure <=> miles/heure"
+119 "kilomÃ¨tres/heure <=> miles/heure"
 
-120 "racine carrée de 2"
+120 "racine carrÃ©e de 2"
 
 121 "e."
 
 122 "pi."
 
-123 "centimètres <=> pouces"
+123 "centimÃ¨tres <=> pouces"
 
-124 "degrés dans un radian"
+124 "degrÃ©s dans un radian"
 
 125 "2 ^ 20."
 
@@ -542,14 +542,14 @@ $
 
 127 "kilojoules <=> BTU"
 
-128 "centimètres cube <=> pouces cube"
+128 "centimÃ¨tres cube <=> pouces cube"
 $ 
 $ Messages 132-143 are labels in the dialogs.
 $ 
 
-132 "N° de constante:"
+132 "NÂ° de constante:"
 
-133 "N° de fonction:"
+133 "NÂ° de fonction:"
 
 134 "calculatrice"
 
@@ -557,11 +557,11 @@ $
 
 136 "Nouvelle fonction"
 
-137 "Registres de mémoire"
+137 "Registres de mÃ©moire"
 
 138 "Registres bancaires"
 
-139 "Caractéristiques de la calculatrice"
+139 "CaractÃ©ristiques de la calculatrice"
 
 140 "Description:"
 
@@ -585,7 +585,7 @@ $  dialog when the user defines a new Function or Constant that already
 $  exists and the dialog asks the user wheither to overwrite it. (Message 380)
 $ 
 
-149 "%s %1d existe déjà."
+149 "%s %1d existe dÃ©jÃ ."
 $ 
 $ Messages 153-162 are in the accuracy popup menu for the level of accuracy.
 $ 
@@ -640,9 +640,9 @@ $
 
 189 "Octale"
 
-190 "Décimale"
+190 "DÃ©cimale"
 
-191 "Hexadécimale"
+191 "HexadÃ©cimale"
 $ 
 $ Messages 192-194 are the display types.
 $ 
@@ -656,7 +656,7 @@ $
 $ Messages 195-197 are the trig. types.
 $ 
 
-195 "Degrés "
+195 "DegrÃ©s "
 
 196 "Gradients"
 
@@ -684,7 +684,7 @@ $
 
 206 "Paiement:"
 
-207 "Valeur prévue:"
+207 "Valeur prÃ©vue:"
 $ 
 $ Messages 208-217 are the button labels of the financial portion of the
 $ Calculator when it is in Financial mode.
@@ -817,7 +817,7 @@ $
 $ Message 238 - Rand is short for Random
 $ 
 
-238 "Aléa"
+238 "AlÃ©a"
 $ 
 $ Messages 239-248 are the button labels of the financial portion of the
 $ Calculator when it is in Financial mode when in "keys" mode. (i.e. button
@@ -902,7 +902,7 @@ $ Message 266 is 'Control t'
 
 268 "G - Log"
 
-269 "? - Aléa"
+269 "? - AlÃ©a"
 $ 
 $ Messages 270-272 are capitalized versions of the calculator MODES.
 $ 
@@ -1045,16 +1045,16 @@ $ Messages 337-343 are error messages from the command line options.
 $ They also will only show up in the errorlog.
 $ 
 
-337 "Calculatrice: -a requiert une valeur de précision (0-9).\n"
+337 "Calculatrice: -a requiert une valeur de prÃ©cision (0-9).\n"
 $ 
 $ Message 338 only goes to the errorlog file
 $ 
 
-338 "Calculatrice: La valeur correspondant à la précision doit être comprise\n\
-entre 0 et 9. Utilisation de la valeur par défaut (2).\n"
+338 "Calculatrice: La valeur correspondant Ã  la prÃ©cision doit Ãªtre comprise\n\
+entre 0 et 9. Utilisation de la valeur par dÃ©faut (2).\n"
 
-339 "Calculatrice: La base doit être binaire, octale, décimale ou hexadécimale.\n\
-Utilisation de la base par défaut (décimale).\n"
+339 "Calculatrice: La base doit Ãªtre binaire, octale, dÃ©cimale ou hexadÃ©cimale.\n\
+Utilisation de la base par dÃ©faut (dÃ©cimale).\n"
 $ 
 $ Message 340 - %s is the invalid display mode the user supplied.
 $   This goes to $HOME/.dt/errorlog only.
@@ -1067,13 +1067,13 @@ $   This goes to $HOME/.dt/errorlog only.
 $ 
 
 341 "Calculatrice: Mode incorrect [%s].\n\
-Utilisation du mode par défaut (scientifique).\n"
+Utilisation du mode par dÃ©faut (scientifique).\n"
 $ 
 $ Message 342 - %s is the invalid trig. mode the user supplied.
 $   This goes to $HOME/.dt/errorlog only.
 $ 
 
-342 "Calculatrice: Mode trigonométrique incorrect [%s].\n"
+342 "Calculatrice: Mode trigonomÃ©trique incorrect [%s].\n"
 
 343 "Calculatrice: fichier de session incorrect.\n"
 $ 
@@ -1082,7 +1082,7 @@ $
 $ Message 351 is a label in the ASCII convert dialog.
 $ 
 
-351 "Caractère:"
+351 "CaractÃ¨re:"
 $ 
 $ Message 352 is the title of the ASCII convert dialog.
 $ 
@@ -1105,7 +1105,7 @@ $
 
 356 "Calculatrice (dtcalc) version 1.%1d\n\n"
 
-357 "Syntaxe: dtcalc [-a précision] [-m mode] [-b base] [-no_menu_bar] [-?]\n"
+357 "Syntaxe: dtcalc [-a prÃ©cision] [-m mode] [-b base] [-no_menu_bar] [-?]\n"
 
 358 "\t [-notation notation_affich] [-trig type_trigo] [-session fichier_session]\n"
 $ 
@@ -1137,22 +1137,22 @@ $
 
 373 "Valeur de constante incorrecte."
 
-374 "Numéro de constante incorrect."
+374 "NumÃ©ro de constante incorrect."
 
-375 "Numéro de constante incorrect."
+375 "NumÃ©ro de constante incorrect."
 $ 
 $ Message 376 not used.
 $ 
 
-377 "Constante non modifiée."
+377 "Constante non modifiÃ©e."
 
-378 "Erreur de pile numérique."
+378 "Erreur de pile numÃ©rique."
 
-379 "Erreur de pile d'opérandes."
+379 "Erreur de pile d'opÃ©randes."
 
 380 "Confirmez-vous le remplacement ?"
 
-381 "La valeur doit être comprise entre 0 et 9."
+381 "La valeur doit Ãªtre comprise entre 0 et 9."
 $ 
 $ Message 382 not used.
 $ 
@@ -1161,7 +1161,7 @@ $
 
 384 "Fonction"
 
-385 "Impossible de sauvegarder les valeurs par défaut.\n"
+385 "Impossible de sauvegarder les valeurs par dÃ©faut.\n"
 $ 
 $ NOTE: Messages 386 - 402 are not used.
 $ 
@@ -1516,7 +1516,7 @@ $ Message 1 is the title for the calculator help dialogs.
 $quote "
 1 "Calculatrice - Aide"
 
-2 "Vous devez sélectionner un élément de la calculatrice."
+2 "Vous devez sÃ©lectionner un Ã©lÃ©ment de la calculatrice."
 
 3 "Erreur"
 
@@ -1535,14 +1535,14 @@ $
 
 4 "ERREUR: Term<= 0"
 
-5 "ERREUR: Valeurs de périodes incorrectes."
+5 "ERREUR: Valeurs de pÃ©riodes incorrectes."
 
-6 "ERR: Nombre trop élevé pour l'opération"
+6 "ERR: Nombre trop Ã©levÃ© pour l'opÃ©ration"
 
-7 "Impossible de calculer l'année composite\n\
-avec un taux d'intérêt, une valeur actuelle\n\
-et une valeur capitalisée différents de\n\
-zéro.\n"
+7 "Impossible de calculer l'annÃ©e composite\n\
+avec un taux d'intÃ©rÃªt, une valeur actuelle\n\
+et une valeur capitalisÃ©e diffÃ©rents de\n\
+zÃ©ro.\n"
 
 $set 99        Redefine set#
 

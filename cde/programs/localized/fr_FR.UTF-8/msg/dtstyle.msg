@@ -83,7 +83,7 @@ $ _DtMessage 7 is the title of all Help dialog boxes
 $ _DtMessage 8 is an error message that appears when you are using Itemh Help  
 $ and select on something outside of the Style Manager  
 
-8 "Vous devez sélectionner un objet\n\
+8 "Vous devez sÃ©lectionner un objet\n\
 dans le Gestionnaire de configuration."
 $ _DtMessage 9 WILL ONLY APPEAR IN THE DT ERRORLOG FILE  
 
@@ -137,7 +137,7 @@ $ _DtMessage 37 is the label on the dtstyle icon
 37 "Configuration"
 $ Message 38 is the label on the Window button in the dtstyle main window.  
 
-38 "Fenêtre"
+38 "FenÃªtre"
 $ _DtMessage 40 is replaced with message 53  
 $ 40 E  
 $ *  
@@ -161,7 +161,7 @@ $ Keybaord menu item
 
 47 "u"
 
-48 "Sur l'élément"
+48 "Sur l'Ã©lÃ©ment"
 $ Using Help... menu item  
 
 49 "i"
@@ -178,13 +178,13 @@ $ Messages 54-55 are replacements for messages 41-42
 
 54 "v"
 
-55 "Généralités"
+55 "GÃ©nÃ©ralitÃ©s"
 $ Message 56 is a replacement for messages 44  
 
-56 "Tâches"
+56 "TÃ¢ches"
 $ Message 57 is a replacement for messages 46  
 
-57 "Référence"
+57 "RÃ©fÃ©rence"
 $ Message 58 is a replacement for messages 50  
 
 58 "Utiliser l'aide"
@@ -200,21 +200,21 @@ $ _DtMessage set 5 is for the Font dialog
 $ Messages 1-6, 7-16 from set 5 were deleted from the message catalog  
 $ _DtMessage 17 is the label of the titlebox of the preview font area  
 
-17 "Prévisualiser"
+17 "PrÃ©visualiser"
 $ _DtMessage 18 appears in a Notice dialog after the user selects a new font  
 $ and presses Ok - when the resource *WriteXrdbImmediate is True  
 
-18 "Les modifications apportées aux polices seront\n\
+18 "Les modifications apportÃ©es aux polices seront\n\
 prises en compte dans certaines applications\n\
 au prochain lancement. \n\
 Dans les autres applications (Gestionnaire \n\
 de fichiers, par ex.), les modifications\n\
-n'apparaîtront pas à moins que vous ne \n\
+n'apparaÃ®tront pas Ã  moins que vous ne \n\
 quittiez le bureau et vous reconnectiez."
 $ _DtMessage 19 appears in a Notice dialog after the user selects a new font  
 $ and presses Ok - when the resource *WriteXrdbImmediate is False  
 
-19 "La police sélectionnée sera utilisée\n\
+19 "La police sÃ©lectionnÃ©e sera utilisÃ©e\n\
 lorsque vous relancerez cette session."
 $ _DtMessage 20 and 21 is the text that initially appears in the Font Preview   
 $ area displaying sample user and system fonts.  
@@ -241,13 +241,13 @@ $ _DtMessage set 6 is for the Beep dialog
 $ _DtMessage 1,6 from set 6 have been deleted from the message catalog  
 $ Messages 2 through 5 are the default buttons and labels of the scales.    
 
-2 "Défaut"
+2 "DÃ©faut"
 
 3 "Volume"
 
-4 "Tonalité"
+4 "TonalitÃ©"
 
-5 "Durée"
+5 "DurÃ©e"
 $ _DtMessage 7 is the title of the Beep dialog box  
 
 7 "Bip"
@@ -263,12 +263,12 @@ $ Session Startup dialog box.
 
 4 "Reprendre session en cours"
 
-5 "Revenir à la session initiale"
+5 "Revenir Ã  la session initiale"
 
 $ Message 6 is obsolete - DO NOT localize message #6 from this set
-$ 6 "OBS- Choisir à la déconnexion"
+$ 6 "OBS- Choisir Ã  la dÃ©connexion"
 
-7 "Boîte de confirmation de déconnexion:"
+7 "BoÃ®te de confirmation de dÃ©connexion:"
 
 8 "En fonction"
 
@@ -278,7 +278,7 @@ $ 6 "OBS- Choisir à la déconnexion"
 $ _DtMessage 11 is a warning message when the user pushes Set Home Session...  
 $ Notice the spaces before Continue .. the spaces make it centered.  
 
-11 "Votre session initiale sera remplacée\n\
+11 "Votre session initiale sera remplacÃ©e\n\
 par la session en cours.\n\n\
                   Voulez-vous continuer ?"
 $ _DtMessage 12 is the title of the warning dialog box when Set Home Session is   
@@ -287,21 +287,21 @@ $ pushed.
 12 "Attention"
 $ _DtMessage 13 is an error message  
 
-13 "Cette session a été lancée à partir d'un fichier de lancement\n\
-du système X Window. Les paramètres de lancement ne sont pas\n\
-valides car la session ne peut pas être restaurée."
+13 "Cette session a Ã©tÃ© lancÃ©e Ã  partir d'un fichier de lancement\n\
+du systÃ¨me X Window. Les paramÃ¨tres de lancement ne sont pas\n\
+valides car la session ne peut pas Ãªtre restaurÃ©e."
 $ _DtMessage 14 is the title of the Session Startup dialog box.  
 
 14 "Lancement"
 $ _DtMessage 15 is an error message  
 
 15 "Le Gestionnaire de sessions n'est pas en fonction.\n\
-Les paramètres de lancement ne sont pas valides."
+Les paramÃ¨tres de lancement ne sont pas valides."
 
 $ Message 16 is used in the Sessin Startup dialog.  It is the
 $   string that appears to right of the Startup dialog icon IF
 $   the user selects a display-specfic session at the login screen.
-16 "Session spécifique de l'écran :"
+16 "Session spÃ©cifique de l'Ã©cran :"
 
 $set 8        Redefine set#
 
@@ -322,45 +322,45 @@ $ Messages 1-4 are labels of toggle buttons in the Mouse Dialog.
 4 "Bouton 2:"
 $ _DtMessage 5 is the label of default button.  
 
-5 "Défaut"
+5 "DÃ©faut"
 $ Messages 6,8,9 are labels of the scales.  
 
 6 "Double-clic"
 
-8 "Accélération"
+8 "AccÃ©lÃ©ration"
 
 9 "Seuil"
 $  MESSAGE 10 IN SET 9 WILL ONLY APPEAR IN THE DT ERRORLOG FILE  
 
 10 "ERROR: setting pointer mapping\n"
 
-11 "Transférer"
+11 "TransfÃ©rer"
 
 12 "Ajuster"
 $ _DtMessage 13 appears in a Notice dialog after the user selects the   
 $ left-handed or right-handed toggle  
 
-13 "Lorsque vous sélectionnez OK, les fonctions des\n\
-boutons droit et gauche sont permutées. Pour\n\
-connaître la configuration en cours (boutons 1\n\
-et 3), consultez le graphique représenté dans\n\
-la fenêtre Souris (Test Double-clic)."
+13 "Lorsque vous sÃ©lectionnez OK, les fonctions des\n\
+boutons droit et gauche sont permutÃ©es. Pour\n\
+connaÃ®tre la configuration en cours (boutons 1\n\
+et 3), consultez le graphique reprÃ©sentÃ© dans\n\
+la fenÃªtre Souris (Test Double-clic)."
 $ _DtMessage 14 appears in a Notice dialog after the user selects the   
 $ transfer toggle to change the function of the middle mouse button.  
 
-14 "Si vous sélectionnez OK, la fonction 'Transférer' (déplacement)\n\
-sera affectée au bouton 2 lors de la prochaine session."
+14 "Si vous sÃ©lectionnez OK, la fonction 'TransfÃ©rer' (dÃ©placement)\n\
+sera affectÃ©e au bouton 2 lors de la prochaine session."
 $ double-click time and presses Ok (and the resource   
 $ *WriteXrdbImmediate is True)  
 
-15 "La nouvelle définition du double-clic entrera en \n\
+15 "La nouvelle dÃ©finition du double-clic entrera en \n\
 vigueur lorsque vous relancerez les applications."
 $ _DtMessage 16 appears in a Notice dialog after the user selects a new   
 $ double-click time and presses Ok (and the resource   
 $ *WriteXrdbImmediate is False)  
 
-16 "La nouvelle définition du double-clic entrera\n\
-en vigueur à la prochaine session."
+16 "La nouvelle dÃ©finition du double-clic entrera\n\
+en vigueur Ã  la prochaine session."
 $ _DtMessage 17 is the text below the mouse icon. Notice the two lines.  
 
 17 "Test\n\
@@ -371,10 +371,10 @@ $ _DtMessage 18 is the Mouse Dialog title
 $ _DtMessage 19 appears in a Notice dialog after the user selects the   
 $ adjust toggle to change the function of the middle mouse button.  
 
-19 "Si vous sélectionnez OK, la fonction 'Ajuster' sera\n\
-affectée au bouton 2 lors de la prochaine session.\n\
-Cette fonction s'applique au texte et aux sélections\n\
-dans les listes. Pour les actions de déplacement,\n\
+19 "Si vous sÃ©lectionnez OK, la fonction 'Ajuster' sera\n\
+affectÃ©e au bouton 2 lors de la prochaine session.\n\
+Cette fonction s'applique au texte et aux sÃ©lections\n\
+dans les listes. Pour les actions de dÃ©placement,\n\
 utilisez le bouton 1."
 
 $set 10        Redefine set#
@@ -385,9 +385,9 @@ $  MESSAGE 1,3 IN SET 10 WILL ONLY APPEAR IN THE DT ERRORLOG FILE
 $ Messages 1,3 make up one error message.  Put together, they say   
 $ "<filename> <_DtMessage 2> <_DtMessage 1>  
 
-1 "Vérifiez les autorisations associées au fichier."
+1 "VÃ©rifiez les autorisations associÃ©es au fichier."
 
-3 "%s est le fichier qui aurait été utilisé pour sauvegarder votre session.\n"
+3 "%s est le fichier qui aurait Ã©tÃ© utilisÃ© pour sauvegarder votre session.\n"
 
 $set 11        Redefine set#
 
@@ -414,44 +414,44 @@ $ _DtMessage 1 is the title of the Screen dialog box.
 1 "Ecran"
 $ Messages 3-14 are the labels and buttons for the Screen dialog  
 
-3 "Par défaut"
+3 "Par dÃ©faut"
 
-4 "Economiseur d'écran"
+4 "Economiseur d'Ã©cran"
 
-5 "Lancer l'économiseur"
+5 "Lancer l'Ã©conomiseur"
 
-6 "Délai pour l'économiseur"
+6 "DÃ©lai pour l'Ã©conomiseur"
 
 7 "minutes"
 
-8 "Verrouillage de l'écran"
+8 "Verrouillage de l'Ã©cran"
 $ Message 9 has been removed   
 
 10 "En fonction"
 
 11 "Hors fonction"
 
-12 "Economiseur d'écran:"
+12 "Economiseur d'Ã©cran:"
 
-13 "Verrouillage de l'écran:"
+13 "Verrouillage de l'Ã©cran:"
 
 14 "Lancer le verrouillage"
 
-15 "Effacement automatique écran"
+15 "Effacement automatique Ã©cran"
 
-16 "Veilleuse écran:"
+16 "Veilleuse Ã©cran:"
 
-17 "Démarrage mise en veille"
+17 "DÃ©marrage mise en veille"
 
 18 "Verrouillage panneau avant"
 $ Message 19 has been replaced by message 21  
 
-19 "Utiliser arrière-plan verrouillage"
+19 "Utiliser arriÃ¨re-plan verrouillage"
 
-20 "Temps par arrière-plan"
+20 "Temps par arriÃ¨re-plan"
 $ Message 21 is a replacement for message 19  
 
-21 "Utiliser les arrière-plans pour verrouillage"
+21 "Utiliser les arriÃ¨re-plans pour verrouillage"
 
 22 "Verrouillage transparent"
 
@@ -462,9 +462,9 @@ $ _DtMessage 1,5 from set 13 have been deleted from the message catalog
 $ _DtMessage 2 through 4 are labels of scales, buttons, and text visible in the  
 $ Keyboard dialog box.  
 
-2 "Défaut"
+2 "DÃ©faut"
 
-3 "Répétition automatique"
+3 "RÃ©pÃ©tition automatique"
 
 4 "Volume du clic"
 $ _DtMessage 6 is the title of the Keyboard dialog box  
@@ -493,19 +493,19 @@ $ _DtMessage 11 is the title of the Add Palette dialog box.
 $ Messages 12 through 14 are error messages.  
 
 12 "Le nom de la palette ne peut pas contenir\n\
-les caractères suivants:\n\n\
+les caractÃ¨res suivants:\n\n\
 <espace> * : ( ) [ ] { } < > ! | \" / \\"
 $ LOCALIZERS: FOR 8 AND 16 BIT LANGUAGES YOU MAY WANT TO CHANGE THE MESSAGE
 $ TO SAY THE PALETTE NAME MUST BE 10 BYTES OR LESS  
 
-13 "Le nom de la palette est limité\n\
-à 10 caractères.\n"
+13 "Le nom de la palette est limitÃ©\n\
+Ã  10 caractÃ¨res.\n"
 $ _DtMessage 16 is the title of the Delete Palette dialog box.  See screen 4a (2).  
 
 16 "Supprimer la palette"
 $ _DtMessage 18 appears in an information dialog.  
 
-18 "Impossible de supprimer la dernière palette.\n"
+18 "Impossible de supprimer la derniÃ¨re palette.\n"
 $ _DtMessage 21 is an error message  
 
 21 "Attention"
@@ -517,25 +517,25 @@ $ button and the color server is not running for some reason.
 
 25 "La fonction couleur du Gestionnaire de configuration\n\
 ne sera pas en vigueur car le serveur des couleurs\n\
-n'est pas en cours d'exécution. Vérifiez $HOME/.dt/errorlog."
+n'est pas en cours d'exÃ©cution. VÃ©rifiez $HOME/.dt/errorlog."
 $ _DtMessage 26 can be caused by setting the resource *useColorObj to False  
 $ and then running dtstyle and trying to post the Color Dialog.  
 
 26 "La fonction couleur du Gestionnaire de configuration\n\
 ne sera pas en vigueur car la ressource\n\
-'useColorObj' est définie à False."
+'useColorObj' est dÃ©finie Ã  False."
 $ _DtMessage 27 is for the new ColorUse dialog when you press ok.  
 
 27 "La nouvelle couleur prendra effet\n\
-à la prochaine session."
+Ã  la prochaine session."
 $ _DtMessage 28 is a warning message that appears on Black and White systems  
 
-28 "La palette sélectionnée prendra effet\n\
-à la prochaine session."
+28 "La palette sÃ©lectionnÃ©e prendra effet\n\
+Ã  la prochaine session."
 $ _DtMessage 29 appears in a warning dialog  
 
-29 "Il existe déjà une palette du nom de '%s'.\n\
-Elle sera remplacée par la nouvelle palette.\n\
+29 "Il existe dÃ©jÃ  une palette du nom de '%s'.\n\
+Elle sera remplacÃ©e par la nouvelle palette.\n\
 Voulez-vous continuer ?"
 $ _DtMessage 30 is the title of the Color dialog box.  
 
@@ -548,7 +548,7 @@ $ 33 Low Color
 
 34 "Noir et blanc"
 
-35 "Défaut"
+35 "DÃ©faut"
 $ Dt Message 36 has been replaced by message 39  
 $ _DtMessage 36 is the title of the Color Use dialog  
 $ 36 DT Color Use  
@@ -560,11 +560,11 @@ $ button and there are no palette files to be found
 
 38 "La fonction couleur du Gestionnaire de configuration\n\
 ne sera pas en vigueur car aucun fichier de palettes\n\
-n'est disponible. Vérifiez $HOME/.dt/errorlog."
+n'est disponible. VÃ©rifiez $HOME/.dt/errorlog."
 $ DtMessage 39 is a replacement for DtMessage 36  
 $ DtMessage 39 is the title of the Color Use dialog  
 
-39 "Nombre de couleurs à utiliser:"
+39 "Nombre de couleurs Ã  utiliser:"
 $ DtMessage 40 is a replacement for DtMessage 37  
 $ DtMessage 40 is the title of the Color Use dialog  
 
@@ -576,7 +576,7 @@ $ _DtMessage 41-43 are the ColorUse options
 
 42 "Autres couleurs pour applications"
 
-43 "Totalité des couleurs pour applications"
+43 "TotalitÃ© des couleurs pour applications"
 
 $set 15        Redefine set#
 
@@ -590,7 +590,7 @@ $ _DtMessage 11-12 form one error message that appears in an error dialog
 
 11 "Attention, impossible de supprimer '%s'.\n"
 
-12 "Pour plus de détails, reportez-vous à $HOME/.dt/errorlog."
+12 "Pour plus de dÃ©tails, reportez-vous Ã  $HOME/.dt/errorlog."
 $  MESSAGE 18-21 IN SET 16 WILL ONLY APPEAR IN THE DT ERRORLOG FILE  
 
 18 "Warning, Too many directories listed in the resource paletteDirectories,\n\
@@ -645,25 +645,25 @@ $set 18        Redefine set#
 $ _DtMessage set 18 is for the Window dialog  
 $ _DtMessage 1 is the title of the Window dialog box  
 
-1 "Fenêtre"
+1 "FenÃªtre"
 $ Messages 2 through 5 are labels on the Window dialog.  
 
-2 "Défaut"
+2 "DÃ©faut"
 
-3 "Comportement des fenêtres"
+3 "Comportement des fenÃªtres"
 
-4 "Icônes des fenêtres"
+4 "IcÃ´nes des fenÃªtres"
 $ Messages 5-8 have been replaced by messages 13-16   
 $ 5 Focus Follows Mouse  
 $ 6 Click In Window For Focus  
 $ 7 Raise Window With Focus  
 $ 8 Opaque Move  
 
-9 "Dans la boîte d'icônes"
+9 "Dans la boÃ®te d'icÃ´nes"
 
 10 "Position sur l'espace de travail"
 
-11 "Passage des fenêtres principales en haut de pile"
+11 "Passage des fenÃªtres principales en haut de pile"
 
 12 "Vous devez relancer le Gestionnaire de l'espace de \n\
 travail pour que les modifications soient prises\n\
@@ -674,11 +674,11 @@ $ Messages 13-16 are replacements for messages 5-8
 
 13 "Activation au pointeur"
 
-14 "Activation à la sélection (clic)"
+14 "Activation Ã  la sÃ©lection (clic)"
 
-15 "Passage fenêtre premier plan si activée"
+15 "Passage fenÃªtre premier plan si activÃ©e"
 
-16 "Affichage contenu durant déplacement"
+16 "Affichage contenu durant dÃ©placement"
 
 
 $set 19
@@ -694,34 +694,34 @@ $ Message 1 is the title of the Dialog.
 1 Gestionnaire de style - localisation
 
 $ Message 2 appears on the button used to reset the defailt values.
-2 Par défaut
+2 Par dÃ©faut
 
 $ Message 3 appears as the title of the title box containing Input
 $ Methods information.
-3 Méthode d'entrée
+3 MÃ©thode d'entrÃ©e
 
 $ Message 4 appears as the title of the title box containing Input
 $ Method Start Mode choice.
-4 Mode de lancement de la méthode d'entrée
+4 Mode de lancement de la mÃ©thode d'entrÃ©e
 
 $ Message 5 appears as the title of the title box containing PreeditType
 $ information.
-5 Type de pré-édition 
+5 Type de prÃ©-Ã©dition 
 
 $ Message 6 is the label presenting the server host names
-6 Hôte serveur :
+6 HÃ´te serveur :
 
 $ Message 7 is the label presenting the Input Method list
-7 Méthode d'entrée
+7 MÃ©thode d'entrÃ©e
 
 $ Message 8 and 9 are the toggle buttons for the start mode selection:
 $ "Ask at login" will cause dtimsstart to present the list of Input
 $ Methods at next login; "Resume Current Input Method" will cause
 $ dtimsstart to use the selected IM at next login, without asking the
 $ user.
-8 Demander à la connexion
+8 Demander Ã  la connexion
 
-9 Continuer la méthode d'entrée en cours 
+9 Continuer la mÃ©thode d'entrÃ©e en cours 
 
 $ Message 10 is the label displayed on the button used to move up a
 $ selected element in the preedit Type list (meaning at the previous
@@ -741,13 +741,13 @@ $
 $ Message 20 appears when the user modifies the XmNpreeditType
 $ resource value, and the resource *writeXrdbImmediate is True.
 $ Do NOT localize the word XmNpreeditType.
-20 La nouvelle valeur de XmNpreeditType sera appliquée \n\
-au démarrage des applications.
+20 La nouvelle valeur de XmNpreeditType sera appliquÃ©e \n\
+au dÃ©marrage des applications.
 
 $ Message 21 appears when the userselects a new Input Method Server,
 $ or modifies the IMS Start Mode, or modifies the XmNpreeditType
 $ resource value, and the resource *writeXrdbImmediate is False.
-21 Votre sélection sera appliquée\n\
+21 Votre sÃ©lection sera appliquÃ©e\n\
 lors de la session suivante.
 
 $ 
@@ -755,31 +755,31 @@ $ Messages 30 to 41 appear as errors in Error Dialog.
 $ 
 
 $ Do NOT localize the word HOME.
-30 La variable d'environnement HOME n'est pas définie.
+30 La variable d'environnement HOME n'est pas dÃ©finie.
 
 $ Do NOT localize the word LANG.
-31 La variable d'environnement LANG n'est pas définie.
+31 La variable d'environnement LANG n'est pas dÃ©finie.
 
 32 Cet environnement de pays n'est pas pris en charge par le bureau.
 
-33 Impossible de créer le fichier de sélection de méthode d'entrée de l'utilisateur.
+33 Impossible de crÃ©er le fichier de sÃ©lection de mÃ©thode d'entrÃ©e de l'utilisateur.
 
-34 Le fichier de sélection de méthode d'entrée de l'utilisateur est introuvable.
+34 Le fichier de sÃ©lection de mÃ©thode d'entrÃ©e de l'utilisateur est introuvable.
 
-35 Impossible de sauvegarder le fichier de sélection de méthode d'entrée de l'utilisateur
+35 Impossible de sauvegarder le fichier de sÃ©lection de mÃ©thode d'entrÃ©e de l'utilisateur
 
-36 Hôte inconnu
+36 HÃ´te inconnu
 
 $ Do NOT translate dtimsstart.
 37 Impossible de trouver dtimsstart.\n\
-L'environnement du bureau est peut-être\n\
-mal installé.
+L'environnement du bureau est peut-Ãªtre\n\
+mal installÃ©.
 
-38 L'exécution éloignée a échoué\n sur l'hôte sélectionné.
+38 L'exÃ©cution Ã©loignÃ©e a Ã©chouÃ©\n sur l'hÃ´te sÃ©lectionnÃ©.
 
-39 Impossible d'initialiser l'exécution éloignée.
+39 Impossible d'initialiser l'exÃ©cution Ã©loignÃ©e.
 
-40 Impossible d'obtenir l'information de la méthode d'entrée à partir de l'hôte sélectionné.
+40 Impossible d'obtenir l'information de la mÃ©thode d'entrÃ©e Ã  partir de l'hÃ´te sÃ©lectionnÃ©.
 
 41 Erreur inconnue
 

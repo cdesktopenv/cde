@@ -1,0 +1,56 @@
+$ $XConsortium: libABil.msg /main/1 1995/12/08 09:28:38 rswiston $
+
+$ ========================================================================
+$ = Message source text file for App Builder's libABil BIL I/O library.
+$ = @(#)libABil.msg	1.2 13 Sep 1994 dtappbuilder/src/libABil
+$ ========================================================================
+
+$quote "
+
+$ The set number set below must be syncronized with the #define in bilP.h
+$set 204
+1 "Impossibile trovare un oggetto di ancoraggio\n"
+2 "L'attributo specificato non è valido per questo oggetto\n"
+3 "L'identificatore C specificato non è valido\n"
+4 "Fine del file imprevista\n"
+5 "Formato del file non identificato\n"
+6 "attualmente non implementato\n"
+7 "attualmente non implementato - l'oggetto e i suoi attributi verranno ignorati\n"
+8 "Memoria esaurita\n"
+9 "Valore sconosciuto\n"
+10 "Attributo sconosciuto\n"
+11 "Tipo di menu sconosciuto - Verrà usato il menu di comandi predefinito\n"
+12 "Impossibile trovare l'oggetto\n"
+13 "Oggetto sconosciuto\n"
+14 "Valore errato - Il 'Collegamento' specificato verrà ignorato\n"
+15 "Impossibile trovare l'argomento della funzione\n"
+16 "Impossibile trovare il valore booleano\n"
+17 "Errore di sintassi nel nome\n"
+18 "Impossibile trovare il valore intero\n"
+19 "Impossibile trovare la parola chiave\n"
+20 "Impossibile trovare l'inizio della lista\n"
+21 "Impossibile trovare il menu per il pulsante\n"
+22 "Impossibile trovare l'inizio del nome\n"
+23 "Impossibile trovare l'inizio dell'oggetto\n"
+24 "Impossibile trovare la stringa\n"
+25 "ATTENZIONE: Il valore specificato non è un identificatore C - Valore ignorato\n"
+26 "ATTENZIONE: Il gruppo è vuoto - Gruppo ignorato...\n"
+27 "file: %s"
+28 ", riga: %d"
+29 ", oggetto: %s"
+30 ", attributo: %s"
+31 ", azione-attributo: %s"
+32 ", "
+33 "Errore di sintassi"
+34 "\n"
+35 "Parola chiave sconosciuta - %s"
+36 "Nome già in uso. Il nome specificato verrà cambiato in %s.\n\t(Il problema può derivare da un conflitto con il nome dell'interfaccia o del progetto)\n"
+37 ", vicino a '%s'"
+38 "%s.\nImpossibile caricare il progetto.\n"
+39 "Impossibile caricare il progetto\n."
+40 "I MODULI seguenti sono di sola lettura.\nSe si intende modificarli, si noti che non sarà\npossibile salvare le modifiche."
+41 "Non è stato definito il packing\n"
+42 "Non è stato definito il tipo di menu\n"
+43 "Non è stato definito il punto di riferimento\n"
+44 "Non è stato specificato il nome del file"
+45 "Impossibile salvare il progetto. Non vi sono modifiche da salvare, oppure il nome del file è VUOTO."

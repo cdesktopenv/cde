@@ -3,18 +3,18 @@ $quote "
 
 $set 1
 
-1 "DtkshCvtStringToPixel: La couleur '%s' n'est pas définie."
+1 "DtkshCvtStringToPixel: La couleur '%s' n'est pas dÃ©finie."
 
 $set 5        Redefine set#
 
 
-1 "Les paramètres de ressources indiqués sont trop nombreux ; '%s' n'est pas pris en compte."
+1 "Les paramÃ¨tres de ressources indiquÃ©s sont trop nombreux ; '%s' n'est pas pris en compte."
 
-2 "Spécification de ressource incorrecte. La forme admise est 'nom:valeur' : %s"
+2 "SpÃ©cification de ressource incorrecte. La forme admise est 'nom:valeur' : %s"
 
-3 "Le séparateur de ressource est ':'. Or, vous avez utilisé '=' : %s"
+3 "Le sÃ©parateur de ressource est ':'. Or, vous avez utilisÃ© '=' : %s"
 
-4 "La boîte à outils a déjà été initialisée."
+4 "La boÃ®te Ã  outils a dÃ©jÃ  Ã©tÃ© initialisÃ©e."
 
 5 "Syntaxe: XtInitialize variable nom_application classe_application [arg. ...]"
 
@@ -38,27 +38,27 @@ $set 5        Redefine set#
 
 15 "Syntaxe: XtWindow variable widget"
 
-16 "Syntaxe: XtCallCallbacks widget fonction_appelée"
+16 "Syntaxe: XtCallCallbacks widget fonction_appelÃ©e"
 
-17 "Syntaxe: XtHasCallbacks variable widget fonction_appelée"
+17 "Syntaxe: XtHasCallbacks variable widget fonction_appelÃ©e"
 
-18 "Syntaxe: XtAddCallback widget fonction_appelée commande_ksh"
+18 "Syntaxe: XtAddCallback widget fonction_appelÃ©e commande_ksh"
 
-19 "Syntaxe: XtRemoveCallback widget fonction_appelée commande_ksh"
+19 "Syntaxe: XtRemoveCallback widget fonction_appelÃ©e commande_ksh"
 
-20 "Le descripteur de fonction appelée suivant est incorrect: %s"
+20 "Le descripteur de fonction appelÃ©e suivant est incorrect: %s"
 
-21 "La fonction appelée indiquée n'est pas enregistrée."
+21 "La fonction appelÃ©e indiquÃ©e n'est pas enregistrÃ©e."
 
 22 "Syntaxe: XtAddEventHandler widget masque masque_impossible command_ksh"
 
 23 "Syntaxe: XtRemoveEventHandler widget masque masque_impossible commande_ksh"
 
-24 "Le descripteur d'événement indiqué n'est pas enregistré."
+24 "Le descripteur d'Ã©vÃ©nement indiquÃ© n'est pas enregistrÃ©."
 
 25 "Syntaxe: XtGetValues widget ressource:variable ..."
 
-26 "La forme du paramètre de ressource suivant est incorrecte: %s."
+26 "La forme du paramÃ¨tre de ressource suivant est incorrecte: %s."
 
 27 "Syntaxe: XtSetValues widget arg:val ..."
 
@@ -66,39 +66,39 @@ $set 5        Redefine set#
 
 29 "Syntaxe: XtRemoveWorkProc ID_proc_travail"
 
-30 "Un nombre hexadécimal doit être indiqué pour le paramètre ID_proc_travail: %s"
+30 "Un nombre hexadÃ©cimal doit Ãªtre indiquÃ© pour le paramÃ¨tre ID_proc_travail: %s"
 
 31 "Syntaxe: XtAddTimeOut variable millisecondes commande"
 
-32 "La valeur indiquée pour le paramètre millisecondes doit être supérieure à zéro."
+32 "La valeur indiquÃ©e pour le paramÃ¨tre millisecondes doit Ãªtre supÃ©rieure Ã  zÃ©ro."
 
 33 "Syntaxe: XtRemoveTimeOut ID_intervalle"
 
-34 "Un nombre hexadécimal doit être indiqué pour le paramètre ID_intervalle: %s"
+34 "Un nombre hexadÃ©cimal doit Ãªtre indiquÃ© pour le paramÃ¨tre ID_intervalle: %s"
 
 35 "Syntaxe: %s widget ..."
 
 36 "Syntaxe: XBell affichage volume"
 
-37 "Syntaxe: %s variable écran"
+37 "Syntaxe: %s variable Ã©cran"
 
-38 "Le paramètre d'écran est incorrect: %s"
+38 "Le paramÃ¨tre d'Ã©cran est incorrect: %s"
 
-39 "Syntaxe: XDefineCursor affichage fenêtre ID_curseur"
+39 "Syntaxe: XDefineCursor affichage fenÃªtre ID_curseur"
 
-40 "Le paramètre ID_curseur est incorrect: %s"
+40 "Le paramÃ¨tre ID_curseur est incorrect: %s"
 
-41 "Syntaxe: XUndefineCursor affichage fenêtre"
+41 "Syntaxe: XUndefineCursor affichage fenÃªtre"
 
-42 "Syntaxe: XtRemoveAllCallbacks widget fonction_appelée"
+42 "Syntaxe: XtRemoveAllCallbacks widget fonction_appelÃ©e"
 
-43 "Syntaxe: XTextWidth variable nom_police chaîne"
+43 "Syntaxe: XTextWidth variable nom_police chaÃ®ne"
 
 44 "Syntaxe: %s affichage zone_dessin [arg. ...]"
 
-45 "Le paramètre zone_dessin est incorrect: %s"
+45 "Le paramÃ¨tre zone_dessin est incorrect: %s"
 
-46 "Le paramètre cible est incorrect: %s"
+46 "Le paramÃ¨tre cible est incorrect: %s"
 
 47 "Nom de fonction graphique inconnu: %s"
 
@@ -106,25 +106,25 @@ $set 5        Redefine set#
 
 49 "Option de dessin inconnue: %s"
 
-50 "Des points n'ont pas été pris en compte."
+50 "Des points n'ont pas Ã©tÃ© pris en compte."
 
 51 "Syntaxe: XCopyArea affichage source cible sourceX sourceY largeur hauteur cibleX cibleY [arg. ...]"
 
-52 "Impossible de convertir le type de ressource '%s' en 'chaîne'"
+52 "Impossible de convertir le type de ressource '%s' en 'chaÃ®ne'"
 
-53 "Impossible de convertir le type de ressource 'chaîne' au type '%s'"
+53 "Impossible de convertir le type de ressource 'chaÃ®ne' au type '%s'"
 
 54 "Syntaxe: XtAddInput variable [-r] descripteur_fich commande_ksh"
 
-56 "Syntaxe: XtRemoveInput ID_entrée"
+56 "Syntaxe: XtRemoveInput ID_entrÃ©e"
 
-57 "Le paramètre ID_entrée doit être un nombre hexadécimal: %s"
+57 "Le paramÃ¨tre ID_entrÃ©e doit Ãªtre un nombre hexadÃ©cimal: %s"
 
 59 "Syntaxe: XFlush affichage"
 
 60 "Syntaxe: XSync affichage suppression"
 
-61 "Syntaxe: XRaiseWindow affichage fenêtre"
+61 "Syntaxe: XRaiseWindow affichage fenÃªtre"
 
 62 "Syntaxe: %s widget [True|False]"
 
@@ -144,15 +144,15 @@ $set 5        Redefine set#
 
 70 "Syntaxe: DtSetStartupCommand widget commande"
 
-71 "Syntaxe: DtSetIconifyHint widget booléen"
+71 "Syntaxe: DtSetIconifyHint widget boolÃ©en"
 
-73 "Le paramètre fenêtre_root est incorrect: %s"
+73 "Le paramÃ¨tre fenÃªtre_root est incorrect: %s"
 
 74 "Syntaxe: DtWsmSetCurrentWorkspace widget atome"
 
 75 "L'atome de l'espace de travail est incorrect: %s"
 
-78 "Syntaxe: DtWsmSetWorkspacesOccupied affichage fenêtre Liste_espaces_travail"
+78 "Syntaxe: DtWsmSetWorkspacesOccupied affichage fenÃªtre Liste_espaces_travail"
 
 79 "Syntaxe: DtGetHourGlassCursor variable affichage"
 
@@ -160,7 +160,7 @@ $set 5        Redefine set#
 
 81 "Syntaxe: DtWsmRemoveWorkspaceCallback identificateur"
 
-82 "Syntaxe: XtNameToWidget variable widget_référence noms"
+82 "Syntaxe: XtNameToWidget variable widget_rÃ©fÃ©rence noms"
 
 83 "Syntaxe: DtDbLoad"
 
@@ -172,7 +172,7 @@ $set 5        Redefine set#
 
 87 "Syntaxe: DtActionDescription variable nom_action"
 
-88 "Syntaxe: DtActionInvoke widget nom_action param_terminal hôte_exéc rép_contexte indic_util commande_ksh [\"FILE\" nom_fichier] ..."
+88 "Syntaxe: DtActionInvoke widget nom_action param_terminal hÃ´te_exÃ©c rÃ©p_contexte indic_util commande_ksh [\"FILE\" nom_fichier] ..."
 
 89 "Syntaxe: DtDtsLoadDataTypes"
 
@@ -182,57 +182,57 @@ $set 5        Redefine set#
 
 92 "Syntaxe: DtDtsFileToAttributeList variable nom_fichier"
 
-93 "Syntaxe: DtDtsDataTypeToAttributeValue variable type_données nom_attribut nom_option"
+93 "Syntaxe: DtDtsDataTypeToAttributeValue variable type_donnÃ©es nom_attribut nom_option"
 
-94 "Syntaxe: DtDtsDataTypeToAttributeList variable type_données nom_options"
+94 "Syntaxe: DtDtsDataTypeToAttributeList variable type_donnÃ©es nom_options"
 
 95 "Syntaxe: DtDtsFindAttribute variable nom valeur"
 
 96 "Syntaxe: DtDtsDataTypeNames variable"
 
-97 "Syntaxe: DtDtsSetDataType variable nom_fichier type_données annulation"
+97 "Syntaxe: DtDtsSetDataType variable nom_fichier type_donnÃ©es annulation"
 
-98 "Syntaxe: DtDtsDataTypeIsAction type_données"
+98 "Syntaxe: DtDtsDataTypeIsAction type_donnÃ©es"
 
-99 "Syntaxe: ouvert_ttdt variable état variable2 nom_outil fournisseur version lancement_envoi"
+99 "Syntaxe: ouvert_ttdt variable Ã©tat variable2 nom_outil fournisseur version lancement_envoi"
 
-100 "Syntaxe: gest_entrée_tttk ID_processus source ID"
+100 "Syntaxe: gest_entrÃ©e_tttk ID_processus source ID"
 
-101 "Le paramètre source doit être un entier: %s"
+101 "Le paramÃ¨tre source doit Ãªtre un entier: %s"
 
-102 "Le paramètre ID doit être un nombre hexadécimal: %s"
+102 "Le paramÃ¨tre ID doit Ãªtre un nombre hexadÃ©cimal: %s"
 
-103 "Syntaxe: fern_ttdt état ID_processus nouv_ID_processus arrêt_envoi"
+103 "Syntaxe: fern_ttdt Ã©tat ID_processus nouv_ID_processus arrÃªt_envoi"
 
-104 "Syntaxe: jonction_sessions_ttdt variable état ID_session Desc_widget_shell jonction"
+104 "Syntaxe: jonction_sessions_ttdt variable Ã©tat ID_session Desc_widget_shell jonction"
 
-105 "Syntaxe: sortie_session_ttdt état ID_session modèles_session sortie"
+105 "Syntaxe: sortie_session_ttdt Ã©tat ID_session modÃ¨les_session sortie"
 
-106 "Le paramètre modèles_session est incorrect: %s"
+106 "Le paramÃ¨tre modÃ¨les_session est incorrect: %s"
 
-107 "Syntaxe: événement_fichier_ttdt état op modèles envoi"
+107 "Syntaxe: Ã©vÃ©nement_fichier_ttdt Ã©tat op modÃ¨les envoi"
 
-108 "Syntaxe: sortie_fichier_ttdt état modèles sortie"
+108 "Syntaxe: sortie_fichier_ttdt Ã©tat modÃ¨les sortie"
 
-109 "Syntaxe: modif_ttdt chemin_accès portée délai"
+109 "Syntaxe: modif_ttdt chemin_accÃ¨s portÃ©e dÃ©lai"
 
-110 "Syntaxe: %s état chemin_accès portée délai"
+110 "Syntaxe: %s Ã©tat chemin_accÃ¨s portÃ©e dÃ©lai"
 
-112 "Syntaxe: pointeur_erreur_tt variable état_tt"
+112 "Syntaxe: pointeur_erreur_tt variable Ã©tat_tt"
 
-113 "Syntaxe: %s état msg"
+113 "Syntaxe: %s Ã©tat msg"
 
-114 "Syntaxe: %s état msg état_msg chaîne_état_msg suppression"
+114 "Syntaxe: %s Ã©tat msg Ã©tat_msg chaÃ®ne_Ã©tat_msg suppression"
 
-115 "Syntaxe: jonction_fichiers_ttdt variable état chemin_accès portée jonction commande_ksh"
+115 "Syntaxe: jonction_fichiers_ttdt variable Ã©tat chemin_accÃ¨s portÃ©e jonction commande_ksh"
 
-116 "Syntaxe: fich_rés_fich_tt variable état nom_fichier"
+116 "Syntaxe: fich_rÃ©s_fich_tt variable Ã©tat nom_fichier"
 
-117 "Syntaxe: fich_fich_réseau_tt variable état nom_fich_réseau"
+117 "Syntaxe: fich_fich_rÃ©seau_tt variable Ã©tat nom_fich_rÃ©seau"
 
-118 "Syntaxe: fich_rés_fich_hôte_tt variable état hôte nom_fichier"
+118 "Syntaxe: fich_rÃ©s_fich_hÃ´te_tt variable Ã©tat hÃ´te nom_fichier"
 
-119 "Syntaxe: fich_fich_rés_hôte_tt variable état hôte nom_fich_rés"
+119 "Syntaxe: fich_fich_rÃ©s_hÃ´te_tt variable Ã©tat hÃ´te nom_fich_rÃ©s"
 
 120 "Syntaxe: XtIsSubclass widget classe"
 
@@ -276,49 +276,49 @@ $set 11        Redefine set#
 
 1 "La structure '%s' ne contient pas la zone '%s'."
 
-2 "DtkshCvtCallbackToString: Dépassement de capacité d'une mémoire tampon de conversion interne."
+2 "DtkshCvtCallbackToString: DÃ©passement de capacitÃ© d'une mÃ©moire tampon de conversion interne."
 
 3 "Le hachage de la ressource '%s' dans la classe de widget '%s' n'a pas abouti."
 
-4 "Aucun nom de fonction n'a été indiqué."
+4 "Aucun nom de fonction n'a Ã©tÃ© indiquÃ©."
 
-5 "L'exécution de la commande est impossible car la boîte à outils n'a pas été initialisée."
+5 "L'exÃ©cution de la commande est impossible car la boÃ®te Ã  outils n'a pas Ã©tÃ© initialisÃ©e."
 
-6 "La création du widget '%s' n'a pas abouti."
+6 "La crÃ©ation du widget '%s' n'a pas abouti."
 
-7 "Le paramètre affichage est incorrect: %s"
+7 "Le paramÃ¨tre affichage est incorrect: %s"
 
-8 "L'atome de propriété suivant est incorrect: %s"
+8 "L'atome de propriÃ©tÃ© suivant est incorrect: %s"
 
-9 "La ressource suivante n'est pas définie pour le widget '%s': %s"
+9 "La ressource suivante n'est pas dÃ©finie pour le widget '%s': %s"
 
-10 "La position indiquée est incorrecte: %s"
+10 "La position indiquÃ©e est incorrecte: %s"
 
-11 "La police indiquée est incorrecte: %s"
+11 "La police indiquÃ©e est incorrecte: %s"
 
-12 "Le descripteur de widget '%s' n'est pas associé à un widget existant."
+12 "Le descripteur de widget '%s' n'est pas associÃ© Ã  un widget existant."
 
-13 "Le widget doit être de type 'command'."
+13 "Le widget doit Ãªtre de type 'command'."
 
-14 "Le widget doit être de type 'mainWindow'."
+14 "Le widget doit Ãªtre de type 'mainWindow'."
 
-15 "Le widget doit être de type 'scale'."
+15 "Le widget doit Ãªtre de type 'scale'."
 
-16 "Le widget doit être de type 'scrollBar'."
+16 "Le widget doit Ãªtre de type 'scrollBar'."
 
 17 "Il doit s'agir d'un widget ou d'un gadget de type 'toggleButton'."
 
-18 "Le paramètre de fenêtre est incorrect: %s"
+18 "Le paramÃ¨tre de fenÃªtre est incorrect: %s"
 
-19 "Impossible d'allouer la mémoire requise ; abandon."
+19 "Impossible d'allouer la mÃ©moire requise ; abandon."
 
-20 "Impossible de trouver le widget père."
+20 "Impossible de trouver le widget pÃ¨re."
 
 21 "Impossible de localiser le symbole '%s'."
 
 22 "Impossible de localiser le type '%s'."
 
-23 "Impossible d'analyser la déclaration '%s' ; utilisation de 'unsigned long'."
+23 "Impossible d'analyser la dÃ©claration '%s' ; utilisation de 'unsigned long'."
 
 24 "Type de fils inconnu: %s."
 
@@ -334,22 +334,22 @@ $set 11        Redefine set#
 
 30 "dtksh - Avertissement"
 
-31 "Syntaxe: %s affichage fenêtre"
+31 "Syntaxe: %s affichage fenÃªtre"
 
-32 "Syntaxe: %s affichage fenêtre variable"
+32 "Syntaxe: %s affichage fenÃªtre variable"
 
-33 "Syntaxe: %s affichage fenêtre_root variable"
+33 "Syntaxe: %s affichage fenÃªtre_root variable"
 
-34 "Le paramètre délai est incorrect: %s."
+34 "Le paramÃ¨tre dÃ©lai est incorrect: %s."
 
-35 "Le paramètre msg est incorrect: %s."
+35 "Le paramÃ¨tre msg est incorrect: %s."
 
-36 "Le paramètre modèles est incorrect: %s."
+36 "Le paramÃ¨tre modÃ¨les est incorrect: %s."
 
 $set 14        Redefine set#
 
 
-1 "Une erreur liée à la table de hachage interne s'est produite lors de l'initialisation de la classe de widget ; abandon."
+1 "Une erreur liÃ©e Ã  la table de hachage interne s'est produite lors de l'initialisation de la classe de widget ; abandon."
 
 2 "La classe de widget '%s' n'existe pas."
 
@@ -361,7 +361,7 @@ $set 14        Redefine set#
 
 6 "L'enregistrement de classe de widget '%s' est introuvable."
 
-7 "Une erreur liée à la table de hachage interne s'est produite lors de l'initialisation de la classe de widget '%s'."
+7 "Une erreur liÃ©e Ã  la table de hachage interne s'est produite lors de l'initialisation de la classe de widget '%s'."
 
 8 "\n\
 %sRESSOURCES POUR %s%s%s:\n"
@@ -388,10 +388,10 @@ Syntaxe:\tDtWidgetInfo [descript_widget]\n\
 $set 15        Redefine set#
 
 
-1 "Impossible d'initialiser la boîte à outils."
+1 "Impossible d'initialiser la boÃ®te Ã  outils."
 
-2 "La ressource suivante ne peut pas être définie lors de la création\n\
-du widget. Une fois le widget créé, utilisez XtSetValues: %s"
+2 "La ressource suivante ne peut pas Ãªtre dÃ©finie lors de la crÃ©ation\n\
+du widget. Une fois le widget crÃ©Ã©, utilisez XtSetValues: %s"
 
 3 "Syntaxe: %s variable parent nom [argument:valeur ...]"
 
@@ -401,27 +401,27 @@ du widget. Une fois le widget créé, utilisez XtSetValues: %s"
 
 6 "Syntaxe: DtHelpQuickDialogGetChild variable widget_quickHelp fils"
 
-7 "Le widget doit être de type 'quickHelp'."
+7 "Le widget doit Ãªtre de type 'quickHelp'."
 
-8 "Le widget doit être de type 'list'."
+8 "Le widget doit Ãªtre de type 'list'."
 
-9 "Syntaxe: %s widget position élément"
+9 "Syntaxe: %s widget position Ã©lÃ©ment"
 
-10 "Syntaxe: %s widget position liste_éléments"
+10 "Syntaxe: %s widget position liste_Ã©lÃ©ments"
 
-11 "Syntaxe: %s widget élément"
+11 "Syntaxe: %s widget Ã©lÃ©ment"
 
 12 "Syntaxe: XmListDeleteItemsPos widget nombre position"
 
-13 "Syntaxe: XmListDeleteItems widget liste_éléments"
+13 "Syntaxe: XmListDeleteItems widget liste_Ã©lÃ©ments"
 
 14 "Syntaxe: XmListDeletePositions widget liste_positions"
 
 15 "Syntaxe: XmListGetKbdItemPos variable widget"
 
-16 "Syntaxe: XmListItemExists widget élément"
+16 "Syntaxe: XmListItemExists widget Ã©lÃ©ment"
 
-17 "Syntaxe: XmListItemPos variable widget élément"
+17 "Syntaxe: XmListItemPos variable widget Ã©lÃ©ment"
 
 18 "Syntaxe: XmListPosSelected widget position"
 
@@ -429,17 +429,17 @@ du widget. Une fois le widget créé, utilisez XtSetValues: %s"
 
 20 "Syntaxe: %s widget position option_notification"
 
-21 "Syntaxe: %s widget élément option_notification"
+21 "Syntaxe: %s widget Ã©lÃ©ment option_notification"
 
-22 "Syntaxe: XmListSetAddMode widget booléen"
+22 "Syntaxe: XmListSetAddMode widget boolÃ©en"
 
 23 "Syntaxe: XmListSetKbdItemPos widget position"
 
-24 "Syntaxe: XmMainWindowSetAreas fenêtre_principale menu commande défil_hor défil_vert travail"
+24 "Syntaxe: XmMainWindowSetAreas fenÃªtre_principale menu commande dÃ©fil_hor dÃ©fil_vert travail"
 
-25 "Le descripteur 'fenêtre_principale' est NULL."
+25 "Le descripteur 'fenÃªtre_principale' est NULL."
 
-26 "Syntaxe: %s variable fenêtre_principale"
+26 "Syntaxe: %s variable fenÃªtre_principale"
 
 27 "Syntaxe: XmProcessTraversal widget sens"
 
@@ -449,27 +449,27 @@ du widget. Une fois le widget créé, utilisez XtSetValues: %s"
 
 30 "Syntaxe: XmGetAtomName variable affichage atome"
 
-31 "L'atome indiqué est incorrect: %s."
+31 "L'atome indiquÃ© est incorrect: %s."
 
-32 "Syntaxe: XmGetColors widget arrière-plan avant-plan ombrage_sup ombrage_inf sélection"
+32 "Syntaxe: XmGetColors widget arriÃ¨re-plan avant-plan ombrage_sup ombrage_inf sÃ©lection"
 
-33 "Pixel d'arrière-plan incorrect: %s"
+33 "Pixel d'arriÃ¨re-plan incorrect: %s"
 
 34 "Syntaxe: XmUpdateDisplay widget"
 
 35 "Syntaxe: %s widget protocole [protocole ...]"
 
-36 "L'atome indiqué est incorrect: %s."
+36 "L'atome indiquÃ© est incorrect: %s."
 
 37 "Syntaxe: XmAddWMProtocolCallback widget protocole commande_ksh"
 
 38 "Syntaxe: XmRemoveWMProtocolCallback widget protocole commande_ksh"
 
-39 "Syntaxe: XmMenuPosition menu événement"
+39 "Syntaxe: XmMenuPosition menu Ã©vÃ©nement"
 
-40 "L'événement indiqué est incorrect: %s"
+40 "L'Ã©vÃ©nement indiquÃ© est incorrect: %s"
 
-41 "Syntaxe: XmCommandAppendValue widget_command chaîne"
+41 "Syntaxe: XmCommandAppendValue widget_command chaÃ®ne"
 
 42 "Syntaxe: XmCommandError widget_command message_erreur"
 
@@ -479,45 +479,45 @@ du widget. Une fois le widget créé, utilisez XtSetValues: %s"
 
 45 "Syntaxe: XmMessageBoxGetChild variable widget_command fils"
 
-46 "Le widget doit être de type 'messageBox'."
+46 "Le widget doit Ãªtre de type 'messageBox'."
 
 47 "Syntaxe: XmFileSelectionBoxGetChild variable widget fils"
 
-48 "Le widget doit être de type 'boîte de sélection de fichier'."
+48 "Le widget doit Ãªtre de type 'boÃ®te de sÃ©lection de fichier'."
 
 49 "Syntaxe: XmSelectionBoxGetChild variable widget fils"
 
-50 "Le widget doit être de type 'boîte de sélection'."
+50 "Le widget doit Ãªtre de type 'boÃ®te de sÃ©lection'."
 
 51 "Syntaxe: XmScaleGetValue wdget_scale variable"
 
 52 "Syntaxe: XmScaleSetValue widget_scale valeur"
 
-53 "La valeur d'échelle indiquée est incorrecte: %s."
+53 "La valeur d'Ã©chelle indiquÃ©e est incorrecte: %s."
 
-54 "Syntaxe: XmScrollBarGetValues barre_défil variable variable variable variable"
+54 "Syntaxe: XmScrollBarGetValues barre_dÃ©fil variable variable variable variable"
 
-55 "Syntaxe: XmScrollBarSetValues barre_défil valeur taille_règle incrément incrément_page notification"
+55 "Syntaxe: XmScrollBarSetValues barre_dÃ©fil valeur taille_rÃ¨gle incrÃ©ment incrÃ©ment_page notification"
 
-56 "La valeur indiquée est incorrecte: %s."
+56 "La valeur indiquÃ©e est incorrecte: %s."
 
-57 "La taille indiquée pour la règle est incorrecte: %s."
+57 "La taille indiquÃ©e pour la rÃ¨gle est incorrecte: %s."
 
-58 "L'incrément indiqué est incorrect: %s."
+58 "L'incrÃ©ment indiquÃ© est incorrect: %s."
 
-59 "L'incrément de page indiqué est incorrect: %s."
+59 "L'incrÃ©ment de page indiquÃ© est incorrect: %s."
 
-60 "Syntaxe: XmScrollVisible fenêtre_défil widget marge_gauche_droite marge_sup_inf"
+60 "Syntaxe: XmScrollVisible fenÃªtre_dÃ©fil widget marge_gauche_droite marge_sup_inf"
 
-61 "Le widget doit être de type 'scrolledWindow'."
+61 "Le widget doit Ãªtre de type 'scrolledWindow'."
 
-62 "Le widget à rendre visible n'existe pas."
+62 "Le widget Ã  rendre visible n'existe pas."
 
-63 "La valeur de marge gauche/droite indiquée est incorrecte: %s."
+63 "La valeur de marge gauche/droite indiquÃ©e est incorrecte: %s."
 
-64 "La valeur de marge inférieure/supérieure indiquée est incorrecte: %s."
+64 "La valeur de marge infÃ©rieure/supÃ©rieure indiquÃ©e est incorrecte: %s."
 
-65 "Syntaxe: %s widget état notification"
+65 "Syntaxe: %s widget Ã©tat notification"
 
 66 "Syntaxe: ouverture_cat variable nom_cat"
 
@@ -525,59 +525,59 @@ du widget. Une fois le widget créé, utilisez XtSetValues: %s"
 
 68 "Syntaxe: catgets variable ID_cat Num_set Num_msg Msg_dft"
 
-69 "Le widget doit être de type 'text' ou 'textField'."
+69 "Le widget doit Ãªtre de type 'text' ou 'textField'."
 
 70 "Syntaxe: %s variable widget"
 
-71 "Syntaxe: %s widget booléen"
+71 "Syntaxe: %s widget boolÃ©en"
 
-72 "Le paramètre indiqué est incorrect: %s."
+72 "Le paramÃ¨tre indiquÃ© est incorrect: %s."
 
 73 "Syntaxe: %s widget lignes"
 
 74 "Syntaxe: %s widget long_maxi"
 
-75 "Syntaxe: %s widget chaîne"
+75 "Syntaxe: %s widget chaÃ®ne"
 
 76 "Syntaxe: %s widget variable variable"
 
-77 "Syntaxe: %s widget position chaîne"
+77 "Syntaxe: %s widget position chaÃ®ne"
 
 78 "Syntaxe: %s widget position variable variable"
 
-79 "Syntaxe: %s widget position_source position_cible chaîne"
+79 "Syntaxe: %s widget position_source position_cible chaÃ®ne"
 
-80 "La position source indiquée est incorrecte: %s."
+80 "La position source indiquÃ©e est incorrecte: %s."
 
-81 "La position cible indiquée est incorrecte: %s."
+81 "La position cible indiquÃ©e est incorrecte: %s."
 
-82 "Syntaxe: %s widget première_position dernière_position heure"
+82 "Syntaxe: %s widget premiÃ¨re_position derniÃ¨re_position heure"
 
-83 "La première position indiquée est incorrecte: %s."
+83 "La premiÃ¨re position indiquÃ©e est incorrecte: %s."
 
-84 "La dernière position indiquée est incorrecte: %s."
+84 "La derniÃ¨re position indiquÃ©e est incorrecte: %s."
 
-85 "L'heure indiquée est incorrecte: %s."
+85 "L'heure indiquÃ©e est incorrecte: %s."
 
 86 "Syntaxe: %s variable widget x y"
 
-87 "La position x indiquée est incorrecte: %s."
+87 "La position x indiquÃ©e est incorrecte: %s."
 
-88 "La position y indiquée est incorrecte: %s."
+88 "La position y indiquÃ©e est incorrecte: %s."
 
 89 "Syntaxe: %s widget droite gauche mode"
 
-90 "La position de gauche indiquée est incorrecte: %s."
+90 "La position de gauche indiquÃ©e est incorrecte: %s."
 
-91 "La position de droite indiquée est incorrecte: %s."
+91 "La position de droite indiquÃ©e est incorrecte: %s."
 
-92 "Syntaxe: %s widget départ chaîne sens variable"
+92 "Syntaxe: %s widget dÃ©part chaÃ®ne sens variable"
 
-93 "La position de départ indiquée est incorrecte: %s."
+93 "La position de dÃ©part indiquÃ©e est incorrecte: %s."
 
 94 "Syntaxe: XmListGetSelectedPos variable widget"
 
-95 "Syntaxe: XmListGetMatchPos variable widget élément"
+95 "Syntaxe: XmListGetMatchPos variable widget Ã©lÃ©ment"
 
 96 "Syntaxe: XmOptionLabelGadget variable widget"
 
@@ -593,14 +593,14 @@ du widget. Une fois le widget créé, utilisez XtSetValues: %s"
 
 102 "Syntaxe: XmGetFocusWidget variable widget"
 
-103 "Syntaxe: XmFileSelectionDoSearch widget masque_répertoire"
+103 "Syntaxe: XmFileSelectionDoSearch widget masque_rÃ©pertoire"
 
 $set 16        Redefine set#
 
 
-1 "DtkshCvtNamedValueToString: Aucune correspondance trouvée."
+1 "DtkshCvtNamedValueToString: Aucune correspondance trouvÃ©e."
 
-2 "DtkshCvtStringToNamedValue: Impossible de convertir la chaîne '%s'."
+2 "DtkshCvtStringToNamedValue: Impossible de convertir la chaÃ®ne '%s'."
 $ The following messages are for ksh93 itself.  The message numbers must
 $ match those specified in the MsgStr array allmsgs in
 $ ksh93/src/cmd/ksh93/sh/init.c, as must the set number.
@@ -608,21 +608,21 @@ $ ksh93/src/cmd/ksh93/sh/init.c, as must the set number.
 $set 25        Redefine set#
 
 
-1 "Effectué(es)"
+1 "EffectuÃ©(es)"
 
-3 "En cours d'exécution"
+3 "En cours d'exÃ©cution"
 
 4 "[-n] [arg...]"
 
 5 "[arg...]"
 
-6 "[rép] [liste]"
+6 "[rÃ©p] [liste]"
 
 7 "[travail...]"
 
 8 "[n]"
 
-9 "[nom [chemin_accès] ]"
+9 "[nom [chemin_accÃ¨s] ]"
 
 10 "[nom]"
 
@@ -634,23 +634,23 @@ $set 25        Redefine set#
 
 14 "est une fonction."
 
-15 "est un mot clé."
+15 "est un mot clÃ©."
 
 16 "est interne au shell."
 
-17 "est une fonction exportée."
+17 "est une fonction exportÃ©e."
 
-18 "est une fonction indéfinie."
+18 "est une fonction indÃ©finie."
 
 19 "nom [arg...]"
 
-20 "chaîne_opt nom [args...]"
+20 "chaÃ®ne_opt nom [args...]"
 
 21 "secondes"
 
 23 "${HOME:-.}/.profile"
 
-24 "%c: L'expression contient un caractère incorrect: %s ."
+24 "%c: L'expression contient un caractÃ¨re incorrect: %s ."
 
 25 "%c: Le format d'identificateur est inconnu."
 
@@ -660,29 +660,29 @@ $set 25        Redefine set#
 
 28 "%s est un alias pour "
 
-29 "%s est un alias exporté pour "
+29 "%s est un alias exportÃ© pour "
 
 30 "%s est manquant."
 
 31 "%s: base inconnue."
 
-32 "%s: ':' attendu pour l'opérateur '?'."
+32 "%s: ':' attendu pour l'opÃ©rateur '?'."
 
 33 "%s: Ambigu."
 
-34 "%s: Les arguments doivent être des ID de processus ou des numéros de %travaux."
+34 "%s: Les arguments doivent Ãªtre des ID de processus ou des numÃ©ros de %travaux."
 
 35 "%s: alias introuvable.\n"
 
-36 "%s: Erreur de syntaxe arithmétique."
+36 "%s: Erreur de syntaxe arithmÃ©tique."
 
-37 "%s: L'affectation nécessite une lvalue."
+37 "%s: L'affectation nÃ©cessite une lvalue."
 
-38 "%s: Numéro d'unité de fichier incorrect."
+38 "%s: NumÃ©ro d'unitÃ© de fichier incorrect."
 
 39 "%s: Format incorrect."
 
-40 "%s: Numéro incorrect."
+40 "%s: NumÃ©ro incorrect."
 
 41 "%s: Option(s) incorrecte(s)."
 
@@ -690,19 +690,19 @@ $set 25        Redefine set#
 
 43 "%s: trap incorrect."
 
-44 "%s: Création impossible."
+44 "%s: CrÃ©ation impossible."
 
-45 "%s: Exécution impossible."
+45 "%s: ExÃ©cution impossible."
 
 46 "%s: Ouverture impossible."
 
-47 "%s: Division par zéro."
+47 "%s: Division par zÃ©ro."
 
 48 "%s: Exception de domaine."
 
 49 "%s: Echec de %s."
 
-50 "%s: Le fichier existe déjà."
+50 "%s: Le fichier existe dÃ©jÃ ."
 
 51 "%s: Nom de fonction incorrect."
 
@@ -716,9 +716,9 @@ $set 25        Redefine set#
 
 56 "%s: Nom incorrect."
 
-57 "%s: Expression régulière incorrecte."
+57 "%s: Expression rÃ©guliÃ¨re incorrecte."
 
-58 "%s: Auto-référence incorrecte."
+58 "%s: Auto-rÃ©fÃ©rence incorrecte."
 
 59 "%s: Utilisation incorrecte de :"
 
@@ -728,51 +728,51 @@ $set 25        Redefine set#
 
 62 "%s est accessible en lecture seulement."
 
-63 "%s: Libellé non mis en oeuvre."
+63 "%s: LibellÃ© non mis en oeuvre."
 
-64 "%s: Limite dépassée."
+64 "%s: Limite dÃ©passÃ©e."
 
-65 "%s: Des symboles plus nombreux étaient attendus."
+65 "%s: Des symboles plus nombreux Ã©taient attendus."
 
-66 "%s: Pas de père."
+66 "%s: Pas de pÃ¨re."
 
-67 "%s: Pas de nom de référence."
+67 "%s: Pas de nom de rÃ©fÃ©rence."
 
 68 "%s: Introuvable."
 
 69 "%s: Non mis(e) en oeuvre."
 
-70 "%s: Les opérandes sont de types incompatibles."
+70 "%s: Les opÃ©randes sont de types incompatibles."
 
-71 "%s: Exception de dépassement de capacité."
+71 "%s: Exception de dÃ©passement de capacitÃ©."
 
-72 "%s: Paramètre non défini."
+72 "%s: ParamÃ¨tre non dÃ©fini."
 
-73 "%s: Paramètre nul ou non défini."
+73 "%s: ParamÃ¨tre nul ou non dÃ©fini."
 
 74 "%s: Recursion trop profonde."
 
-75 "%s: Une variable de référence ne peut pas être un tableau."
+75 "%s: Une variable de rÃ©fÃ©rence ne peut pas Ãªtre un tableau."
 
-76 "%s requiert un chemin d'accès."
+76 "%s requiert un chemin d'accÃ¨s."
 
 77 "%s: Restreint."
 
-78 "%s: Exception de singularité."
+78 "%s: Exception de singularitÃ©."
 
 79 "%s: Indice hors limites."
 
-80 "%s: Parenthèse manquante."
+80 "%s: ParenthÃ¨se manquante."
 
 81 "%s: Fonction inconnue."
 
 82 "%s: Environnement local inconnu."
 
-83 "%s: Opérateur inconnu."
+83 "%s: OpÃ©rateur inconnu."
 
 84 "%s: Nom de signal inconnu."
 
-85 "%s: Entraînerait une boucle."
+85 "%s: EntraÃ®nerait une boucle."
 
 86 "(coredump)"
 
@@ -790,13 +790,13 @@ $set 25        Redefine set#
 
 93 "Abandon"
 
-94 "Ad:[delim]prst#[délai]u#[num_fich] [nom...]"
+94 "Ad:[delim]prst#[dÃ©lai]u#[num_fich] [nom...]"
 
 95 "Appel d'un signal d'alarme"
 
-96 "Spécification de noeud root incorrecte."
+96 "SpÃ©cification de noeud root incorrecte."
 
-97 "Appel système incorrect."
+97 "Appel systÃ¨me incorrect."
 
 98 "Tube interrompu"
 
@@ -804,11 +804,11 @@ $set 25        Redefine set#
 
 100 "Impossible de lancer la gestion des travaux."
 
-101 "Paramètres en cours de l'option"
+101 "ParamÃ¨tres en cours de l'option"
 
 102 "Signal DIL"
 
-103 "Fils arrêté"
+103 "Fils arrÃªtÃ©"
 
 104 "DircabefhkmnpstuvxCI:[fichier]o:?[option]A:[nom] [arg...]"
 
@@ -816,15 +816,15 @@ $set 25        Redefine set#
 
 106 "Interruption EMT"
 
-107 "Limite de temps CPU dépassée."
+107 "Limite de temps CPU dÃ©passÃ©e."
 
-108 "Limite de taille de fichier dépassée."
+108 "Limite de taille de fichier dÃ©passÃ©e."
 
 109 "Exception de calcul en virgule flottante"
 
 110 "HSacdfmnstv [limite]"
 
-111 "Déconnexion"
+111 "DÃ©connexion"
 
 112 "Signal d'E-S"
 
@@ -832,51 +832,51 @@ $set 25        Redefine set#
 
 114 "Interruption"
 
-115 "Arrêté"
+115 "ArrÃªtÃ©"
 
-116 "LP [rép] [modif]"
+116 "LP [rÃ©p] [modif]"
 
-117 "Erreur de mémoire"
+117 "Erreur de mÃ©moire"
 
 118 "Processus de migration"
 
 119 "Pas de gestion des travaux"
 
-120 "Interruption téléphone"
+120 "Interruption tÃ©lÃ©phone"
 
-121 "Alarme d'appel sélectif "
+121 "Alarme d'appel sÃ©lectif "
 
 122 "Coupure d'alimentation"
 
-123 "Définition du profil de l'alarme"
+123 "DÃ©finition du profil de l'alarme"
 
 124 "Quitter"
 
 125 "Perte de ressources"
 
-126 "Retour au pilote de tty précédent..."
+126 "Retour au pilote de tty prÃ©cÃ©dent..."
 
 127 "S [masque]"
 
-129 "Libellé de sécurité modifié"
+129 "LibellÃ© de sÃ©curitÃ© modifiÃ©"
 
 130 "Interruption de prise"
 
-131 "Test sonore terminé"
+131 "Test sonore terminÃ©"
 
 132 "Fin (signal)"
 
-133 "Fin (entrée de tty)"
+133 "Fin (entrÃ©e de tty)"
 
 134 "Suite du processus interrompu"
 
-135 "Arrêté"
+135 "ArrÃªtÃ©"
 
 136 "Fin (sortie de tty)"
 
 137 "Passage au nouveau pilote de tty..."
 
-138 "Arrêt imminent du système"
+138 "ArrÃªt imminent du systÃ¨me"
 
 139 "Interrompu"
 
@@ -884,21 +884,21 @@ $set 25        Redefine set#
 
 141 "Version inconnue"
 
-142 "Entrez 'exit' pour mettre fin à ce shell."
+142 "Entrez 'exit' pour mettre fin Ã  ce shell."
 
 143 "Signal utilisateur 1"
 
 144 "Signal utilisateur 2"
 
-145 "Version non définie"
+145 "Version non dÃ©finie"
 
 146 "Signal de l'horloge virtuelle"
 
-147 "Modification de taille de la fenêtre"
+147 "Modification de taille de la fenÃªtre"
 
-148 "Des travaux sont en cours d'exécution."
+148 "Des travaux sont en cours d'exÃ©cution."
 
-149 "Vous avez arrêté des travaux."
+149 "Vous avez arrÃªtÃ© des travaux."
 
 150 "[_[:alpha:]]*([_[:alnum:]])"
 
@@ -909,10 +909,10 @@ $set 25        Redefine set#
 @(#)Version M-12/28/93\0\n"
 
 153 "\n\
-réel"
+rÃ©el"
 
 154 "\r\n\
-\007Dépassement de délaid'inactivité du shell dans 60 secondes."
+\007DÃ©passement de dÃ©laid'inactivitÃ© du shell dans 60 secondes."
 
 155 "un nom..."
 
@@ -926,25 +926,25 @@ réel"
 
 160 "Argument attendu"
 
-161 "Répertoire incorrect"
+161 "RÃ©pertoire incorrect"
 
-162 "Numéro d'unité de fichier incorrect."
+162 "NumÃ©ro d'unitÃ© de fichier incorrect."
 
 163 "Remplacement incorrect"
 
-164 "Impossible d'accéder aux répertoires pères."
+164 "Impossible d'accÃ©der aux rÃ©pertoires pÃ¨res."
 
-165 "Impossible de créer un tube."
+165 "Impossible de crÃ©er un tube."
 
-166 "Impossible de créer un fichier temporaire."
+166 "Impossible de crÃ©er un fichier temporaire."
 
-167 "Impossible d'exécuter fork."
+167 "Impossible d'exÃ©cuter fork."
 
 168 "Impossible d'obtenir %s."
 
-169 "Impossible de définir %s."
+169 "Impossible de dÃ©finir %s."
 
-170 "Impossible de définir l'alarme."
+170 "Impossible de dÃ©finir l'alarme."
 
 171 "Condition(s) requise(s)"
 
@@ -968,39 +968,39 @@ réel"
 
 181 "est une version interne au shell de"
 
-182 "est un alias repéré pour "
+182 "est un alias repÃ©rÃ© pour "
 
 183 "kill"
 
-184 "Ligne %d: $ non précédé de \\"
+184 "Ligne %d: $ non prÃ©cÃ©dÃ© de \\"
 
-185 "Ligne %d: %c entre ${} doit être encadré de guillemets."
+185 "Ligne %d: %c entre ${} doit Ãªtre encadrÃ© de guillemets."
 
-186 "Ligne %d: %s Libellé inconnu."
+186 "Ligne %d: %s LibellÃ© inconnu."
 
-187 "Ligne %d: %s entre [[...]] obsolète ; utilisez ((...))."
+187 "Ligne %d: %s entre [[...]] obsolÃ¨te ; utilisez ((...))."
 
-188 "Ligne %d: '=' obsolète ; utilisez '=='."
+188 "Ligne %d: '=' obsolÃ¨te ; utilisez '=='."
 
-189 "Ligne %d: -a obsolète ; utilisez -e."
+189 "Ligne %d: -a obsolÃ¨te ; utilisez -e."
 
-190 "Ligne %d: \\ devant %c réservé pour une utilisation ultérieure."
+190 "Ligne %d: \\ devant %c rÃ©servÃ© pour une utilisation ultÃ©rieure."
 
-191 "Ligne %d: `...` obsolète ; utilisez $(...)."
+191 "Ligne %d: `...` obsolÃ¨te ; utilisez $(...)."
 
-192 "Ligne %d: indiquez un caractère d'échappement pour %c afin d'éviter toute ambiguïté."
+192 "Ligne %d: indiquez un caractÃ¨re d'Ã©chappement pour %c afin d'Ã©viter toute ambiguÃ¯tÃ©."
 
-193 "Ligne %d: libellé %s ignoré."
+193 "Ligne %d: libellÃ© %s ignorÃ©."
 
-194 "Ligne %d: indiquez %c entre guillemets pour éviter toute ambiguïté."
+194 "Ligne %d: indiquez %c entre guillemets pour Ã©viter toute ambiguÃ¯tÃ©."
 
-195 "Ligne %d: ensemble %s obsolète."
+195 "Ligne %d: ensemble %s obsolÃ¨te."
 
-196 "Ligne %d: Des espaces sont requis pour le sous-shell imbriqué."
+196 "Ligne %d: Des espaces sont requis pour le sous-shell imbriquÃ©."
 
-197 "Ligne %d: indiquez des accolades pour éviter toute ambiguïté avec $id[...]."
+197 "Ligne %d: indiquez des accolades pour Ã©viter toute ambiguÃ¯tÃ© avec $id[...]."
 
-198 "Ligne %d: indiquez un espace ou une tabulation pour séparer les opérateurs %c et %c."
+198 "Ligne %d: indiquez un espace ou une tabulation pour sÃ©parer les opÃ©rateurs %c et %c."
 
 199 "ln#[num_signal]s:[nom_signal] signal..."
 
@@ -1008,7 +1008,7 @@ réel"
 
 201 "mappage"
 
-202 "retour à la ligne"
+202 "retour Ã  la ligne"
 
 203 "nlp [travail...]"
 
@@ -1026,19 +1026,19 @@ réel"
 
 210 "en fonction"
 
-211 "Nombre maximal de fichiers ouverts dépassée."
+211 "Nombre maximal de fichiers ouverts dÃ©passÃ©e."
 
-212 "Mémoire saturée."
+212 "MÃ©moire saturÃ©e."
 
 213 "p [action condition...]"
 
 214 "p [nom[=valeur]...]"
 
-215 "Paramètre non défini."
+215 "ParamÃ¨tre non dÃ©fini."
 
-216 "Autorisation refusée."
+216 "Autorisation refusÃ©e."
 
-217 "Ce processus existe déjà."
+217 "Ce processus existe dÃ©jÃ ."
 
 218 "ptx [nom=[valeur]...]"
 
@@ -1046,21 +1046,21 @@ réel"
 
 220 "r [nom_variable secondes]"
 
-221 "Erreur de syntaxe à la ligne %d: `%s' %s"
+221 "Erreur de syntaxe Ã  la ligne %d: `%s' %s"
 
-222 "Erreur de syntaxe à la ligne %d: libellé en double %s."
+222 "Erreur de syntaxe Ã  la ligne %d: libellÃ© en double %s."
 
 223 "Erreur de syntaxe: `%s' %s"
 
 224 "sys"
 
-225 "Dépassement de délai lors de l'attente d'entrée."
+225 "DÃ©passement de dÃ©lai lors de l'attente d'entrÃ©e."
 
 226 "inattendu"
 
 227 "universel inaccessible"
 
-228 "illimité"
+228 "illimitÃ©"
 
 229 "sans correspondance"
 
@@ -1068,8 +1068,8 @@ réel"
 
 231 "versions"
 
-232 "Echec de l'écriture dans %d."
+232 "Echec de l'Ã©criture dans %d."
 
 233 "Vous avez du courrier dans $_"
 
-234 "zéro octet"
+234 "zÃ©ro octet"

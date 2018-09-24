@@ -41,25 +41,25 @@ $ in 'directory'. 'language' means which localized versions of help files
 $ to look for. 
 $  
 
-1 "%s -dir <répertoire> [-generate] [-file <nom>] [-lang <langue>]\n"
+1 "%s -dir <rÃ©pertoire> [-generate] [-file <nom>] [-lang <langue>]\n"
 $  
 $ Mesages 2-18 are error messages. 
 $  
 
-2 "%s: Un élément de %s n'est pas un répertoire.\n"
+2 "%s: Un Ã©lÃ©ment de %s n'est pas un rÃ©pertoire.\n"
 
-3 "%s: Accès au répertoire %s refusé.\n\
-Exécution en tant que super-utilisateur ?\n"
+3 "%s: AccÃ¨s au rÃ©pertoire %s refusÃ©.\n\
+ExÃ©cution en tant que super-utilisateur ?\n"
 
-4 "%s: Un élément de %s n'existe pas.\n"
+4 "%s: Un Ã©lÃ©ment de %s n'existe pas.\n"
 
-5 "%s: Le système de fichiers contenant %s est saturé.\n"
+5 "%s: Le systÃ¨me de fichiers contenant %s est saturÃ©.\n"
 
-6 "%s: Impossible d'accéder à %s - numéro de statut d'erreur: %d.\n"
+6 "%s: Impossible d'accÃ©der Ã  %s - numÃ©ro de statut d'erreur: %d.\n"
 
-7 "%s: Le système de fichiers contenant %s est accessible en lecture seulement.\n"
+7 "%s: Le systÃ¨me de fichiers contenant %s est accessible en lecture seulement.\n"
 
-8 "%s: Vous devez disposer des droits d'accès root pour écrire dans %s.\n"
+8 "%s: Vous devez disposer des droits d'accÃ¨s root pour Ã©crire dans %s.\n"
 
 9 "%s: Ecriture dans %s incorrecte.\n"
 
@@ -67,23 +67,23 @@ Exécution en tant que super-utilisateur ?\n"
 
 11 "%s: La ressource 'titre' est manquante.\n"
 
-12 "%s: La ressource 'résumé' est manquante.\n"
+12 "%s: La ressource 'rÃ©sumÃ©' est manquante.\n"
 
 13 "%s: La ressource 'volumes' est manquante.\n"
 
-14 "%s: La ressource 'jeu de caractères' est manquante.\n"
+14 "%s: La ressource 'jeu de caractÃ¨res' est manquante.\n"
 
-15 "%s: Le répertoire cible est manquant.\n"
+15 "%s: Le rÃ©pertoire cible est manquant.\n"
 
-16 "%s: Aucun fichier appartenant à la famille détecté.\n"
+16 "%s: Aucun fichier appartenant Ã  la famille dÃ©tectÃ©.\n"
 
-17 "%s: Aucun fichier appartenant au volume détecté.\n"
+17 "%s: Aucun fichier appartenant au volume dÃ©tectÃ©.\n"
 
-18 "%s: Impossible d'accéder au répertoire de travail en cours - numéro de statut d'erreur: %d.\n"
+18 "%s: Impossible d'accÃ©der au rÃ©pertoire de travail en cours - numÃ©ro de statut d'erreur: %d.\n"
 
-19 "%s: Impossible d'allouer la mémoire.\n"
+19 "%s: Impossible d'allouer la mÃ©moire.\n"
 
-20 "%s: Langue système indiquée incorrecte %s\n"
+20 "%s: Langue systÃ¨me indiquÃ©e incorrecte %s\n"
 $  
 
 $set 2        Redefine set#
@@ -114,17 +114,17 @@ $ That is - DO NOT localize the tags such as <ABBREV> and <PARAGRAPH>.
 $           DO     localize the text between the tags. 
 $  
 
-3 "<ABBREV>Bienvenue dans le Gestionnaire d'aide</ABBREV>                          <PARAGRAPH>Chacun des intitulés ci-dessous correspond à\n\
+3 "<ABBREV>Bienvenue dans le Gestionnaire d'aide</ABBREV>                          <PARAGRAPH>Chacun des intitulÃ©s ci-dessous correspond Ã \n\
                <ANGLE italic> une famille de produits</>\n\
-                                      dont l'aide en ligne est installée et enregistrée. Ces intitulés\n\
-        (et les icônes associées) sont des hyperliens permettant d'afficher.</>     <PARAGRAPH after 0 first 1 left 3 label \"<CHAR symbol><0xB7></>\">       les aides disponibles pour la famille. Pour ce faire, sélectez le titre\n\
-  (texte souligné) ou l'icône de la famille de produits souhaitée.</PARAGRAPH>                        <PARAGRAPH after 0 first 1 left 3 label \"<CHAR symbol><0xB7></>\">       Pour chaque famille de produits, localisez l'aide à afficher, puis\n\
-         sélectez son nom.</PARAGRAPH>                                           <PARAGRAPH first 1 left 3 label \"<CHAR symbol><0xB7></>\">               Pour accéder à l'aide sur l'utilisation des fenêtres, appuyez sur F1.</PARAGRAPH>"
+                                      dont l'aide en ligne est installÃ©e et enregistrÃ©e. Ces intitulÃ©s\n\
+        (et les icÃ´nes associÃ©es) sont des hyperliens permettant d'afficher.</>     <PARAGRAPH after 0 first 1 left 3 label \"<CHAR symbol><0xB7></>\">       les aides disponibles pour la famille. Pour ce faire, sÃ©lectez le titre\n\
+  (texte soulignÃ©) ou l'icÃ´ne de la famille de produits souhaitÃ©e.</PARAGRAPH>                        <PARAGRAPH after 0 first 1 left 3 label \"<CHAR symbol><0xB7></>\">       Pour chaque famille de produits, localisez l'aide Ã  afficher, puis\n\
+         sÃ©lectez son nom.</PARAGRAPH>                                           <PARAGRAPH first 1 left 3 label \"<CHAR symbol><0xB7></>\">               Pour accÃ©der Ã  l'aide sur l'utilisation des fenÃªtres, appuyez sur F1.</PARAGRAPH>"
 $  
 $ Specifies the Volume Title 
 $  
 
-4 "Aide - Niveau supérieur"
+4 "Aide - Niveau supÃ©rieur"
 $  
 $ Specifies the preamble to the help file if no volumes or family files 
 $ are found. 
@@ -134,7 +134,7 @@ $ That is - DO NOT localize the tags such as <ABBREV> and <PARAGRAPH>.
 $           DO     localize the text between the tags. 
 $  
 
-5 "<ABBREV>Bienvenue dans le Gestionnaire d'aide</ABBREV>                           <LINK 0 \"Help4Help How-To-Register-Help\">                                <TYPE serif><WEIGHT bold><SIZE 12><ANGLE italic>                         Remarque:   Pas d'aide disponible                                            </SIZE></WEIGHT></TYPE></></LINK>                                        <PARAGRAPH leftindent 3 firstindent 3>                                   <WEIGHT bold>Aucune famille de produits n'a stocké les fichiers       d'aide en ligne pour la consultation.</>  Vous pouvez accéder à l'aide relative à certaines applications   en sélectionnant l'option Aide correspondante./>"
+5 "<ABBREV>Bienvenue dans le Gestionnaire d'aide</ABBREV>                           <LINK 0 \"Help4Help How-To-Register-Help\">                                <TYPE serif><WEIGHT bold><SIZE 12><ANGLE italic>                         Remarque:   Pas d'aide disponible                                            </SIZE></WEIGHT></TYPE></></LINK>                                        <PARAGRAPH leftindent 3 firstindent 3>                                   <WEIGHT bold>Aucune famille de produits n'a stockÃ© les fichiers       d'aide en ligne pour la consultation.</>  Vous pouvez accÃ©der Ã  l'aide relative Ã  certaines applications   en sÃ©lectionnant l'option Aide correspondante./>"
 $  
 $ Specifies the title to use in the dthelpgen dtksh dialog. 
 $  
@@ -146,7 +146,7 @@ $ This message indicates that dthelpgen is building (or rebuilding)
 $ the browser information. 
 $  
 
-7 "Création en cours des informations de l'afficheur. Veuillez patienter."
+7 "CrÃ©ation en cours des informations de l'afficheur. Veuillez patienter."
 $  
 
 $set 3        Redefine set#

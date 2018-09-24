@@ -17,7 +17,7 @@ $set	1
 $ 
 $ messages specific to message-catalog manager
 $ 
-1 "Message par défaut introuvable dans le catalogue."
+1 "Message par dÃ©faut introuvable dans le catalogue."
 
 
 $set	2
@@ -25,9 +25,9 @@ $
 $ messages specific to UAS/DtSearch modules
 $ 
 1 "La fonction de recherche ``%s'' n'est pas prise en charge."
-2 "phrase citée"
+2 "phrase citÃ©e"
 3 "importance"
-4 "proximité"
+4 "proximitÃ©"
 $       5       "xor" == Exclusive OR (Boolean)
 5 "xor"
 
@@ -37,7 +37,7 @@ $
 $ messages specific to booklist window
 $ 
 3 "Dtinfo: Liste des livres Biblinfo"
-63 "Bienvenue à Dtinfo!"
+63 "Bienvenue Ã  Dtinfo!"
 65 "Section en cours"
 
 
@@ -46,8 +46,8 @@ $
 $ messages specific to browser window
 $ 
 1 "Dtinfo: Explorateur"
-2 "Pour visusaliser la destination du lien, cliquez sur celui-ci et maintenez-le enfoncé."
-3 "Bibliothèque d'informations "
+2 "Pour visusaliser la destination du lien, cliquez sur celui-ci et maintenez-le enfoncÃ©."
+3 "BibliothÃ¨que d'informations "
 
 $       4       "The locator for this section is %s"
 $       This message is the result of the "Show Locator" operation.
@@ -57,9 +57,9 @@ $ line-break rules (reserved)
 5 ""
 6 ""
 
-7 "Le texte sélectionné est inséré dynamiquement et ne\n\
-peut pas être utilisé seul pour créer l'indication d'un signet.\n\
-Vous pouvez sélectionner un autre texte près du point ou inclure\n\
+7 "Le texte sÃ©lectionnÃ© est insÃ©rÃ© dynamiquement et ne\n\
+peut pas Ãªtre utilisÃ© seul pour crÃ©er l'indication d'un signet.\n\
+Vous pouvez sÃ©lectionner un autre texte prÃ¨s du point ou inclure\n\
 une plus grande partie du texte qui l'entoure."
 
 $set	6
@@ -68,7 +68,7 @@ $ messages specific to add information library dialog
 $ Note: "Infolib" is a CDE glossary term.
 $ 
 
-1 "Dtinfo: Ajouter la bibliothèque de documents "
+1 "Dtinfo: Ajouter la bibliothÃ¨que de documents "
 
 $ 2     "Please enter an absolute path to the Infolib."
 $       (Path must exist and include "/".)
@@ -76,24 +76,24 @@ $       (Path must exist and include "/".)
 
 $ 3     "Infolib open failed. Check the path specified."
 $	(Path passed basic format check, but could not open target found.)
-3 "L'ouverture de la Biblinfo a échoué. Vérifiez le chemin spécifié."
+3 "L'ouverture de la Biblinfo a Ã©chouÃ©. VÃ©rifiez le chemin spÃ©cifiÃ©."
 
 $ 4     "Infolib open failed. Check entry syntax or Infolib integrity."
 $       (An unidentified error occurred on attempt to open.)
-4 " L'ouverture de la Biblinfo a échoué. Vérifiez la syntaxe de l'entrée ou l'intégrité de Biblinfo."
+4 " L'ouverture de la Biblinfo a Ã©chouÃ©. VÃ©rifiez la syntaxe de l'entrÃ©e ou l'intÃ©gritÃ© de Biblinfo."
 
 $ 5     "Infolib specification format error."
-5 "Erreur du format de spécification de Biblinfo."
+5 "Erreur du format de spÃ©cification de Biblinfo."
 
 $ 6     "No Infolib specified."
-6 "Aucune Biblinfo spécifiée."
+6 "Aucune Biblinfo spÃ©cifiÃ©e."
 
 $ 7     "No Infolib found or specified."
-7 "Aucune Biblinfo trouvée ou spécifiée."
+7 "Aucune Biblinfo trouvÃ©e ou spÃ©cifiÃ©e."
 
 $ 10    "Dtinfo: Infolib Selection"
 $       (For title to the File Selection Dialog)
-10 "Dtinfo: Sélection Biblinfo"
+10 "Dtinfo: SÃ©lection Biblinfo"
 
 $ 11    "No Infolibs Present"
 $       (This string will be shown in a directory listing where there
@@ -138,7 +138,7 @@ $	7	"N" for "N" in "Clone"
 23 "i"
 24 "Options"
 25 "O"
-26 "Préférences..."
+26 "PrÃ©fÃ©rences..."
 27 "c"
 28 "Historique automatique"
 29 "m"
@@ -146,7 +146,7 @@ $	7	"N" for "N" in "Clone"
 31 "b"
 32 "Afficher la zone de recherche"
 33 "z"
-34 "Fenêtres"
+34 "FenÃªtres"
 35 "r"
 36 "Carte graphique"
 37 "G"
@@ -160,22 +160,22 @@ $ a history of prior search results, as provided in the Search
 $ Results Dialog.
 42 "Historique de la recherche"
 43 "q"
-44 "Editeur de requêtes"
+44 "Editeur de requÃªtes"
 45 "s"
-46 "Editeur d'étendue"
+46 "Editeur d'Ã©tendue"
 47 "u"
 48 "Aide"
 49 "A"
-50 "Sur l'élément..."
+50 "Sur l'Ã©lÃ©ment..."
 51 "t"
 59 "Rechercher:"
-61 "Editeur d'étendue"
+61 "Editeur d'Ã©tendue"
 
 $  Messages 62-77 for "Browser" pulldown menu entries
 $ 
 62 "Explorateur"
 63 "E"
-64 "Nouvelle fenêtre "
+64 "Nouvelle fenÃªtre "
 65 "N"
 66 "Ouvrir le point d'implantation..."
 67 "v"
@@ -192,24 +192,24 @@ $
 
 $	78	"On Selection", where selection is a text
 $ selection that will be used directly as a search query string
-78 "Sur la sélection"
+78 "Sur la sÃ©lection"
 79 "S"
 
-80 "Editeur de requêtes"
+80 "Editeur de requÃªtes"
 81 "E"
-82 "Editeur d'étendue"
+82 "Editeur d'Ã©tendue"
 83 "l"
 84 "Historique de la recherche"
 85 "H"
 86 "Effacer correspondances"
 87 "f"
-88 "Précédent (Historique)"
+88 "PrÃ©cÃ©dent (Historique)"
 89 "t"
 90 "Suivant (Historique)"
 91 "s"
 92 "Historique..."
 93 "q"
-94 "Section précédente"
+94 "Section prÃ©cÃ©dente"
 95 "p"
 96 "Section suivante"
 97 "v"
@@ -220,7 +220,7 @@ $ in the section. Presumably, all search hits have already been
 $ highlighted to some degree, and this will add the equivalent of a
 $ keyboard traversal highlight to the appropriate one when brought
 $ into view.
-98 "Recherche précédente"
+98 "Recherche prÃ©cÃ©dente"
 99 "R"
 100 "Recherche suivante"
 101 "n"
@@ -234,35 +234,35 @@ $ various methods by which the user may "go" to a specific document.
 105 "l"
 
 $   Message 106-119 are for the "Marks" pulldown menu
-106 "Repères"
+106 "RepÃ¨res"
 107 "R"
-108 "Créer un signet"
+108 "CrÃ©er un signet"
 109 "t"
-110 "Créer une note..."
-111 "é"
+110 "CrÃ©er une note..."
+111 "Ã©"
 
 $	112	"List Marks" means to show all saved Marks as a list
 $ in a separate dialog window.
 112 "Lister les signets"
 113 "L"
 
-114 "Modifier la sélection..."
+114 "Modifier la sÃ©lection..."
 115 "M"
-116 "Déplacer la sélection"
+116 "DÃ©placer la sÃ©lection"
 117 "D"
-118 "Supprimer la sélection"
+118 "Supprimer la sÃ©lection"
 119 "u"
 
 $   Messages 120-129 are for "Options" pulldown menu entries
 120 "Options"
 121 "O"
-122 "Préférences..."
+122 "PrÃ©fÃ©rences..."
 123 "c"
 
 $	124	"Detach Graphic" removes a selected graphic from the
 $ document flow and places it in its own window. A "placeholder"
 $ remains in the document where the graphic originally appeared.
-124 "Détacher le graphique"
+124 "DÃ©tacher le graphique"
 125 "h"
 
 126 "Afficher la barre d'outils"
@@ -271,7 +271,7 @@ $ remains in the document where the graphic originally appeared.
 129 "z"
 
 $   Messages 130-135 are for "Windows" pulldown menu entries
-130 "Fenêtres"
+130 "FenÃªtres"
 131 "F"
 132 "Liste des livres"
 133 "l"
@@ -282,9 +282,9 @@ $   Messages 136-142	are believed to be *unused*/obsolete
 136 "Auteur"
 137 "A"
 138 "Obtenir un point d'implantation"
-139 "Déboguer"
+139 "DÃ©boguer"
 140 "D"
-141 "Créer une fausse Infobase "
+141 "CrÃ©er une fausse Infobase "
 142 "Processus de commande"
 
 $   Messages 143-158 are Help pulldown menu entries, and
@@ -293,9 +293,9 @@ $ within a localization. They always mean the same thing:
 $ provide "help On []"
 143 "Aide"
 144 "A"
-145 "Sur de l'élément..."
+145 "Sur de l'Ã©lÃ©ment..."
 146 "m"
-147 "A propos de la fenêtre"
+147 "A propos de la fenÃªtre"
 148 "s"
 149 "A propos de l'application"
 150 "n"
@@ -303,7 +303,7 @@ $ provide "help On []"
 152 "I"
 153 "A propos de l'aide"
 154 "d"
-155 "A propos des clés"
+155 "A propos des clÃ©s"
 156 "o"
 157 "A propos de la version"
 158 "V"
@@ -329,7 +329,7 @@ $ window is to display.
 $   Messages 169-182 are for the window which is used to present a
 $ detached graphic.
 $	169	Fit >graphic< to window
-169 "Adapter à la fenêtre"
+169 "Adapter Ã  la fenÃªtre"
 $	170	Fit >window< to graphic
 170 "Adapter au graphique"
 171 "25 %"
@@ -345,61 +345,61 @@ $   Messages 178-182 refer to where the panner is to be placed within
 $ the detached graphic dialog window. Is a "panner" masculine or
 $ feminine ? "Beats" me ;-).
 178 "Aucune"
-179 "Coin supérieur gauche"
-180 "Coin supérieur droit"
-181 "Coin inférieur gauche"
-182 "Coin inférieur droit"
+179 "Coin supÃ©rieur gauche"
+180 "Coin supÃ©rieur droit"
+181 "Coin infÃ©rieur gauche"
+182 "Coin infÃ©rieur droit"
 
 183 "Supprimer"
 184 "Livre"
 185 "Section"
-186 "Préférences:"
+186 "PrÃ©fÃ©rences:"
 187 "Exploration "
 188 "Carte"
 189 "Recherche "
-190 "Géométrie de l'explorateur"
+190 "GÃ©omÃ©trie de l'explorateur"
 191 ". . ."
 192 "Echelle de la police"
 
 $	193	"Pin []" is a verb
-193 "Ancrer la fenêtre"
+193 "Ancrer la fenÃªtre"
 194 "Enregistrer une erreur"
-195 "Géométrie de la carte"
-196 "Mise à jour automatique"
+195 "GÃ©omÃ©trie de la carte"
+196 "Mise Ã  jour automatique"
 197 "Taille de l'historique de la section"
 198 "Taille de l'historique de la recherche"
 199 "Maximum  de correspondances"
-200 "Affichage automatique de la première correspondance"
+200 "Affichage automatique de la premiÃ¨re correspondance"
 201 "Appliquer"
 202 "Restaurer"
 203 "En fonction"
 204 "Hors fonction"
 205 "Nombre de sections"
-206 "Sélectionné:"
+206 "SÃ©lectionnÃ©:"
 207 "A imprimer:"
 208 "Erreur."
 209 "A imprimer"
 210 "Sections"
-211 "Hiérarchie"
-212 "Nom de l'étendue"
+211 "HiÃ©rarchie"
+212 "Nom de l'Ã©tendue"
 213 "Sans nom"
 214 "Livres"
-215 "Eléments"
+215 "ElÃ©ments"
 216 "Nouveau"
 217 "Sauvegarder"
 218 "Renommer"
 219 "Extrait:"
 220 "Etendue:"
-221 "Requête:"
+221 "RequÃªte:"
 222 "Entrer un point d'implantation unique:"
 223 "Supprimer"
 224 "Couper"
 225 "Coller"
 226 "Grouper"
-227 "Dégrouper"
-228 "Défaire"
+227 "DÃ©grouper"
+228 "DÃ©faire"
 229 "Refaire"
-230 "Requête"
+230 "RequÃªte"
 231 "Effacer tout"
 
 $   Messages 232-242 relate to operators available in a query
@@ -417,31 +417,31 @@ $	237	"Xor" is for Boolean logic "Exclusive OR"
 237 "Xor"
 $	238	Boolean operator AND
 238 "Et"
-239 "Près"
+239 "PrÃ¨s"
 240 "Avant"
 241 "Importance"
-242 "Proximité"
+242 "ProximitÃ©"
 243 "Etendue"
 244 "Oui"
 245 "Non"
 246 "Correspondances"
-247 "Généralités"
+247 "GÃ©nÃ©ralitÃ©s"
 248 "t"
-249 "Tâches"
+249 "TÃ¢ches"
 250 "T"
-251 "Référence"
+251 "RÃ©fÃ©rence"
 252 "R"
 253 "Utiliser l'aide"
 254 "U"
 255 "A propos du Gestionnaire des informations"
 256 "i"
-257 "Généralités"
+257 "GÃ©nÃ©ralitÃ©s"
 258 "G"
 259 "o"
 260 "Historique"
 261 "Liste de l'historique"
 262 "La section n'est plus disponible."
-263 "Cliquez sur un graphique pour le détacher."
+263 "Cliquez sur un graphique pour le dÃ©tacher."
 264 "Elever le graphique"
 265 "Attacher le graphique"
 
@@ -461,30 +461,30 @@ $set	8
 $ 
 $ dtinfo quick help messages (to be exhibited on status display area)
 $ 
-1 "Vers la section précédente de l'historique"
+1 "Vers la section prÃ©cÃ©dente de l'historique"
 2 "Vers la section suivante de l'historique"
-3 "Vers la section précédente du document"
+3 "Vers la section prÃ©cÃ©dente du document"
 4 "Vers la section suivante du document"
 
 $ A search "match" is the same as a search "hit". "Match" is more
 $ descriptive.
-5 "Vers la correspondance précédente"
+5 "Vers la correspondance prÃ©cÃ©dente"
 6 "Vers la correspondance suivante"
 
 7 "Imprimer la section en cours"
 8 "Afficher la liste des livres"
 9 "Afficher la carte graphique"
-10 "Ancrer (détacher) cette fenêtre pour empêcher (permettre) l'utilisation de nouveaux documents."
-11 "Spécifier l'étendue de recherche à l'aide de l'Editeur d'étendue"
-52 "Afficher la section sélectionnée"
-53 " Afficher la section sélectionnée dans une liste de livres séparée"
-54 "Imprimer la section sélectionnée"
-55 "Ouvrir une bibliothèque d'informations supplémentaire"
-56 "Fermer la bibliothèque d'informations sélectionnée"
-57 "Effectuer une recherche à l'aide de l'Editeur de requêtes"
+10 "Ancrer (dÃ©tacher) cette fenÃªtre pour empÃªcher (permettre) l'utilisation de nouveaux documents."
+11 "SpÃ©cifier l'Ã©tendue de recherche Ã  l'aide de l'Editeur d'Ã©tendue"
+52 "Afficher la section sÃ©lectionnÃ©e"
+53 " Afficher la section sÃ©lectionnÃ©e dans une liste de livres sÃ©parÃ©e"
+54 "Imprimer la section sÃ©lectionnÃ©e"
+55 "Ouvrir une bibliothÃ¨que d'informations supplÃ©mentaire"
+56 "Fermer la bibliothÃ¨que d'informations sÃ©lectionnÃ©e"
+57 "Effectuer une recherche Ã  l'aide de l'Editeur de requÃªtes"
 58 "Afficher la liste des signets et des notes"
-60 "Spécifier l'étendue de recherche"
-62 " Spécifier l'étendue de  recherche à l'aide de l'Editeur d'étendue"
+60 "SpÃ©cifier l'Ã©tendue de recherche"
+62 " SpÃ©cifier l'Ã©tendue de  recherche Ã  l'aide de l'Editeur d'Ã©tendue"
 64 "Rechercher %s"
 
 
@@ -493,26 +493,26 @@ $
 $ messages specific to bookmark edit dialog
 $ 
 1 "Dtinfo: Editeur de signets"
-2 "La mise à jour des signets a échoué."
+2 "La mise Ã  jour des signets a Ã©chouÃ©."
 
 
 $set	10
 $ 
 $ messages specific to detached graphic window
 $ 
-1 "Dtinfo: Graphique détaché"
-2 "Graphique détaché"
+1 "Dtinfo: Graphique dÃ©tachÃ©"
+2 "Graphique dÃ©tachÃ©"
 3 "Illustration raster (non-redimensionable)"
 4 "Illustration vecteur (redimensionable)"
-5 "Mise à l'échelle de l'illustration, patientez s'il vous plaît..."
+5 "Mise Ã  l'Ã©chelle de l'illustration, patientez s'il vous plaÃ®t..."
 $ 
 $ Dtinfo*SetZoom
 $ 
-6 "Entrer le nouveau pourcentage de l'échelle:"
+6 "Entrer le nouveau pourcentage de l'Ã©chelle:"
 $ 
 $ Dtinfo*SetZoomTitle
 $ 
-7 "Dtinfo: Définir l'échelle"
+7 "Dtinfo: DÃ©finir l'Ã©chelle"
 $ 
 8 "Dtinfo: "
 9 "Illustration raster (redimensionable)"
@@ -533,7 +533,7 @@ $
 $ messages specific to mark selection dialog
 $ 
 $   Messages 1 & 2: "Select" and "Edit" are verbs
-1 "Dtinfo: Sélectionner le signet"
+1 "Dtinfo: SÃ©lectionner le signet"
 2 "Dtinfo: Modifier le signet"
 
 
@@ -548,8 +548,8 @@ $set	14
 $ 
 $ messages specific to preferences window
 $ 
-1 "Dtinfo: Préférences"
-2 "Dtinfo: Obtenir la géométrie"
+1 "Dtinfo: PrÃ©fÃ©rences"
+2 "Dtinfo: Obtenir la gÃ©omÃ©trie"
 
 
 $set	15
@@ -558,33 +558,33 @@ $ messages specific to printing
 $ 
 1 "Dtinfo: Imprimer"
 $          Messages 2 - 5 are obsolete, and have been replaced by 12
-2 Impossible de trouver un Gestionnaire de boîte de dialogue d'impression dans l'environement
-3 Impossible de lancer le Gestionnaire de boîtes de dialogue d'impression
-4 Le Gestionnaire de boîte de dialogue d'impression n'est pas autorisé à se connecter à l'écran vidéo
-5 Le Gestionnaire de boîte de dialogue d'impression n'est pas autorisé à se connecter à l'écran d'impression
-6 Impossible d'afficher le Gestionnaire de boîte de dialogue d'impression
-7 Impossible de copier les données d'impression par défaut
+2 Impossible de trouver un Gestionnaire de boÃ®te de dialogue d'impression dans l'environement
+3 Impossible de lancer le Gestionnaire de boÃ®tes de dialogue d'impression
+4 Le Gestionnaire de boÃ®te de dialogue d'impression n'est pas autorisÃ© Ã  se connecter Ã  l'Ã©cran vidÃ©o
+5 Le Gestionnaire de boÃ®te de dialogue d'impression n'est pas autorisÃ© Ã  se connecter Ã  l'Ã©cran d'impression
+6 Impossible d'afficher le Gestionnaire de boÃ®te de dialogue d'impression
+7 Impossible de copier les donnÃ©es d'impression par dÃ©faut
 8 Erreur d'impression au fichier
-9 Tâche d'impression en cours 
-10 Dtinfo: état de l'impression
-11 Le travail d'impression a échoué.\n\nLe serveur d'impression X manque temporairement de ressources.
+9 TÃ¢che d'impression en cours 
+10 Dtinfo: Ã©tat de l'impression
+11 Le travail d'impression a Ã©chouÃ©.\n\nLe serveur d'impression X manque temporairement de ressources.
 $       Message 12 is used to handle errors from the PDM
-12	Erreur du Gestionnaire d'impression (PDM) - configuration a échoué.
+12	Erreur du Gestionnaire d'impression (PDM) - configuration a Ã©chouÃ©.
 
 $set	16
 $ 
 $ messages specofic to search scope editor window
 $ 
 $	1	Edit the Scope for for use in a Search
-1 "Dtinfo: Editeur d'étendue de recherche"
+1 "Dtinfo: Editeur d'Ã©tendue de recherche"
 $ 
 $ Dtinfo*SaveScope
 $ 
-2 "Tapez le nom de la nouvelle étendue:"
+2 "Tapez le nom de la nouvelle Ã©tendue:"
 $ 
 $ Dtinfo*SaveScopeTitle
 $ 
-3 "Dtinfo: Enregistrer l'étendue"
+3 "Dtinfo: Enregistrer l'Ã©tendue"
 4 "Toutes les biblinfos"
 
 
@@ -593,7 +593,7 @@ $
 $ messages specific to search result window
 $ 
 $	1	"Search Results" is for the results of a search
-1 "Dtinfo: Résultats de la recherche"
+1 "Dtinfo: RÃ©sultats de la recherche"
 
 
 $set	18
@@ -605,13 +605,13 @@ $ 1	"Dtinfo: Open Locator"
 1 "Dtinfo: Ouvrir le point d'implantation"
 
 $ 2     "Locator specification format error."
-2 "Erreur du format de spécification du point d'implantation."
+2 "Erreur du format de spÃ©cification du point d'implantation."
 
 $ 3     "Locator resolution failed."
-3 "La résolution du point d'implantation a échoué."
+3 "La rÃ©solution du point d'implantation a Ã©chouÃ©."
 
 $ 4     "Locator resolution failed within the loaded infolibs."
-4 " La résolution du point d'implantation a échoué dans les biblinfos chargées."
+4 " La rÃ©solution du point d'implantation a Ã©chouÃ© dans les biblinfos chargÃ©es."
 
 $ 5     "Document not found."
 5 "Document introuvable."
@@ -624,7 +624,7 @@ $set	19
 $ 
 $ messages specific to query editor window
 $ 
-1 "Dtinfo: Editeur de requêtes"
+1 "Dtinfo: Editeur de requÃªtes"
 
 
 $set	20
@@ -634,7 +634,7 @@ $
 $ 
 $ Dtinfo*PixmapAllocationError
 $ 
-1 "Pas assez de mémoire de serveur disponible\n\
+1 "Pas assez de mÃ©moire de serveur disponible\n\
 pour reproduire ce graphique."
 $ 
 $ Dtinfo*AbandonChanges
@@ -647,12 +647,12 @@ $
 $ 
 $ Dtinfo*NoSelection
 $ 
-4 "Pas de texte sélectionné.\n\
-Sélectionnez-le puis essayez à nouveau."
+4 "Pas de texte sÃ©lectionnÃ©.\n\
+SÃ©lectionnez-le puis essayez Ã  nouveau."
 $ 
 $ Dtinfo*AbandonBookmarks
 $ 
-5 "Des signets ouverts ne sont pas enregistrés.\n\
+5 "Des signets ouverts ne sont pas enregistrÃ©s.\n\
 Quitter sans les enregistrer ?"
 $ 
 $ Dtinfo*ConfirmQuit
@@ -665,15 +665,15 @@ $
 $ 
 $ Dtinfo*LinkToBookTitle
 $ 
-8 "Lier à %s: %s"
+8 "Lier Ã  %s: %s"
 $ 
 $ Dtinfo*LinkToTitle
 $ 
-9 "Lier à %s"
+9 "Lier Ã  %s"
 $ 
 $ Dtinfo*MarkCreateFailed
 $ 
-10 "Dtinfo ne peut pas créer ce signet."
+10 "Dtinfo ne peut pas crÃ©er ce signet."
 $ 
 $ Dtinfo*MarkDeleteFailed
 $ 
@@ -681,7 +681,7 @@ $
 $ 
 $ Dtinfo*MarkMoveFailed
 $ 
-12 "Dtinfo ne peut pas déplacer ce signet."
+12 "Dtinfo ne peut pas dÃ©placer ce signet."
 $ 
 $ Dtinfo*MaxDepthExceeded
 $ 
@@ -689,42 +689,42 @@ $
 $ 
 $ Dtinfo*MarkIconInvisible
 $ 
-14 "Impossible d'afficher le signet sélectionné.\n\
-Il est hors de la région de visualisation de cette section."
+14 "Impossible d'afficher le signet sÃ©lectionnÃ©.\n\
+Il est hors de la rÃ©gion de visualisation de cette section."
 $ 
 $ Dtinfo*MViewNoBase
 $ 
-15 "Impossible d'accéder au signet\n\
-sélectionné.\n\
+15 "Impossible d'accÃ©der au signet\n\
+sÃ©lectionnÃ©.\n\
 Chargez la Biblinfo correcte."
 $ 
 $ Dtinfo*GetGeometry
 $ 
-16 "Cliquez dans la fenêtre Dtinfo dont la taille \n\
-doit être sauvegardée par défaut."
+16 "Cliquez dans la fenÃªtre Dtinfo dont la taille \n\
+doit Ãªtre sauvegardÃ©e par dÃ©faut."
 $ 
 $ Dtinfo*SaveModifiedScope
 $ 
-17 "Sauvegarder les modifications de l'étendue en cours ?"
+17 "Sauvegarder les modifications de l'Ã©tendue en cours ?"
 $ 
 $ Dtinfo*BadScopeName
 $ 
-18 "Les caractères deux points (:), virgule (,),\n\
-et point virgule (;) ne sont pas autorisés\n\
-dans le nom de l'étendue de recherche."
+18 "Les caractÃ¨res deux points (:), virgule (,),\n\
+et point virgule (;) ne sont pas autorisÃ©s\n\
+dans le nom de l'Ã©tendue de recherche."
 $ 
 $ Dtinfo*EmptyScopeName
 $ 
-19 "Entrez un nom d'étendue correct."
+19 "Entrez un nom d'Ã©tendue correct."
 $ 
 $ Dtinfo*ScopeNameTooLong
 $ 
-20 "Le nom de l'étendue de recherche ne peut pas excéder 30 caractères.\n\
+20 "Le nom de l'Ã©tendue de recherche ne peut pas excÃ©der 30 caractÃ¨res.\n\
 Entrez un nom plus court."
 $ 
 $ Dtinfo*DuplicateScopeName
 $ 
-21 "Le nom entré est déjà utilisé.\n\
+21 "Le nom entrÃ© est dÃ©jÃ  utilisÃ©.\n\
 Entrez un nom unique."
 $ 
 $ Dtinfo*Everything
@@ -760,7 +760,7 @@ $
 $ 
 $ Dtinfo*ScopeDeleteConfirm
 $ 
-29 "Supprimer l'étendue affichée?"
+29 "Supprimer l'Ã©tendue affichÃ©e?"
 $ 
 $ Dtinfo*CurrentSection
 $ 
@@ -768,81 +768,81 @@ $
 $ 
 $ Dtinfo*IgnoredScopes
 $ 
-31 "Les étendues sauvegardées incorrectes \n\
-pour ces biblinfos sont ignorées."
+31 "Les Ã©tendues sauvegardÃ©es incorrectes \n\
+pour ces biblinfos sont ignorÃ©es."
 $ 
 $ Dtinfo*MarkBaseOpenFailed
 $ 
-32 "Impossible d'ouvrir la base de données de signets de l'utilisateur."
+32 "Impossible d'ouvrir la base de donnÃ©es de signets de l'utilisateur."
 $ 
 $ Dtinfo*NoOpenMarkBases
 $ 
-33 "La base de données de signets de l'utilisateur introuvable.\n\
-Dtinfo ne peut pas créer un signet."
+33 "La base de donnÃ©es de signets de l'utilisateur introuvable.\n\
+Dtinfo ne peut pas crÃ©er un signet."
 $ 
 $ Dtinfo*MarkBaseReadOnly
 $ 
-34 "Autorisation en lecture seulement pour la base de données de signets en cours."
+34 "Autorisation en lecture seulement pour la base de donnÃ©es de signets en cours."
 $ 
 35 "Erreur inconnue dans le document: contactez votre support technique."
 
-36 "Le moteur de recherche (dans UAS_SearchEngine) a envoyé \n\
+36 "Le moteur de recherche (dans UAS_SearchEngine) a envoyÃ© \n\
 un message inattendu:\n\
 Contactez votre support technique."
 $ 
 $ Dtinfo*TooManyIbases
 $ 
 37 "Vous ne pouvez rechercher que les premiers rayons %d\n\
-de l'étendue en cours à cause de la limite du moteur de recherche.\n\
+de l'Ã©tendue en cours Ã  cause de la limite du moteur de recherche.\n\
 Continuer ?"
 $ 
 $ Dtinfo*DemoFailure
 $ 
-38 "C'est une version dévaluation de l'Explorateur.\n\
-Pas d'autorisation d'accès à cette Biblinfo."
+38 "C'est une version dÃ©valuation de l'Explorateur.\n\
+Pas d'autorisation d'accÃ¨s Ã  cette Biblinfo."
 $ 
 $ Dtinfo*StyleSheetSyntaxError
 $ 
 39 "Une erreur s'est produite dans la feuille de style de ce document.\n\
-Les fonctions par défaut ont été appliquées."
+Les fonctions par dÃ©faut ont Ã©tÃ© appliquÃ©es."
 $ 
 $ Dtinfo*NoHits
 $ 
-40 "Correspondances introuvables pour cette requête."
+40 "Correspondances introuvables pour cette requÃªte."
 $ 
 $ Dtinfo*BadQuery
 $ 
-41 "Dtinfo ne comprend pas la requête.\n\
+41 "Dtinfo ne comprend pas la requÃªte.\n\
 Entrez-en une correcte."
 $ 
 $ Dtinfo*SearchError
 $ 
 42 "Une erreur interne du moteur de recherche s'est produite. Toute\n\
-recherche ultérieure de cette session de l'Explorateur échouera.\n\n\
-Ce problème a été enregistré et sera résolu dans la prochaine version du \n\
-produit. Une solution temporaire consiste à éviter les requêtes qui provoquent\n\
-ce problème. Pour re initialiser la recherche,\n\
+recherche ultÃ©rieure de cette session de l'Explorateur Ã©chouera.\n\n\
+Ce problÃ¨me a Ã©tÃ© enregistrÃ© et sera rÃ©solu dans la prochaine version du \n\
+produit. Une solution temporaire consiste Ã  Ã©viter les requÃªtes qui provoquent\n\
+ce problÃ¨me. Pour re initialiser la recherche,\n\
 quittez l'Explorateur puis re-lancez-le."
 $ 
 $ Dtinfo*KernelError
 $ 
 43 " Une erreur interne du moteur de recherche s'est produite.\n\
-Il est probable que le répertoire /usr/tmp \n\
-se trouve sur un tmpfs filesystem (ou lui est connecté). Toute\n\
-recherche ultérieure de cette session de l'Explorateur échouera.\n\n\
-Ce problème a été enregistré. Une solution temporaire consiste à \n\
-reconfigurer le répertoire /usr/tmp de façon qu'il ne soit pas sur\n\
-le tmpfs filesystem (ou qu'il ne lui soit pas connecté).\n\
+Il est probable que le rÃ©pertoire /usr/tmp \n\
+se trouve sur un tmpfs filesystem (ou lui est connectÃ©). Toute\n\
+recherche ultÃ©rieure de cette session de l'Explorateur Ã©chouera.\n\n\
+Ce problÃ¨me a Ã©tÃ© enregistrÃ©. Une solution temporaire consiste Ã  \n\
+reconfigurer le rÃ©pertoire /usr/tmp de faÃ§on qu'il ne soit pas sur\n\
+le tmpfs filesystem (ou qu'il ne lui soit pas connectÃ©).\n\
 Ensuite, relancez l'Explorateur pour re-initialiser la recherche \n\
-qui devrait alors fonctionner correctement. Pour de plus amples détails \n\
-consultez l'administrateur de système."
+qui devrait alors fonctionner correctement. Pour de plus amples dÃ©tails \n\
+consultez l'administrateur de systÃ¨me."
 $ 
 $ Dtinfo*FulcrumNoMemory
 $ 
-44 "Il est impossible au moteur de recherche de compléter la requête\n\
-parce qu'il manque de mémoire. Avant de poursuivre la recherche,\n\
-fermez d'autres applications ou augmentez la mémoire\n\
-physique ou virtuelle du système."
+44 "Il est impossible au moteur de recherche de complÃ©ter la requÃªte\n\
+parce qu'il manque de mÃ©moire. Avant de poursuivre la recherche,\n\
+fermez d'autres applications ou augmentez la mÃ©moire\n\
+physique ou virtuelle du systÃ¨me."
 $ 
 $ Dtinfo*FulcrumError
 $ 
@@ -851,47 +851,47 @@ Rapportez l'erreur de recherche %d au soutien technique."
 $ 
 $ Dtinfo*BadHelp
 $ 
-46 "Ce bouton est connecté à un document Dtinfo qui n'existe pas\n\
-dans les Biblinfos courantes chargées."
+46 "Ce bouton est connectÃ© Ã  un document Dtinfo qui n'existe pas\n\
+dans les Biblinfos courantes chargÃ©es."
 $ 
 $ Dtinfo*query_is_read_only
 $ 
-47 "C'est une zone d'affichage seulement. Pour modifier la requête,\n\
-utilisez l'Editeur de requête ou la zone de recherche rapide\n\
-dans les fenêtres Lecture ou Liste des livres."
+47 "C'est une zone d'affichage seulement. Pour modifier la requÃªte,\n\
+utilisez l'Editeur de requÃªte ou la zone de recherche rapide\n\
+dans les fenÃªtres Lecture ou Liste des livres."
 $ 
 $ Dtinfo*ExceedRdWindows
 $ 
-48 "Vous avez déjà atteint le nombre maximal de fenêtres de lecture (%d)\n\
-actives défini dans les Préférences de l'utilisateur."
+48 "Vous avez dÃ©jÃ  atteint le nombre maximal de fenÃªtres de lecture (%d)\n\
+actives dÃ©fini dans les PrÃ©fÃ©rences de l'utilisateur."
 $ 
 $ Dtinfo*NoPrefBase
 $ 
-49 "Aucune base de données Préférence de l'utilisateur disponible."
+49 "Aucune base de donnÃ©es PrÃ©fÃ©rence de l'utilisateur disponible."
 $ 
 $ Dtinfo*PrefBaseReadOnly
 $ 
-50 "La base de données Préférence de l'utilisateur est ouverte en lecture \n\
-seule. Impossible de sauvegarder les nouvelles préférences."
+50 "La base de donnÃ©es PrÃ©fÃ©rence de l'utilisateur est ouverte en lecture \n\
+seule. Impossible de sauvegarder les nouvelles prÃ©fÃ©rences."
 $ 
 $ Dtinfo*DeadEndLink
 $ 
-51 "Le document ou la section demandés ne sont pas disponibles."
+51 "Le document ou la section demandÃ©s ne sont pas disponibles."
 $ 
 $ Dtinfo*MarkPositionFailed
 $ 
 52 "Dtinfo ne peut pas afficher le signet\n\
 \42%s\42\n\
-parce que le paragraphe auquel il est associé \n\
+parce que le paragraphe auquel il est associÃ© \n\
 n'existe plus."
 $ 
 $ Dtinfo*ScopeChangeAbandon
 $ 
-53 "Abandonner les modifications de l'étendue en cours ?"
+53 "Abandonner les modifications de l'Ã©tendue en cours ?"
 $ 
 $ Dtinfo*InformationLibrary
 $ 
-63 "Bibliothèque d'Informations"
+63 "BibliothÃ¨que d'Informations"
 $ 
 $ Dtinfo*en fonction
 $ 
@@ -901,20 +901,20 @@ $ Dtinfo*hors fonction
 $ 
 65 "Hors fonction"
 $ 
-67 "Impossible de créer la Biblinfo."
+67 "Impossible de crÃ©er la Biblinfo."
 
-68 "La création de la Biblinfo a échoué."
+68 "La crÃ©ation de la Biblinfo a Ã©chouÃ©."
 $ 
-69 "L'évaluation des résultats de la recherche ne sont pas disponibles."
+69 "L'Ã©valuation des rÃ©sultats de la recherche ne sont pas disponibles."
 
 $	70	The "qualified locator" is a "fully qualified
 $		locator" as opposed to the simple format.
-70 "Méthode d'accès incorrecte dans le point d'implantation qualified  (URL)."
+70 "MÃ©thode d'accÃ¨s incorrecte dans le point d'implantation qualified  (URL)."
 
-71 "la création du document a échoué."
+71 "la crÃ©ation du document a Ã©chouÃ©."
 
-72 "Dtinfo: Détacher le graphique"
-73 "Cliquez sur un graphique pour le détacher."
+72 "Dtinfo: DÃ©tacher le graphique"
+73 "Cliquez sur un graphique pour le dÃ©tacher."
 
 
 $set	21
@@ -988,8 +988,8 @@ $set	24
 $ 
 $ messages specific to UAS/Base modules
 $ 
-1 "Le point d'implantation ne fournit aucun accès (URL)."
-2 "Impossible de créer des objets %s: "
+1 "Le point d'implantation ne fournit aucun accÃ¨s (URL)."
+2 "Impossible de crÃ©er des objets %s: "
 
 $ In the following, do not translate any part of "UAS_ObjList<T>::operator[]"
 $ 
@@ -1003,8 +1003,8 @@ $ messages specific to UAS/MMDB modules
 $ 
 1 "Les rayons suivants sont incorrects:"
 2 "Chemin infolib MMDB incorrect: %s"
-3 "Chemin infolib MMDB incorrect ignoré: %s"
-4 "MMDB Bibliothèque%d"
+3 "Chemin infolib MMDB incorrect ignorÃ©: %s"
+4 "MMDB BibliothÃ¨que%d"
 5 "MMDB biblinfo: "
 6 "Biblinfo %s"
 
@@ -1024,7 +1024,7 @@ $
 $	1	"Search Results History" is a history of the
 $ search results already obtained under the dtinfo session, for
 $ prior queries.
-1 "Dtinfo: Historique des résultats de recherche"
+1 "Dtinfo: Historique des rÃ©sultats de recherche"
 
 
 $set	30
@@ -1033,7 +1033,7 @@ $ messages specific to window system module
 $ 
 1 "Dtinfo: Erreur fatale"
 2 "Abandon..."
-3 Impossible d'ouvrir l'écran.\n
+3 Impossible d'ouvrir l'Ã©cran.\n
 
 $set	31
 $ 
@@ -1051,7 +1051,7 @@ $
 $ 1     ""
 1 "Pas mis en oeuvre."
 2 Argument non valide
-3 ERROR: Vous devez spécifier l'option -sect avec l'option -print.
+3 ERROR: Vous devez spÃ©cifier l'option -sect avec l'option -print.
 4 Utilisation: dtinfo...
 5 Cette application supporte toutes les options de lignes de commande X Toolkit standard.
 
@@ -1068,42 +1068,42 @@ $ and therefore not repeated here.
 $ 
 
 $ 1     "Can't get tt session for X display %s"
-1 Impossible d'obtenir la session tt session pour l'écran X:\n%s
+1 Impossible d'obtenir la session tt session pour l'Ã©cran X:\n%s
 
 $ 2     "Could not set default tooltalk session."
-2 Impossible de définir la session tooltalk:\n%s
+2 Impossible de dÃ©finir la session tooltalk:\n%s
 
 $ 3 Failed to open ToolTalk connection.
-3 L'ouverure de la connexion ToolTalk a échoué:\n%s
+3 L'ouverure de la connexion ToolTalk a Ã©chouÃ©:\n%s
 
 $ 4     "Could not declare ptype DtInfo."
-4 Impossible de déclarer ptype DtInfo:\n%s
+4 Impossible de dÃ©clarer ptype DtInfo:\n%s
 
 $ Messages 5-10: These messages result from an error in a tt_* function
 $    call.
 $ 
-5 Le processus de la session tt (1) n'est pas en cours d'exécution \n\
+5 Le processus de la session tt (1) n'est pas en cours d'exÃ©cution \n\
 et le service ToolTalk ne peut pas le relancer.
-6 L'identificateur du processus par défaut est incorrect ou périmé.
-7 La session spécifiée ToolTalk est périmée ou incorrecte.
+6 L'identificateur du processus par dÃ©faut est incorrect ou pÃ©rimÃ©.
+7 La session spÃ©cifiÃ©e ToolTalk est pÃ©rimÃ©e ou incorrecte.
 
 $ 
 $ Message 8: Do not localize the word DtInfo.
 $ 
-8 Aucun type de processus installé \n\
+8 Aucun type de processus installÃ© \n\
 ne s'appelle 'DtInfo'.
 
 $ 
 $ Message 9: Do not localize the word DtInfoPrint.
 $ 
-9 Aucun type de processus installé \n\
+9 Aucun type de processus installÃ© \n\
 ne s'appelle 'DtInfo'.
 
 
-10 Le numéro de l'erreur est inconnu.
+10 Le numÃ©ro de l'erreur est inconnu.
 
 $set	42
 $ 
 $ messages specific to UAS/DtSR_SearchEngine modules
 $ 
-1 "DtSearch ne supporte pas la requête."
+1 "DtSearch ne supporte pas la requÃªte."

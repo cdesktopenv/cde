@@ -40,9 +40,9 @@ $ It is not used for the Help menu.
 $quote
 
 $ Unrecognized arguments
-2 dtpad: option illégale: %s 
+2 dtpad: option illÃ©gale: %s 
 $ Extra arguments
-3 dtpad: argument supplémentaire: %s
+3 dtpad: argument supplÃ©mentaire: %s
 
 
 $set 4        Redefine set#
@@ -60,17 +60,17 @@ $quote "
 $ label for the File text field in the file selection box
 $ ***UNUSED***\tThis label is no longer used and need not be localized.
 
-2 "Nom du fichier à ouvrir:"
+2 "Nom du fichier Ã  ouvrir:"
 $ Title of the Include dialog
 
 3 "Inclure un fichier"
 $ Label for the File text field in the file selection box
 $ ***UNUSED***\tThis label is no longer used and need not be localized.
 
-4 "Nom du fichier à inclure:"
+4 "Nom du fichier Ã  inclure:"
 $ Error when printing a file and a temporary copy can not be saved.
 
-5 "Impossible de créer un fichier temporaire."
+5 "Impossible de crÃ©er un fichier temporaire."
 
 $set 5        Redefine set#
 
@@ -100,13 +100,13 @@ $ \tnot be localized.
 
 3 "Voulez-vous sauvegarder la\n\
 version en cours de %s\n\
-avant d'éditer %s ?"
+avant d'Ã©diter %s ?"
 $ Used when about to write over an existing file.
 $ The "%s" is replaced by the file name.
 
-5 "Le fichier %s existe déjà.\n\
+5 "Le fichier %s existe dÃ©jÃ .\n\
 Voulez-vous remplacer son contenu par celui\n\
-de la présente session d'édition ?"
+de la prÃ©sente session d'Ã©dition ?"
 $ Title of "file already exists" dialog.  Also used for other "Warning" type
 $ dialogs.
 
@@ -118,11 +118,11 @@ $ Labels for add/don't-add newlines radio buttons in the Save As dialog
 $ ***UNUSED***\tThese labels are no longer used and need not be localized.
 $ \tThey've been replaced by messages 44 and 45
 
-8 "Ajout de caractères de nouvelle ligne à la fin des lignes\n\
+8 "Ajout de caractÃ¨res de nouvelle ligne Ã  la fin des lignes\n\
 avec retour automatique."
 
-9 "Aucun ajout de caractères de nouvelle ligne. Seuls les changements\n\
-de ligne effectués à l'aide de [Retour] seront conservés."
+9 "Aucun ajout de caractÃ¨res de nouvelle ligne. Seuls les changements\n\
+de ligne effectuÃ©s Ã  l'aide de [Retour] seront conservÃ©s."
 $ Labels for the Save Warning dialog. Also used in the confirmation, or
 $ Editor Return dialog.
 
@@ -164,15 +164,15 @@ $ Messages 31-39 are reasons why a file could not be saved.
 $ Messages 34-39 are substitued in message 30 for "%2$s".
 
 31 "Impossible de sauvegarder le fichier.\n\
-Nom de fichier non indiqué."
+Nom de fichier non indiquÃ©."
 
-34 "Ce fichier n'est pas accessible en écriture."
+34 "Ce fichier n'est pas accessible en Ã©criture."
 
-35 "Le fichier est un répertoire."
+35 "Le fichier est un rÃ©pertoire."
 
-36 "Le fichier est une unité spéciale à caractères."
+36 "Le fichier est une unitÃ© spÃ©ciale Ã  caractÃ¨res."
 
-37 "Le fichier est une unité en mode bloc."
+37 "Le fichier est une unitÃ© en mode bloc."
 $ ***UNUSED***\tThis message should never appear since currently there is
 $ \tonly one supported file format - text.  And this type is
 $ \thard coded into dtpad.
@@ -181,7 +181,7 @@ $ \thard coded into dtpad.
 $ This is a "catch all" when the file can not be saved and none of the above
 $ errors apply.
 
-39 "Raison inconnue - Espace disque peut-être insuffisant."
+39 "Raison inconnue - Espace disque peut-Ãªtre insuffisant."
 $ This is displayed when a ToolTalk edit request on a buffer is received,
 $ a Save operation is done and there are unsaved changes.
 
@@ -191,7 +191,7 @@ $ received with a document name specified in the request, a Save operation
 $ is done and there are unsaved changes.  The "%s" in the message is
 $ replaced by the document name (instead of the filename).
 
-41 "Sauvegarder les modifications apportées à \"%s\"?"
+41 "Sauvegarder les modifications apportÃ©es Ã  \"%s\"?"
 $ Title of "Copy As" dialog which is substitued for the "Save As" dialog
 $ when file name changes are disallowd.  This should match the menu button
 $ label specified in message 108 of set 11.
@@ -205,17 +205,17 @@ $ label specified in message 110 of set 11.
 43 "Copier dans fichier"
 $ Labels for add/don't-add newlines radio buttons in the SaveAs and Save dialogs
 
-44 "Ajouter caractères nouvelle ligne à la fin des lignes\n\
-avec retour à la ligne automatique."
+44 "Ajouter caractÃ¨res nouvelle ligne Ã  la fin des lignes\n\
+avec retour Ã  la ligne automatique."
 
-45 "Ne pas ajouter de nouvelles lignes. Seuls les passages à la ligne\n\
-à l'aide de la touche Entrée seront préservés."
+45 "Ne pas ajouter de nouvelles lignes. Seuls les passages Ã  la ligne\n\
+Ã  l'aide de la touche EntrÃ©e seront prÃ©servÃ©s."
 $ 
 $ New message as of 5/31/95 (i.e. new since Sample Implementation). This
 $ new message is in response to bug DTS CISlx19530.
 $ 
 $quote
-46 Le fichier n'est pas accessible en écriture ou le chemin au fichier\nn'existe pas.
+46 Le fichier n'est pas accessible en Ã©criture ou le chemin au fichier\nn'existe pas.
 
 $ 
 $ "-NEW"
@@ -237,22 +237,22 @@ $ ** Error messages generated when there are problems reading a file.   **
 $ ************************************************************************
 
 $quote "
-1 "Ce fichier est déjà ouvert pour lecture."
+1 "Ce fichier est dÃ©jÃ  ouvert pour lecture."
 
 2 "Ce fichier n'existe pas."
 
-3 "Impossible d'éditer un répertoire."
+3 "Impossible d'Ã©diter un rÃ©pertoire."
 
-4 "Impossible d'éditer un fichier unité spécial à caractères."
+4 "Impossible d'Ã©diter un fichier unitÃ© spÃ©cial Ã  caractÃ¨res."
 
-5 "Impossible d'éditer un fichier unité en mode bloc."
+5 "Impossible d'Ã©diter un fichier unitÃ© en mode bloc."
 
 $quote
-6 Zéros imbriqués supprimés du fichier.
+6 ZÃ©ros imbriquÃ©s supprimÃ©s du fichier.
 
-7 Impossible de charger le fichier (mémoire insuffisante).
+7 Impossible de charger le fichier (mÃ©moire insuffisante).
 
-8 Impossible d'accéder au fichier (impossible de déterminer son état).
+8 Impossible d'accÃ©der au fichier (impossible de dÃ©terminer son Ã©tat).
 
 9 Impossible de lire le fichier (sans doute pas d'autorisation en lecture).
 $ Message placed in the status line message area based on the -viewOnly  
@@ -291,11 +291,11 @@ $ \tneed not be localized.
 $ Terminal error message displayed to stdout when the desk top services
 $ can not be initialized (via DtInitialize())
 
-4 "Impossible d'initialiser les fonctions de bureau ... Sortie de l'éditeur texte."
+4 "Impossible d'initialiser les fonctions de bureau ... Sortie de l'Ã©diteur texte."
 $ Terminal error message displayed to stdout when a connection to the
 $ display can not be opend (via XtDisplay())
 
-5 "Impossible d'ouvrir l'écran ... sortie de l'éditeur de texte."
+5 "Impossible d'ouvrir l'Ã©cran ... sortie de l'Ã©diteur de texte."
 $ Default file name used in the main window title.
 $ This should correspond to the default file name used in the "Save As"
 $ dialog box - specified in message 21 of set 5.
@@ -309,9 +309,9 @@ $ dtpad -server when and dtpad server process is already running on the
 $ $DISPLAY.
 $quote
 7 ERREUR: Un serveur dtpad sur %s\n\
-utilise déjà cet écran.
+utilise dÃ©jÃ  cet Ã©cran.
 8 ERREUR: Un serveur dtpad utilise\n\
- déjà cet écran.
+ dÃ©jÃ  cet Ã©cran.
 $ 
 $ Message 9 is also new since CDE/SI - new as of 5/22/95.  It is a usage message
 $ for dtpad. Don't translate the '-OPTION' just the text explaining the
@@ -320,54 +320,54 @@ $
 9 '%s' est une option incorrecte.\n\
 Syntaxe: %s...\n\
    -saveOnClose\n\
-\tDtpad sauvegarde automatiquement et silencieusement le texte en cours à\n\
-\tla fermeture de l'Editeur de texte si des modifications ont été effectuées.\n\n\
+\tDtpad sauvegarde automatiquement et silencieusement le texte en cours Ã \n\
+\tla fermeture de l'Editeur de texte si des modifications ont Ã©tÃ© effectuÃ©es.\n\n\
    -missingFileWarning\n\
-\tAffiche un avertissement lorsque le fichier indiqué\n\
+\tAffiche un avertissement lorsque le fichier indiquÃ©\n\
 \tn'existe pas ou est inaccessible.\n\n\
    -noReadOnlyWarning\n\
-\tDésactive l'affichage d'un avertissement lorsque l'utilisateur\n\
-\tne dispose pas d'une autorisation d'accès en écriture pour le fichier indiqué.\n\n\
+\tDÃ©sactive l'affichage d'un avertissement lorsque l'utilisateur\n\
+\tne dispose pas d'une autorisation d'accÃ¨s en Ã©criture pour le fichier indiquÃ©.\n\n\
    -noNameChange\n\
-\tIndique que le nom de fichier par défaut associé au\n\
-\ttexte courant ne doit pas être modifié lorsque le texte est\n\
-\tsauvegardé sous un nom différent de celui de son ouverture.\n\n\
+\tIndique que le nom de fichier par dÃ©faut associÃ© au\n\
+\ttexte courant ne doit pas Ãªtre modifiÃ© lorsque le texte est\n\
+\tsauvegardÃ© sous un nom diffÃ©rent de celui de son ouverture.\n\n\
    -viewOnly\n\
-\tInterdit l'édition du texte dans la fenêtre d'édition,\n\
+\tInterdit l'Ã©dition du texte dans la fenÃªtre d'Ã©dition,\n\
 \tprincipalement en transformant l'Editeur de texte en Afficheur.\n\n\
    -statusLine\n\
-\tAffiche une ligne d'état au bas de la fenêtre d'édition. La\n\
-\tligne d'état affiche le numéro de la ligne du texte sur laquelle\n\
+\tAffiche une ligne d'Ã©tat au bas de la fenÃªtre d'Ã©dition. La\n\
+\tligne d'Ã©tat affiche le numÃ©ro de la ligne du texte sur laquelle\n\
 \tse trouve actuellement le curseur.\n\n\
    -wrapToFit\n\
-\tActive le mode retour à la ligne.\n\n\
+\tActive le mode retour Ã  la ligne.\n\n\
    -workspaceList WorkspaceList\n\
-\tAffiche la fenêtre d'édition pour l'invocation courante de\n\
-\tl'Editeur de texte dans l'espace ou les espaces de travail spécifiés.\n\n\
+\tAffiche la fenÃªtre d'Ã©dition pour l'invocation courante de\n\
+\tl'Editeur de texte dans l'espace ou les espaces de travail spÃ©cifiÃ©s.\n\n\
    -session SessionFile\n
 
-10 \tRestaure les fenêtres et paramètres de l'Editeur de texte\n\
-\ten vigueur lors d'une précédente fermeture de CDE. Toutes les\n\
-\tautres options de la ligne de commande sont ignorées lorsque\n\
-\tcette option est indiquée.\n\n\
+10 \tRestaure les fenÃªtres et paramÃ¨tres de l'Editeur de texte\n\
+\ten vigueur lors d'une prÃ©cÃ©dente fermeture de CDE. Toutes les\n\
+\tautres options de la ligne de commande sont ignorÃ©es lorsque\n\
+\tcette option est indiquÃ©e.\n\n\
    -standAlone\n\
-\tOblige l'invocation courante de l'Editeur de texte à\n\
-\teffectuer son propre traitement de texte dans sa fenêtre,\n\
-\tindépendamment du serveur de l'Editeur de texte.\n\n\
+\tOblige l'invocation courante de l'Editeur de texte Ã \n\
+\teffectuer son propre traitement de texte dans sa fenÃªtre,\n\
+\tindÃ©pendamment du serveur de l'Editeur de texte.\n\n\
    -noBlocking\n\
-\tAchève le traitement du demandeur de l'Editeur de texte dès\n\
-\tque le serveur de l'Editeur de texte détermine qu'il peut gérer\n\
-\tla demande d'édition.\n\n\
+\tAchÃ¨ve le traitement du demandeur de l'Editeur de texte dÃ¨s\n\
+\tque le serveur de l'Editeur de texte dÃ©termine qu'il peut gÃ©rer\n\
+\tla demande d'Ã©dition.\n\n\
    -server\n\
-\tForce le démarrage d'un serveur d'Editeur de texte (s'il n'y en\n\
-\ta pas déjà un qui fonctionne) pour traiter toutes les demandes\n\
-\td'édition ultérieures pour l'écran.\n\n\
+\tForce le dÃ©marrage d'un serveur d'Editeur de texte (s'il n'y en\n\
+\ta pas dÃ©jÃ  un qui fonctionne) pour traiter toutes les demandes\n\
+\td'Ã©dition ultÃ©rieures pour l'Ã©cran.\n\n\
    -exitOnLastClose\n\
 \tIndique que le traitement du serveur de l'Editeur de texte\n\
-\tdoit s'arrêter à la fermeture de la dernière fenêtre d'édition de\n\
-\tl'écran. Ne doit pas être utilisée avec l'option -server car elle ne\n\
+\tdoit s'arrÃªter Ã  la fermeture de la derniÃ¨re fenÃªtre d'Ã©dition de\n\
+\tl'Ã©cran. Ne doit pas Ãªtre utilisÃ©e avec l'option -server car elle ne\n\
 \ts'applique qu'au traitement du serveur.\n\n\
-Voir la page dtpad de l'aide pour plus de détails sur ces options.\n\n
+Voir la page dtpad de l'aide pour plus de dÃ©tails sur ces options.\n\n
 $ 
 
 $ "NEW-"
@@ -388,9 +388,9 @@ $ Strings used to build error messages issued when the session save
 $ file cannot be read or written.
 
 $quote "
-1 "Vérifiez les autorisations associées au fichier."
+1 "VÃ©rifiez les autorisations associÃ©es au fichier."
 
-2 "Le fichier %s est le fichier de sauvegarde prévu pour votre session."
+2 "Le fichier %s est le fichier de sauvegarde prÃ©vu pour votre session."
 
 $set 11        Redefine set#
 
@@ -414,23 +414,23 @@ $ mnemonic and label for the "Overview" item
 
 3 "i"
 
-4 "Généralités..."
+4 "GÃ©nÃ©ralitÃ©s..."
 $ mnemonic and label for the "Tasks" item
 
 5 "T"
 
-6 "Tâches..."
+6 "TÃ¢ches..."
 $ nmemonic and label for the "Table of Contents" item are message nos. 71 & 72
 $ mnemonic and label for the "Reference" item
 
 7 "R"
 
-8 "Référence..."
+8 "RÃ©fÃ©rence..."
 $ mnemonic and label for the "On Item" item
 
 9 "u"
 
-10 "Sur l'élément"
+10 "Sur l'Ã©lÃ©ment"
 $ mnemonic and label for "Using Help" item
 
 11 "d"
@@ -440,7 +440,7 @@ $ mnemonic and label for "About Text Editor" item
 
 13 "t"
 
-14 "A propos de l'éditeur de texte"
+14 "A propos de l'Ã©diteur de texte"
 $ *
 $ * Mnemonics and labels for the "File" pulldown menu and items.
 $ *
@@ -546,7 +546,7 @@ $ mnemonic and label for the "Settings..." menu item
 
 53 "P"
 
-54 "Paramètres..."
+54 "ParamÃ¨tres..."
 $ mnemonic and label for the "Paragraph" menu item
 
 55 "g"
@@ -569,7 +569,7 @@ $ mnemonic and label for the "Overstrike" toggle button
 
 61 "B"
 
-62 "Barré"
+62 "BarrÃ©"
 $ mnemonic and label for the "Word Wrap" toggle button
 $ ***UNUSED***\tThis label and mnemonic are no longer used and need not be
 $ \tlocalized.  They've been replaced by messages 111 and 112.
@@ -581,7 +581,7 @@ $ mnemonic and label for the "Status Line" toggle button
 
 65 "L"
 
-66 "Ligne d'état"
+66 "Ligne d'Ã©tat"
 $ *
 $ * Late additions.
 $ *
@@ -591,7 +591,7 @@ $ \tlocalized.  They've been replaced by messages 87 and 88.
 
 71 "T"
 
-72 "Table des matières..."
+72 "Table des matiÃ¨res..."
 $ label for the "Save" item in the "File" pulldown menu
 $ NOTE: This label is used in place of message 24 when text has been
 $       changed but has not been saved
@@ -609,27 +609,27 @@ $ mnemonic and label for the "Overview" item
 
 83 "n"
 
-84 "Généralités"
+84 "GÃ©nÃ©ralitÃ©s"
 $ mnemonic and label for the "Tasks" item
 
 85 "c"
 
-86 "Tâches"
+86 "TÃ¢ches"
 $ nmemonic and label for the "Table of Contents" item
 
 87 "m"
 
-88 "Table des matières"
+88 "Table des matiÃ¨res"
 $ mnemonic and label for the "Reference" item
 
 89 "R"
 
-90 "Référence"
+90 "RÃ©fÃ©rence"
 $ mnemonic and label for the "On Item" item
 
 91 "S"
 
-92 "Sur l'élément"
+92 "Sur l'Ã©lÃ©ment"
 $ mnemonic and label for "Using Help" item
 
 93 "A"
@@ -639,7 +639,7 @@ $ mnemonic and label for "About Text Editor" item
 
 95 "A"
 
-96 "A propos de l'éditeur de texte"
+96 "A propos de l'Ã©diteur de texte"
 $ *
 $ * Changes for "Edit" pulldown menu messages 45-50.
 $ *
@@ -647,7 +647,7 @@ $ mnemonic and label for the "Select All" menu item
 
 101 "s"
 
-102 "Tout sélectionner"
+102 "Tout sÃ©lectionner"
 $ mnemonic and label for the "Find/Change" menu item
 
 103 "R"
@@ -675,7 +675,7 @@ $ mnemonic and label for the "Wrap To Fit" toggle button
 
 111 "R"
 
-112 "Retour à la ligne automatique"
+112 "Retour Ã  la ligne automatique"
 
 $ Label for the "Print" item
 113 Imprimer
@@ -691,7 +691,7 @@ $set 12        Redefine set#
 
 $ Message used for "Help - On Item" if the user clicks outside application
 
-1 "Vous devez sélectionner un objet dans l'Editeur de texte."
+1 "Vous devez sÃ©lectionner un objet dans l'Editeur de texte."
 $ ***********************************************************
 $ **                                        ttMsgSupport.c **
 $ **                                                       **
@@ -702,9 +702,9 @@ $ ***********************************************************
 $set 13        Redefine set#
 
 
-1 "Echec de la sauvegarde du point de sécurité."
+1 "Echec de la sauvegarde du point de sÃ©curitÃ©."
 
-2 "Echec de la réponse du point de sécurité."
+2 "Echec de la rÃ©ponse du point de sÃ©curitÃ©."
 
 $ more errors/warnings can
 $ be detected while reading in a file via ToolTalk.
@@ -739,16 +739,16 @@ $	a margin specifier in the PrintSetup dialog which cannot be parsed.
 $	
 $quote "
 
-1 "La syntaxe d'un des indicateurs de la marge \n est incorrecte : \n %s \n %s \n %s \n %s \nVoulez-vous utiliser la valeur par défaut ?"
+1 "La syntaxe d'un des indicateurs de la marge \n est incorrecte : \n %s \n %s \n %s \n %s \nVoulez-vous utiliser la valeur par dÃ©faut ?"
 $ 
 $	Messages 2 - 7 are messages for errors which can occur in the
 $	process of loading a dtpad document file for printing.	
 $ 
 2 "Le fichier n'existe pas."
-3 "Le fichier spécifié est un répertoire."
+3 "Le fichier spÃ©cifiÃ© est un rÃ©pertoire."
 4 "Erreur de type de fichier."
-5 "Le fichier contient des caractères NULL."
-6 "Impossible de charger le fichier (mémoire insuffisante)."
+5 "Le fichier contient des caractÃ¨res NULL."
+6 "Impossible de charger le fichier (mÃ©moire insuffisante)."
 7 "Pas d'autorisation de lecture pour ce fichier"
 
 $	Messages 8 - 11 are format strings used to construct the header
@@ -774,7 +774,7 @@ $	Message 13 is the label used on the Toggle Button to indicate that
 $	lines which would extend beyond the edge of the printed page be 
 $	"wrapped" to the next line.
 12 "Nom du document : "
-13 "Retour à la ligne"
+13 "Retour Ã  la ligne"
 
 
 $	Messages 14 - 15 are status messages for the PrintToFile function.
@@ -783,8 +783,8 @@ $	Message 14 indicates that the PrintToFile function was unsuccessful.
 $	Message 15 indicates that the PrintToFile function was successful.
 $       NOTE:  'Print to File' should be translated as in DtPrint.msg
 $               Set 1, Message 3.
-14 "Imprimer au fichier' a réussi."
-15 "'Imprimer au fichier' terminé."
+14 "Imprimer au fichier' a rÃ©ussi."
+15 "'Imprimer au fichier' terminÃ©."
 
 $          Messages 16 - 19 are obsolete, and have been replaced by 25
 $ 
@@ -796,8 +796,8 @@ $	Message 18 indicates that the pdm couldnt connect to the video display.
 $	Message 19 indicates that the pdm couldnt connect to the print display.
 16 "Pas de PDM dans l'environnement."
 17 "Impossible de lancer le PDM."
-18 "Pas de connexion autorisée entre PDM et l'écran Vidéo."
-19 " Pas de connexion autorisée entre PDM et l'écran d'Impression."
+18 "Pas de connexion autorisÃ©e entre PDM et l'Ã©cran VidÃ©o."
+19 " Pas de connexion autorisÃ©e entre PDM et l'Ã©cran d'Impression."
 
 $	Messages 20 - 22 are status messages displayed while printing
 $ 
@@ -806,7 +806,7 @@ $		   window.  Dtpad is prevented from doing so until the
 $		   active print jobs have completed.
 $	Message 21 status message displayed when the print job is started.
 $	Message 22 status message displayed as the print job progresses.
-20 "Fermeture imminente :  attendez la fin de la tâche..."
+20 "Fermeture imminente :  attendez la fin de la tÃ¢che..."
 21 "Impression %s en cours ..."
 22 "Impression %s: page %d de %d ..."
 
@@ -820,7 +820,7 @@ $		   of resources.
 24 "Le serveur d'impression X manque temporairement de ressources."
 
 $       Messages 25 is used to handle errors from the PDM
-25	"Erreur du Gestionnaire d'impression (PDM) - configuration a échoué."
+25	"Erreur du Gestionnaire d'impression (PDM) - configuration a Ã©chouÃ©."
 
 $ ****************************************************************************
 $ ****************************************************************************
@@ -843,7 +843,7 @@ $	Message 5 put the User Name msg header in the page header/footer field.
 1 "Vide"
 2 "Date"
 3 "Document "
-4 "Page Numéro"
+4 "Page NumÃ©ro"
 5 "Nom de l'utilisateur"
 
 $	Messages 6-9 are used to construct error messages informing users

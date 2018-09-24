@@ -83,7 +83,7 @@ $ **********************************************
 $ Default value for DtNformatSettingsDialogTitle resource,    
 $ title of format settings dialog    
 
-1 "Paramètres de mise en forme"
+1 "ParamÃ¨tres de mise en forme"
 $ Default values for DtNlMarginFieldLabel and DtNrMarginFieldLabel resources,    
 $ labels for margin fields in Format Settings dialog    
 
@@ -94,13 +94,13 @@ $ Default values for DtNlAlignToggleLabel, DtNrAlignToggleLabel,
 $ DtNjustifyToggleLabel, and DtNcenterToggleLabel resources,    
 $ labels for justification radio buttons in Format Settings dialog    
 
-4 "Aligné à gauche"
+4 "AlignÃ© Ã  gauche"
 
-5 "Aligné à droite"
+5 "AlignÃ© Ã  droite"
 
-6 "Justifié"
+6 "JustifiÃ©"
 
-7 "Centré"
+7 "CentrÃ©"
 $ Default values for DtNformatParagraphButtonLabel and     
 $ DtNformatAllButtonLabel resources,    
 $ labels for paragraph and all buttons in Format Settings dialog    
@@ -123,7 +123,7 @@ $ title of the Find/Change dialog
 $ Default value for DtNmisspelledListLabel resource,    
 $ label for list of unrecognized and misspelled words    
 
-22 "Mots mal orthographiés:"
+22 "Mots mal orthographiÃ©s:"
 $ Default value for DtNfindFieldLabel resource,    
 $ label of field in which user types string for which to search.    
 
@@ -149,7 +149,7 @@ $ ******************************************************************
 $ Used to display "Unable to find the string FOO in the current document."    
 $ Note: Do not localize the characters %s.    
 
-30 "La chaîne %s est introuvable dans le document en cours."
+30 "La chaÃ®ne %s est introuvable dans le document en cours."
 $ Title for general information dialog (e.g. "Find/Change dialog can't     
 $ find word in document.").    
 
@@ -187,11 +187,11 @@ $ dialog.
 $ do not translate %s
 $quote
 
-50 Erreur d'exécution du filtre orthographe.
-51 Vérifiez que le filtre, %s, est installé et sur le chemin.
+50 Erreur d'exÃ©cution du filtre orthographe.
+51 VÃ©rifiez que le filtre, %s, est installÃ© et sur le chemin.
 
 $ Title for Error dialog
-52 Erreur d'éditeur
+52 Erreur d'Ã©diteur
 
 $set 4        Redefine set#
 
@@ -223,49 +223,49 @@ $ Warning messsages
 $ Note: do not localize the chars DtComboBoxWidget in messages 1 - 11    
 $ Note: do not localize the chars alignment and DtALIGNMENT_CENTER    
 
-1 "DtComboBoxWidget: Ressource d'alignement incorrecte (par défaut, utilisation de DtALIGNMENT_CENTER)."
+1 "DtComboBoxWidget: Ressource d'alignement incorrecte (par dÃ©faut, utilisation de DtALIGNMENT_CENTER)."
 $ Note: do not localize the chars marginHeight     
 
-2 "DtComboBoxWidget: Ressource marginHeight incorrecte (par défaut, utilisation de la valeur 2)."
+2 "DtComboBoxWidget: Ressource marginHeight incorrecte (par dÃ©faut, utilisation de la valeur 2)."
 $ Note: do not localize the chars marginWidth    
 
-3 "DtComboBoxWidget: Ressource marginWidth incorrecte (par défaut, utilisation de la valeur 2)."
+3 "DtComboBoxWidget: Ressource marginWidth incorrecte (par dÃ©faut, utilisation de la valeur 2)."
 $ Note: do not localize the chars horizontalSpacing    
 
-4 "DtComboBoxWidget: Ressource horizontalSpacing incorrecte (par défaut, utilisation de la valeur 2)."
+4 "DtComboBoxWidget: Ressource horizontalSpacing incorrecte (par dÃ©faut, utilisation de la valeur 2)."
 $ Note: do not localize the chars verticalSpacing    
 
-5 "DtComboBoxWidget: Ressource verticalSpacing incorrecte (par défaut, utilisation de la valeur 0)."
+5 "DtComboBoxWidget: Ressource verticalSpacing incorrecte (par dÃ©faut, utilisation de la valeur 0)."
 $   
 
-6 "DtComboBoxWidget: Ressource d'orientation incorrecte (par défaut, utilisation de DtRIGHT)."
+6 "DtComboBoxWidget: Ressource d'orientation incorrecte (par dÃ©faut, utilisation de DtRIGHT)."
 $ Note: do not localize the chars itemCount    
 
-7 "DtComboBoxWidget: Ressource itemCount incorrecte (par défaut, utilisation de la valeur 0)."
+7 "DtComboBoxWidget: Ressource itemCount incorrecte (par dÃ©faut, utilisation de la valeur 0)."
 $ Note: do not localize the chars selectedPosition    
 
-8 "DtComboBoxWidget: Ressource selectedPosition inccorrecte (par défaut, utilisation de la valeur 0)."
+8 "DtComboBoxWidget: Ressource selectedPosition inccorrecte (par dÃ©faut, utilisation de la valeur 0)."
 $ Note: do not localize the chars textField    
 
-9 "DtComboBoxWidget: Impossible de définir la ressource textField."
+9 "DtComboBoxWidget: Impossible de dÃ©finir la ressource textField."
 $ Note: do not localize the chars DtComboBoxSetItem    
 
-10 "DtComboBoxWidget: Elément à définir introuvable (DtComboBoxSetItem)."
+10 "DtComboBoxWidget: ElÃ©ment Ã  dÃ©finir introuvable (DtComboBoxSetItem)."
 $ Note: do not localize the chars DtComboBoxSelectItem    
 
-11 "DtComboBoxWidget: Elément à sélectionner introuvable (DtComboBoxSelectItem)."
+11 "DtComboBoxWidget: ElÃ©ment Ã  sÃ©lectionner introuvable (DtComboBoxSelectItem)."
 
-12 "Le redimensionnement n'a pas abouti. Il est possible que la taille de l'élément le plus long excède l'espace alloué."
+12 "Le redimensionnement n'a pas abouti. Il est possible que la taille de l'Ã©lÃ©ment le plus long excÃ¨de l'espace allouÃ©."
 $ Label value    
 
-13 "Boîte de dialogue mixte"
+13 "BoÃ®te de dialogue mixte"
 $ Error message    
 $ Note: do not localize the chars String and XmRType    
 
-14 "cvtStringToType: Paramètres incorrects, la conversion de String en XmRType ne requiert aucun argument supplémentaire."
+14 "cvtStringToType: ParamÃ¨tres incorrects, la conversion de String en XmRType ne requiert aucun argument supplÃ©mentaire."
 $ Warning message    
 
-15 "DtComboBoxDeletePos: Paramètres incorrects, valeur d'emplacement incorrecte."
+15 "DtComboBoxDeletePos: ParamÃ¨tres incorrects, valeur d'emplacement incorrecte."
 
 $set 6        Redefine set#
 
@@ -278,45 +278,45 @@ $ Warning messsages
 $ Note: do not localize the chars DtSpinBoxWidget in messages 1 - 14    
 $ Note: do not localize the chars arrowSensitivity and DtARROWS_SENSITIVE    
 
-1 "DtSpinBoxWidget: Ressource arrowSensitivity incorrecte (par défaut, utilisation de DtARROWS_SENSITIVE)."
+1 "DtSpinBoxWidget: Ressource arrowSensitivity incorrecte (par dÃ©faut, utilisation de DtARROWS_SENSITIVE)."
 $ Note: do not localize the chars alignment and DtALIGNMENT_CENTER    
 
-2 "DtSpinBoxWidget: Ressource d'alignement incorrecte (par défaut, utilisation de DtALIGNMENT_CENTER)."
+2 "DtSpinBoxWidget: Ressource d'alignement incorrecte (par dÃ©faut, utilisation de DtALIGNMENT_CENTER)."
 $ Note: do not localize the chars intialDelay     
 
-3 "DtSpinBoxWidget: Ressource initialDelay incorrecte (par défaut, utilisation de la valeur 250)."
+3 "DtSpinBoxWidget: Ressource initialDelay incorrecte (par dÃ©faut, utilisation de la valeur 250)."
 $ Note: do not localize the chars marginHeight    
 
-4 "DtSpinBoxWidget: Ressource marginHeight incorrecte (par défaut, utilisation de la valeur 2)."
+4 "DtSpinBoxWidget: Ressource marginHeight incorrecte (par dÃ©faut, utilisation de la valeur 2)."
 $ Note: do not localize the chars marginWidth    
 
-5 "DtSpinBoxWidget: Ressource marginWidth incorrecte (par défaut, utilisation de la valeur 2)."
+5 "DtSpinBoxWidget: Ressource marginWidth incorrecte (par dÃ©faut, utilisation de la valeur 2)."
 $ Note: do not localize the chars arrowLayout and DtARROWS_BEGINNING    
 
-6 "DtSpinBoxWidget: Ressource arrowLayout incorrecte (par défaut, utilisation de DtARROWS_BEGINNING)."
+6 "DtSpinBoxWidget: Ressource arrowLayout incorrecte (par dÃ©faut, utilisation de DtARROWS_BEGINNING)."
 $ Note: do not localize the chars repeatDelay    
 
-7 "DtSpinBoxWidget: Ressource repeatDelay incorrecte (par défaut, utilisation de la valeur 200)."
+7 "DtSpinBoxWidget: Ressource repeatDelay incorrecte (par dÃ©faut, utilisation de la valeur 200)."
 $ Note: do not localize the chars itemCount    
 
-8 "DtSpinBoxWidget: Ressource itemCount incorrecte (par défaut, utilisation de la valeur 0)."
+8 "DtSpinBoxWidget: Ressource itemCount incorrecte (par dÃ©faut, utilisation de la valeur 0)."
 $ Note: do not localize the chars position in messages 9 and 10    
 
-9 "DtSpinBoxWidget: Ressource d'emplacement incorrecte (par défaut, utilisation de la valeur 0)."
+9 "DtSpinBoxWidget: Ressource d'emplacement incorrecte (par dÃ©faut, utilisation de la valeur 0)."
 
-10 "DtSpinBoxWidget: Ressource d'emplacement incorrecte (par défaut, utilisation de la valeur minimale)."
+10 "DtSpinBoxWidget: Ressource d'emplacement incorrecte (par dÃ©faut, utilisation de la valeur minimale)."
 $ Note: do not localize the chars decimalPoints    
 
-11 "DtSpinBoxWidget:  Ressource decimalPoints incorrecte (par défaut, utilisation de la valeur 0)."
+11 "DtSpinBoxWidget:  Ressource decimalPoints incorrecte (par dÃ©faut, utilisation de la valeur 0)."
 $ Note: do not localize the chars minimum    
 
-12 "DtSpinBoxWidget: Ressource minimale incorrecte (par défaut, utilisation de la valeur maximale)."
+12 "DtSpinBoxWidget: Ressource minimale incorrecte (par dÃ©faut, utilisation de la valeur maximale)."
 $ Note: do not localize the chars textField    
 
-13 "DtSpinBoxWidget: Impossible de définir la ressource textField."
+13 "DtSpinBoxWidget: Impossible de dÃ©finir la ressource textField."
 $ Note: do not localize the chars DtSpinBoxSetItem    
 
-14 "DtSpinBoxWidget: Element à définir introuvable (DtSpinBoxSetItem)."
+14 "DtSpinBoxWidget: Element Ã  dÃ©finir introuvable (DtSpinBoxSetItem)."
 $ Label value    
 
-15 "Sélecteur rotatif"
+15 "SÃ©lecteur rotatif"

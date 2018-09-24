@@ -45,8 +45,8 @@ $
 $     */
 1 Portrait
 2 Paysage
-3 Portrait inversé
-4 Paysage inversé
+3 Portrait inversÃ©
+4 Paysage inversÃ©
 $    /* NL_COMMENT
 $	Attention Translator:
 $	
@@ -65,7 +65,7 @@ $
 $     */
 5 Recto
 6 Recto verso
-7 Tête-bèche
+7 TÃªte-bÃ¨che
 $    /* NL_COMMENT
 $	Attention Translator:
 $	
@@ -144,9 +144,9 @@ $     */
 68 Bas
 69 Enveloppe
 70 Manuel
-71 Grande capacité
+71 Grande capacitÃ©
 72 Principal
-73 Côté
+73 CÃ´tÃ©
 
 
 $set 2
@@ -179,7 +179,7 @@ $       Message number 3 appears in the page size list box and
 $       indicates that the default page size will be used.
 $ 	
 $     */
-3 Par défaut
+3 Par dÃ©faut
 $    /* NL_COMMENT
 $	Attention Translator:
 $	
