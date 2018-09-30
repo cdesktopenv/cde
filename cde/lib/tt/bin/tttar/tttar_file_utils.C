@@ -38,10 +38,6 @@
 #include <sys/param.h>
 #include <sys/types.h>
 #include <sys/stat.h>
-#if defined(ultrix)
-#include <sys/inode.h>
-#define S_ISLNK(m)     (((m)&IFMT) == IFLNK)
-#endif
 #include <dirent.h>
 #include "tttar_utils.h"
 #include "tttar_file_utils.h"

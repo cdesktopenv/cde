@@ -112,9 +112,9 @@ static char SCCSID[] = "OSF/Motif: @(#)_DtosP.h	4.16 91/09/12";
 
 #ifdef BOGUS_MB_MAX  /* some systems don't properly set MB_[CUR|LEN]_MAX */
 # undef  MB_LEN_MAX
-# define MB_LEN_MAX 1 /* temp fix for ultrix */
+# define MB_LEN_MAX 1 /* temp fix */
 # undef  MB_CUR_MAX
-# define MB_CUR_MAX 1 /* temp fix for ultrix */
+# define MB_CUR_MAX 1 /* temp fix */
 #endif /* BOGUS_MB_MAX */
 
 /**********************************************************************/

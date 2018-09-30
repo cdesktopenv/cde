@@ -355,17 +355,6 @@
 # undef  OPT_CLASSING_ENGINE 
 # define OPT_TAR_HAS_EXCLUDE_OPTION
 
-#elif defined(ultrix)
-
-# undef OPT_UNIX_SOCKET_RPC
-# undef  OPT_TLI 
-# undef  OPT_DLOPEN_X11 
-# undef  OPT_DLOPEN_CE 
-# undef  OPT_ADDMSG_DIRECT 
-# undef  OPT_SECURE_RPC 
-# undef  OPT_CLASSING_ENGINE 
-# undef  OPT_TAR_HAS_EXCLUDE_OPTION
-
 #elif defined(__hpux) || defined(hpux)
 
 # undef  OPT_UNIX_SOCKET_RPC 

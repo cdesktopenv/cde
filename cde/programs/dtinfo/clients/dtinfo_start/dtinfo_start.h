@@ -38,11 +38,7 @@
  * macro to get message catalog strings
  */
 #ifndef NO_MESSAGE_CATALOG
-# ifdef __ultrix
-#  define _CLIENT_CAT_NAME "dtinfo_start.cat"
-# else  /* __ultrix */
-#  define _CLIENT_CAT_NAME "dtinfo_start"
-# endif /* __ultrix */
+# define _CLIENT_CAT_NAME "dtinfo_start"
 
 extern char *_DtGetMessage (char *filename, int set_num, int message_num, char *message);
 

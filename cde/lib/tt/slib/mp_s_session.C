@@ -115,7 +115,7 @@ s_open_unix_socket(char *socket_name)
 	server_addr.sun_family = AF_UNIX;
 	(void)unlink(socket_name);
 	strcpy(server_addr.sun_path, socket_name);
-#if defined(ultrix) || defined(_AIX)  || defined(hpux)
+#if defined(_AIX)  || defined(hpux)
         int servlen = strlen(server_addr.sun_path) + sizeof(server_addr.sun_fam\
 ily);
         if (bind(sock, (struct sockaddr *)&server_addr,servlen) < 0) {
@@ -376,23 +376,6 @@ check_for_live_session()
 	
 	return(TT_OK);
 }
-
-#if defined(ultrix)
-/* strdup - make duplicate of string s */
-#include <string.h>
-#include <malloc.h>
-
-static char *
-strdup(char *s)
-{
-    char *p;
-
-    p = (char *)malloc(strlen(s) + 1);  /* + 1 for '\0' character */
-    if (p != NULL) 
-        strcpy(p,s);
-    return p;
-}
-#endif
 
 // 
 // Advertises a session procid so that any clients that come up within

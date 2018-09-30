@@ -129,11 +129,7 @@
 #define SM_CM_DEFAULT      SM_CM_NONE
 
 #ifndef NO_MESSAGE_CATALOG
-# ifdef __ultrix
-#  define _CLIENT_CAT_NAME "dtsession.cat"
-# else  /* __ultrix */
-#  define _CLIENT_CAT_NAME "dtsession"
-# endif /* __ultrix */
+# define _CLIENT_CAT_NAME "dtsession"
 extern char *_DtGetMessage(char *filename, int set, int n, char *s);
 # define GETMESSAGE(set, number, string)\
     (_DtGetMessage(_CLIENT_CAT_NAME, set, number, string))

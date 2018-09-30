@@ -42,10 +42,6 @@
 #include "util/tt_generic.h"
 #include "util/tt_new.h"
 
-#if defined(ultrix)
-#include <rpc/types.h>
-#endif
-
 class _Tt_object;
 class _Tt_new_ptr : public _Tt_allocated {
       protected:

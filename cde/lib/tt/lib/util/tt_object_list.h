@@ -41,10 +41,6 @@
 #	undef remove
 #endif
 
-#if defined(ultrix)
-#include <rpc/types.h>
-#endif
-
 class _Tt_object_list_element;
 class _Tt_object_list_ptr;
 class _Tt_object_list: public _Tt_object {

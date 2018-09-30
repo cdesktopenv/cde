@@ -215,14 +215,10 @@ GetMessage (
 
        /* Setup our default message catalog names if none have been set! */
        /* Setup the short and long versions */
-#ifdef __ultrix
-        catFileName = "dthelpgen.cat"; 
-#else 
         catFileName = "dthelpgen";
-#endif
 	first = 0;
 
-	if (strcmp (Lang, "C") == 0) 
+	if (strcmp (Lang, "C") == 0)
 	  /*
 	   * If LANG is not set or if LANG=C, then there
 	   * is no need to open the message catalog - just

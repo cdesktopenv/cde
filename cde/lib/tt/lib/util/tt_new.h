@@ -41,10 +41,6 @@
 #include <sys/types.h>
 #endif /* __STDC__ */
 #include <stdlib.h>
-#if defined(ultrix)
-#include <rpc/types.h>
-#define bool_t int
-#endif
 #if defined(sun)
 #  define MALLOCTYPE	char
 #else

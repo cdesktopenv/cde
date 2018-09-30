@@ -108,19 +108,7 @@ extern int errno;
 
 #ifndef DONT_USE_DES
 # ifndef USE_CRYPT
-#  ifdef AIXV3
-#   define USE_CRYPT
-#  endif
-#  ifdef ultrix
-#   define USE_CRYPT
-#  endif
-#  ifdef hpux
-#   define USE_CRYPT
-#  endif
-#  ifdef macII
-#   define USE_CRYPT
-#  endif
-#  ifdef __FreeBSD__
+#  if defined(AIXV3) || defined(hpux) || defined(__FreeBSD__)
 #   define USE_CRYPT
 #  endif
 #  ifdef __OpenBSD__

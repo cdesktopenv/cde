@@ -60,10 +60,6 @@
 #define _TT_DBCLIENT_SIDE
 #include "db/db_server.h"
 
-#if defined(ultrix)
-extern "C" void xdrstdio_create(XDR *, FILE *, enum xdr_op);
-#endif
-
 typedef void (*cmd_fn)();
 
 TT_INSERT_COPYRIGHT

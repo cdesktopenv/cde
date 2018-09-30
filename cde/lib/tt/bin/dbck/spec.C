@@ -37,10 +37,7 @@
 #include <stdio.h>
 #include <errno.h>
 
-#if defined(ultrix)
-#include <sys/types.h>
-#endif
-#include <sys/stat.h>     
+#include <sys/stat.h>
 #include "spec.h"
 #include "options_tt.h"
 #include "util/tt_gettext.h"

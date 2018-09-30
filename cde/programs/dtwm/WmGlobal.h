@@ -2208,11 +2208,7 @@ extern char *_DtGetMessage(char *filename, int set, int n, char *s);
  * macro to get message catalog strings
  */
 #ifndef NO_MESSAGE_CATALOG
-# ifdef __ultrix
-#  define _CLIENT_CAT_NAME "dtwm.cat"
-# else  /* __ultrix */
-#  define _CLIENT_CAT_NAME "dtwm"
-# endif /* __ultrix */
+# define _CLIENT_CAT_NAME "dtwm"
 # define GETMESSAGE(set, number, string)\
     _DtGetMessage(_CLIENT_CAT_NAME, set, number, string)
 #else

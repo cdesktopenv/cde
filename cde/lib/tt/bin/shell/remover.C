@@ -44,10 +44,6 @@
 #endif
 #include <stdlib.h>
 #include <errno.h>
-#if defined(ultrix)
-#include <sys/inode.h>
-#define S_ISLNK(m)     (((m)&IFMT) == IFLNK)
-#endif
 #include <sys/stat.h>
 #include <sys/wait.h>
 #include "api/c/tt_c.h"

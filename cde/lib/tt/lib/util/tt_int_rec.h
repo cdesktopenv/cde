@@ -35,9 +35,6 @@
 #define TT_INT_REC_H
 #include <util/tt_object.h>
 #include <util/tt_list.h>
-#if defined(ultrix)
-#include <rpc/types.h>
-#endif
 
 /* 
  * _Tt_int_rec is essentially just a wrapper around an integer so we can

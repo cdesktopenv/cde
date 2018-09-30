@@ -57,10 +57,6 @@
 
 #include <sys/time.h>
 
-#if defined(ultrix)
-extern "C" unsigned long inet_addr(char *);
-#endif
-
 #include <arpa/inet.h>
 
 /* 

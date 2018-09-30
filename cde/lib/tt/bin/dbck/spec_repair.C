@@ -35,13 +35,10 @@
 #include <stddef.h>
 #include <stdio.h>
 #include <errno.h>
-#if defined(ultrix)
-#include <sys/types.h>
-#endif
 #if defined(_AIX)
 #include <time.h>
 #endif
-#include <sys/stat.h>     
+#include <sys/stat.h>
 #include "spec.h"
 #include "options_tt.h"
 #include "ttdbck.h"

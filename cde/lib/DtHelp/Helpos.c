@@ -253,38 +253,10 @@ void DtHelpSetCatalogName(
   if (catFile == NULL)
     {
       /* Setup the short and long versions */
-#ifdef __ultrix
-      CatFileName = strdup("DtHelp.cat");  
-#else
       CatFileName = strdup("DtHelp");
-#endif
     }
   else
-    { 
-#ifdef __ultrix
-
-      /* If we have a full path, just use it */
-      if (*catFile == '/')
-        CatFileName = strdup(catFile);
-      else
-        {
-          /* We don't have a full path, and the ultirx os needs the 
-           * ".cat" extention so let's make sure its there.
-           */
-          if (strcmp(&catFile[strlen(catFile) -4], ".cat") == 0)
-            CatFileName = strdup(catFile);
-          else
-            {
-              /* Create our CatFileName with the extention */
-              CatFileName = malloc (strlen(catFile) + 5);    
-                                    /* +5, 1 for NULL, 4 for ".cat" */
-              strcpy(CatFileName, catFile);
-              strcat(CatFileName, ".cat");
-	    }
-         }
-
-        
-#else
+    {
 
       /* If we have a full path, just use it */
       if (*catFile == '/')
@@ -294,7 +266,7 @@ void DtHelpSetCatalogName(
           /* hp-ux os does not work with the ".cat" extention, so
            * if one exists, remove it.
            */
-          
+
            if (strcmp(&catFile[strlen(catFile) -4], ".cat") != 0)
             CatFileName = strdup(catFile);
           else
@@ -306,7 +278,6 @@ void DtHelpSetCatalogName(
               CatFileName[len]= '\0';
             }
         }
-#endif
     }
   _DtHelpProcessUnlock();
 }
@@ -340,22 +311,18 @@ char *_DtHelpGetMessage(
    static nl_catd nlmsg_fd;
 
    _DtHelpProcessLock();
-   if ( first ) 
+   if ( first )
    {
 
      /* Setup our default message catalog names if none have been set! */
      if (CatFileName  == NULL)
        {
          /* Setup the short and long versions */
-#ifdef __ultrix
-         CatFileName = strdup("DtHelp.cat"); 
-#else 
          CatFileName = strdup("DtHelp");
-#endif
        }
-		
+
      loc = _DtHelpGetLocale();
-     if (!loc || !(strcmp (loc, "C"))) 
+     if (!loc || !(strcmp (loc, "C")))
 	/*
 	 * If LANG is not set or if LANG=C, then there
 	 * is no need to open the message catalog - just

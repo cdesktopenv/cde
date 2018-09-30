@@ -494,7 +494,7 @@ char *cpp_argv[ARGUMENTS] = {
 # define DEFAULT_OS_MINOR_REV	"r %[0-9]"
 /* No information available to generate default OSTeenyVersion value. */
 # define DEFAULT_OS_NAME	"srvm %[^\n]"
-#elif defined(sun) || defined(sgi) || defined(ultrix) || defined(__linux__) || defined(sony)
+#elif defined(sun) || defined(__linux__)
 /* uname -r returns "x.y[.z]", e.g. "5.4" or "4.1.3" */
 # define DEFAULT_OS_MAJOR_REV	"r %[0-9]"
 # define DEFAULT_OS_MINOR_REV	"r %*d.%[0-9]"
@@ -600,9 +600,6 @@ struct symtab	predefs[] = {
 #endif
 #ifdef __mips__
 	{"__mips__", "1"},
-#endif
-#ifdef ultrix
-	{"ultrix", "1"},
 #endif
 #ifdef stellar
 	{"stellar", "1"},

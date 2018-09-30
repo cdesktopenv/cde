@@ -1615,11 +1615,7 @@ extern Pixmap _DtGetPixmap(
  */
 
 #ifndef NO_MESSAGE_CATALOG
-# ifdef __ultrix
-#  define _CLIENT_CAT_NAME "dtfile.cat"
-# else  /* __ultrix */
-#  define _CLIENT_CAT_NAME "dtfile"
-# endif /* __ultrix */
+# define _CLIENT_CAT_NAME "dtfile"
 extern char *_DtGetMessage(char *filename, int set, int n, char *s);
 # define GETMESSAGE(set, number, string)\
     (_DtGetMessage(_CLIENT_CAT_NAME, set, number, string))

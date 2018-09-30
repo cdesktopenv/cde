@@ -38,17 +38,6 @@
 #include <mp/mp_global.h>
 #include <util/tt_object.h>
 
-#if defined(ultrix)
-extern "C"
-{ extern struct XSizeHints;
-  extern struct XStandardColormap;
-  extern struct XTextProperty;
-  extern struct XWMHints;
-  extern struct XClassHint;
-};
-#endif
-
-
 enum _Tt_dt_type {
 	_TT_DESKTOP_X11,
 	_TT_DESKTOP_LAST

@@ -33,9 +33,6 @@
  */
 #ifndef _MP_TYPEDB_H
 #define _MP_TYPEDB_H
-#if defined(ultrix)
-#include <sys/types.h>
-#endif
 
 #include <sys/stat.h>
 #include "util/tt_object.h"

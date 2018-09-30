@@ -33,9 +33,6 @@
  */
 #include "util/tt_int_rec.h"
 #include "util/tt_iostream.h"
-#if defined(ultrix)
-#include <rpc/types.h>
-#endif
 
 _Tt_int_rec::
 _Tt_int_rec()
