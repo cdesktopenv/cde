@@ -30,11 +30,4 @@
  * (c) Copyright 1996 FUJITSU LIMITED.
  * (c) Copyright 1996 Hitachi.
  */
-
-#include <include/hpversion.h>
-
-#ifndef	lint
-version_tag("dtterm1.0:         $XConsortium: TermVersion.c /main/2 1996/08/30 15:24:52 drk $")
-#endif	/* lint */
-
 char _DtTermPullInTermWhatString[] = "";
