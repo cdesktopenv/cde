@@ -201,25 +201,10 @@ CleanDaemons()
       then
         stopsrc -s inetd >>$LOGFILE 2>&1
       fi
-    elif [ "$PLATFORM" = "openbsd" ] || [ "$PLATFORM" = "freebsd" ] || \
-	 [ "$PLATFORM" = "netbsd" ] || [ "$PLATFORM" = "linux" ]
-    then
-      pgrep pid,comm > /tmp/tmppsout
-      if [ -s /tmp/tmppsout ]
-      then
-        awk '{print "kill " $1}' /tmp/tmppsout | /bin/sh -f
-        sleep 2
-      fi
     else    
-      pgrep -v pgrep >/tmp/tmppsout
-      if [ -s /tmp/tmppsout ]
-      then
-        awk '{print "kill " $2}' /tmp/tmppsout | /bin/sh -f
-        sleep 2
-      fi
+      ps -eo pid,comm | grep $i | awk '{print "kill " $1}' | /bin/sh
     fi
   done
-  rm -f /tmp/tmppsout
 }
 
 RestartInetd()
