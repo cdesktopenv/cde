@@ -73,10 +73,6 @@
 #include "util/tt_global_env.h"
 #include "util/tt_xdr_version.h"
 
-#if defined(ultrix)
-extern "C" void xdrstdio_create(XDR *, FILE *, enum xdr_op);
-#endif
-
 
 enum _Tt_typedb_flags {
 	_TT_TYPEDB_USER,

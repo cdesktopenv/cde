@@ -261,11 +261,7 @@ char * _DtHPrGetMessage(
       if (s_CatFileName  == NULL)
       {
          /* Setup the short and long versions */
-#ifdef __ultrix
-         s_CatFileName = strdup(HELPPRINT_CAT_WITH_SUFFIX);
-#else 
          s_CatFileName = strdup(HELPPRINT_CAT);
-#endif
       }
       s_First = 0;
 

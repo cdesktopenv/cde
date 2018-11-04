@@ -41,11 +41,6 @@
 #include <rpc/xdr.h>
 #include <util/tt_rpc_xdr.h>
 
-#if defined(ultrix)
-#include <rpc/xdr.h>
-#define bool_t int
-#endif
-
 bool_t	_tt_xdr_cstring_list(XDR *xdrs, char ***ar);
 
 #endif /* _API_XDR_H */

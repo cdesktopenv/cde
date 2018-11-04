@@ -26,9 +26,6 @@
  * (c) Copyright 1993, 1994 Sun Microsystems, Inc.                      *
  * (c) Copyright 1993, 1994 Novell, Inc.                                *
  */
-#ifdef VERBOSE_REV_INFO
-static char rcsid[] = "$TOG: dthello.c /main/9 1998/04/20 12:52:17 mgreess $";
-#endif /* VERBOSE_REV_INFO */
 /******************************<+>*************************************
  **********************************************************************
  **

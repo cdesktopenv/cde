@@ -47,13 +47,6 @@
 extern "C" {
 #endif
 
-#if defined(SunOS)
-#if (RELMAJOR==5)
-#if (RELMINOR<2)
-#define STRCASECMP_NOT_DEFINED
-#endif /* RELMINOR */
-#endif /* RELMAJOR */
-#endif
 
 /*
 ** System V R4 based systems define the stuff we need in
@@ -161,14 +154,6 @@ typedef enum {B_FALSE, B_TRUE} boolean_t;
 #undef BIG_ENDIAN
 
 #endif /* AIX */
-
-/*
- * A bug in Solaris 2.1 and the GNU compilers, these are not defined.
- */
-#ifdef STRCASECMP_NOT_DEFINED
-  extern int strcasecmp(const char *, const char *);
-  extern int strncasecmp(const char *, const char *, size_t);
-#endif
 
 #ifdef __cplusplus
 }

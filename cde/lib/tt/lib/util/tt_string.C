@@ -49,9 +49,6 @@
 
 #include <string.h>
 #include <memory.h>
-#if defined(ultrix)
-#include <rpc/types.h>
-#endif
 #include <stdlib.h>
 #include <ctype.h>
 #if defined(__linux__) || defined(CSRG_BASED) || defined(sun)

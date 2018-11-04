@@ -68,29 +68,12 @@
 #include <signal.h>
 #include <errno.h>
 #include <fcntl.h>
+#include <unistd.h>
+#include <limits.h>
 
-/** The following ifdefs need to be straightened out
- ** They are a mess.
- **/
-#ifdef sun
-#include <unistd.h>
-#include <limits.h>
-#ifndef SVR4
+#if defined(sun) && !defined(SVR4)
 #include <ufs/fs.h>
 #endif
-#else
-#ifdef __ultrix
-#include <unistd.h>
-#include <limits.h>
-#include <ufs/fs.h>
-#else
-#include <unistd.h>
-#include <limits.h>
-#ifdef __hpux
-#include <unistd.h>
-#endif
-#endif /* __ultrix */
-#endif /* sun */
 
 #include <Xm/Xm.h>
 
@@ -134,15 +117,6 @@ CheckAccess(
     uid_t save_ruid;
     gid_t save_rgid;
 
-#if defined(__ultrix)
-/*--------------------------------------------------------------------
- * access code for __ultrix
- *------------------------------------------------------------------*/
-
-      setreuid(geteuid(),-1);
-      return access (fname, what);
-
-#else
 #ifdef BLS
 /*--------------------------------------------------------------------
  * access code for BLS
@@ -181,7 +155,6 @@ CheckAccess(
 
    return access_priv;
 #endif /* BLS */
-#endif /* Apollo */
 }
 
 
@@ -975,8 +948,7 @@ FileManip(
    if (lstat (to, &s2) >= 0) 			   /* <to> exists */
    {
       if ((stat (to, &s3) >= 0) &&
-#if defined(__ultrix) || defined(__linux__) || \
-	defined(CSRG_BASED)
+#if defined(__linux__) || defined(CSRG_BASED)
            (((s3.st_mode & S_IFMT) == S_IFDIR)          /* if is a directory */
            || ((s3.st_mode & S_IFMT) == S_IFSOCK)) )    /* or a net special */
 #else

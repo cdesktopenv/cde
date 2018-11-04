@@ -31,7 +31,7 @@
  *
  * Copyright (c) 1990 by Sun Microsystems, Inc.
  */
-#include <sys/time.h>		// ultrix
+#include <sys/time.h>
 #include <stdio.h>
 #include <signal.h>
 #include <errno.h>
@@ -49,16 +49,6 @@
 #include "mp/mp_xdr_functions.h"
 #include "util/tt_host.h"
 #include "util/tt_port.h"
-
-#if defined(ultrix)
-extern "C"
-{ extern struct XSizeHints;
-  extern struct XStandardColormap;
-  extern struct XTextProperty;
-  extern struct XWMHints;
-  extern struct XClassHint;
-};
-#endif
 
 #if defined(_AIX)
 /* AIX's FD_ZERO macro uses bzero() without declaring it. */

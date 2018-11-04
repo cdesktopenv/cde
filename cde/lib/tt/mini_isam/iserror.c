@@ -42,9 +42,6 @@
 #include <errno.h>
 #include <stdlib.h>
 #include <syslog.h>
-#ifdef __ultrix__
-#define LOG_USER LOG_INFO
-#endif
 /*
  * _isfatal_error(msg)
  *

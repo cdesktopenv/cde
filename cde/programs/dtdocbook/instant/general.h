@@ -55,6 +55,11 @@ static char *gen_h_RCSid =
 /* get Tcl header so the variables make sense */
 #include <tcl.h>
 
+/* Compatibility with pre 8.6 versions */
+#if (TCL_MAJOR_VERSION < 8) || (TCL_MAJOR_VERSION == 8) && (TCL_MINOR_VERSION < 6)
+# define Tcl_GetErrorLine(x) ((x)->errorLine)
+#endif
+
 /* instant variable delimiter (can't use '$', collides with Tcl) */
 #define VDELIM		'@'
 

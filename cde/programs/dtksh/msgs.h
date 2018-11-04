@@ -54,11 +54,7 @@ char * GetSharedMsg(
  */
 
 #ifndef NO_MESSAGE_CATALOG
-# ifdef __ultrix
-#  define _CLIENT_CAT_NAME "dtksh.cat"
-# else  /* __ultrix */
-#  define _CLIENT_CAT_NAME "dtksh"
-# endif /* __ultrix */
+# define _CLIENT_CAT_NAME "dtksh"
 
 /*
  * Without this proto, standard C says that _DtGetMessage() returns

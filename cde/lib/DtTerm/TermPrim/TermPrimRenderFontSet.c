@@ -20,12 +20,6 @@
  * to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301 USA
  */
-#ifndef lint
-#ifdef  VERBOSE_REV_INFO
-static char rcs_id[] = "$XConsortium: TermPrimRenderFontSet.c /main/1 1996/04/21 19:18:53 drk $";
-#endif  /* VERBOSE_REV_INFO */
-#endif  /* lint */
-
 /*                                                                      *
  * (c) Copyright 1993, 1994 Hewlett-Packard Company                     *
  * (c) Copyright 1993, 1994 International Business Machines Corp.       *

@@ -511,11 +511,7 @@ extern void GeneralTopicHelpCB(Widget, XtPointer, XtPointer);
 extern char *_DtGetMessage(char *filename, int set, int n, char *s);
 
 #ifndef NO_MESSAGE_CATALOG
-# ifdef __ultrix
-#  define _FP_CLIENT_CAT_NAME "fp.cat"
-# else  /* __ultrix */
-#  define _FP_CLIENT_CAT_NAME "fp"
-# endif /* __ultrix */
+# define _FP_CLIENT_CAT_NAME "fp"
 # define FPGETMESSAGE(set, number, string)\
     _DtGetMessage(_FP_CLIENT_CAT_NAME, set, number, string)
 #else

@@ -59,9 +59,6 @@ extern "C" {
 #include "util/tt_list.h"
 #include "util/tt_object.h"
 #include <memory.h>
-#if defined(ultrix)
-#define bool_t int
-#endif
 
 const int _Tt_string_unlimited	= -1;
 const int _Tt_string_user_width	= -2;

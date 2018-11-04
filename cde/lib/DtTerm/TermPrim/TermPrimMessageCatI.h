@@ -46,7 +46,7 @@
 #define NL_SETN_Function 3
 #define NL_SETN_Prim 4
 #define NL_SETN_PrimRend 5
-#define NL_SETN_View 6 
+#define NL_SETN_View 6
 #define NL_SETN_ViewGlobalDialog 7
 #define NL_SETN_ViewMenu 8
 #define NL_SETN_ViewTerminalDialog 9
@@ -54,11 +54,7 @@
 #ifndef NO_MESSAGE_CATALOG
 extern char *_DtTermPrimGetMessage( char *filename, int set, int n, char *s );
 
-# ifdef __ultrix
-#  define _CLIENT_CAT_NAME "dtterm.cat"
-# else  /* __ultrix */
 # define _CLIENT_CAT_NAME "dtterm"
-# endif /* __ultrix */
 # define GETMESSAGE(set, number, string)\
         _DtTermPrimGetMessage(_CLIENT_CAT_NAME, set, number, string)
 #else

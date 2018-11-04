@@ -32,10 +32,6 @@
  * Copyright (c) 1990 by Sun Microsystems, Inc.
  */
 #include <stdint.h>
-#if defined(ultrix)
-#include <rpc/types.h>
-#define bool_t int
-#endif
 #include <rpc/rpc.h>
 #include <util/tt_xdr_utils.h>
 #include <memory.h>
@@ -81,9 +77,7 @@ tt_x_putbytes(XDR *xp, caddr_t, int len)
     return TRUE;
 }
 
-#if defined(ultrix)
-static int*
-#elif defined(CSRG_BASED) || defined(__linux__)
+#if defined(CSRG_BASED) || defined(__linux__)
 static int32_t*
 #else
 static long *
@@ -104,9 +98,8 @@ tt_x_inline(XDR *xp, int len)
     */
     if (len > 0 && (caddr_t) (intptr_t) len < xp->x_base) {
 	xp->x_handy += RNDUP (len);
-#if defined(ultrix)
-	return (int *) xp->x_private;
-#elif defined(CSRG_BASED) || defined(__linux__)
+
+#if defined(CSRG_BASED) || defined(__linux__)
 	return (int32_t *) xp->x_private;
 #else
 	return (long *) xp->x_private;

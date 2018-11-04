@@ -489,11 +489,7 @@ static MsgStr allmsgs[] = {
 	{"you have mail in $_", 25, 233},
 	{"zero byte", 25, 234},
 };
-#ifdef __ultrix
-#define _CLIENT_CAT_NAME "dtksh.cat"
-#else  /* __ultrix */
 #define _CLIENT_CAT_NAME "dtksh"
-#endif /* __ultrix */
 
 /*
  * Without this proto, standard C says that _DtGetMessage() returns

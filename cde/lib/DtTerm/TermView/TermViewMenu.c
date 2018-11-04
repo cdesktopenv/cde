@@ -20,12 +20,6 @@
  * to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301 USA
  */
-#ifndef lint
-#ifdef  VERBOSE_REV_INFO
-static char rcs_id[] = "$XConsortium: TermViewMenu.c /main/4 1996/09/26 16:42:48 samborn $";
-#endif  /* VERBOSE_REV_INFO */
-#endif  /* lint */
-
 /*                                                                      *
  * (c) Copyright 1993, 1994, 1996 Hewlett-Packard Company               *
  * (c) Copyright 1993, 1994, 1996 International Business Machines Corp. *

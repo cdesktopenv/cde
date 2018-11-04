@@ -948,7 +948,7 @@ signal_new_message(_Tt_message_ptr &m)
 #if defined(sun) && defined(SVR4)
 	typedef int (*Xdrrec_reader)(...);
 	typedef int (*Xdrrec_writer)(...);
-#elif defined(sun) & !defined(SVR4) || defined(ultrix)
+#elif defined(sun) && !defined(SVR4)
 	typedef int (*Xdrrec_reader)();
 	typedef int (*Xdrrec_writer)();
 #else

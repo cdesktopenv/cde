@@ -35,10 +35,7 @@
 #include <stddef.h>
 #include <stdio.h>
 #include <errno.h>
-#if defined(ultrix)
-#include <sys/types.h>
-#endif
-#include <sys/stat.h>     
+#include <sys/stat.h>
 #include "prop.h"
 #include "ttdbck.h"
 

@@ -117,12 +117,8 @@
 # if !defined(NL_CAT_LOCALE)
 #  define NL_CAT_LOCALE 0
 # endif
-# ifdef __ultrix
-#  define _DTPAD_CAT_NAME "dtpad.cat"
-# else  /* __ultrix */
 static const char catalogName[] = "dtpad";
-#  define _DTPAD_CAT_NAME catalogName
-# endif /* __ultrix */
+# define _DTPAD_CAT_NAME catalogName
 #endif
 
 

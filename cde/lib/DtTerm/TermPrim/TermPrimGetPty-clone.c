@@ -20,12 +20,6 @@
  * to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301 USA
  */
-#ifndef lint
-#ifdef  VERBOSE_REV_INFO
-static char rcs_id[] = "$TOG: TermPrimGetPty-clone.c /main/7 1998/04/03 17:11:08 mgreess $";
-#endif  /* VERBOSE_REV_INFO */
-#endif  /* lint */
-
 /*                                                                      *
  * (c) Copyright 1993, 1994 Hewlett-Packard Company                     *
  * (c) Copyright 1993, 1994 International Business Machines Corp.       *

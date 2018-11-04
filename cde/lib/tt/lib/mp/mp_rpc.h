@@ -45,7 +45,7 @@
 # undef __SVR4_I386_ABI_L1__
 #endif
 
-#if defined(ultrix) || defined(_AIX)
+#if defined(_AIX)
 extern "C" {
   void svcerr_auth (SVCXPRT *, enum auth_stat);
   SVCXPRT *svcfd_create(int,int,int);

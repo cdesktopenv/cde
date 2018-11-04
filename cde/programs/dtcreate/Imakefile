@@ -62,8 +62,7 @@ SRCS = \
         fileio.c        \
         af_aux.c        \
         icon_selection_dialog.c \
-        parser.c        \
-        version.c
+        parser.c
 
 OBJS = \
         main.o          \
@@ -81,8 +80,7 @@ OBJS = \
         fileio.o        \
         af_aux.o        \
         icon_selection_dialog.o \
-        parser.o        \
-        version.o
+        parser.o
 
 NormalLibraryObjectRule()
 
@@ -91,15 +89,13 @@ ComplexProgramTarget(dtcreate)
 /***** For dtge make a client_OBJS.o using client_main.o ******/
 /***** This implies the existence of client_main.c       ******/
 /***** dtge hidden symbols *******/
-#ifdef BuildHugeObject
-#ifdef HPArchitecture
+#if defined(BuildHugeObject) && defined(HPArchitecture)
 #ifdef __hp9000s300
 HIDDEN_SYMBOLS = -h _main -h _HelpOnItemCB -h _CreateHelpDialog \
        -h _DisplayHelpDialog -h _ChangeTitle
 #else
 HIDDEN_SYMBOLS = -h main  -h HelpOnItemCB -h CreateHelpDialog \
        -h DisplayHelpDialog -h ChangeTitle
-#endif
 #endif
 SpecialRelocatableTarget(dtcreate,$(HIDDEN_SYMBOLS),$(OBJS))
 #endif

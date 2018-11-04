@@ -34,9 +34,6 @@
 #ifndef _TT_OBJECT_H
 #define _TT_OBJECT_H
 #include "util/tt_ptr.h"
-#if defined(ultrix)
-#include <rpc/types.h>
-#endif
 
 declare_ptr_to(_Tt_object)
 

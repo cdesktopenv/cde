@@ -77,25 +77,7 @@
 #include <fcntl.h>
 #include <stdlib.h>
 #include <isam.h>
-
-#if defined(ultrix)
-#	include <sys/time.h>
-#	include <sys/mount.h>
-#	include <sys/fs_types.h>
-#	define KERNEL
-#	include </usr/sys/h/fs_types.h>
-#	undef KERNEL
-#	define MNTTAB "/etc/fstab"
-	const char *TYPE_NFS = "nfs";
-	const char *TYPE_LOCAL = "ufs";
-	extern "C"
-	{
-		int getmnt(int *,struct fs_data*, int, int, char*);
-		time_t time();
-	}
-#else
-#	include <time.h>
-#endif
+#include <time.h>
 
 extern "C" { int isaddindex(int, struct keydesc*); }
 extern "C" { int isbuild(const char*, int, struct keydesc*, int); }

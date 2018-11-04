@@ -3,15 +3,22 @@ XCOMM $XConsortium: Imakefile /main/6 1996/11/29 11:06:09 rswiston $
 XLATESRC  = $(DTSVCSRC)/DtUtil2
 
 TCLINC =
-TCLLIB =
+TCLLIB = -ltcl
 
 #if defined(LinuxArchitecture)
 TCLINC = -I/usr/include/tcl
-TCLLIB = -ltcl
 #elif defined(FreeBSDArchitecture) || defined(OpenBSDArchitecture)
 TCLINC = -I/usr/local/include/tcl8.6
 TCLLIB = -ltcl86
 #endif
+
+#if defined(TCLInc)
+TCLINC = TCLInc
+#endif
+#if defined(TCLLib)
+TCLLIB = TCLLib
+#endif
+
 
 INCLUDES = -I../lib/tptregexp -I$(XLATESRC) $(TCLINC)
 DEPLIBS = $(DEPDTSVCLIB)

@@ -974,7 +974,7 @@ pPROPS( FontInfoRec *fip, FontPropRec *fplistPtr, unsigned int fplistNum )
 	bufp += k;
 	wkp = fplistPtr;
 	for ( i = 0; i < fplistNum; i++ ) {
-			k = snprintf( bufp, sizeof(buf) - (bufp - buf), "%s %d\n", (char *) (intptr_t) wkp->name, wkp->value );
+			k = snprintf( bufp, sizeof(buf) - (bufp - buf), "%s %ld\n", (char *) (intptr_t) wkp->name, wkp->value );
 			bufp += k;
 			wkp++;
 	}
@@ -1017,7 +1017,7 @@ pPROPS_pcf(PcfTmp *pcf)
 			    );
 			bufp += k;
 		} else {
-			k = sprintf(bufp,"%s %d\n",
+			k = sprintf(bufp,"%s %ld\n",
 			    pcf->string + wkp->name, wkp->value
 			    );
 			bufp += k;
