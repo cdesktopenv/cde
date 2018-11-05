@@ -4,21 +4,30 @@ XCOMM $XConsortium: Swedish.tmpl /main/1 1995/12/08 09:42:34 rswiston $
  * variable for the Swedish locale.
  */
 
+#if BuildingDocs
+
+XCOMM stick to ISO8859-1
 SOURCE_LANG=sv_SE.ISO8859-1
-
-#ifdef AlphaArchitecture
-LANG=sv_SE.ISO8859-1
-#endif
-
-#ifdef RsArchitecture
-SHELL=/bin/ksh
-LANG=sv_SE
-#endif
 
 #ifdef SunArchitecture
 LANG=sv
 #endif
 
-#ifdef HPArchitecture
-LANG=sv_SE.iso88591
+#if defined(LinuxArchitecture) || defined(BSDArchitecture)
+LANG=sv_SE.ISO8859-1
+#endif
+
+#else
+
+XCOMM use UTF-8 for localization
+SOURCE_LANG=sv_SE.UTF-8
+
+#ifdef SunArchitecture
+LANG=sv
+#endif
+
+#if defined(LinuxArchitecture) || defined(BSDArchitecture)
+LANG=sv_SE.UTF-8
+#endif
+
 #endif

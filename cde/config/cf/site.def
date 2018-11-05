@@ -127,8 +127,10 @@ XCOMM Make sure you have installed the de_DE, es_ES, fr_FR and it_IT locales.
 XCOMM  or building non-C locales will cause build failures.
 XCOMM DtLocalesToBuild: de_DE.UTF-8 es_ES.UTF-8 fr_FR.UTF-8 it_IT.UTF-8 en_US.UTF-8
 # if !defined(DtLocalesToBuild)
-#  define DtLocalesToBuild en_US.UTF-8
+#  define DtLocalesToBuild en_US.UTF-8 de_DE.UTF-8 es_ES.UTF-8 fr_FR.UTF-8 it_IT.UTF-8
 # endif
+XCOMM This is a hack for the en_US.UTF-8 stuff, which should be redone
+XCOMM as a proper locale, rather than aliasing C
 # define UTF8_NLS_SUPPORT
 #endif
 
@@ -155,9 +157,11 @@ XCOMM DtLocalesToBuild: de_DE.UTF-8 es_ES.UTF-8 fr_FR.UTF-8 it_IT.UTF-8 en_US.UT
 #endif
 #endif
 
-XCOMM define DtDocLocalesToBuild to be the same as DtLocalesToBuild if undefined
+XCOMM The documentation can only be built with ISO8859-1 encoding.
+XCOMM An upgrade to docbook and conversion to XML is required to properly
+XCOMM support utf8 with dtinfo and dthelp files.
 #ifndef DtDocLocalesToBuild
-# define DtDocLocalesToBuild DtLocalesToBuild
+# define DtDocLocalesToBuild de_DE.ISO8859-1 es_ES.ISO8859-1 fr_FR.ISO8859-1 it_IT.ISO8859-1
 #endif
 
 #endif /* AfterVendorCF */
