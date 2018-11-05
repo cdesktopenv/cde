@@ -51,16 +51,19 @@
 #include <errno.h>
 #include <locale.h>  /* getlocale(), LOCALE_STATUS, LC_xxx */
 
-#if defined(_AIX) || defined(CSRG_BASED)
+#if defined(_AIX) || defined(CSRG_BASED) || defined(__linux__)
 #include <ctype.h>
 #endif
 
 #include "CvStringI.h"        /* for string functions used by Canvas Engine */
 #include "StringFuncsI.h"     /* for _CEStrcollProc */
 
-#if !defined(__linux__)
-# include <iconv.h>
-#else
+/* JET: This was if !defined(linux), which is wrong.  We should use the
+ * real deal on linux too */
+
+#include <iconv.h>
+
+#if 0
 # define iconv_t		int
 # define iconv_open(a, b) 	((iconv_t) -1)
 # define iconv(a, b, c, d, e)	((size_t) 0)
