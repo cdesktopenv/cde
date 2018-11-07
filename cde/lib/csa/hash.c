@@ -101,7 +101,7 @@ Author:  Bart Smaalders 1/89
 #include <string.h>
 #include "hash.h"
 
-static int    hash_string();
+static int    hash_string(const char *s, int modulo);
 
 typedef struct hash_entry {
   struct hash_entry 
@@ -205,7 +205,7 @@ void ** _DtCmFindHash(void * t, const unsigned char * key)
   return(NULL);
 }
 
-void _DtCmDestroyHash(void * t, int (*ptr)(), void * usr_arg)
+void _DtCmDestroyHash(void * t, int (*ptr)(void *, void *, unsigned char *), void * usr_arg)
 {
   hash * tbl = (hash *) t;
   hash_entry * tmp = tbl->start, * prev;
@@ -225,7 +225,7 @@ void _DtCmDestroyHash(void * t, int (*ptr)(), void * usr_arg)
   free(tbl);
 }
 
-static int hash_string(char *s, int modulo)
+static int hash_string(const char *s, int modulo)
 {
 	unsigned result = 0;
 	int i=1;

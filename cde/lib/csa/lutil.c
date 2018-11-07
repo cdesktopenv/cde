@@ -49,6 +49,7 @@
 #if defined(__linux__)
 #define SVR4
 #endif
+#include "lutil.h"
 
 #if !defined(__linux__)
 extern char * strdup(const char *);

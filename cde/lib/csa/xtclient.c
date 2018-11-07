@@ -33,6 +33,7 @@
 #include <X11/Intrinsic.h>
 #include <rpc/rpc.h>
 #include "debug.h"
+#include "xtclient.h"
 
 typedef struct _appctlist {
 	XtAppContext	appct;

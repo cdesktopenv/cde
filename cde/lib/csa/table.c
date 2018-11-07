@@ -53,6 +53,7 @@
 #include "nametbl.h"
 #include "match.h"
 #include "iso8601.h"
+#include "table.h"
 
 extern u_long	_DtCm_transient;
 

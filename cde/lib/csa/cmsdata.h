@@ -40,7 +40,7 @@
 extern _DtCmNameTable *_DtCm_cal_name_tbl;
 extern _DtCmNameTable *_DtCm_entry_name_tbl;
 
-extern void _DtCm_init_hash P(());
+extern void _DtCm_init_hash P((void));
 
 extern cms_entry *_DtCm_make_cms_entry P((_DtCmNameTable *tbl));
 

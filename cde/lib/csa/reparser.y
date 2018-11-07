@@ -19,7 +19,7 @@
 /* The parsed rule is stored in this structure */
 RepeatEvent	*_DtCm_repeat_info;
 
-extern int		 yylex();
+extern int		 yylex(void);
 extern void		 yyerror(char*);
 
 static int CompareNums(const void *, const void *);

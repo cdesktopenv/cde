@@ -38,7 +38,7 @@
 #include "rtable4.h"
 #include "ansi_c.h"
 
-extern Appt_4 *_DtCm_make_appt4 P(());
+extern Appt_4 *_DtCm_make_appt4 P((boolean_t alloc));
 
 extern Appt_4 *_DtCm_copy_one_appt4 P((Appt_4 *a4));
 
@@ -56,7 +56,7 @@ extern void _DtCm_free_appt4 P((Appt_4 *a));
 
 extern void _DtCm_free_abbrev_appt4 P((Abb_Appt_4 *a));
 
-extern Attribute_4 * _DtCm_make_attr4 P(());
+extern Attribute_4 * _DtCm_make_attr4 P((void));
 
 extern void _DtCm_free_attr4 P((Attribute_4 *a));
 
@@ -74,6 +74,6 @@ extern void _DtCm_free_access_list4 P((Access_Entry_4 *l));
 
 extern void _DtCm_free_excpt4 P((Except_4 *e));
 
-extern char * _DtCm_get_default_what_string P(());
+extern char * _DtCm_get_default_what_string P((void));
 
 #endif

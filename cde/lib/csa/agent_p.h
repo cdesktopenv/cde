@@ -33,8 +33,8 @@
 
 #include "ansi_c.h"
 
-extern void _DtCm_init_agent P(());
-extern void _DtCm_destroy_agent P(());
-extern void _DtCm_process_updates P(());
+extern void _DtCm_init_agent P((void));
+extern void _DtCm_destroy_agent P((void));
+extern void _DtCm_process_updates P((void));
 
 #endif /* _AGENT_P_H */

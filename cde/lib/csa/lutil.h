@@ -35,13 +35,13 @@
 
 extern char *_DtCmGetPrefix P((char *str, char sep));
 
-extern char *_DtCmGetLocalHost P(());
+extern char *_DtCmGetLocalHost P((void));
 
 extern char *_DtCmGetLocalDomain P((char *hostname));
 
-extern char *_DtCmGetHostAtDomain P(());
+extern char *_DtCmGetHostAtDomain P((void));
 
-extern char *_DtCmGetUserName P(());
+extern char *_DtCmGetUserName P((void));
 
 extern boolean_t _DtCmIsUserName P((char *user));
 

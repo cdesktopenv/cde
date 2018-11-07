@@ -48,6 +48,7 @@
 #include <X11/Intrinsic.h>
 
 #include "agent.h"
+#include "agent_p.h"
 #include "cmcb.h"
 #include "entry.h"
 #include "debug.h"
@@ -83,7 +84,7 @@ static u_long gettransient (u_long version);
 #else
 static u_long gettransient (int proto, u_long vers, int *sockp);
 #endif
-static void _DtCm_handle_callback();
+static void _DtCm_handle_callback(void);
 static CSA_return_code _ConvertCallbackData(cmcb_update_callback_args *args,
 					_CallbackInfo **cbi);
 static CSA_return_code _CopyAttributeNames(uint fnum, char **fnames,
@@ -91,6 +92,9 @@ static CSA_return_code _CopyAttributeNames(uint fnum, char **fnames,
 static boolean_t _ProcessV1Callback(_CallbackInfo *ptr);
 static boolean_t _ProcessV2Callback(_CallbackInfo *ptr);
 static void _FreeCallbackInfo(_CallbackInfo *ptr);
+void _DtCm_init_agent(void);
+
+
 
 /*****************************************************************************
  * extern functions used in the library
@@ -99,7 +103,7 @@ static void _FreeCallbackInfo(_CallbackInfo *ptr);
 /*
  * Register rpc service for server callback
  */
-extern void
+void
 _DtCm_init_agent(void)
 {
 	int 		s = RPC_ANYSOCK;
@@ -113,7 +117,7 @@ _DtCm_init_agent(void)
 #if defined(SunOS)
 	extern void (*sigset(int, void (*)(int)))(int);
 #else
-	extern void (*sigset())();
+	extern void (*sigset(void))(void);
 #endif
 
 	/* locking candidate for MT-safe purpose */
@@ -155,14 +159,14 @@ _DtCm_init_agent(void)
 	}
  
 	if (registerrpc(_DtCm_transient, AGENTVERS, update_callback,
-	    (char *(*)())_DtCm_update_callback_1, (xdrproc_t)_DtCm_xdr_Table_Res_4,
+	    (char *(*)(char *))_DtCm_update_callback_1, (xdrproc_t)_DtCm_xdr_Table_Res_4,
 	    (xdrproc_t)_DtCm_xdr_Update_Status) == -1) {
 		_DtCm_print_errmsg("Cannot register v1 callback handler\n");
 		_DtCm_print_errmsg("Callback cannot be enabled.\n");
 	}
 
 	if (registerrpc(_DtCm_transient, AGENTVERS_2, CMCB_UPDATE_CALLBACK,
-	    (char *(*)())cmcb_update_callback_2_svc,
+	    (char *(*)(char *))cmcb_update_callback_2_svc,
 	    (xdrproc_t)xdr_cmcb_update_callback_args, (xdrproc_t)xdr_void) == -1) {
 		_DtCm_print_errmsg("Cannot register v2 callback handler\n");
 		_DtCm_print_errmsg("Callback cannot be enabled.\n");
@@ -177,7 +181,7 @@ _DtCm_init_agent(void)
 /*
  * Unregister with the rpc service.
  */
-extern void
+void
 _DtCm_destroy_agent(void)
 {
 	if (mapped == 0)

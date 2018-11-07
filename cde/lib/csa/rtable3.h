@@ -57,7 +57,7 @@ extern "C" {
 
 #include "connection.h"
 
-extern bool_t xdr_time_t();
+extern bool_t xdr_time_t(XDR *xdrs, time_t *objp);
 
 typedef char *Buffer_3;
 

@@ -45,7 +45,7 @@ extern CSA_entry_handle *_DtCm_alloc_entry_handles(uint num_elem);
 
 extern CSA_reminder_reference *_DtCm_alloc_reminder_references(uint num_elem);
 
-extern void *_DtCm_alloc_entry();
+extern void *_DtCm_alloc_entry(uint size);
 
 extern CSA_return_code _DtCm_free(void *ptr);
 
