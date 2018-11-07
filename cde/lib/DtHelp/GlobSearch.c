@@ -510,9 +510,6 @@ static Boolean GetVolumeInfoCB (
          *ret_docId = locDocId ? locDocId : XtNewString(&empty);
       if (ret_timeStamp) 
          *ret_timeStamp = locTimeStamp?locTimeStamp:XtNewString(&empty);
-         
-      free(locDocId);
-      free(locTimeStamp);
    }
 
    if (ret_nameKey)
