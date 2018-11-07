@@ -50,7 +50,7 @@ extern XmWidgetExtData _XmGetWidgetExtData(
 #include "calctool.h"
 #include "motif.h"
 
-void _DtChildPosition     P((Widget, Widget, Position *, Position *)) ;
+void _DtChildPosition(Widget, Widget, Position *, Position *);
 
 /* ARGSUSED */
 void

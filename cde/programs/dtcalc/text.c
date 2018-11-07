@@ -43,7 +43,7 @@ extern struct menu_entry menu_entries[] ;  /* All the menu strings. */
 
 extern Vars v ;                 /* Calctool variables and options. */
 
-void init_mess             P(()) ;
+void init_mess();
 
 /*  The following are all the strings used by the dtcalc program.
  *  They are initialized in init_text() to the local language equivalents.

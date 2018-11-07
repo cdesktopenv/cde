@@ -197,52 +197,52 @@ typedef struct
    Window icon;
 } WM_STATE;
 
-void menu_proc        P((Widget, XtPointer, XtPointer)) ;
-void show_ascii       P((Widget, XtPointer, XtPointer)) ;
-void write_cf_value   P((Widget, XtPointer, XtPointer)) ;
-void close_cf         P((Widget, XtPointer, XtPointer)) ;
-void close_ascii      P((Widget, XtPointer, XtPointer)) ;
-void move_cf          P((Widget, XtPointer, XtPointer)) ;
-void FocusInCB        P((Widget, XtPointer, XtPointer)) ;
-void map_popup        P((Widget, XtPointer, XtPointer)) ;
+void menu_proc(Widget, XtPointer, XtPointer);
+void show_ascii(Widget, XtPointer, XtPointer);
+void write_cf_value(Widget, XtPointer, XtPointer);
+void close_cf(Widget, XtPointer, XtPointer);
+void close_ascii(Widget, XtPointer, XtPointer);
+void move_cf(Widget, XtPointer, XtPointer);
+void FocusInCB(Widget, XtPointer, XtPointer);
+void map_popup(Widget, XtPointer, XtPointer);
 
 /* #ifdef hpux */
 #ifdef HP_EXTENSIONS
-static int GetKeyboardID           P(()) ;
+static int GetKeyboardID();
 #endif
 
-static int event_is_keypad         P((XEvent *)) ;
-static int get_next_event          P((Widget, int, XEvent *)) ;
-static int is_window_showing       P((Widget)) ;
+static int event_is_keypad(XEvent *);
+static int get_next_event(Widget, int, XEvent *);
+static int is_window_showing(Widget);
 
-static KeySym keypad_keysym        P((XEvent *)) ;
+static KeySym keypad_keysym(XEvent *);
 
-static void modelineValueChanged   P((Widget, XtPointer, XtPointer)) ;
-static void dtcalc_kkeyboard_create   P((Widget)) ;
-static void dtcalc_kpanel_create      P((Widget)) ;
-static void confirm_callback     P((Widget, XtPointer, XtPointer)) ;
-static void create_cfframe       P(()) ;
-static void create_menu          P((enum menu_type, Widget, int)) ;
-static void do_button            P((Widget, XtPointer, XtPointer)) ;
-static void do_confirm_notice    P((Widget, char *)) ;
-static void do_continue_notice   P((Widget, char *)) ;
-static void close_reg            P((Widget, XtPointer, XtPointer)) ;
-static void event_proc           P((Widget, XtPointer, XEvent *, Boolean *)) ;
-static void frame_interpose      P((Widget, XtPointer, XEvent *, Boolean *)) ;
-static void menu_handler         P((Widget, XtPointer, XEvent *, Boolean *)) ;
-static void popupHandler         P((Widget, XtPointer, XEvent *, Boolean *)) ;
-static void new_cf_value         P((Widget, XtPointer, XtPointer)) ;
-static void do_memory            P((Widget, XtPointer, XtPointer)) ;
-static void switch_mode          P((enum mode_type)) ;
-static void update_cf_value      P(()) ;
-static void xerror_interpose     P((Display *, XErrorEvent *)) ;
+static void modelineValueChanged(Widget, XtPointer, XtPointer);
+static void dtcalc_kkeyboard_create(Widget);
+static void dtcalc_kpanel_create(Widget);
+static void confirm_callback(Widget, XtPointer, XtPointer);
+static void create_cfframe();
+static void create_menu(enum menu_type, Widget, int);
+static void do_button(Widget, XtPointer, XtPointer);
+static void do_confirm_notice(Widget, char *);
+static void do_continue_notice(Widget, char *);
+static void close_reg(Widget, XtPointer, XtPointer);
+static void event_proc(Widget, XtPointer, XEvent *, Boolean *);
+static void frame_interpose(Widget, XtPointer, XEvent *, Boolean *);
+static void menu_handler(Widget, XtPointer, XEvent *, Boolean *);
+static void popupHandler(Widget, XtPointer, XEvent *, Boolean *);
+static void new_cf_value(Widget, XtPointer, XtPointer);
+static void do_memory(Widget, XtPointer, XtPointer);
+static void switch_mode(enum mode_type);
+static void update_cf_value();
+static void xerror_interpose(Display *, XErrorEvent *);
 
-static Widget button_create      P((Widget, int, int, int, int)) ;
-static void save_state           P((Widget, XtPointer, XtPointer)) ;
-static void SaveSession          P(( char *, char * )) ;
-static void setCalcHints         P(()) ;
+static Widget button_create(Widget, int, int, int, int);
+static void save_state(Widget, XtPointer, XtPointer);
+static void SaveSession(char *, char *);
+static void setCalcHints();
 
-static char * _DtcalcStripSpaces P(( char * )) ;
+static char * _DtcalcStripSpaces(char *);
 
 static void ProcessMotifSelection(Widget);
 static void create_menu_bar(Widget parent);

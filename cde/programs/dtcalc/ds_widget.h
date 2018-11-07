@@ -45,14 +45,6 @@
 #include <Xm/PushB.h>
 #include <Xm/TextF.h>
 
-/* For all function declarations, if ANSI then use a prototype. */
-
-#if  defined(__STDC__)
-#define P(args)  args
-#else  /* ! __STDC__ */
-#define P(args)  ()
-#endif  /* STDC */
-
 enum choice_type { CH_ACTIVE, CH_VALUE } ;    /* Choice operations. */
 
 /* Text widget operations. */
@@ -74,20 +66,20 @@ struct tW_struct {                 /* Text widget structure. */
   Widget textfield ;               /* xmTextWidgetClass. */
 } ;
 
-int get_choice                  P((struct cW_struct *, enum choice_type)) ;
+int get_choice(struct cW_struct *, enum choice_type);
 
-struct cW_struct *make_choiceW  P((Widget, char *, char **, int, int,
-                                   int, void (*)())) ;
-struct tW_struct *make_textW    P((Widget,  char *)) ;
- 
-Widget make_butW         P((Widget, char *)) ;
-Widget make_labelW       P((Widget,  char *)) ;
-Widget make_manW         P((char *, Widget, int, int)) ;
-Widget make_toggleW      P((Widget, char *)) ;
+struct cW_struct *make_choiceW(Widget, char *, char **, int, int,
+                                   int, void (*)());
+struct tW_struct *make_textW(Widget,  char *);
 
-void set_choice          P((struct cW_struct *, enum choice_type, int)) ;
-void set_choice_help     P((struct cW_struct *, char *)) ;
-void set_text_help       P((struct tW_struct *, char *)) ;
-void set_text_str        P((struct tW_struct *, enum text_type, char *)) ;
+Widget make_butW(Widget, char *);
+Widget make_labelW(Widget,  char *);
+Widget make_manW(char *, Widget, int, int);
+Widget make_toggleW(Widget, char *);
+
+void set_choice(struct cW_struct *, enum choice_type, int);
+void set_choice_help(struct cW_struct *, char *);
+void set_text_help(struct tW_struct *, char *);
+void set_text_str(struct tW_struct *, enum text_type, char *);
 
 #endif /*_ds_widget_h*/

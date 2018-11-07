@@ -56,7 +56,7 @@ extern struct button buttons[] ;           /* Calculator button values. */
 
 extern Boolean ignore_event;
 extern XtIntervalId timerId;
-extern void _DtChildPosition     P((Widget, Widget, Position *, Position *)) ;
+extern void _DtChildPosition(Widget, Widget, Position *, Position *);
 
 typedef struct _helpStruct {
     struct _helpStruct *pNext;
@@ -65,8 +65,8 @@ typedef struct _helpStruct {
     Boolean inUse;
 } HelpStruct;
 
-static Widget GetHelpDialog     P(()) ;
-static void UnmanageCB          P(()) ;
+static Widget GetHelpDialog();
+static void UnmanageCB();
 
 void
 Help(char *helpVolume, char *locationId)
