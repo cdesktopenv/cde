@@ -70,10 +70,7 @@ should be fixed in the future.
 #include <Xm/Xm.h>
 
 #include <langinfo.h>
-/* Iconv not defined for linux.  Use the EUSCompat stubs instead. */
-#if !defined(__linux__)
-#  include <iconv.h>
-#endif
+#include <iconv.h>
 #include <EUSCompat.h>
 
 #include "util.h"
