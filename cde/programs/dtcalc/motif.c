@@ -3295,7 +3295,8 @@ static void
 modelineValueChanged(Widget widget, XtPointer client_data, XtPointer call_data)
 {
   Arg args[1];
-  int val, choice;
+  int choice;
+  XtArgVal val;
 
   X->mtype = (enum menu_type) client_data ;
   XtSetArg (args[0], XmNuserData, &val);

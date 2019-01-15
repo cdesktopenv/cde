@@ -53,12 +53,7 @@ $COPYRIGHT$:
 #include <langinfo.h>
 #endif
 
-/* Iconv not defined for linux.  Use the EUSCompat stubs instead. */
-#if !defined(__linux__)
-#  include <iconv.h>
-#else
-#  include <EUSCompat.h>
-#endif
+#include <iconv.h>
 #include <errno.h>
 
 #include <time.h>

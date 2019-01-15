@@ -81,13 +81,7 @@
 extern "C" {
 #endif
 
-#if !defined(__linux__)
-   // Iconv not defined for linux.  Use the EUSCompat stubs instead. */
-#  include <iconv.h>
-#else
-#  include <EUSCompat.h>
-#endif
-
+#include <iconv.h>
 
 #if defined(SunOS) && (SunOS < 55)
 }
