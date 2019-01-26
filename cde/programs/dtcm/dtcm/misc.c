@@ -621,8 +621,8 @@ cm_mbstrlen(char *s) {
 */
 extern char *
 cm_mbchar(char *str) {
-     static char *string;
-     static char *string_head;
+     static char *string = NULL;
+     static char *string_head = NULL;
      static char *buf = NULL;
      int num_byte = 0;
  
