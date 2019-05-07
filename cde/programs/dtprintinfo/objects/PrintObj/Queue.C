@@ -336,7 +336,7 @@ int Queue::Stop(BaseObj *obj, char **output, BaseObj * /*requestor*/)
    else
 #endif
     {
-      sprintf(command, STOP_QUEUE_CMD, queue->Name());
+        snprintf(command, 100, STOP_QUEUE_CMD, queue->Name());
       rc = queue->RunCommand(command, NULL, output);
     }
     delete [] command;
