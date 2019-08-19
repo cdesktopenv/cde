@@ -269,7 +269,7 @@ extern char*
 get_char_prop(Props *p, Props_op op) {
 	Props_entry	*step = p_get_props_entry(p, op);
 
-	if (!step || !step->property_value || step->property_value == '\0')
+	if (!step || !step->property_value || *step->property_value == '\0')
 		return get_char_prop_default(op);
 	return (step->property_value);
 }
@@ -315,7 +315,7 @@ extern int
 get_int_prop(Props *p, Props_op op) {
 	Props_entry	*step = p_get_props_entry(p, op);
 
-	if (!step || !step->property_value || step->property_value == '\0')
+	if (!step || !step->property_value || *step->property_value == '\0')
 		return (atoi(get_char_prop_default(op)));
 	return (atoi(step->property_value));
 }

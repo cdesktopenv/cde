@@ -639,10 +639,11 @@ cm_mbchar(char *str) {
           free(buf);
           buf = NULL;
      }
-     if ( string == '\0' ) {
+     if ( *string == '\0' ) {
           free(string_head);
           string_head = NULL;
-     } else {
+          string      = NULL;
+     } else if (string != NULL) {
           num_byte = mblen(string, MB_LEN_MAX);
           if(num_byte > 0) {
                buf = (char *)malloc(num_byte+1);
