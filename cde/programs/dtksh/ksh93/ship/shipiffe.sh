@@ -584,7 +584,7 @@ do	case $in in
 	?*)	z=$lib
 		e=
 		lib=
-		echo "main(){return(0);}" > $tmp.c
+		echo "int main(){return(0);}" > $tmp.c
 		for x in $z
 		do	case $x in
 			-)	case $lib in
@@ -947,13 +947,13 @@ $usr
 _BEGIN_EXTERNS_
 extern int $statictest;
 _END_EXTERNS_
-main(){char* i = (char*)&$statictest; return i!=0;}" > $tmp.c
+int main(){char* i = (char*)&$statictest; return i!=0;}" > $tmp.c
 					rm -f $tmp.exe
 					if	$cc -o $tmp.exe $tmp.c <&$nullin >&$nullout && $executable $tmp.exe
 					then	case $static in
 						.)	static=
 							echo '#include <stdio.h>
-main(){printf("hello");return(0);}' > $tmp.c
+int main(){printf("hello");return(0);}' > $tmp.c
 							rm -f $tmp.exe
 							if	$cc -c $tmp.c <&$nullin >&$nullout && $cc -o $tmp.exe $tmp.o <&$nullin >&$nullout 2>$tmp.e && $executable $tmp.exe
 							then	e=`wc -l $tmp.e`
@@ -1038,7 +1038,7 @@ extern int $v;
 _END_EXTERNS_"
 					;;
 				esac
-				echo "main(){char* i = (char*)&$v; return i!=0;}"
+				echo "int main(){char* i = (char*)&$v; return i!=0;}"
 				} > $tmp.c
 				$cc -c $tmp.c <&$nullin >&$nullout &&
 				rm -f $tmp.exe
@@ -1145,7 +1145,7 @@ $inc
 _BEGIN_EXTERNS_
 extern int $v();
 _END_EXTERNS_
-static int ((*i)())=$v;main(){return(i==0);}" > $tmp.c
+static int ((*i)())=$v;int main(){return(i==0);}" > $tmp.c
 				$cc -c $tmp.c <&$nullin >&$nullout &&
 				rm -f $tmp.exe
 				if	$cc $static -o $tmp.exe $tmp.o $lib $deflib <&$nullin >&$nullout && $executable $tmp.exe
@@ -1389,7 +1389,7 @@ static struct xxx v;
 struct xxx* f() { return &v; }"
 					;;
 				esac
-				echo "main() { f(); return 0; }"
+				echo "int main() { f(); return 0; }"
 				} > $tmp.c
 				rm -f $tmp.exe
 				if	$cc -o $tmp.exe $tmp.c $lib $deflib <&$nullin >&$nullout &&

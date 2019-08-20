@@ -52,7 +52,7 @@
 */
 
 #if __STD_C
-_stdscanf(const char *form, ...)
+int _stdscanf(const char *form, ...)
 #else
 _stdscanf(va_alist)
 va_dcl

@@ -51,7 +51,7 @@
 */
 
 #if __STD_C
-sfnputc(reg Sfio_t* f, reg int c, reg int n)
+int sfnputc(reg Sfio_t* f, reg int c, reg int n)
 #else
 sfnputc(f,c,n)
 reg Sfio_t	*f;	/* file to write */

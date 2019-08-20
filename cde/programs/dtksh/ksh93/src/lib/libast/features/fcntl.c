@@ -107,7 +107,7 @@
 
 extern __MANGLE__ int		printf __PROTO__((const char*, ...));
 
-main()
+int main()
 {
 	int		f_local = 0;
 	int		f_lck = 0;

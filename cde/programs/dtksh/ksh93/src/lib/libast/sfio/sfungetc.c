@@ -50,7 +50,7 @@
 **	Written by Kiem-Phong Vo (03/02/91)
 */
 #if __STD_C
-static _uexcept(reg Sfio_t* f, reg int type, reg Sfdisc_t* disc)
+static int _uexcept(reg Sfio_t* f, reg int type, reg Sfdisc_t* disc)
 #else
 static _uexcept(f,type,disc)
 reg Sfio_t	*f;
@@ -70,7 +70,7 @@ reg Sfdisc_t	*disc;
 }
 
 #if __STD_C
-sfungetc(reg Sfio_t* f, reg int c)
+int sfungetc(reg Sfio_t* f, reg int c)
 #else
 sfungetc(f,c)
 reg Sfio_t	*f;	/* push back one byte to this stream */

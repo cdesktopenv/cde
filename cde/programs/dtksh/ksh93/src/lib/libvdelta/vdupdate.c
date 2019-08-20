@@ -75,7 +75,7 @@ typedef struct _table_s
 } Table_t;
 
 #if __STD_C
-static vdunfold(Table_t* tab)
+static int vdunfold(Table_t* tab)
 #else
 static vdunfold(tab)
 Table_t*	tab;

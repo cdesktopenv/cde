@@ -209,7 +209,7 @@ static int pipe_exec __PARAM__((int pv[], union anynode *t, int errorflg), (pv, 
 }
 #endif /* SHOPT_FASTPIPE */
 
-sh_exec __PARAM__((const union anynode *t, int flags), (t, flags)) __OTORP__(const union anynode *t; int flags;){
+int sh_exec __PARAM__((const union anynode *t, int flags), (t, flags)) __OTORP__(const union anynode *t; int flags;){
 	sh_sigcheck();
 	if(t && !sh.st.execbrk && !sh_isoption(SH_NOEXEC))
 	{
@@ -1220,7 +1220,7 @@ sh_exec __PARAM__((const union anynode *t, int flags), (t, flags)) __OTORP__(con
  * returns 1 if r == trim(s) otherwise 0
  */
 
-static trim_eq __PARAM__((const char *r,const char *s), (r, s)) __OTORP__(const char *r;const char *s;){
+static int trim_eq __PARAM__((const char *r,const char *s), (r, s)) __OTORP__(const char *r;const char *s;){
 	char c;
 	while(c = *s++)
 	{

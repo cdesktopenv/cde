@@ -140,7 +140,7 @@ static char	beenhere = 0;
     }
 #endif /* _lib_sigvec */
 
-main __PARAM__((int ac, char *av[]), (ac, av)) __OTORP__(int ac; char *av[];){
+int main __PARAM__((int ac, char *av[]), (ac, av)) __OTORP__(int ac; char *av[];){
 	char	*name;
 	int	fdin;
 	Sfio_t  *iop;

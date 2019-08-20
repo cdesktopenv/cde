@@ -51,7 +51,7 @@
 */
 
 #if __STD_C
-sfset(reg Sfio_t* f, reg int flags, reg int set)
+int sfset(reg Sfio_t* f, reg int flags, reg int set)
 #else
 sfset(f,flags,set)
 reg Sfio_t	*f;

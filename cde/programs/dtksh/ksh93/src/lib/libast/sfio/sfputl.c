@@ -51,7 +51,7 @@
 */
 
 #if __STD_C
-_sfputl(reg Sfio_t* f, reg long v)
+int _sfputl(reg Sfio_t* f, reg long v)
 #else
 _sfputl(f,v)
 reg Sfio_t	*f;	/* write a portable long to this stream */

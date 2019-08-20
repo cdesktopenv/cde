@@ -46,7 +46,7 @@
 #include	"sfhdr.h"
 
 #if __STD_C
-static __sffileno(reg Sfio_t* f)
+static int __sffileno(reg Sfio_t* f)
 #else
 static __sffileno(f)
 reg Sfio_t	*f;
@@ -58,7 +58,7 @@ reg Sfio_t	*f;
 #undef sffileno
 
 #if __STD_C
-sffileno(reg Sfio_t* f)
+int sffileno(reg Sfio_t* f)
 #else
 sffileno(f)
 reg Sfio_t	*f;

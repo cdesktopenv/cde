@@ -46,7 +46,7 @@
 #include	"sfhdr.h"
 
 #if __STD_C
-static __sfslen(void)
+static int __sfslen(void)
 #else
 static __sfslen()
 #endif
@@ -57,7 +57,7 @@ static __sfslen()
 #undef sfslen
 
 #if __STD_C
-sfslen(void)
+int sfslen(void)
 #else
 sfslen()
 #endif

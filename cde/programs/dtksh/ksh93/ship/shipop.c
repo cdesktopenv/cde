@@ -260,8 +260,7 @@ static struct optab ops[] =
 	"xap",		shipxap,
 };
 
-int
-main __PARAM__((int argc, char** argv), (argc, argv)) __OTORP__(int argc; char** argv;){
+int main __PARAM__((int argc, char** argv), (argc, argv)) __OTORP__(int argc; char** argv;){
 	char*	s;
 	int	i;
 

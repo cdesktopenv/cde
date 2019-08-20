@@ -325,7 +325,7 @@ Block_t*	wanted;
 
 /* Reclaim all delayed free blocks into the free tree */
 #if __STD_C
-static bestreclaim(reg Vmdata_t* vd, Block_t* wanted, int c)
+static int bestreclaim(reg Vmdata_t* vd, Block_t* wanted, int c)
 #else
 static bestreclaim(vd, wanted, c)
 reg Vmdata_t*	vd;
@@ -687,7 +687,7 @@ done:
 }
 
 #if __STD_C
-static bestfree(Vmalloc_t* vm, Void_t* data )
+static int bestfree(Vmalloc_t* vm, Void_t* data )
 #else
 static bestfree(vm, data )
 Vmalloc_t*	vm;
@@ -924,7 +924,7 @@ done:
 }
 
 #if __STD_C
-static bestcompact(Vmalloc_t* vm)
+static int bestcompact(Vmalloc_t* vm)
 #else
 static bestcompact(vm)
 Vmalloc_t*	vm;

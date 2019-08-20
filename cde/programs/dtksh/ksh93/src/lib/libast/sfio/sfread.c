@@ -54,7 +54,7 @@
 */
 
 #if __STD_C
-sfread(reg Sfio_t* f, Void_t* buf, reg int n)
+int sfread(reg Sfio_t* f, Void_t* buf, reg int n)
 #else
 sfread(f,buf,n)
 reg Sfio_t*	f;	/* read from this stream. r11 on Vax	*/

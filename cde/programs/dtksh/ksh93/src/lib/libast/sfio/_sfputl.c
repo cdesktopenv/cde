@@ -46,7 +46,7 @@
 #include	"sfhdr.h"
 
 #if __STD_C
-static __sfputl(reg Sfio_t* f, reg long v)
+static int __sfputl(reg Sfio_t* f, reg long v)
 #else
 static __sfputl(f,v)
 reg Sfio_t	*f;
@@ -59,7 +59,7 @@ reg long	v;
 #undef sfputl
 
 #if __STD_C
-sfputl(reg Sfio_t* f, reg long v)
+int sfputl(reg Sfio_t* f, reg long v)
 #else
 sfputl(f,v)
 reg Sfio_t	*f;

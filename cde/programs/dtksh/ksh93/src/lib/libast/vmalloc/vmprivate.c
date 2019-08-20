@@ -213,7 +213,7 @@ Vmsearch_f	searchf;	/* tree search function		*/
 
 /* Truncate a segment if possible */
 #if __STD_C
-vmtruncate(Vmalloc_t* vm, Seg_t* seg, size_t size, int exact)
+int vmtruncate(Vmalloc_t* vm, Seg_t* seg, size_t size, int exact)
 #else
 vmtruncate(vm, seg, size, exact)
 Vmalloc_t*	vm;	/* containing region		*/

@@ -162,7 +162,7 @@ size_t		size;		/* size of piece		*/
 }
 
 #if __STD_C
-vmtrace(int file)
+int vmtrace(int file)
 #else
 vmtrace(file)
 int	file;

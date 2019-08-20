@@ -131,7 +131,7 @@ __STDPP__directive pragma pp:nohide printf
 extern __MANGLE__ int		printf __PROTO__((const char*, ...));
 #endif
 
-main()
+int main()
 {
 	int	sep = 0;
 	long	val;

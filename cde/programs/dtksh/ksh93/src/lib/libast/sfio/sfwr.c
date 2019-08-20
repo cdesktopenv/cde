@@ -52,7 +52,7 @@
 
 /* hole preserving writes */
 #if __STD_C
-static sfoutput(Sfio_t* f, reg char* buf, reg int n)
+static int sfoutput(Sfio_t* f, reg char* buf, reg int n)
 #else
 static sfoutput(f,buf,n)
 Sfio_t*		f;
@@ -144,7 +144,7 @@ reg int		n;
 }
 
 #if __STD_C
-sfwr(reg Sfio_t* f, reg const Void_t* buf, reg int n, reg Sfdisc_t* disc)
+int sfwr(reg Sfio_t* f, reg const Void_t* buf, reg int n, reg Sfdisc_t* disc)
 #else
 sfwr(f,buf,n,disc)
 reg Sfio_t*	f;

@@ -116,7 +116,7 @@ Wc_t *wc_init __PARAM__((char *space), (space)) __OTORP__(char *space;){
 /*
  * compute the line, word, and character count for file <fd>
  */
-wc_count __PARAM__((Wc_t *wp, Sfio_t *fd), (wp, fd)) __OTORP__(Wc_t *wp; Sfio_t *fd;){
+int wc_count __PARAM__((Wc_t *wp, Sfio_t *fd), (wp, fd)) __OTORP__(Wc_t *wp; Sfio_t *fd;){
 	signed char	*space = wp->space;
 	unsigned char	*cp;
 	long		nwords;

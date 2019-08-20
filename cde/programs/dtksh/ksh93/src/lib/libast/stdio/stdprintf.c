@@ -53,7 +53,7 @@
 */
 
 #if __STD_C
-_stdprintf(const char *form, ...)
+int _stdprintf(const char *form, ...)
 #else
 _stdprintf(va_alist)
 va_dcl

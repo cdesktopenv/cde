@@ -51,7 +51,7 @@
 */
 
 #if __STD_C
-sfdlen(reg double v)
+int sfdlen(reg double v)
 #else
 sfdlen(v)
 reg double	v;

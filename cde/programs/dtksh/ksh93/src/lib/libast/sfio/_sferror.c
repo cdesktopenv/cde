@@ -46,7 +46,7 @@
 #include	"sfhdr.h"
 
 #if __STD_C
-static __sferror(reg Sfio_t* f)
+static int __sferror(reg Sfio_t* f)
 #else
 static __sferror(f)
 reg Sfio_t	*f;
@@ -58,7 +58,7 @@ reg Sfio_t	*f;
 #undef sferror
 
 #if __STD_C
-sferror(reg Sfio_t* f)
+int sferror(reg Sfio_t* f)
 #else
 sferror(f)
 reg Sfio_t	*f;

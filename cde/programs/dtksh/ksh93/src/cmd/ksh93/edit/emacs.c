@@ -189,7 +189,7 @@ static void xcommands __PROTO__((int));
 static int cr_ok;
 static	Histloc_t location = { -5, 0 };
 
-ed_emacsread __PARAM__((int fd,char *buff,int scend), (fd, buff, scend)) __OTORP__(int fd;char *buff;int scend;){
+int ed_emacsread __PARAM__((int fd,char *buff,int scend), (fd, buff, scend)) __OTORP__(int fd;char *buff;int scend;){
 	int c;
 	int i;
 	genchar *out;

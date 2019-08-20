@@ -274,7 +274,7 @@ void tty_cooked __PARAM__((int fd), (fd)) __OTORP__(int fd;){
  *
 }*/
 
-tty_raw __PARAM__((int fd, int echo), (fd, echo)) __OTORP__(int fd; int echo;){
+int tty_raw __PARAM__((int fd, int echo), (fd, echo)) __OTORP__(int fd; int echo;){
 #ifdef L_MASK
 	struct ltchars lchars;
 #endif	/* L_MASK */
@@ -431,7 +431,7 @@ tty_alt __PARAM__((int fd), (fd)) __OTORP__(int fd;){
 #	    define IEXTEN	0
 #	endif /* IEXTEN */
 
-tty_alt __PARAM__((int fd), (fd)) __OTORP__(int fd;){
+int tty_alt __PARAM__((int fd), (fd)) __OTORP__(int fd;){
 	switch(editb.e_raw)
 	{
 	    case ECHOMODE:
@@ -933,7 +933,7 @@ void	ed_putchar __PARAM__((int c), (c)) __OTORP__(int c;){
  * copy virtual to physical and return the index for cursor in physical buffer
  */
 
-ed_virt_to_phys __PARAM__((genchar *virt,genchar *phys,int cur,int voff,int poff), (virt, phys, cur, voff, poff)) __OTORP__(genchar *virt;genchar *phys;int cur;int voff;int poff;){
+int ed_virt_to_phys __PARAM__((genchar *virt,genchar *phys,int cur,int voff,int poff), (virt, phys, cur, voff, poff)) __OTORP__(genchar *virt;genchar *phys;int cur;int voff;int poff;){
 	genchar *sp = virt;
 	genchar *dp = phys;
 	int c;
@@ -1107,7 +1107,7 @@ int	ed_genlen __PARAM__((const genchar *str), (str)) __OTORP__(const genchar *st
  * returns 1 if string in not in this format, 0 otherwise.
  */
 
-ed_setwidth __PARAM__((const char *string), (string)) __OTORP__(const char *string;){
+int ed_setwidth __PARAM__((const char *string), (string)) __OTORP__(const char *string;){
 	int indx = 0;
 	int state = 0;
 	int c;

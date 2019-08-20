@@ -830,7 +830,7 @@ void	sh_iorestore __PARAM__((int last), (last)) __OTORP__(int last;){
  * returns -1 for failure, 0 for success
  * <mode> is the same as for access()
  */
-sh_ioaccess __PARAM__((int fd,int mode), (fd, mode)) __OTORP__(int fd;int mode;){
+int sh_ioaccess __PARAM__((int fd,int mode), (fd, mode)) __OTORP__(int fd;int mode;){
 	int flags;
 	if(mode==X_OK)
 		return(-1);

@@ -106,7 +106,7 @@
 extern __MANGLE__ int		getgroups __PROTO__((int, gid_t*));
 extern __MANGLE__ int		printf __PROTO__((const char*, ...));
 
-main()
+int main()
 {
 #if _lib_getgroups
 	if (sizeof(gid_t) < sizeof(int))

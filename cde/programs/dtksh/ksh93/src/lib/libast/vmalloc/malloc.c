@@ -169,7 +169,7 @@ char*	ends;
 }
 
 #if __STD_C
-static createfile(char* file)
+static int createfile(char* file)
 #else
 static createfile(file)
 char*	file;
@@ -212,7 +212,7 @@ static void pfprint()
 		vmprofile(Vmregion,_Vmpffd);
 }
 
-static vmflinit()
+static int vmflinit()
 {
 	char*		env;
 	Vmalloc_t*	vm;

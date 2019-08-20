@@ -51,7 +51,7 @@
 */
 
 #if __STD_C
-sfscanf(Sfio_t *f, const char *form, ...)
+int sfscanf(Sfio_t *f, const char *form, ...)
 #else
 sfscanf(va_alist)
 va_dcl
@@ -76,7 +76,7 @@ va_dcl
 }
 
 #if __STD_C
-sfsscanf(const char *s, const char *form,...)
+int sfsscanf(const char *s, const char *form,...)
 #else
 sfsscanf(va_alist)
 va_dcl

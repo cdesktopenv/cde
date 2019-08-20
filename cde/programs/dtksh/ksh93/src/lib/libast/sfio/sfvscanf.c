@@ -136,7 +136,7 @@ int*	rs;
 }
 
 #if __STD_C
-sfvscanf(Sfio_t* f, reg const char* form, va_list args)
+int sfvscanf(Sfio_t* f, reg const char* form, va_list args)
 #else
 sfvscanf(f,form,args)
 Sfio_t		*f;		/* file to be scanned */

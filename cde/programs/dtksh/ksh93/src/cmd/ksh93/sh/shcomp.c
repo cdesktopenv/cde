@@ -102,7 +102,7 @@
 static const char id[] = "\n@(#)shcomp (AT&T Bell Laboratories) 12/28/93\0\n";
 static const char header[6] = { CNTL('k'),CNTL('s'),CNTL('h'),0,VERSION,0 };
 
-main __PARAM__((int argc, char *argv[]), (argc, argv)) __OTORP__(int argc; char *argv[];){
+int main __PARAM__((int argc, char *argv[]), (argc, argv)) __OTORP__(int argc; char *argv[];){
 	Sfio_t *in, *out;
 	union anynode *t;
 	char *cp;

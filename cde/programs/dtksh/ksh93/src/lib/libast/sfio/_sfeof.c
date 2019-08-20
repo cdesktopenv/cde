@@ -46,7 +46,7 @@
 #include	"sfhdr.h"
 
 #if __STD_C
-static __sfeof(reg Sfio_t* f)
+static int __sfeof(reg Sfio_t* f)
 #else
 static __sfeof(f)
 reg Sfio_t	*f;
@@ -58,7 +58,7 @@ reg Sfio_t	*f;
 #undef sfeof
 
 #if __STD_C
-sfeof(reg Sfio_t* f)
+int sfeof(reg Sfio_t* f)
 #else
 sfeof(f)
 reg Sfio_t	*f;

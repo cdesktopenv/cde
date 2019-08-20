@@ -369,7 +369,7 @@ ulong	size;
 
 /* print profile data */
 #if __STD_C
-vmprofile(Vmalloc_t* vm, int fd)
+int vmprofile(Vmalloc_t* vm, int fd)
 #else
 vmprofile(vm, fd)
 Vmalloc_t*	vm;

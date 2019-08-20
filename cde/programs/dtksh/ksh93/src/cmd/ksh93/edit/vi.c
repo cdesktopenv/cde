@@ -247,7 +247,7 @@ static int	textmod __PROTO__((int,int));
  *
 -*/
 
-ed_viread __PARAM__((int fd, char *shbuf, int nchar), (fd, shbuf, nchar)) __OTORP__(int fd; char *shbuf; int nchar;){
+int ed_viread __PARAM__((int fd, char *shbuf, int nchar), (fd, shbuf, nchar)) __OTORP__(int fd; char *shbuf; int nchar;){
 	int i;			/* general variable */
 	int term_char;		/* read() termination character */
 	char prompt[PRSIZE+2];		/* prompt */

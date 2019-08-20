@@ -4929,8 +4929,7 @@ proto __PARAM__((char* file, char* notice, int flags), (file, notice, flags)) __
 	return(flags);
 }
 
-int
-main __PARAM__((int argc, char** argv), (argc, argv)) __OTORP__(int argc; char** argv;){
+int main __PARAM__((int argc, char** argv), (argc, argv)) __OTORP__(int argc; char** argv;){
 	char*		b;
 	char*		file;
 	int		fd;

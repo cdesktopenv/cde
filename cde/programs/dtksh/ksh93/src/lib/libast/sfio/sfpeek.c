@@ -52,7 +52,7 @@
 */
 
 #if __STD_C
-sfpeek(reg Sfio_t* f, Void_t** bp, reg int size)
+int sfpeek(reg Sfio_t* f, Void_t** bp, reg int size)
 #else
 sfpeek(f,bp,size)
 reg Sfio_t*	f;	/* file to peek */
