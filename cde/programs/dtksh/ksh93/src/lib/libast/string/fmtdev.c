@@ -94,6 +94,10 @@
 #include <ctype.h>
 #include <ls.h>
 
+#if defined(__linux__)
+#include <sys/sysmacros.h>
+#endif
+
 char*
 fmtdev __PARAM__((struct stat* st), (st)) __OTORP__(struct stat* st;){
 	unsigned int	ma = major(idevice(st));
