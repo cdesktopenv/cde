@@ -1230,7 +1230,7 @@ done:
  * disown job if bgflag == 'd'
  */
 
-job_switch __PARAM__((struct process *pw,int bgflag), (pw, bgflag)) __OTORP__(struct process *pw;int bgflag;){
+int job_switch __PARAM__((struct process *pw,int bgflag), (pw, bgflag)) __OTORP__(struct process *pw;int bgflag;){
 	const char *msg;
 	if(!pw || !(pw=job_byjid((int)pw->p_job)))
 		return(1);

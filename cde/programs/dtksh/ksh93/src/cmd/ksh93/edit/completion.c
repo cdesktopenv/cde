@@ -127,7 +127,7 @@ static char *overlay __PARAM__((char *str,const char *newstr), (str, newstr)) __
  * mode is '=' cause files to be listed in select format
  */
 
-ed_expand __PARAM__((char outbuff[],int *cur,int *eol,int mode), (outbuff, cur, eol, mode)) __OTORP__(char outbuff[];int *cur;int *eol;int mode;){
+int ed_expand __PARAM__((char outbuff[],int *cur,int *eol,int mode), (outbuff, cur, eol, mode)) __OTORP__(char outbuff[];int *cur;int *eol;int mode;){
 	int offset = staktell();
 	char *staksav = stakptr(0);
 	struct comnod  *comptr = (struct comnod*)stakalloc(sizeof(struct comnod));
@@ -335,7 +335,7 @@ ed_expand __PARAM__((char outbuff[],int *cur,int *eol,int mode), (outbuff, cur, 
  * look for edit macro named _i
  * if found, puts the macro definition into lookahead buffer and returns 1
  */
-ed_macro __PARAM__((int i), (i)) __OTORP__(int i;){
+int ed_macro __PARAM__((int i), (i)) __OTORP__(int i;){
 	char *out;
 	Namval_t *np;
 	genchar buff[LOOKAHEAD+1];
@@ -368,7 +368,7 @@ ed_macro __PARAM__((int i), (i)) __OTORP__(int i;){
 /*
  * Enter the fc command on the current history line
  */
-ed_fulledit __PARAM__((void), ()){
+int ed_fulledit __PARAM__((void), ()){
 	char *cp;
 	if(!sh.hist_ptr)
 		return(-1);

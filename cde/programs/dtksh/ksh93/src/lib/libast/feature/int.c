@@ -130,7 +130,7 @@ static struct
 
 static int	size[] = { 1, 2, 4, 8 };
 
-main()
+int main()
 {
 	int	t;
 	int	s;

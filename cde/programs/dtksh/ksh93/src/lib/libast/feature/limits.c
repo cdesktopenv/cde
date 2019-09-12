@@ -152,7 +152,7 @@ static char*		cmd[] = { "/bin/echo", 0 };
 #define child()		spawnve(cmd[0],cmd,(char**)0)
 #endif
 
-main()
+int main()
 {
 	int	i;
 	int	n;

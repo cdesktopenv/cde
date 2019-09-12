@@ -51,7 +51,7 @@
 */
 
 #if __STD_C
-_sfputd(Sfio_t* f, reg double v)
+int _sfputd(Sfio_t* f, reg double v)
 #else
 _sfputd(f,v)
 Sfio_t		*f;

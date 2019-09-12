@@ -16,23 +16,23 @@ SHELL=/bin/sh
 YACCFLAGS=-d
 mam_libast=$${mam_cc_L+-last}$${mam_cc_L-${PACKAGE_ast_LIB}/libast.a}
 LPR=lpr
-mam_libdl=`(set -; cd /tmp; echo 'main(){return(0);}' > x.$${!-$$$$}.c; \
+mam_libdl=`(set -; cd /tmp; echo 'int main(){return(0);}' > x.$${!-$$$$}.c; \
 	${CC} ${CCFLAGS}    -o x.$${!-$$$$}.x x.$${!-$$$$}.c -ldl \
 	>/dev/null 2>&1 && echo ' -ldl'; rm -f x.$${!-$$$$}.[cox])`
-mam_libjobs=`(set -; cd /tmp; echo 'main(){return(0);}' > x.$${!-$$$$}.c; \
+mam_libjobs=`(set -; cd /tmp; echo 'int main(){return(0);}' > x.$${!-$$$$}.c; \
 	${CC} ${CCFLAGS}    -o x.$${!-$$$$}.x x.$${!-$$$$}.c -ljobs \
 	>/dev/null 2>&1 && echo ' -ljobs'; rm -f x.$${!-$$$$}.[cox])`
 COTEMP=$$$$
-mam_libintl=`(set -; cd /tmp; echo 'main(){return(0);}' > x.$${!-$$$$}.c; \
+mam_libintl=`(set -; cd /tmp; echo 'int main(){return(0);}' > x.$${!-$$$$}.c; \
 	${CC} ${CCFLAGS}    -o x.$${!-$$$$}.x x.$${!-$$$$}.c -lintl \
 	>/dev/null 2>&1 && echo ' -lintl'; rm -f x.$${!-$$$$}.[cox])`
-mam_libi=`(set -; cd /tmp; echo 'main(){return(0);}' > x.$${!-$$$$}.c; \
+mam_libi=`(set -; cd /tmp; echo 'int main(){return(0);}' > x.$${!-$$$$}.c; \
 	${CC} ${CCFLAGS}    -o x.$${!-$$$$}.x x.$${!-$$$$}.c -li \
 	>/dev/null 2>&1 && echo ' -li'; rm -f x.$${!-$$$$}.[cox])`
 PACKAGE_ast=${INSTALLROOT}
 CPP=${CC} -E
 PR=pr
-mam_libm=`(set -; cd /tmp; echo 'main(){return(0);}' > x.$${!-$$$$}.c; \
+mam_libm=`(set -; cd /tmp; echo 'int main(){return(0);}' > x.$${!-$$$$}.c; \
 	${CC} ${CCFLAGS}    -o x.$${!-$$$$}.x x.$${!-$$$$}.c -lm \
 	>/dev/null 2>&1 && echo ' -lm'; rm -f x.$${!-$$$$}.[cox])`
 INSTALLROOT=../../..
@@ -43,7 +43,7 @@ PACKAGE_ast_LIB=${PACKAGE_ast}/lib
 AR=ar
 AS=as
 TAR=tar
-mam_libdld=`(set -; cd /tmp; echo 'main(){return(0);}' > x.$${!-$$$$}.c; \
+mam_libdld=`(set -; cd /tmp; echo 'int main(){return(0);}' > x.$${!-$$$$}.c; \
 	${CC} ${CCFLAGS}    -o x.$${!-$$$$}.x x.$${!-$$$$}.c -ldld \
 	>/dev/null 2>&1 && echo ' -ldld'; rm -f x.$${!-$$$$}.[cox])`
 CPIO=cpio

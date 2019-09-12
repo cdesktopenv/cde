@@ -61,7 +61,7 @@
 #define SOCKET_PEEK	002
 
 #if __STD_C
-sfpkrd(int fd, Void_t* argbuf, int n, int rc, long tm, int action)
+int sfpkrd(int fd, Void_t* argbuf, int n, int rc, long tm, int action)
 #else
 sfpkrd(fd, argbuf, n, rc, tm, action)
 int	fd;	/* file descriptor */

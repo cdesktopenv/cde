@@ -542,7 +542,7 @@ int		flags;		/* VM_RS*			*/
 
 /* compact any residual free space */
 #if __STD_C
-static dbcompact(Vmalloc_t* vm)
+static int dbcompact(Vmalloc_t* vm)
 #else
 static dbcompact(vm)
 Vmalloc_t*	vm;
@@ -553,7 +553,7 @@ Vmalloc_t*	vm;
 
 /* check for memory overwrites over all live blocks */
 #if __STD_C
-vmdbcheck(Vmalloc_t* vm)
+int vmdbcheck(Vmalloc_t* vm)
 #else
 vmdbcheck(vm)
 Vmalloc_t*	vm;

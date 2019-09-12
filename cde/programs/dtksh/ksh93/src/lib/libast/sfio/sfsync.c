@@ -51,7 +51,7 @@
 **	Written by Kiem-Phong Vo (06/27/90)
 */
 
-static _sfall()
+static int _sfall()
 {
 	reg Sfpool_t	*p, *next;
 	reg Sfio_t*	f;
@@ -102,7 +102,7 @@ static _sfall()
 }
 
 #if __STD_C
-sfsync(reg Sfio_t* f)
+int sfsync(reg Sfio_t* f)
 #else
 sfsync(f)
 reg Sfio_t*	f;	/* stream to be synchronized */

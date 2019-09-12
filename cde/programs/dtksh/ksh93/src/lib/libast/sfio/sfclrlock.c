@@ -52,7 +52,7 @@
 **	Written by Kiem-Phong Vo (07/20/90).
 */
 #if __STD_C
-sfclrlock(reg Sfio_t* f)
+int sfclrlock(reg Sfio_t* f)
 #else
 sfclrlock(f)
 reg Sfio_t	*f;

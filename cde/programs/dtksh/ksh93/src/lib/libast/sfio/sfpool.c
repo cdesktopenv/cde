@@ -106,7 +106,7 @@ reg int	mode;
 
 /* move a stream to head */
 #if __STD_C
-static _sfphead(Sfpool_t* p, Sfio_t* f, int n)
+static int _sfphead(Sfpool_t* p, Sfio_t* f, int n)
 #else
 static _sfphead(p, f, n)
 Sfpool_t*	p;	/* the pool			*/

@@ -46,7 +46,7 @@
 #include	"sfhdr.h"
 
 #if __STD_C
-static __sfulen(reg ulong v)
+static int __sfulen(reg ulong v)
 #else
 static __sfulen(v)
 reg ulong	v;
@@ -58,7 +58,7 @@ reg ulong	v;
 #undef sfulen
 
 #if __STD_C
-sfulen(reg ulong v)
+int sfulen(reg ulong v)
 #else
 sfulen(v)
 reg ulong	v;

@@ -46,7 +46,7 @@
 #include	"sfhdr.h"
 
 #if __STD_C
-static __sfclrerr(reg Sfio_t* f)
+static int __sfclrerr(reg Sfio_t* f)
 #else
 static __sfclrerr(f)
 reg Sfio_t	*f;
@@ -58,7 +58,7 @@ reg Sfio_t	*f;
 #undef sfclrerr
 
 #if __STD_C
-sfclrerr(reg Sfio_t* f)
+int sfclrerr(reg Sfio_t* f)
 #else
 sfclrerr(f)
 reg Sfio_t	*f;

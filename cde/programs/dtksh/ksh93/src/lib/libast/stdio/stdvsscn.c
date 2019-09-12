@@ -46,7 +46,7 @@
 #include	"sfhdr.h"
 
 #if __STD_C
-_stdvsscanf(char *s, const char *form, va_list args)
+int _stdvsscanf(char *s, const char *form, va_list args)
 #else
 _stdvsscanf(s,form,args)
 char	*s;

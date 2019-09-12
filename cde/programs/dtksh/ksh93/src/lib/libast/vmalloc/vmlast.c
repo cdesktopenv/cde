@@ -327,7 +327,7 @@ Void_t*		addr;
 }
 
 #if __STD_C
-static lastcompact(Vmalloc_t* vm)
+static int lastcompact(Vmalloc_t* vm)
 #else
 static lastcompact(vm)
 Vmalloc_t*	vm;

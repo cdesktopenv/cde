@@ -46,7 +46,7 @@
 #include	"sfhdr.h"
 
 #if __STD_C
-static __sfstacked(reg Sfio_t* f)
+static int __sfstacked(reg Sfio_t* f)
 #else
 static __sfstacked(f)
 reg Sfio_t	*f;
@@ -58,7 +58,7 @@ reg Sfio_t	*f;
 #undef sfstacked
 
 #if __STD_C
-sfstacked(reg Sfio_t* f)
+int sfstacked(reg Sfio_t* f)
 #else
 sfstacked(f)
 reg Sfio_t	*f;

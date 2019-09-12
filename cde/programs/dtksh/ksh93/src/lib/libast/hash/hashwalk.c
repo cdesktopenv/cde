@@ -97,7 +97,7 @@
  */
 
 int
-hashwalk __PARAM__((Hash_table_t* tab, int flags, register(*walker)(const char*, char*, __V_*), __V_* handle), (tab, flags, walker, handle)) __OTORP__(Hash_table_t* tab; int flags; register(*walker)(); __V_* handle;){
+hashwalk __PARAM__((Hash_table_t* tab, int flags, int register(*walker)(const char*, char*, __V_*), __V_* handle), (tab, flags, walker, handle)) __OTORP__(Hash_table_t* tab; int flags; int register(*walker)(); __V_* handle;){
 	Hash_bucket_t*	b;
 	int		v;
 	Hash_position_t*	pos;

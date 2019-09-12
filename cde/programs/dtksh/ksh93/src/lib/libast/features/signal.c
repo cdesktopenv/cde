@@ -278,7 +278,7 @@ static int		index[64];
 
 extern __MANGLE__ int		printf __PROTO__((const char*, ...));
 
-main()
+int main()
 {
 	int	i;
 	int	j;
