@@ -90,6 +90,11 @@
 #define __VA_START__(p,a)	va_start(p)
 #endif
 #endif
+
+#if defined(__linux__)
+#include <sys/sysmacros.h>
+#endif
+
 #include <ast.h>
 #include <ctype.h>
 #include <ls.h>

@@ -79,7 +79,7 @@ XCOMM $TOG: Imake.cf /main/30 1998/04/28 13:55:25 barstow $
 #   undef amd64
 # endif
 # if defined(__arm__)
-#   define Arm32Architecture
+#   define ARMArchitecture
 #   undef __arm__
 #   if defined(zaurus)
 #     undef zaurus
@@ -474,13 +474,18 @@ XCOMM $TOG: Imake.cf /main/30 1998/04/28 13:55:25 barstow $
 #   define AMD64Architecture
 #  endif
 # endif
-# if defined(__arm__)
-# undef __arm__
+# if defined(__arm__) || defined(__arm32__)
 # define ARMArchitecture
+#   undef __arm__
+#   undef __arm32__
 # endif
 # if defined(__sparc__) || defined(sparc)
 # define SparcArchitecture
 # undef sparc
+# endif
+# if defined(__aarch64__)
+#   define AArch64Architecture
+#   undef __aarch64__
 # endif
 #endif /* linux */
 

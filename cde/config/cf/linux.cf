@@ -238,6 +238,16 @@ TIRPCINC =
 # endif
 #endif /* AMD64Architecture */
 
+#ifdef AArch64Architecture
+# ifndef OptimizedCDebugFlags
+#  define OptimizedCDebugFlags -fmessage-length=0 -grecord-gcc-switches -O2 -Wall -D_FORTIFY_SOURCE=2 -fstack-protector-strong -funwind-tables -fasynchronous-unwind-tables -fstack-clash-protection -g -fno-strict-aliasing
+# endif
+# define LinuxMachineDefines   -D__aarch64__
+# define ServerOSDefines   XFree86ServerOSDefines -DDDXTIME
+# define ServerExtraDefines    -DGCCUSESGAS XFree86ServerDefines -D_XSERVER64
+#endif /* AArch64Architecture */
+
+
 #ifdef PpcArchitecture
 # ifndef OptimizedCDebugFlags
 #  define OptimizedCDebugFlags    DefaultGcc2i386Opt
