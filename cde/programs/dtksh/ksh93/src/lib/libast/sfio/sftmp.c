@@ -130,7 +130,7 @@ char	*name;
 #endif /*_PACKAGE_ast*/
 
 #if __STD_C
-static _tmpexcept(Sfio_t* f, int type, Sfdisc_t* disc)
+static int _tmpexcept(Sfio_t* f, int type, Sfdisc_t* disc)
 #else
 static _tmpexcept(f,type,disc)
 Sfio_t*		f;

@@ -262,7 +262,7 @@ $INSTALLROOT/bin/cc)
 		;;
 	*)	_ship_probe_PATH=$PATH
 		case $CC in
-		"")	echo 'main() { return 0; }' > ${_tmp_}0.c
+		"")	echo 'int main() { return 0; }' > ${_tmp_}0.c
 			cat > $_tmp_.c <<'!'
 #include <stdio.h>
 #include <limits.h>
@@ -383,7 +383,7 @@ glue(i, nt)
 #else
 int
 #endif
-main(int argc, char** argv) { return 0; }
+int main(int argc, char** argv) { return 0; }
 #endif
 " > $_tmp_.c
 		if	$CC $CCFLAGS -c $_tmp_.c >/dev/null 2>&1
@@ -400,7 +400,7 @@ main(int argc, char** argv) { return 0; }
 		echo "#include <sys/types.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
-main() { return socket(0, 0, 0); }" > $_tmp_.c
+int main() { return socket(0, 0, 0); }" > $_tmp_.c
 		for i in "" "-systype bsd43"
 		do	if	$CC $CCFLAGS $i -o $_tmp_.exe $_tmp_.c >/dev/null 2>&1
 			then	case $i in
@@ -1308,13 +1308,13 @@ case $_read_ in
 	eval `(
 	mkdir /tmp/mam$$
 	cd /tmp/mam$$
-	echo 'main(){return 0;}' > main.c
+	echo 'int main(){return 0;}' > main.c
 	if	$CC -c main.c >/dev/null 2>&1
 	then	if	$CC -L. main.o -lc >/dev/null 2>&1
 		then	$CC -L. main.o -lc > libc.a >/dev/null 2>&1 || echo "mam_cc_L=' '"
 		fi
 	fi
-	echo "int f(){return(0);} main(){return(f());}" > pic.c
+	echo "int f(){return(0);} int main(){return(f());}" > pic.c
 	if	$CC -c pic.c >/dev/null 2>e
 	then	e=\`wc -l e\`
 		s=\`wc pic.o\`

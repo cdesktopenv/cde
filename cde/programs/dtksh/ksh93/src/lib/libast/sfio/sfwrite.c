@@ -54,7 +54,7 @@
 */
 
 #if __STD_C
-sfwrite(reg Sfio_t* f, const Void_t* buf, reg int n)
+int sfwrite(reg Sfio_t* f, const Void_t* buf, reg int n)
 #else
 sfwrite(f,buf,n)
 reg Sfio_t*	f;	/* write to this stream. r11 on Vax	*/

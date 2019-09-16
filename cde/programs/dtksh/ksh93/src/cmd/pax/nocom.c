@@ -402,6 +402,7 @@ nocom __PARAM__((Sfio_t* sp, char* file), (sp, file)) __OTORP__(Sfio_t* sp; char
 	/*NOTREACHED*/
 }
 
+int
 main __PARAM__((int argc, char** argv), (argc, argv)) __OTORP__(int argc; char** argv;){
 	int		c;
 	char*		s;

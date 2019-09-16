@@ -242,7 +242,7 @@ static char *nxtarg __PARAM__((int mt), (mt)) __OTORP__(int mt;){
 }
 
 
-static e3 __PARAM__((void), ()){
+static int e3 __PARAM__((void), ()){
 	char *arg, *cp;
 	int op;
 	char *binop;
@@ -419,7 +419,7 @@ int test_unop __PARAM__((int op,const char *arg), (op, arg)) __OTORP__(int op;co
 	}
 }
 
-test_binop __PARAM__((int op,const char *left,const char *right), (op, left, right)) __OTORP__(int op;const char *left;const char *right;){
+int test_binop __PARAM__((int op,const char *left,const char *right), (op, left, right)) __OTORP__(int op;const char *left;const char *right;){
 	double lnum,rnum;
 	if(op&TEST_ARITH)
 	{
@@ -484,7 +484,7 @@ static time_t test_time __PARAM__((const char *file1,const char *file2), (file1,
  * return true if inode of two files are the same
  */
 
-test_inode __PARAM__((const char *file1,const char *file2), (file1, file2)) __OTORP__(const char *file1;const char *file2;){
+int test_inode __PARAM__((const char *file1,const char *file2), (file1, file2)) __OTORP__(const char *file1;const char *file2;){
 	struct stat stat1,stat2;
 	if(test_stat(file1,&stat1)>=0  && test_stat(file2,&stat2)>=0)
 		if(stat1.st_dev == stat2.st_dev && stat1.st_ino == stat2.st_ino)
@@ -498,7 +498,7 @@ test_inode __PARAM__((const char *file1,const char *file2), (file1, file2)) __OT
  * The static buffer statb is shared with test_mode.
  */
 
-sh_access __PARAM__((const char *name, int mode), (name, mode)) __OTORP__(const char *name; int mode;){
+int sh_access __PARAM__((const char *name, int mode), (name, mode)) __OTORP__(const char *name; int mode;){
 	if(*name==0)
 		return(-1);
 	if(strmatch(name,(char*)e_devfdNN))

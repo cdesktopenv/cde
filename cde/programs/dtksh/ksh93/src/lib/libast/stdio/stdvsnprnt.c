@@ -46,7 +46,7 @@
 #include	"sfhdr.h"
 
 #if __STD_C
-_stdvsnprintf(char* s, int n, const char* form, va_list args)
+int _stdvsnprintf(char* s, int n, const char* form, va_list args)
 #else
 _stdvsnprintf(s,n,form,args)
 reg char*	s;

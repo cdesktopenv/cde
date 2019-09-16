@@ -113,7 +113,7 @@ reg char	*mode;		/* mode of the stream */
 }
 
 #if __STD_C
-_sftype(reg const char *mode, int *oflagsp)
+int _sftype(reg const char *mode, int *oflagsp)
 #else
 _sftype(mode, oflagsp)
 reg char	*mode;

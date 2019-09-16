@@ -2379,7 +2379,7 @@ ProcessTable(
 	    /*
 	     * are any alignment characters specified?
 	     */
-	    if (NULL != alignCharacters && '\0' != alignCharacters)
+	    if (NULL != alignCharacters && '\0' != *alignCharacters)
 	      {
 		int len = mblen(alignCharacters, MB_CUR_MAX);
 
@@ -3865,8 +3865,7 @@ ProcessContainer(
 		 * check to see if the character is 'valid'.
 		 * if not, default out of JUSTIFY_CHAR
 		 */
-		if (NULL != layout->info.align_char ||
-					'\0' == layout->info.align_char)
+		if ( (NULL != layout->info.align_char) && ( '\0' != *layout->info.align_char)) 
 		    layout->txt_justify = _DtCvJUSTIFY_LEFT;
 	      }
 	  }

@@ -51,7 +51,7 @@
 */
 
 #if __STD_C
-sfpoll(Sfio_t** fa, reg int n, int tm)
+int sfpoll(Sfio_t** fa, reg int n, int tm)
 #else
 sfpoll(fa, n, tm)
 Sfio_t**	fa;	/* array of streams to poll */

@@ -52,7 +52,7 @@
 */
 
 #if __STD_C
-_stdsetvbuf(Sfio_t* f, char *buf, int type, int size)
+int _stdsetvbuf(Sfio_t* f, char *buf, int type, int size)
 #else
 _stdsetvbuf(f,buf,type,size)
 Sfio_t	*f;

@@ -1685,13 +1685,14 @@ add_to_gaccess_list(
 	char		access, *buf;
 	XmString	xmstr;
 	Calendar	*c;
-	Props_pu	*p = (Props_pu *)ge->cal->properties_pu;
+	Props_pu	*p;
 	Access_data	*new_data = NULL;
 
 	if (!ge)
 		return;
 
 	c = ge->cal;
+	p = (Props_pu *)c->properties_pu;
 
 	while (ge->access_data && cnt <= ge->access_data->count) {
 		new_data = (Access_data *)

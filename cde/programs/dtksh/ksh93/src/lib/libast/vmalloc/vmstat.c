@@ -51,7 +51,7 @@
 */
 
 #if __STD_C
-vmstat(Vmalloc_t* vm, Vmstat_t* st)
+int vmstat(Vmalloc_t* vm, Vmstat_t* st)
 #else
 vmstat(vm, st)
 Vmalloc_t*	vm;

@@ -77,7 +77,7 @@ static void _sfwrsync()
 }
 
 #if __STD_C
-sfrd(reg Sfio_t* f, reg Void_t* buf, reg int n, reg Sfdisc_t* disc)
+int sfrd(reg Sfio_t* f, reg Void_t* buf, reg int n, reg Sfdisc_t* disc)
 #else
 sfrd(f,buf,n,disc)
 reg Sfio_t	*f;

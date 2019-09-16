@@ -129,7 +129,7 @@ static gid_t rgroupid;
 static gid_t egroupid;
 static struct stat statb;
 
-main __PARAM__((int argc,char *argv[]), (argc, argv)) __OTORP__(int argc;char *argv[];){
+int main __PARAM__((int argc,char *argv[]), (argc, argv)) __OTORP__(int argc;char *argv[];){
 	int m,n;
 	char *p;
 	struct stat statx;
@@ -316,7 +316,7 @@ static void error_exit __PARAM__((const char *message), (message)) __OTORP__(con
  * This version of access checks against effective uid and effective gid
  */
 
-eaccess __PARAM__((const char *name, int mode), (name, mode)) __OTORP__(const char *name; int mode;){
+int eaccess __PARAM__((const char *name, int mode), (name, mode)) __OTORP__(const char *name; int mode;){
 	struct stat statb;
 	if (stat(name, &statb) == 0)
 	{
@@ -367,7 +367,7 @@ eaccess __PARAM__((const char *name, int mode), (name, mode)) __OTORP__(const ch
 }
 
 #ifdef _lib_setreuid
-setids __PARAM__((int mode,int owner,int group), (mode, owner, group)) __OTORP__(int mode;int owner;int group;){
+int setids __PARAM__((int mode,int owner,int group), (mode, owner, group)) __OTORP__(int mode;int owner;int group;){
 	if(mode & S_ISGID)
 		setregid(rgroupid,group);
 

@@ -111,7 +111,7 @@ _removelast(char *path)
 char *
 _lastelement(char *path)
 {
-    register	char	*p;
+    char	*p;
     
     p = path + strlen(path);
 

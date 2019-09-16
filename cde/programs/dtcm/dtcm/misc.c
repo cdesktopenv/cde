@@ -621,8 +621,8 @@ cm_mbstrlen(char *s) {
 */
 extern char *
 cm_mbchar(char *str) {
-     static char *string;
-     static char *string_head;
+     static char *string = NULL;
+     static char *string_head = NULL;
      static char *buf = NULL;
      int num_byte = 0;
  
@@ -639,10 +639,11 @@ cm_mbchar(char *str) {
           free(buf);
           buf = NULL;
      }
-     if ( string == '\0' ) {
+     if ( *string == '\0' ) {
           free(string_head);
           string_head = NULL;
-     } else {
+          string      = NULL;
+     } else if (string != NULL) {
           num_byte = mblen(string, MB_LEN_MAX);
           if(num_byte > 0) {
                buf = (char *)malloc(num_byte+1);

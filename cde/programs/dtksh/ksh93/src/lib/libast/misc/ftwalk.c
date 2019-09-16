@@ -416,6 +416,7 @@ static int resize __PARAM__((char** home, char** endbuf, char** path, char** bas
 /*
 	The real thing.
 */
+int
 ftwalk __PARAM__((const char *cpath, int (*userf)(Ftw_t*), int flags, int (*comparf)(Ftw_t*, Ftw_t*)), (cpath, userf, flags, comparf)) __OTORP__(const char *cpath; int (*userf)(); int flags; int (*comparf)();){
 	char		*path = (char*)cpath;
 	int	cdrv;		/* chdir value */

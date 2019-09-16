@@ -51,7 +51,7 @@
 **	Written by (Kiem-)Phong Vo, kpv@research.att.com, 01/16/94.
 */
 #if __STD_C
-vmset(reg Vmalloc_t* vm, int flags, int on)
+int vmset(reg Vmalloc_t* vm, int flags, int on)
 #else
 vmset(vm, flags, on)
 reg Vmalloc_t*	vm;	/* region being worked on		*/

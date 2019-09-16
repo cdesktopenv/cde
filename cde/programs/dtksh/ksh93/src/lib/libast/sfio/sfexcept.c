@@ -49,7 +49,7 @@
 **	Written by Kiem-Phong Vo (8/18/90)
 */
 #if __STD_C
-_sfexcept(reg Sfio_t* f, reg int type, reg int io, reg Sfdisc_t* disc)
+int _sfexcept(reg Sfio_t* f, reg int type, reg int io, reg Sfdisc_t* disc)
 #else
 _sfexcept(f,type,io,disc)
 reg Sfio_t	*f;	/* stream where the exception happened */

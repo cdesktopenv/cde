@@ -265,7 +265,7 @@ Void_t*		addr;
 }
 
 #if __STD_C
-static poolcompact(Vmalloc_t* vm)
+static int poolcompact(Vmalloc_t* vm)
 #else
 static poolcompact(vm)
 Vmalloc_t*	vm;

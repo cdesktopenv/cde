@@ -99,7 +99,7 @@
 	}
 
 #if __STD_C
-sfvprintf(Sfio_t* f, const char* form, va_list args)
+int sfvprintf(Sfio_t* f, const char* form, va_list args)
 #else
 sfvprintf(f,form,args)
 Sfio_t*	f;		/* file to print to	*/

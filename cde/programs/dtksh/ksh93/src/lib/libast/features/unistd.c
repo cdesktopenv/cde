@@ -118,7 +118,7 @@ extern __MANGLE__ int		printf __PROTO__((const char*, ...));
 
 #include "conflib.h"
 
-main()
+int main()
 {
 #include "confuni.h"
 	return(0);

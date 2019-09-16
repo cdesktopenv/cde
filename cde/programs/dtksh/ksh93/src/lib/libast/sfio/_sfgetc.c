@@ -46,7 +46,7 @@
 #include	"sfhdr.h"
 
 #if __STD_C
-static __sfgetc(reg Sfio_t* f)
+static int __sfgetc(reg Sfio_t* f)
 #else
 static __sfgetc(f)
 reg Sfio_t	*f;
@@ -58,7 +58,7 @@ reg Sfio_t	*f;
 #undef sfgetc
 
 #if __STD_C
-sfgetc(reg Sfio_t* f)
+int sfgetc(reg Sfio_t* f)
 #else
 sfgetc(f)
 reg Sfio_t	*f;

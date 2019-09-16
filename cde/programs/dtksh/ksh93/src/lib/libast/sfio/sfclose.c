@@ -51,7 +51,7 @@
 */
 
 #if __STD_C
-sfclose(reg Sfio_t* f)
+int sfclose(reg Sfio_t* f)
 #else
 sfclose(f)
 reg Sfio_t*	f;

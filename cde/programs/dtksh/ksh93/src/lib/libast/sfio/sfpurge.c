@@ -51,7 +51,7 @@
 */
 
 #if __STD_C
-sfpurge(reg Sfio_t* f)
+int sfpurge(reg Sfio_t* f)
 #else
 sfpurge(f)
 reg Sfio_t	*f;

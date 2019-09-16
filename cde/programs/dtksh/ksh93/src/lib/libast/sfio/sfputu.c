@@ -51,7 +51,7 @@
 */
 
 #if __STD_C
-_sfputu(reg Sfio_t* f, reg ulong v)
+int _sfputu(reg Sfio_t* f, reg ulong v)
 #else
 _sfputu(f,v)
 reg Sfio_t	*f;	/* write a portable ulong to this stream */

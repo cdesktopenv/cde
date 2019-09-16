@@ -116,7 +116,7 @@ struct _s_
 
 extern __MANGLE__ int		printf __PROTO__((const char*, ...));
 
-main()
+int main()
 {
 	int	i;
 	int	j;

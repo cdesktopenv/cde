@@ -46,7 +46,7 @@
 #include	"sfhdr.h"
 
 #if __STD_C
-_stdvsprintf(char *s, const char *form, va_list args)
+int _stdvsprintf(char *s, const char *form, va_list args)
 #else
 _stdvsprintf(s,form,args)
 char	*s;

@@ -824,7 +824,7 @@ get_distrib(FILE *inFile)
 {
   struct stat sb;
 
-  static char* yast = "/sbin/YaST";
+  static char* yast = "/sbin/yast";
   static char* redhat = "/etc/redhat-release";
 
   fprintf (inFile, "%s\n", "#define LinuxUnknown    0");

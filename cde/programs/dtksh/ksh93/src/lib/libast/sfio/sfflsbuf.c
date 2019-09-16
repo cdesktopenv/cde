@@ -52,7 +52,7 @@
 */
 
 #if __STD_C
-_sfflsbuf(reg Sfio_t* f, reg int c)
+int _sfflsbuf(reg Sfio_t* f, reg int c)
 #else
 _sfflsbuf(f,c)
 reg Sfio_t	*f;	/* write out the buffered content of this stream */

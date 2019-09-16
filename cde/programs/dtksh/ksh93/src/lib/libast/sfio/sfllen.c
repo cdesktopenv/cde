@@ -50,7 +50,7 @@
 **	Written by Kiem-Phong Vo (06/27/90)
 */
 #if __STD_C
-sfllen(reg long v)
+int sfllen(reg long v)
 #else
 sfllen(v)
 reg long	v;

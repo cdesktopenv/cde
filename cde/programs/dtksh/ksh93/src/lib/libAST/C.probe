@@ -129,7 +129,7 @@ done
 case $src in
 c)	;;
 *)	echo '#include <iostream.h>
-main()
+int main()
 {
 	cout << "hello world";
 	return 0;
@@ -168,7 +168,7 @@ do	shift
 done
 
 echo '#include <stdio.h>
-main(){printf("hello");return(0);}' > dynamic.$src
+int main(){printf("hello");return(0);}' > dynamic.$src
 if	$cc -c dynamic.$src
 then	eval set x $probe_so
 	while	:
@@ -234,7 +234,7 @@ then	eval set x $probe_so
 	fi
 fi
 
-echo 'main(){return(0);}' > hosted.$src
+echo 'int main(){return(0);}' > hosted.$src
 $cc -o hosted.$exe hosted.$src && ./hosted.$exe && hosted=1
 
 cp /bin/echo cpp

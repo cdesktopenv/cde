@@ -46,7 +46,7 @@
 #include	"sfhdr.h"
 
 #if __STD_C
-static __sfputc(reg Sfio_t* f, reg int c)
+static int __sfputc(reg Sfio_t* f, reg int c)
 #else
 static __sfputc(f,c)
 reg Sfio_t	*f;
@@ -59,7 +59,7 @@ reg int		c;
 #undef sfputc
 
 #if __STD_C
-sfputc(reg Sfio_t* f, reg int c)
+int sfputc(reg Sfio_t* f, reg int c)
 #else
 sfputc(f,c)
 reg Sfio_t	*f;

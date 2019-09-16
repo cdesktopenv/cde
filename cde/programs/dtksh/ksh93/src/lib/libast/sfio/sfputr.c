@@ -53,7 +53,7 @@
 **	Written by Kiem-Phong Vo
 */
 #if __STD_C
-sfputr(reg Sfio_t* f, const char* s, reg int rc)
+int sfputr(reg Sfio_t* f, const char* s, reg int rc)
 #else
 sfputr(f,s,rc)
 reg Sfio_t*	f;	/* write to this stream. r11 on Vax	*/

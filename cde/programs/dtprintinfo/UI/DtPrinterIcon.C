@@ -740,8 +740,8 @@ void DtPrinterIcon::OpenCloseCB(void *data)
 boolean DtPrinterIcon::PrintActionExists()
 {
    boolean b;
-   char *buf = new char[60]; 
-   sprintf(buf, "%s_Print", queue->Name());
+   char *buf = new char[256];
+   snprintf(buf, 256, "%s_Print", queue->Name());
    b =  (DtActionExists(buf) ? true : false);
    delete [] buf;
    return b;

@@ -56,7 +56,7 @@
 */
 
 #if __STD_C
-_sffilbuf(reg Sfio_t* f, reg int n)
+int _sffilbuf(reg Sfio_t* f, reg int n)
 #else
 _sffilbuf(f,n)
 reg Sfio_t	*f;	/* fill the read buffer of this stream */
