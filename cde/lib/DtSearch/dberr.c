@@ -80,7 +80,9 @@ static char     vista_errmsg[1024];
 void            (*dberr_exit) (int) = exit;
 
 /* non AusText user should #define to -1 */
-#define	dtsearch_catd -1
+/* the nl_types functions, will discard all catalogs */
+/* with -1 as Message catalog descriptor type.       */
+#define	dtsearch_catd ((nl_catd)-1)
 /* non AusText user should #define to stderr */
 #define aa_stderr stderr
 

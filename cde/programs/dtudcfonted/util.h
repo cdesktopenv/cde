@@ -39,7 +39,6 @@
 #define MinimumSpace 4
 
 /*****  Exclusive Set  *****/
-
 typedef struct _ToggleButt {
     Widget	w;
     char *	label;
@@ -204,39 +203,22 @@ typedef struct _TextField {
 	XmNbottomAttachment, XmATTACH_FORM, \
 	XmNbottomOffset, offset, \
 	0)
+#endif	/* USE_MACRO */
 
-extern Widget GetMenuWidget(MButton *buttons, int buttons_num);
-extern Widget CreateFrame(Widget owner,
-			  String name,
-			  XtPointer type,
-			  XtPointer thickness);
-extern Widget CreateScrollBar(Widget owner,
-			      String name,
-			      int height,
-			      int val,
-			      int min,
-			      int max,
-			      void (*proc)());
+
 extern Widget CreateDrawingArea(Widget owner,
 				String name,
 				int width,
 				int height,
 				void (*proc)(),
 				int val);
-extern Widget CreateLabel(Widget owner, String name, String str);
 extern Widget CreateDialogAndButtons(Widget owner,
 				     String name,
 				     void (*delcb)(),
 				     Button *btns,
 				     int btns_cnt,
 				     Widget *pop);
-extern
-#ifdef _HPUX_SOURCE
-String
-#else
-XtPointer
-#endif
-GetTextFieldValue(TextField *textf);
+extern String GetTextFieldValue(TextField *textf);
 extern Widget CreateTemplateDialog(Widget w,
 				   char *message,
 				   unsigned char type,
@@ -250,41 +232,22 @@ extern Widget CreateScrollBase(Widget owner,
 			       int val,
 			       int vcnt,
 			       void (*sbproc)());
-extern Widget CreateForm(Widget owner, String name);
 
 Widget	CreateCaptionFrame(Widget owner,
 			   String name,
 			   String labelstr,
 			   int type,
 			   int thickness);
-#ifdef _HPUX_SOURCE
-String
-#else
-XtPointer
-#endif
-GetTextFieldValue(TextField *textf);
 void	CreateTextField(Widget owner,
 			String name,
 			String labelstr,
 			TextField *data,
 			int maxlength);
 void	CreateMenuButtons(Widget owner, Button *buttons, int buttons_cnt);
-Widget	CreateDialogAndButtons(Widget owner,
-			       String name,
-			       void (*delcb)(),
-			       Button *btns,
-			       int btns_cnt,
-			       Widget *pop);
 Widget	GuiInitialize(XtAppContext *app,
 		      String class_name,
 		      int *ac,
 		      String av[]);
-Widget	CreateDrawingArea(Widget owner,
-			  String name,
-			  int width,
-			  int height,
-			  void (*proc)(),
-			  int val);
 void	AddLeftAttachWidget(Widget w, Widget ref, int offset);
 void	AddLeftAttachForm(Widget w, int offset);
 void	AddTopAttachWidget(Widget w, Widget ref, int offset);
@@ -315,8 +278,8 @@ Widget	CreateForm(Widget owner, String name);
 Widget	CreateLabel(Widget owner, String name, String str);
 Widget	CreateFrame(Widget owner,
 		    String name,
-		    XtPointer type,
-		    XtPointer thickness);
+		    int type,
+		    int thickness);
 Widget	CreateRowColumn(Widget owner,
 			String name,
 			int layout,
@@ -331,4 +294,3 @@ Widget	CreateScrollBar(Widget owner,
 			int max,
 			void (*proc)());
 
-#endif	/* USE_MACRO */

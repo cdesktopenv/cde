@@ -1272,7 +1272,7 @@ static ModifierState modifierTable[] = {
    {"Mod4Mask",    Mod4Mask},
    {"Mod5Mask",    Mod5Mask},
    {"ShiftMask",   ShiftMask},
-   {NULL,          NULL},
+   {NULL,          0},
 };
 
 
