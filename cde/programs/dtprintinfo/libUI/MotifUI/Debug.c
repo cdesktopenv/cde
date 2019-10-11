@@ -33,7 +33,7 @@
 #define INT_MESSAGE5    "    The connection was probably broken by a server shudown or KillClient.\r\n"
 
 static int PrintXError(Display *dpy, XErrorEvent *event, FILE *fp);
-static  char *SysErrorMsg(int n);
+static  const char *SysErrorMsg(int n);
 
 /* Error Handlers */
 static  int XIOError(Display *dpy);
@@ -100,7 +100,7 @@ XIOError(
  *   FUNCTION:
  *   RETURNS:
  */
-static char *
+static const char *
 SysErrorMsg(
    int n
    )
@@ -109,7 +109,7 @@ SysErrorMsg(
     extern char *sys_errlist[];
     extern int sys_nerr;
 #endif
-    char *s = ((n >= 0 && n < sys_nerr) ? sys_errlist[n] : "unknown error");
+    const char *s = ((n >= 0 && n < sys_nerr) ? sys_errlist[n] : "unknown error");
     return (s ? s : "no such error");
 }
 

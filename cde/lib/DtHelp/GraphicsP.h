@@ -72,7 +72,7 @@ typedef struct
 /* Open a file stream */
 int _DtGrOpenFile(
     _DtGrStream *stream,
-    const char  *path
+    char        *path
 );
 
 /* Open a buffer stream */
