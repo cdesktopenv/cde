@@ -1152,7 +1152,7 @@ RoamMenuWindow::msgListConvertCallback(
 		bufPtr += mbufList[ii].size;
 		bufPtr[0] = '\n';
 		bufPtr++;
-		delete mbufList[ii].buffer;
+		delete (char*)mbufList[ii].buffer;
 	    }
 
 	    XtFree((char *)mbufList);

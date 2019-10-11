@@ -3967,7 +3967,7 @@ VacationCmd::parseVacationMessage()
 	    helpId = DTMAILHELPCORRUPTVACATION;
 	    answer = dialog->post_and_return(helpId);
 	    SafeClose(fd);
-	    delete [] mbuf.buffer;
+	    delete (char*) mbuf.buffer;
 	    _subject = NULL;
 	    _body = NULL;
 
