@@ -36,6 +36,11 @@
 #include <X11/Intrinsic.h>
 #include <Xm/MessageB.h>
 
+#ifdef __linux__
+/* needed for intptr_t */
+#include <stdint.h>
+#endif
+
 #include "xoakufont.h"
 #include "util.h"
 

@@ -92,7 +92,11 @@ static void musLine(int evtype, int px, int py);
 static void musCircle(int evtype, int px, int py);
 static void musRect(int proc, int evtype, int px, int py);
 static void musRegionProc(int proc, int evtype, int px, int py);
+#ifdef __linux__
+static void musPasteProc(Widget w, XtPointer client_data, XEvent *event, Boolean*);
+#else
 static void musPasteProc(Widget w, XtPointer client_data, XEvent *event);
+#endif
 static void rubLine(int x1, int y1, int x2, int y2);
 static void rubBand(int x1, int y1, int x2, int y2);
 static void rubCircle(int ox, int oy, int rx, int ry);
@@ -2280,7 +2284,11 @@ musRegionProc( int proc, int evtype, int px, int py )
 
 /*ARGSUSED*/
 static void
+#ifdef __linux__
+musPasteProc(Widget w, XtPointer client_data, XEvent *event, Boolean* continue_to_dispatch)
+#else
 musPasteProc(Widget w, XtPointer client_data, XEvent *event)
+#endif 
 {
     static int ox=0, oy=0;
     int rc, tx, ty;
