@@ -292,9 +292,11 @@ int main( int argc, char *argv[] )
 	} else {
 		fontname = (char *)0;
 		Anafprop(
-		    fip, fpropPtr, fpropvnPtr,
-		    &fontname, &psprop, &resprop,
-		    &fplistPtr, &fplistNum
+		    fip, fpropPtr, 
+		    fpropvnPtr, &fontname, 
+		    &fplistPtr,
+		    &psprop, &resprop,
+		    &fplistNum
 		    );
 	}
 

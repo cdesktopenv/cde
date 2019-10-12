@@ -63,7 +63,7 @@ mbinit(XPointer state)
 }
 
 static char
-mbchar(XPointer state, char *str, char *lenp)
+mbchar(XPointer state, char *str, int *lenp)
 {
     XlcConv conv = ((State) state)->conv;
     XlcCharSet charset;

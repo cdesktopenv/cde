@@ -99,5 +99,5 @@ fsym(
 #endif
 #endif
 
-   return(NULL);
+   return(0);
 }
