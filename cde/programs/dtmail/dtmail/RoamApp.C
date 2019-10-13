@@ -598,7 +598,7 @@ tooltalk_msg_handler(
  
 	    if (SafeRead(fd, mbuf.buffer, 
 				(unsigned int) buf.st_size) != buf.st_size) {
-		delete [] mbuf.buffer;
+		delete (char*) mbuf.buffer;
 		close(fd);
 		return msg;
 	    }
