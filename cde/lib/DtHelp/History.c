@@ -71,6 +71,7 @@
 
 #include <Dt/Help.h>
 #include "DisplayAreaI.h"
+#include "DisplayAreaP.h"
 #include "StringFuncsI.h"
 #include "HelposI.h"
 #include "HistoryI.h"

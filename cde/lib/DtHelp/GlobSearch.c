@@ -85,12 +85,13 @@
 
 #include <Dt/Help.h>
 #include <Dt/HelpDialog.h>
-
+ 
 /*
  * private includes
  */
 #include "bufioI.h"
 #include "Access.h"
+#include "DisplayAreaP.h"
 #include "AccessI.h"
 #include "StringFuncsI.h"
 #include "DisplayAreaI.h"

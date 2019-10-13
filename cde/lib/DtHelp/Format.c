@@ -89,6 +89,7 @@ extern int errno;
 #include "FormatCCDFI.h"
 #include "FormatSDLI.h"
 #include "StringFuncsI.h"
+#include "FormatI.h"
 
 
 #ifdef NLS16
@@ -1177,9 +1178,9 @@ int
 _DtHelpFormatToc (
     DtHelpDispAreaStruct	*pDAS,
     _DtHelpVolumeHdl		 volume,
-    char		         *id,
-    char			**ret_id,
-    XtPointer			 *ret_handle)
+    char		            *id,
+    char			       **ret_id,
+    XtPointer			    *ret_handle)
 {
     int             result   = 0;
     _DtCvTopicPtr    topic = NULL;
