@@ -105,12 +105,7 @@ SysErrorMsg(
    int n
    )
 {
-#if !defined(__linux__) && !defined(CSRG_BASED)
-    extern char *sys_errlist[];
-    extern int sys_nerr;
-#endif
-    const char *s = ((n >= 0 && n < sys_nerr) ? sys_errlist[n] : "unknown error");
-    return (s ? s : "no such error");
+    return strerror(n);
 }
 
 /*
