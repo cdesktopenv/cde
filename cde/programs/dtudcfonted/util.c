@@ -43,8 +43,11 @@
 #include "FaLib.h"
 
 extern Widget toplevel;
-static void _destroy(Widget w);
-void _unmap(void);
+
+typedef void (*XtCallbackProc)( Widget   widget, XtPointer closure, XtPointer call_data);
+
+static void _destroy( Widget w, XtPointer closure, XtPointer call_data);
+void _unmap( Widget w, XtPointer closure, XtPointer call_data);
 
 extern Resource resource ;
 
@@ -175,11 +178,7 @@ RadioButt *data)
  *
  */
 
-#ifdef _HPUX_SOURCE
 String
-#else
-XtPointer
-#endif
 GetTextFieldValue(TextField *textf)
 {
     char *s1, *s2, *s3;
@@ -645,14 +644,14 @@ format_str(Widget st, int charcnt , char *str)
 	XmStringFree(cs);
 }
 
-void _unmap(void)
+void _unmap( Widget w, XtPointer closure, XtPointer call_data)
 {
 	if (notice && XtIsManaged(notice)){
 		XtUnmanageChild(notice);
 	}
 }
 
-static void _destroy(Widget w)
+static void _destroy( Widget w, XtPointer closure, XtPointer call_data)
 {
 	if (w){
 		XtDestroyWidget(w);
@@ -978,7 +977,7 @@ CreateLabel( Widget owner, String name, String str )
 
 /*ARGSUSED*/
 Widget
-CreateFrame(Widget owner, String name, XtPointer type, XtPointer thickness)
+CreateFrame(Widget owner, String name, int type, int thickness)
 {
 	Widget frame;
 	Arg args[20];

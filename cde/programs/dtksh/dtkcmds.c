@@ -7065,14 +7065,14 @@ static struct named_integer CallbackReasons[] = {
 	{ "CR_TEAR_OFF_DEACTIVATE",	XmCR_TEAR_OFF_DEACTIVATE },
 	{ "CR_OBSCURED_TRAVERSAL",	XmCR_OBSCURED_TRAVERSAL },
 	{ "CR_PROTOCOLS",	6666 },
-	{ NULL,				NULL },
+	{ NULL,				0 },
 };
 
 
 static struct named_integer HelpCallbackReasons[] = {
 	{ "HELP_CR_CLOSE",		DtCR_HELP_CLOSE },
 	{ "HELP_CR_LINK_ACTIVATE",	DtCR_HELP_LINK_ACTIVATE },
-	{ NULL,				NULL },
+	{ NULL,				0 },
 };
 
 

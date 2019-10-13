@@ -742,7 +742,8 @@ int		num_gr,
 FalGlyphRegion	*gr,
 int		code_no)
 {
-	int 	code, rtn, msize, i, j, dspcode;
+	int 	code, rtn, msize, i, j; 
+    long unsigned int dspcode;
 	char	*ptn;
 
 	if ( ( r_gpf->p_width != r_snf->bdf_width )

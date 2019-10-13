@@ -83,7 +83,7 @@ enum Mode {
 
 const int nModes = mconnetMode + 1;
 
-enum { minShortrefMode = econMode };
+const int minShortrefMode = econMode;
 
 #ifdef SP_NAMESPACE
 }
