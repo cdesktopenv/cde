@@ -1383,38 +1383,6 @@ UnlockPidFile( void )
     fclose (pidFilePtr);
 }
 
-#ifdef oldcode
-/*VARARGS*/
-SetTitle (va_alist)
-va_dcl
-{
-#ifndef NOXDMTITLE
-    char	*p = Title;
-    int		left = TitleLen;
-    char	*s;
-    va_list	args;
-
-    va_start(args);
-    *p++ = '-';
-    --left;
-    while (s = va_arg (args, char *))
-    {
-	while (*s && left > 0)
-	{
-	    *p++ = *s++;
-	    left--;
-	}
-    }
-    while (left > 0)
-    {
-	*p++ = ' ';
-	--left;
-    }
-    va_end(args);
-#endif	
-}
-#endif
-
 int 
 SetTitle( char *name, char *ptr )
 {
