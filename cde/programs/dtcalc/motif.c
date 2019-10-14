@@ -48,19 +48,6 @@
 #include <X11/Xlib.h>
 #include <X11/keysym.h>
 #include <X11/Xatom.h>
-
-/*
-  #include <wchar.h>
-  #include <mbstr.h>
-  */
-
-/* #ifdef hpux */
-#ifdef HP_EXTENSIONS
-#include <X11/XHPlib.h>
-#include <X11/HPkeysym.h>
-#include <X11/Xutil.h>
-#endif
-
 #include <Xm/XmP.h>
 #include <Xm/Xm.h>
 #include <Xm/DrawingA.h>
@@ -206,11 +193,6 @@ void move_cf          P((Widget, XtPointer, XtPointer)) ;
 void FocusInCB        P((Widget, XtPointer, XtPointer)) ;
 void map_popup        P((Widget, XtPointer, XtPointer)) ;
 
-/* #ifdef hpux */
-#ifdef HP_EXTENSIONS
-static int GetKeyboardID           P(()) ;
-#endif
-
 static int event_is_keypad         P((XEvent *)) ;
 static int get_next_event          P((Widget, int, XEvent *)) ;
 static int is_window_showing       P((Widget)) ;
@@ -338,11 +320,6 @@ main(int argc, char **argv)
 
   /*  Get the dt path created and initialized  */
   dt_path = _DtCreateDtDirs (X->dpy);
-
-/* #ifdef hpux */
-#ifdef HP_EXTENSIONS
-  v->keybdID = GetKeyboardID();
-#endif
 
   init_colors() ;             /* get the pixels for the default colors in DT */
   if(pixels[0].bg == white_pixel || pixels[0].bg == black_pixel)
@@ -1961,13 +1938,6 @@ get_next_event(Widget widget, int ev_action, XEvent *xevent)
       else if (ksym == XK_F10  && up) return(F4_PRESS);
       else if (ksym == XK_Tab  && down) return(TAB);
       else if (ksym == XK_Tab  && up) return(TAB);
-/* #ifdef hpux */
-#ifdef HP_EXTENSIONS
-      else if (ksym == XK_BackTab  && down) return(SHIFT);
-      else if (ksym == XK_BackTab  && up) return(SHIFT);
-      else if (ksym == hpXK_DeleteChar  && down) cval = 127;
-      else if (ksym == hpXK_DeleteChar  && up) cval = 127;
-#endif
       else if (ksym == XK_Return && down) cval = KEY_EQ;
       else if (ksym == XK_Return && up) cval = KEY_EQ;
       else if (ksym == XK_Escape && down) return(ESCAPE);
@@ -4566,63 +4536,6 @@ TimerEvent( XtPointer client_data, XtIntervalId *id)
     XtSetValues (X->CFframe, args, 1);
   }
 }
-
-/* #ifdef hpux */
-#ifdef HP_EXTENSIONS
-static int
-GetKeyboardID(void)
-{
-    XHPDeviceList *list, *slist;
-    int ndevices = 0, i, kbd = 0;
-
-    slist = XHPListInputDevices(X->dpy, &ndevices);
-    for (i = 0, list = slist; i < ndevices; i++, list++)
-    {
-       if (list->type != KEYBOARD && strcmp(list->name, PS2_DIN_NAME))
-          continue;
-       if (list->detailed_id & (HP_ITF_KBD | HP_HIL) == (HP_ITF_KBD | HP_HIL))
-       {
-          kbd = HIL_ITF_KBD;
-          return(kbd);
-       }
-       else if (list->detailed_id & (PC101_KBD|HP_HIL) == (PC101_KBD|HP_HIL))
-       {
-          kbd = HIL_PC101_KBD;
-          return(kbd);
-       }
-       else if (list->detailed_id & (PC101_KBD|SERIAL) == (PC101_KBD|SERIAL))
-       {
-          kbd = SERIAL_PC101_KBD;
-          return(kbd);
-       }
-
-       if (!kbd)
-       {
-          if (strcmp(list->name, PS2_DIN_NAME) == 0)
-          {
-             kbd = SERIAL_PC101_KBD;
-             return(kbd);
-          }
-	  else if (list->hil_id >= FIRST_HIL_KBD &&
-	                        	     list->hil_id <= LAST_HIL_KBD)
-          {
-             if (list->io_byte & LED_BITS)
-	     {
-	        kbd = HIL_PC101_KBD;
-                return(kbd);
-	     }
-	     else
-	     {
-	        kbd = HIL_ITF_KBD;
-                return(kbd);
- 	     }
-          }
-       }
-    }
-    XHPFreeDeviceList (slist);
-    return(0);
-}
-#endif
 
 static char *
 _DtcalcStripSpaces(char *file)
