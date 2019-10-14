@@ -47,7 +47,7 @@
 #include <math.h>
 #include <setjmp.h>
 #include "GraphicsP.h"
-#include "jpeglib.h"
+#include <jpeglib.h>
 #include "cdjpeg.h"
 #include "JpegUtilsI.h"
 
