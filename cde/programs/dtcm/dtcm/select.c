@@ -72,6 +72,9 @@ static  char sccsid[] = "@(#)select.c 1.24 95/02/21 Copyr 1994 Sun Microsystems,
 
 static void select_weekhotbox();
 
+/* Highlight thickness  - mghis */
+#define	STDTTT		3	/* default */
+#define WEEKLTTT	2	/* of hour slots in week glance view */
 
 extern int
 selection_active (Selection *s)
@@ -202,11 +205,12 @@ weekchart_select(Calendar *c)
 				+ w->chart_x, (j * w->chart_hour_height) 
 				+ (j * w->add_pixels) + w->chart_y, 
 				w->chart_day_width, w->chart_hour_height
-				+ w->add_pixels, 1,  background_pixel, cms);
+				+ w->add_pixels, WEEKLTTT,  background_pixel,
+				cms);
 
 			/* Select weekday letter over chart */
 			gr_draw_rgb_box(c->xcontext, chart_x, chart_y - 6,
-                                w->chart_day_width, char_height + 6, 1,
+                                w->chart_day_width, char_height + 6, WEEKLTTT,
 				background_pixel, cms);
 		}
 		sel->nunits = 1;
@@ -248,7 +252,7 @@ select_weekday(Calendar *c, Boolean select)
 
         		XtVaGetValues(c->canvas, XmNcolormap, &cms, NULL);
                         gr_draw_rgb_box(xc, x - 2, y - 2, w->day_width,
-                        		w->day_height - w->label_height, 1,
+                                        w->day_height - w->label_height, STDTTT,
 				 	foreground_pixel, cms);
 		}
                 weekchart_select(c);
@@ -311,7 +315,7 @@ calendar_select (Calendar *c, Selection_unit unit, caddr_t ref)
 						+margin, 
 						(sel->row*boxh)+topoff+
                                         	dayname_height, boxw, 
-						boxh, 1,
+						boxh, STDTTT,
 						foreground_pixel, cms);
 				}
 				activate_selection (sel);
@@ -333,7 +337,7 @@ calendar_select (Calendar *c, Selection_unit unit, caddr_t ref)
 				else {
 					gr_draw_rgb_box(xc, i*boxw+margin+2,
 					(int)ref*boxh+margin+topoff+2, 
-					boxw-4, boxh-4, 1,
+					boxw-4, boxh-4, STDTTT,
 					foreground_pixel, cms);
 					gr_draw_rgb_box(xc, i*boxw+margin+1,
 					(int)ref*boxh+margin+topoff+1, 
@@ -371,7 +375,7 @@ calendar_select (Calendar *c, Selection_unit unit, caddr_t ref)
                                         foreground_pixel, cms);
 */
                                 gr_draw_rgb_box(xc, xpos,
-                                        j*boxh+topoff+10, boxw-56, boxh+2, 1,
+                                        j*boxh+topoff+10, boxw-56, boxh+2, STDTTT,
                                         foreground_pixel, cms);
 			}
 			sel->row=j;
@@ -394,7 +398,7 @@ calendar_select (Calendar *c, Selection_unit unit, caddr_t ref)
 					j*boxh+topoff, 
 					c->view->boxw - 2,
 					c->view->boxh,
-					1,
+					STDTTT,
 					foreground_pixel, cms);
 			}
 			sel->row=j;
@@ -661,11 +665,11 @@ browser_select(Calendar *c, Browser *b, pr_pos *xy)
         		XtVaGetValues(b->canvas, XmNcolormap, &cms, NULL);
 			gr_draw_rgb_box(b->xcontext, (i * b->boxw) + 
 				b->chart_x + 2, (j * b->boxh) + b->chart_y 
-				+ 2, b->boxw - 4, b->boxh - 4, 1,
+				+ 2, b->boxw - 4, b->boxh - 4, STDTTT,
 				pixel, cms);
 			gr_draw_rgb_box(b->xcontext, (i * b->boxw) + 
 				b->chart_x + 1, (j * b->boxh) + b->chart_y 
-				+ 1, b->boxw - 2, b->boxh - 2, 1,
+				+ 1, b->boxw - 2, b->boxh - 2, STDTTT,
 				pixel, cms);
 		}
 		sel->row = j;
@@ -708,10 +712,10 @@ select_weekhotbox(Calendar *c)
 		gr_draw_box(xc, x, y, w->day_width - 4, w->label_height - 4, NULL);
 	else {
 		gr_draw_rgb_box(xc, x, y,
-				w->day_width - 4, w->label_height - 4, 1,
+				w->day_width - 4, w->label_height - 4, STDTTT,
 				background_pixel, cms);
 		gr_draw_rgb_box(xc, x-1, y-1,
-				w->day_width-2, w->label_height - 2, 1,
+				w->day_width-2, w->label_height - 2, STDTTT,
 				background_pixel, cms);
 	}
 }
