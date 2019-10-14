@@ -232,42 +232,42 @@ static XmSyntheticResource GetResources[] =
  * Anyway, remove KP_Multiply entry from defaultTranslations[]
  */
 static char defaultTranslations[] = "\
-        <Key>osfCancel:         process-cancel()\n\
-	<Key>osfCopy:		copy-clipboard()\n\
-	<Key>osfCut:		copy-clipboard()\n\
-	<Key>osfPaste:		paste-clipboard()\n\
-        <Key>osfBeginLine:      beginning-of-buffer()\n\
+        :<Key>osfCancel:         process-cancel()\n\
+	:<Key>osfCopy:		copy-clipboard()\n\
+	:<Key>osfCut:		copy-clipboard()\n\
+	:<Key>osfPaste:		paste-clipboard()\n\
+        :<Key>osfBeginLine:      beginning-of-buffer()\n\
         <Key>Home:              beginning-of-buffer()\n\
-        <Key>osfEndLine:        end-of-buffer()\n\
+        :<Key>osfEndLine:        end-of-buffer()\n\
         <Key>End:               end-of-buffer()\n\
 	Shift<Key>osfUp:	scroll(1,line)\n\
 	Shift<Key>Up:	        scroll(1,line)\n\
 	Shift<Key>osfDown:	scroll(-1,line)\n\
 	Shift<Key>Down:	        scroll(-1,line)\n\
-	<Key>osfUp:		move-cursor(up)\n\
+	:<Key>osfUp:		move-cursor(up)\n\
 	<Key>Up:		move-cursor(up)\n\
-	<Key>osfDown:		move-cursor(down)\n\
+	:<Key>osfDown:		move-cursor(down)\n\
 	<Key>Down:		move-cursor(down)\n\
-	<Key>osfLeft:		move-cursor(backward)\n\
+	:<Key>osfLeft:		move-cursor(backward)\n\
 	<Key>Left:		move-cursor(backward)\n\
-	<Key>osfRight:		move-cursor(forward)\n\
+	:<Key>osfRight:		move-cursor(forward)\n\
 	<Key>Right:		move-cursor(forward)\n\
 	<Key>Find:	        vt-edit-key(find)\n\
-	<Key>osfInsert:         vt-edit-key(insert)\n\
+	:<Key>osfInsert:         vt-edit-key(insert)\n\
 	<Key>Insert:            vt-edit-key(insert)\n\
 	:<Key>osfDelete:         vt-edit-key(delete)\n\
 	:<Key>Delete:            vt-edit-key(delete)\n\
-	<Key>osfSelect:	        vt-edit-key(select)\n\
+	:<Key>osfSelect:	        vt-edit-key(select)\n\
 	<Key>Select:	        vt-edit-key(select)\n\
-	~Shift<Key>osfPageUp:	vt-edit-key(prior)\n\
+	:~Shift<Key>osfPageUp:	vt-edit-key(prior)\n\
 	~Shift<Key>Prior:	vt-edit-key(prior)\n\
-	~Shift<Key>osfPageDown:	vt-edit-key(next)\n\
+	:~Shift<Key>osfPageDown:	vt-edit-key(next)\n\
 	~Shift<Key>Next:	vt-edit-key(next)\n\
 	<Key>Help:		vt-edit-key(help)\n\
 	<Key>Menu:		vt-edit-key(do)\n\
-	<Key>osfPageUp:		scroll(-1,page)\n\
+	:<Key>osfPageUp:		scroll(-1,page)\n\
 	<Key>Prior:	        scroll(-1,page)\n\
-	<Key>osfPageDown:	scroll(1,page)\n\
+	:<Key>osfPageDown:	scroll(1,page)\n\
 	<Key>Next:	        scroll(1,page)\n\
 	Mod1<Key>Break:		soft-reset()\n\
 	Shift<Key>Break:	hard-reset()\n\
@@ -388,6 +388,12 @@ static char defaultTranslations[] = "\
 	~Ctrl<Btn1Up>:		extend-end()\n\
         ~Shift<Btn2Down>:	process-bdrag()\n\
         ~Shift<Btn2Up>:		copy-to()\n\
+	~Shift ~Ctrl <Btn4Up>:	scroll(-1,line)\n\
+	~Shift ~Ctrl <Btn5Up>:	scroll(1,line)\n\
+	Shift ~Ctrl <Btn4Up>:	scroll(-3,line)\n\
+	Shift ~Ctrl <Btn5Up>:	scroll(3,line)\n\
+	Ctrl ~Shift <Btn4Up>:	scroll(-1,page)\n\
+	Ctrl ~Shift <Btn5Up>:	scroll(1,page)\n\
 	<EnterWindow>:		enter()\n\
 	<LeaveWindow>:		leave()\n\
 	<FocusIn>:		focus-in()\n\
