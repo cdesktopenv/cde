@@ -6219,29 +6219,6 @@ Boolean SimilarAppearanceData (AppearanceData *pAD1, AppearanceData *pAD2)
 {
     Boolean rval;
 
-#ifdef notdef
-    if ((pAD1->fontList == pAD2->fontList) &&
-	(pAD1->background == pAD2->background) &&
-	(pAD1->foreground == pAD2->foreground) &&
-	(pAD1->backgroundPStr == pAD2->backgroundPStr) &&
-	(pAD1->backgroundPixmap == pAD2->backgroundPixmap) &&
-	(pAD1->bottomShadowColor == pAD2->bottomShadowColor) &&
-	(pAD1->bottomShadowPStr == pAD2->bottomShadowPStr) &&
-	(pAD1->bottomShadowPixmap == pAD2->bottomShadowPixmap) &&
-	(pAD1->topShadowColor == pAD2->topShadowColor) &&
-	(pAD1->topShadowPStr == pAD2->topShadowPStr) &&
-	(pAD1->topShadowPixmap == pAD2->topShadowPixmap) &&
-	(pAD1->activeBackground == pAD2->activeBackground) &&
-	(pAD1->activeForeground == pAD2->activeForeground) &&
-	(pAD1->activeBackgroundPStr == pAD2->activeBackgroundPStr) &&
-	(pAD1->activeBackgroundPixmap == pAD2->activeBackgroundPixmap) &&
-	(pAD1->activeBottomShadowColor == pAD2->activeBottomShadowColor) &&
-	(pAD1->activeBottomShadowPStr == pAD2->activeBottomShadowPStr) &&
-	(pAD1->activeBottomShadowPixmap == pAD2->activeBottomShadowPixmap) &&
-	(pAD1->activeTopShadowColor == pAD2->activeTopShadowColor) &&
-	(pAD1->activeTopShadowPStr == pAD2->activeTopShadowPStr) &&
-	(pAD1->activeTopShadowPixmap == pAD2->activeTopShadowPixmap) )
-#else
     /*
      * !!! Should find out why all the Pixmap resources are unset !!!
      */
@@ -6261,7 +6238,6 @@ Boolean SimilarAppearanceData (AppearanceData *pAD1, AppearanceData *pAD2)
 	(pAD1->activeBottomShadowPStr == pAD2->activeBottomShadowPStr) &&
 	(pAD1->activeTopShadowColor == pAD2->activeTopShadowColor) &&
 	(pAD1->activeTopShadowPStr == pAD2->activeTopShadowPStr) )
-#endif
     {
 	rval = True;
     }

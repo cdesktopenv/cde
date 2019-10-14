@@ -1832,23 +1832,11 @@ extern char *		_tt_status_message(Tt_status s);
 _tt_file_netfile_results *
 _tt_file_netfile_1 (_tt_file_netfile_args *args, SVCXPRT * /* transp */)
 {
-
-#ifdef notdef
-printf("DEBUG: SERVER: _tt_file_netfile_1: calling _tt_file_netfile(%s)\n",
-	(char *) args->file_or_netfile);
-#endif
-
 	static _tt_file_netfile_results results;
 	static char * canonical_path;
 
 	// we have a netfilename, get the local file version...
 	canonical_path = _tt_file_netfile(args->file_or_netfile);
-
-#ifdef notdef
-printf("DEBUG: SERVER: _tt_file_netfile_1: _tt_file_netfile(%s) returned %s\n",
-	args->file_or_netfile, canonical_path);
-#endif
-
 
 	if (_tt_pointer_error(canonical_path) != TT_OK) {
 		results.results = TT_DB_ERR_ILLEGAL_FILE;
@@ -1858,11 +1846,6 @@ printf("DEBUG: SERVER: _tt_file_netfile_1: _tt_file_netfile(%s) returned %s\n",
 		results.result_string = canonical_path;
 	}
 	results.tt_status = (int) _tt_pointer_error(canonical_path);
-
-#ifdef notdef
-printf("\t results.tt_status == %s\n",
-	_tt_status_message(_tt_pointer_error(canonical_path)));
-#endif
 
 	return &results;
 }
@@ -1873,22 +1856,11 @@ printf("\t results.tt_status == %s\n",
 _tt_file_netfile_results *
 _tt_netfile_file_1 (_tt_file_netfile_args *args, SVCXPRT * /* transp */)
 {
-
-#ifdef notdef
-printf("DEBUG: SERVER: _tt_netfile_file_1: calling _tt_netfile_file(%s)\n",
-	(char *) args->file_or_netfile);
-#endif
-
 	static _tt_file_netfile_results results;
 	static char * canonical_path;
 
 	// we have a netfilename, get the local file version...
 	canonical_path = _tt_netfile_file(args->file_or_netfile);
-
-#ifdef notdef
-printf("DEBUG: SERVER: _tt_netfile_file_1: _tt_netfile_file(%s) returned %s\n",
-	args->file_or_netfile, canonical_path);
-#endif
 
 	if (_tt_pointer_error(canonical_path) != TT_OK) {
 		results.results = TT_DB_ERR_ILLEGAL_FILE;
@@ -1898,11 +1870,6 @@ printf("DEBUG: SERVER: _tt_netfile_file_1: _tt_netfile_file(%s) returned %s\n",
 		results.result_string = canonical_path;
 	}
 	results.tt_status = (int) _tt_pointer_error(canonical_path);
-
-#ifdef notdef
-printf("\t results.tt_status == %s\n",
-	_tt_status_message(_tt_pointer_error(canonical_path)));
-#endif
 
 	return &results;
 }

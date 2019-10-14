@@ -371,29 +371,14 @@ findMountEntry (const _Tt_string &network_path)
 	while (entries_cursor.next()) {
 		current_hostname = entries_cursor->getHostname();
 
-#ifdef notdef
-printf("DEBUG findMountEntry: hostname = %s, current_hostname = %s\n",
-	(char *) hostname, (char *) current_hostname);
-#endif
-
 		if (eq_p->hostname_equiv(hostname, current_hostname) == 1) {
 			current_partition = entries_cursor->getPartition();
 			current_partition_length = current_partition.len();
-
-#ifdef notdef
-printf("DEBUG findMountEntry: found hostname equivalence between %s and %s\n",
-	(char *) hostname, (char *) current_hostname);
-#endif
 
 			if (path_length >= current_partition_length) {
 				if (!memcmp((char *)path, (char *)current_partition,
 					    current_partition_length)) {
 					entry = *entries_cursor;
-#ifdef notdef
-printf("DEBUG findMountEntry: found PATH equivalence between %s and %s\n",
-	(char *) hostname, (char *) current_hostname);
-#endif
-
 					break;
 				}
 			}

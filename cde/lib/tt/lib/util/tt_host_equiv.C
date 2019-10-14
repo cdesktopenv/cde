@@ -108,11 +108,6 @@ prefix_host(const _Tt_string & host, const _Tt_string & localhost)
 	_Tt_string h_prefix = host, l_prefix = localhost,
 		   h, l, rpart_host, rpart_localhost;
 
-#ifdef notdef
-printf("DEBUG prefix_host: host = %s, localhost = %s\n",
-	(char *) host, (char *) localhost);
-#endif
-
 	while (rpart_host == rpart_localhost) {
 		h = h_prefix;
 		l = l_prefix;
@@ -126,9 +121,6 @@ printf("DEBUG prefix_host: host = %s, localhost = %s\n",
 		rpart_localhost = l.split(j, l_prefix);
 	}
 
-#ifdef notdef
-printf("DEBUG prefix_host: returning %s\n", (char *) h);
-#endif
 	return h;
 }
 
@@ -142,9 +134,6 @@ hostname_equiv(const _Tt_string & host1, const _Tt_string & host2)
 {
         // First try a simple comparison.
         if (host1 == host2) {
-#ifdef notdef
-printf("DEBUG hostname_equiv: host1 == host2, returning 1\n");
-#endif
                 return 1;
         }
 
@@ -194,10 +183,6 @@ printf("DEBUG hostname_equiv: host1 == host2, returning 1\n");
 			// so do just one comparison.
 
 			if (short_tmp != long_prefix) {
-#ifdef notdef
-printf("DEBUG hostname_equiv: short_tmp %s != long_prefix %s, returning 0\n",
-	(char *) short_tmp, (char *) long_prefix);
-#endif
 				return 0;
 			}
 			is_found = 1;
@@ -205,18 +190,11 @@ printf("DEBUG hostname_equiv: short_tmp %s != long_prefix %s, returning 0\n",
 		}
 
 		if (short_prefix != long_prefix) {
-#ifdef notdef
-printf("DEBUG hostname_equiv: short_prefix %s != long_prefix %s, returning 0\n",
-	(char *) short_prefix, (char *) long_prefix);
-#endif
 			return 0;
 		}
 	}
 
 	if (is_found != 1) {
-#ifdef notdef
-printf("DEBUG hostname_equiv: is_found != 1, returning 0\n");
-#endif
 		return 0;	// no prefix was found
 	}
 
@@ -239,9 +217,6 @@ printf("DEBUG hostname_equiv: is_found != 1, returning 0\n");
 		if (_cache_it(sh, shorthost) == 1) {
 			_cache_table->insert(sh);
 		} else {
-#ifdef notdef
-printf("DEBUG hostname_equiv: sh.is_null(): returning 0\n");
-#endif
 			return 0;
 		}
 	}
@@ -253,9 +228,6 @@ printf("DEBUG hostname_equiv: sh.is_null(): returning 0\n");
 		if (_cache_it(lh, longhost) == 1) {
 			_cache_table->insert(lh);
 		} else {
-#ifdef notdef
-printf("DEBUG hostname_equiv: lh.is_null(): returning 0\n");
-#endif
 			return 0;
 		}
 	}
@@ -266,10 +238,6 @@ printf("DEBUG hostname_equiv: lh.is_null(): returning 0\n");
 	// This will probably never happen but why
 	// not be careful?
 	if (sh->addr_length != lh->addr_length) {
-#ifdef notdef
-printf("DEBUG hostname_equiv: sh->addr_length %d != h->addr_length %d, returning 0\n",
-	sh->addr_length, lh->addr_length);
-#endif
 		return 0;
 	}
 
@@ -278,17 +246,10 @@ printf("DEBUG hostname_equiv: sh->addr_length %d != h->addr_length %d, returning
 
         while (sh_c.next()) {
         	while (lh_c.next()) {
-#ifdef notdef
-printf("DEBUG hostname_equiv: checking address at 0x%x w/ 0x%x\n", 
-	(char *) *sh_c, (char *) *lh_c);
-#endif
 			// Do the IP addresses match?
 			if (memcmp((char *) *sh_c, (char *) *lh_c,
 				    sh->addr_length) == 0) {
 				// success!
-#ifdef notdef
-printf("DEBUG hostname_equiv: found match!\n");
-#endif
 				return 1;
 			}
                 }

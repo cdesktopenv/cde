@@ -431,9 +431,6 @@ DecrementInstanceCountAndExit(Widget w, XtPointer client_data,
 #ifdef	TERMINAL_SERVER
     if (attrs.standAlone || !attrs.serverId) {
 #endif	/* TERMINAL_SERVER */
-#ifdef notdef
-    if (!attrs.server) {
-#endif /* notdef */
 	if (InstanceCount <= 0) {
 	    /* use a timeout so that the toolkit can finish killing off
 	     * this widget...
@@ -446,12 +443,6 @@ DecrementInstanceCountAndExit(Widget w, XtPointer client_data,
 	ServerInstanceTerminated((Widget) client_data);
     }
 #endif	/* TERMINAL_SERVER */
-#ifdef	notdef
-    } else {
-	/* Here is where one would add the call into sunDtTermServer.c
-	 * implement a "lurking" dtterm server. */
-    }
-#endif	/* notdef */
 }
 
 /***************************************************************************

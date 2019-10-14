@@ -170,10 +170,6 @@ _tt_host_file_netfile(const char * host, const char * filename)
 	_Tt_host_equiv_ptr eq_p = new _Tt_host_equiv;
 
 	if (eq_p->hostname_equiv(hostname, local_host) == 1) {
-#ifdef notdef
-printf("DEBUG _tt_host_file_netfile: resolving locally.\n");
-#endif
-
 		// strdup already done in _tt_netfile_file()
 		return _tt_file_netfile(filename);
 	}
@@ -234,10 +230,6 @@ _tt_host_netfile_file(const char * host, const char * netfilename)
 	_Tt_host_equiv_ptr	eq_p = new _Tt_host_equiv;
 
 	if (eq_p->hostname_equiv(hostname, local_host) == 1) {
-#ifdef notdef
-printf("DEBUG _tt_host_netfile_file: resolving locally.\n");
-#endif
-
 		// strdup already done in _tt_netfile_file()
                 return _tt_netfile_file(netfilename);
         }
@@ -385,11 +377,6 @@ set_filename(const _Tt_string & filename)
 	// Now get the network path of the file.
 	tmp_string = _tt_local_network_path(absolute_path);
 
-#ifdef notdef
-printf("DEBUG set_filename: _tt_local_network_path(%s) returned %s\n",
-	(char *) absolute_path, (char *) tmp_string);
-#endif
-
 	_lpath = absolute_path;	// what we know the file as.
 
 	// load hostname and rpath simultaneously
@@ -408,10 +395,6 @@ printf("DEBUG set_filename: _tt_local_network_path(%s) returned %s\n",
 	_canonical_path.cat("LPATH=").cat(i).cat('-').cat(i + _lpath.len() - 1).cat(':');
 
 	_canonical_path = _canonical_path.cat(_hostname).cat(_rpath).cat(_lpath);
-
-#ifdef notdef
-printf("DEBUG set_filename: _canonical_path == %s\n", (char *) _canonical_path);
-#endif
 
 	return _canonical_path;
 }
@@ -465,26 +448,13 @@ parse_netfilename(const _Tt_string & canonical_name)
 
 	_canonical_path = canonical_name;
 
-#ifdef notdef
-	printf("DEBUG parse_netfilename: _canonical_path == %s\n", (char *) _canonical_path);
-#endif
-
 	tmp_string = _canonical_path.split(':', dummy);
 
 	_hostname = tmp_string.mid(h_begin, h_end - h_begin + 1);
 
 	_rpath = tmp_string.mid(r_begin, r_end - r_begin + 1);
 
-#ifdef notdef
-	printf("DEBUG parse_netfilename: _rpath == %s\n", (char *) _rpath);
-#endif
-
 	_lpath = tmp_string.mid(l_begin, l_end - l_begin + 1);
-
-#ifdef notdef
-	printf("DEBUG parse_netfilename: _lpath == %s\n", (char *) _lpath);
-#endif
-
 
 	return _canonical_path;
 }

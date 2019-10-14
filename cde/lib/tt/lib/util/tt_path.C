@@ -258,90 +258,42 @@ _Tt_string _tt_local_network_path(const _Tt_string &path)
 
 	if (path.len()) {
 		_Tt_string real_path = _tt_realpath(path);
-#ifdef notdef
-printf("DEBUG _tt_local_network_path: real_path initialized to %s\n",
-	(char *) real_path);
-#endif
 		_Tt_file_system file_system;
 		_Tt_file_system_entry_ptr entry =
 			file_system.bestMatchToPath(real_path);
 
 		_Tt_string hostname = entry->getHostname();
-#ifdef notdef
-printf("DEBUG _tt_local_network_path: hostname = %s\n",
-	(char *) hostname);
-#endif
 		_Tt_string loop_back_mount_point =
 				entry->getLoopBackMountPoint();
-#ifdef notdef
-printf("DEBUG _tt_local_network_path: loop_back_mount_point = %s\n",
-	(char *) loop_back_mount_point == NULL ? "(null)" : (char *) loop_back_mount_point);
-#endif
 		_Tt_string mount_point;
 		if (loop_back_mount_point.len() > 0) {
 			mount_point = loop_back_mount_point;
-#ifdef notdef
-printf("DEBUG _tt_local_network_path: ! isLocal 1: mount_point = %s\n",
-	(char *) mount_point);
-#endif
 		} else {
 			mount_point = entry->getMountPoint();
-#ifdef notdef
-printf("DEBUG _tt_local_network_path: ! isLocal 2: mount_point = %s\n",
-	(char *) mount_point);
-#endif
 		}
 
 		if (entry->isLocal()) {
 			if (loop_back_mount_point.len() > 0) {
-#ifdef notdef
-printf("DEBUG _tt_local_network_path: isLocal 2: mount_point = %s\n",
-	(char *) mount_point);
-#endif
 				// Get the path info after the loop back
 				// mount point path.
 				real_path = real_path.right(real_path.len() -
 							    mount_point.len());
-#ifdef notdef
-printf("DEBUG _tt_local_network_path: isLocal 2: real_path = %s\n",
-	(char *) real_path);
-#endif
 				// Replace the loop back mount point path
 				// with the mount point path.
 				if (mount_point != "/") {
 					real_path = mount_point.cat(real_path);
 				}
-#ifdef notdef
-printf("DEBUG _tt_local_network_path: isLocal 3: real_path = %s\n",
-	(char *) real_path);
-#endif
 			}
 		} else {
 			_Tt_string partition = entry->getPartition();
-#ifdef notdef
-printf("DEBUG _tt_local_network_path: ! isLocal: partition = %s\n",
-	(char *) partition);
-#endif
 			// Get the path info after the mount point path
 			real_path =
 			real_path.right(real_path.len()-mount_point.len());
-#ifdef notdef
-printf("DEBUG _tt_local_network_path: ! isLocal: real_path = %s\n",
-	(char *) real_path);
-#endif
 			// Replace the mount point path with the exported
 			// partition path.
 			real_path = partition.cat(real_path);
-#ifdef notdef
-printf("DEBUG _tt_local_network_path: ! isLocal: real_path = %s\n",
-	(char *) real_path);
-#endif
 		}
 		network_path = hostname.cat(":").cat(real_path);
-#ifdef notdef
-printf("DEBUG _tt_local_network_path: network_path = %s\n",
-	(char *) network_path);
-#endif
 	}
 
 	return network_path;
