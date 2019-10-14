@@ -1133,77 +1133,6 @@ static void Destroy(
 
 }
 
-
-#ifdef	NOTDONE
-/*****************************************************************************
- * Function:	    static void MenuBarFix( 
- *                            XmGeoMatrix geoSpec,
- *                            int action,
- *                            XmGeoRowLayout layoutPtr,
- *                            XmKidGeometry rowPtr)
- *                            
- *                         
- *
- * Parameters:   
- *
- * Return Value:    
- *
- * Purpose: 	  This routine is a fixup routine which can be used for rows 
- *                which consist of a single MenuBar RowColumn.  The effect of
- *                this routine is to have the RowColumn ignore the margin
- *                width and height.
- *
- *****************************************************************************/
-static void MenuBarFix(
-    XmGeoMatrix geoSpec,
-    int action,
-#if XmREVISION >= 2
-    XmGeoMajorLayout layoutPtr,
-#else
-    XmGeoRowLayout layoutPtr,
-#endif
-    XmKidGeometry rowPtr )
-{
-    Dimension       marginW ;
-    Dimension       marginH ;
-    Dimension       twoMarginW ;
-
-
-    marginW = geoSpec->margin_w ;
-    twoMarginW = (marginW << 1) ;
-    marginH = geoSpec->margin_h ;
-
-    switch(    action    )
-    {
-        case XmGEO_PRE_SET:
-        {   rowPtr->box.x -= marginW ;
-            rowPtr->box.width += twoMarginW ;
-            rowPtr->box.y -= marginH ;
-            break ;
-            }
-        default:
-        {   if(    rowPtr->box.width > twoMarginW    )
-            {
-                /* Avoid subtracting a margin from box width which would
-                *   result in underflow.
-                */
-                rowPtr->box.x += marginW ;
-                rowPtr->box.width -= twoMarginW ;
-                }
-            if(    action == XmGET_PREFERRED_SIZE    )
-            {
-                /* Set width to some small value so it does not
-                *   effect total width of matrix.
-                */
-                rowPtr->box.width = 1 ;
-                }
-            break ;
-            }
-        }
-    return ;
-} 
-#endif
-
 /*****************************************************************************
  * Function:	    static void SeparatorFix( 
  *                            XmGeoMatrix geoSpec,
@@ -1292,9 +1221,6 @@ XmGeoMatrix _DtHelpQuickDialogWidgetGeoMatrixCreate(
     XmGeoRowLayout  layoutPtr ;
     XmKidGeometry   boxPtr ;
              XmKidGeometry   firstButtonBox ;
-#ifdef	NOTDONE
-             int fix_menubar = False ;
-#endif
 
     /* Replace the value "10" for the marginWidth resource when avail */
 

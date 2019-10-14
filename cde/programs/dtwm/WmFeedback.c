@@ -541,14 +541,6 @@ void UpdateFeedbackInfo (WmScreenData *pSD, int x, int y, unsigned int width, un
      * configuration outline.
      */
 
-#ifdef NOTDONE
-    /* only update if something changed */
-    if (((pSD->fbStyle & FB_POSITION) &&
-	 ((pSD->fbLastX != x) || (pSD->fbLastY != y))) || 
-	((pSD->fbStyle & FB_SIZE) &&
-	 ((pSD->fbLastWidth != width) || (pSD->fbLastHeight != height))))
-#endif /* NOTDONE */
-    {
 	pSD->fbLastX = x;
 	pSD->fbLastY = y;
 	pSD->fbLastWidth = width;
@@ -557,7 +549,6 @@ void UpdateFeedbackInfo (WmScreenData *pSD, int x, int y, unsigned int width, un
 	UpdateFeedbackText (pSD, x, y, width, height);
 
 	PaintFeedbackWindow(pSD);
-    }
 }
 
 
