@@ -1197,38 +1197,7 @@ void SetEmbeddedClientsProperty (Window propWindow,
 
 } /* END OF FUNCTION SetEmbeddedClientsProperty */
 
-#ifdef HP_VUE
-
-/*************************************<->*************************************
- *
- *  SetWorkspaceInfo (propWindow, pWsInfo, cInfo)
- *
- *
- *  Description:
- *  -----------
- *  This function sets up the _DT_WORKSPACE_INFO property
- *
- *
- *  Inputs:
- *  ------
- *  propWindow = window on which the _DT_WORKSPACE_INFO property is to be set
- *  pWsInfo =  pointer to workspace info data
- *  cInfo = size of workspace info data
- * 
- *
- *************************************<->***********************************/
 
-void SetWorkspaceInfo (Window propWindow, WorkspaceInfo *pWsInfo, unsigned long cInfo)
-{
-    XChangeProperty (DISPLAY, propWindow, wmGD.xa_DT_WORKSPACE_INFO, 
-	wmGD.xa_DT_WORKSPACE_INFO,
-	32, PropModeReplace, (unsigned char *)pWsInfo,
-	(cInfo * sizeof(WorkspaceInfo))/sizeof(long));
-
-} /* END OF FUNCTION SetWorkspaceInfo */
-#endif /* HP_VUE */
-
-
 /*************************************<->*************************************
  *
  *  SetWorkspaceListProperty (pSD)

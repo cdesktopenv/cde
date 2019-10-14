@@ -31,8 +31,7 @@
  **
  **   Description: Defines PRIVATE properties, structures, and 
  **		   parameters used for communication with the 
- **		   workspace manager. This also includes some 
- **		   backward compatibility stuff for HP_VUE.
+ **		   workspace manager.
  **
  ** (c) Copyright 1996 Digital Equipment Corporation.
  ** (c) Copyright 1993,1994,1996 Hewlett-Packard Company.
@@ -162,19 +161,6 @@ typedef struct _DtWmHints
 #define DtWM_BEHAVIOR_SUBPANEL		(1L << 2)
 #define DtWM_BEHAVIOR_SUB_RESTORED	(1L << 3)
 
-#ifdef HP_VUE
-/*
- * For Compatibility with some old HP VUE clients
- */
-#define _XA_VUE_WORKSPACE_INFO		"_VUE_WORKSPACE_INFO"
-#define _XA_VUE_WORKSPACE_HINTS		"_VUE_WORKSPACE_HINTS"
-#define _XA_VUE_WORKSPACE_PRESENCE	"_VUE_WORKSPACE_PRESENCE"
-#define _XA_VUE_WM_REQUEST		"_VUE_WM_REQUEST"
-#define _XA_VUE_WM_HINTS		"_VUE_WM_HINTS"
-#endif /* HP_VUE */
-
-
-
 /**********************************************************************
  * Session atom names 
  **********************************************************************/
@@ -262,29 +248,6 @@ typedef void (*DtWsmMarqueeSelectionProc) ();
  *        of information flow. In this case, the client writes the
  *        property and dtwm reads the property.
  *
- */
-#ifdef HP_VUE
-/*
- *  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
- *  % _VUE_WORKSPACE_INFO is obsolete, but maintained for      %
- *  %     backward compatiblity. Its function has been         %
- *  %     replaced by                                          %
- *  %         _DT_WORKSPACE_LIST                              %
- *  %         _DT_WORKSPACE_INFO_<name>                       %
- *  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
- *  _VUE_WORKSPACE_INFO		(dtwm -> client)
- *
- *  This property is a list of structures that contain information 
- *  on each workspace. Each structure contains the atom representing
- *  the workspace string name and the window id of the background
- *  window for the workspace (if any). The first workspace in the 
- *  list is the "active" workspace for the screen. This property is
- *  placed on the window identified by the "wmWindow" member of 
- *  the _MOTIF_WM_INFO property.
- */
-#endif /* HP_VUE */
-/*
- *
  *  _DT_WM_REQUEST	(client -> dtwm)
  *
  *  This property of type string that is used to communication 
@@ -328,21 +291,6 @@ typedef struct _DtWorkspaceHints
 
 /* DtWorkspaceHints "wsflags" definitions */
 #define DT_WORKSPACE_FLAGS_OCCUPY_ALL		(1L << 0)
-
-
-#ifdef HP_VUE
-/*
- * Obsolete WorkspaceInfo structure
- */
-typedef struct _WorkspaceInfo
-{
-    Atom	   workspace;		/* workspace "name" */
-    Window	   backgroundWindow;	/* backdrop window ID (if any) */
-    unsigned long  bg;			/* backdrop background pixel */
-    unsigned long  fg;			/* backdrop foreground pixel */
-    Atom	   backdropName;	/* atomized name for backdrop */
-} WorkspaceInfo;
-#endif /* HP_VUE */
 
 /**********************************************************************
  * Marquee Selection Structures
@@ -389,41 +337,6 @@ struct _DtWsmCBContext
 /**********************************************************************
  * Convenience Routines
  **********************************************************************/
-
-#ifdef HP_VUE
-/*************************************<->*************************************
- *
- *  Status DtGetWorkspaceInfo (display, root, ppWsInfo, pNumInfo)
- *
- *
- *  Description:
- *  -----------
- *  Get the contents of the _DT_WORKSPACE_INFO property on a window
- *
- *
- *  Inputs:
- *  ------
- *  display	- display 
- *  root	- root window of screen being managed
- *  ppWsInfo	- pointer to a pointer (to be returned)
- *  pNumInfo	- pointer to a number (to be returned)
- *
- *  Outputs:
- *  -------
- *  *ppWsInfo	- pointer to a list of workspace info structures
- *  *pNumInfo	- number of workspace info structures in list
- *  Return	- Success if property fetched ok.
- *		  Failure returns are from XGetWindowProperty
- * 
- *************************************<->***********************************/
-extern Status 
-DtGetWorkspaceInfo( 
-                        Display *display,
-                        Window root,
-                        WorkspaceInfo **ppWsInfo,
-                        unsigned long *pNumInfo) ;
-#endif /* HP_VUE */
-
 
 /*************************************<->*************************************
  *

@@ -39,10 +39,6 @@ extern Boolean DuplicateWorkspaceName (
 			int num);
 extern void UpdateWorkspacePresenceProperty( 
                         ClientData *pCD) ;
-#ifdef HP_VUE
-extern void UpdateWorkspaceInfoProperty( 
-                        WmScreenData *pSD) ;
-#endif /* HP_VUE */
 extern WmWorkspaceData * CreateWorkspace( 
                         WmScreenData *pSD,
                         unsigned char *name) ;

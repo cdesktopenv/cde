@@ -1079,11 +1079,6 @@ void InitWmGlobal (int argc, char *argv [], char *environ [])
                 MapIconBoxes (pSD->pActiveWS);
 
 		ChangeBackdrop (pSD->pActiveWS);
-
-#ifdef HP_VUE
-		UpdateWorkspaceInfoProperty (pSD); /* backward compatible */
-#endif /* HP_VUE */
-
 		SetCurrentWorkspaceProperty (pSD);
 		SetWorkspaceListProperty (pSD);
 

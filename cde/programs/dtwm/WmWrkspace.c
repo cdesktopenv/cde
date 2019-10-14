@@ -240,10 +240,6 @@ ChangeToWorkspace(
 	ShowPresenceBox(pSD->presence.pCDforClient, F_CONTEXT_ICON);
     }
 
-#ifdef HP_VUE
-    /* sync up workspace info property with current state */
-    UpdateWorkspaceInfoProperty (pSD);
-#endif /* HP_VUE */
     SetCurrentWorkspaceProperty (pSD);
 
     /* send workspace change broadcast message */
@@ -305,9 +301,6 @@ ChangeWorkspaceTitle(
      * Replace old workspace in info property
      */
     SetWorkspaceInfoProperty (pWS);
-#ifdef HP_VUE
-    UpdateWorkspaceInfoProperty (pWS->pSD);
-#endif /* HP_VUE */
     XFlush (DISPLAY);
 
     /*
@@ -391,83 +384,7 @@ UpdateWorkspacePresenceProperty(
 
 } /* END OF FUNCTION UpdateWorkspacePresenceProperty */
 
-#ifdef HP_VUE
-
-/*************************************<->*************************************
- *
- *  UpdateWorkspaceInfoProperty (pSD)
- *
- *
- *  Description:
- *  -----------
- *  This function updates the _DT_WORKSPACE_INFO property for the
- *  screen
- *
- *  Inputs:
- *  ------
- *  pSD  =  pointer to screen data
- *
- * 
- *************************************<->***********************************/
 
-void 
-UpdateWorkspaceInfoProperty(
-        WmScreenData *pSD )
-
-{
-    WorkspaceInfo *pWsInfo;
-    WmWorkspaceData *pws;
-    int count;
-
-    if (wmGD.useStandardBehavior)
-    {
-	/*
-	 * Don't change any workspace properties in standard behavior
-	 * mode.
-	 */
-	return;
-    }
-
-    if (pWsInfo = (WorkspaceInfo *) 
-		  XtMalloc (pSD->numWorkspaces * sizeof(WorkspaceInfo)))
-    {
-	/* put current workspace at top of list */
-	pWsInfo[0].workspace = pSD->pActiveWS->id;
-	pWsInfo[0].backgroundWindow = pSD->pActiveWS->backdrop.window;
-	pWsInfo[0].bg = pSD->pActiveWS->backdrop.background;
-	pWsInfo[0].fg = pSD->pActiveWS->backdrop.foreground;
-	pWsInfo[0].backdropName = pSD->pActiveWS->backdrop.nameAtom;
-
-	/* add in the rest of the workspaces */
-	pws = pSD->pWS;
-	for (count = 1; count < pSD->numWorkspaces; count++)
-	{
-	    if (pWsInfo[0].workspace == pws->id)
-		pws++;	/* already at top, skip this one */
-	    
-	    pWsInfo[count].workspace = pws->id;
-	    pWsInfo[count].backgroundWindow = pws->backdrop.window;
-	    pWsInfo[count].bg = pws->backdrop.background;
-	    pWsInfo[count].fg = pws->backdrop.foreground;
-	    pWsInfo[count].backdropName = pws->backdrop.nameAtom;
-	    pws++;
-	}
-
-	/* set the property */
-	SetWorkspaceInfo (pSD->wmWorkspaceWin, pWsInfo,
-					    pSD->numWorkspaces);
-
-	XtFree ((char *)pWsInfo);
-    }
-    else
-    {
-	Warning (((char *)GETMESSAGE(76, 3, "Insufficient memory to update workspace info")));
-    }
-
-} /* END OF FUNCTION UpdateWorkspaceInfoProperty */
-#endif /* HP_VUE */
-
-
 /*************************************<->*************************************
  *
  *  AddPersistentWindow (pWS)
@@ -848,9 +765,6 @@ ProcessDtWmHints (ClientData *pCD)
 {
     DtWmHints *pHints;
     Atom	property;
-#ifdef HP_VUE
-    Atom	propertyVUE;
-#endif /* HP_VUE */
     long	saveFunctions;
 
     /*
@@ -858,16 +772,9 @@ ProcessDtWmHints (ClientData *pCD)
      */
 
     property = XmInternAtom(DISPLAY, _XA_DT_WM_HINTS, False);
-#ifdef HP_VUE
-    propertyVUE = XmInternAtom(DISPLAY, _XA_VUE_WM_HINTS, False);
-#endif /* HP_VUE */
 
     if (
-#ifdef HP_VUE
-	((HasProperty (pCD, property)) || (HasProperty (pCD, propertyVUE))) 
-#else /* HP_VUE */
 	(HasProperty (pCD, property)) 
-#endif /* HP_VUE */
         && (_DtWsmGetDtWmHints (DISPLAY, pCD->client, &pHints) == Success))
     {
 	pCD->clientFlags |= GOT_DT_WM_HINTS;
@@ -997,14 +904,7 @@ GetClientWorkspaceInfo(
 	   GetMyOwnPresence (pCD, &pIDs, &numIDs)) ||
 	 (WorkspaceIsInCommand (DISPLAY, pCD, &pIDs, &numIDs)) ||
 	 (
-#ifdef HP_VUE
-	  (HasProperty (pCD, wmGD.xa_DT_WORKSPACE_HINTS) ||
-	   HasProperty (pCD, 
-			XmInternAtom (DISPLAY, _XA_VUE_WORKSPACE_HINTS,
-			False)))
-#else /* HP_VUE */
 	  HasProperty (pCD, wmGD.xa_DT_WORKSPACE_HINTS) 
-#endif /* HP_VUE */
 	  && (GetWorkspaceHints (DISPLAY, pCD->client, &pIDs, &numIDs, &bAll) == 
 	         Success))) &&
 	 numIDs)
@@ -3306,14 +3206,7 @@ GetMyOwnPresence(
      * Get the workspace presence property 
      */
     if (
-#ifdef HP_VUE
-	(HasProperty (pCD, wmGD.xa_DT_WORKSPACE_PRESENCE) ||
-	 HasProperty (pCD, 
-		      XmInternAtom (DISPLAY, _XA_VUE_WORKSPACE_PRESENCE, 
-		      False)))
-#else /* HP_VUE */
 	HasProperty (pCD, wmGD.xa_DT_WORKSPACE_PRESENCE) 
-#endif /* HP_VUE */
 	&& (DtWsmGetWorkspacesOccupied (DISPLAY, pCD->client, ppIDs,
 				       &nIDs) == Success))
     {

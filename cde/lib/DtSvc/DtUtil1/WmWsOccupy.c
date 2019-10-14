@@ -77,14 +77,6 @@ static int _GetWorkspacesOccupied(
                         Atom **ppaWs,
                         unsigned long *pNumWs,
                         Atom property) ;
-#ifdef HP_VUE
-static int _GetWorkspacePresence(
-			Display *display,
-			Window window,
-			Atom **ppWsPresence,
-			unsigned long *pNumPresence,
-			Atom property ) ;
-#endif /* HP_VUE */
 
 /********    End Static Function Declarations    ********/
 
@@ -159,79 +151,7 @@ _GetWorkspacesOccupied(
 
 } /* END OF FUNCTION GetWorkspacesOccupied */
 
-#ifdef HP_VUE
-
-/*************************************<->*************************************
- *
- *  int _GetWorkspacePresence (display, window, ppWsPresence, 
- *                                  pNumPresence, property)
- *
- *
- *  Description:
- *  -----------
- *  Get the contents of the _DT_WORKSPACE_PRESENCE property on a window
- *
- *
- *  Inputs:
- *  ------
- *  display		- display 
- *  window		- window to get hints from
- *  ppWsPresence	- pointer to a pointer to return
- *  pNumPresence	- pointer to a number to return
- *  property		- the property atom
- *
- *  Outputs:
- *  --------
- *  *ppWsPresence	- points to the list of workspace info structures
- *                 	  (NOTE: This should be freed using XFree)
- *  *pNumPresence  	- the number of workspace info structure in the list
- *  Return		- status from XGetWindowProperty
- *
- *  Comments:
- *  ---------
- *  Assumes that less than BUFSIZ bytes will be returned. This code
- *  won't work for very large amounts of info (lots of workspaces).
- * 
- *************************************<->***********************************/
-static int 
-_GetWorkspacePresence(
-        Display *display,
-        Window window,
-        Atom **ppWsPresence,
-        unsigned long *pNumPresence,
-        Atom property )
-{
-    Atom actualType;
-    int actualFormat;
-    unsigned long leftover;
-    int rcode;
 
-    *ppWsPresence = NULL;
-    if ((rcode=XGetWindowProperty(display,window,
-			 property,0L, (long)BUFSIZ,
-			 False,property,
-			 &actualType,&actualFormat,
-			 pNumPresence,&leftover,(unsigned char **)ppWsPresence))==Success)
-    {
-
-        if (actualType != property)
-	{
-	    /* wrong type, force failure */
-	    *pNumPresence = 0;
-	    rcode = BadValue;
-	    if (actualType != None)
-	    {
-		XFree ((char *)*ppWsPresence);
-	    }
-	}
-    }
-	
-    return(rcode);
-
-} /* END OF FUNCTION GetWorkspacePresence */
-#endif /* HP_VUE */
-
-
 /*************************************<->*************************************
  *
  *  int DtWsmGetWorkspacesOccupied (display, window, ppaWs, pNumWs)
@@ -277,18 +197,6 @@ DtWsmGetWorkspacesOccupied(
 			pNumWs, 
 			XmInternAtom(display, _XA_DT_WORKSPACE_PRESENCE,
 			    False));
-#ifdef HP_VUE
-    /*
-     * Be compatible with HP VUE
-     */
-    if (rcode != Success)
-    {
-	rcode =  _GetWorkspacePresence (display, window, ppaWs, 
-			pNumWs, 
-			XmInternAtom(display, _XA_VUE_WORKSPACE_PRESENCE,
-			    False));
-    }
-#endif /* HP_VUE */
 
     _DtSvcAppUnlock(app);
     return (rcode);
