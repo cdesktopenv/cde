@@ -139,7 +139,6 @@ char defaultSystemMenuName[] = "_MwmWindowMenu_";
 char defaultSystemMenuName[] = "DefaultWindowMenu";
 #endif	/* NO_MESSAGE_CATALOG */
 char builtinSystemMenuName[] = "_MwmWindowMenu_";
-#ifndef MCCABE
 #define BUILTINSYSTEMMENU "_MwmWindowMenu_\n\
 {\n\
 	Restore		_R	Alt<Key>F5	f.restore\n\
@@ -434,14 +433,10 @@ void InitBuiltinSystemMenu(void)
     
 } /* END OF FUNCTION  InitBuiltinSystemMenu */
 #endif /* NO_MESSAGE_CATALOG */
-#else /* MCCABE */
-char builtinSystemMenu[];
-#endif /* MCCABE */
 
 #define HARD_CODED_PRIMARY   3
 char defaultRootMenuName[] = "DefaultRootMenu";
 char builtinRootMenuName[] = "_MwmRootMenu_";
-#ifndef MCCABE
 #define BUILTINROOTMENU "DefaultRootMenu\n\
 {\n\
 	\"Root Menu\"		f.title\n\
@@ -454,16 +449,12 @@ char builtinRootMenuName[] = "_MwmRootMenu_";
 	\"Restart...\"		f.restart\n\
 }";
 char builtinRootMenu[] = BUILTINROOTMENU
-#else /* MCCABE */
-char builtinRootMenu[];
-#endif /* MCCABE */
 
 
 /* builtin key bindings specification */
 
 char defaultKeyBindingsName[] = "DefaultKeyBindings";
 char builtinKeyBindingsName[] = "_MwmKeyBindings_";
-#ifndef MCCABE
 #define BUILTINKEYBINDINGS "_MwmKeyBindings_\n\
 {\n\
 	Shift<Key>Escape	window|icon		f.post_wmenu\n\
@@ -480,10 +471,6 @@ char builtinKeyBindingsName[] = "_MwmKeyBindings_";
 }";
 char builtinKeyBindings[] = BUILTINKEYBINDINGS
 
-#else
-char builtinKeyBindings[];
-#endif
-
 /*
  * NOTE: Default Toggle Behavior key bindings.  There are TWO key bindings as
  * of 1.1.4 and 1.2.  Make sure you make any modify builtinKeyBindings (above)
@@ -491,7 +478,6 @@ char builtinKeyBindings[];
  */
 
 char behaviorKeyBindingName[] = "_MwmBehaviorKey_";
-#ifndef MCCABE
 #define BEHAVIORKEYBINDINGS "_MwmBehaviorKey_\n\
 {\n\
 	Alt Shift Ctrl<Key>exclam root|icon|window	f.set_behavior\n\
@@ -499,17 +485,11 @@ char behaviorKeyBindingName[] = "_MwmBehaviorKey_";
 }";
 char behaviorKeyBindings[] = BEHAVIORKEYBINDINGS
 
-#else
-char behaviorKeyBindings[];
-#endif
-
-
 /* default button bindings specification */
 /* note - the %s will be replaced by the real DefaultRootMenu */
 
 char defaultButtonBindingsName[] = "DefaultButtonBindings";
 char builtinButtonBindingsName[] = "_MwmButtonBindings_";
-#ifndef MCCABE
 # define BUILTINBUTTONBINDINGS "_MwmButtonBindings_\n\
 {\n\
 	<Btn1Down>	icon|frame	f.raise\n\
@@ -517,11 +497,6 @@ char builtinButtonBindingsName[] = "_MwmButtonBindings_";
 	<Btn3Down>	root		f.menu DefaultRootMenu\n\
 }";
 char builtinButtonBindings[] = BUILTINBUTTONBINDINGS
-
-#else
-char builtinButtonBindings[];
-#endif
-
 
 static ClientData *_pCD;
 static String _defaultBackground;

@@ -463,22 +463,6 @@ void WmDtWmStringHelpCB (Widget theWidget,
     char * theHelpString = (char *)client_data;
     pSD = WmScreenDataFromWidget(theWidget);
 
-#ifdef OLD
-    if (XtDisplay(theWidget) == DISPLAY)
-    {
-	WmDtDisplayTopic(pSD->screenTopLevelW1, 
-			  NULL, theHelpString, 
-			  DtHELP_TYPE_STRING, theWidget, True,
-			  NULL, 0, NULL, False, NULL);
-    }
-    else
-    {
-	WmDtDisplayTopic(theWidget, NULL, theHelpString, 
-			  DtHELP_TYPE_STRING, theWidget, True,
-			  NULL, 0, NULL, False, NULL);
-
-    }
-#endif /* OLD */
 	WmDtDisplayTopic(pSD->screenTopLevelW1, 
 			  NULL, theHelpString, 
 			  DtHELP_TYPE_DYNAMIC_STRING, theWidget, True,
@@ -760,12 +744,6 @@ static void WmDtVersionPopupCB (
 
     if (w)
     {
-#ifdef OLD
-	n = 0;
-	XtSetArg (setArgs[n], XmNx, 0);  n++;
-	XtSetArg (setArgs[n], XmNy, 0);  n++;
-#endif /* OLD */
-
         /*
          * Center the Version Dialog on the screen
          */
@@ -973,7 +951,6 @@ void WmDtHelpOnVersion (
 			 Widget  parent)
 
 {
-#ifndef NO_DT
 
     Arg	 	setArgs[10];	
     Arg	 	setArgs2[5];	
@@ -1050,9 +1027,6 @@ void WmDtHelpOnVersion (
 	XtSetValues(versionWidget, setArgs, n);
     }
     XtManageChild(versionWidget);
-
-#endif /* NO_DT */
-
 } /* END OF FUNCTION WmDtHelpOnVersion  */
 
 
@@ -1314,7 +1288,6 @@ WmDtDisplayTopic (
     DisplayTopicInfo *displayTopicInfo)
 
 {
-#ifndef NO_DT
     Arg	 	setArgs[10]; 
     Arg	 	smallArgs[2];	
     ArgList  argsNew;
@@ -1526,7 +1499,6 @@ WmDtDisplayTopic (
 	}
 
     } /* if n is still 0, we did not find a useful help type */
-#endif /* NO_DT */
 } /* END OF FUNCTION WmDtDisplayTopic  */
 
 
@@ -1646,7 +1618,6 @@ Boolean
 RestoreHelpDialogs(
         WmScreenData *pSD)
 {
-#ifndef NO_DT
     XrmDatabase db;
     XrmName xrm_name[5];
     XrmRepresentation rep_type;
@@ -2034,8 +2005,6 @@ RestoreHelpDialogs(
 
 	XrmDestroyDatabase(db);
     }
-#endif /* NO_DT */
-
     return True;
 } /* END OF FUNCTION  RestoreHelpDialogs */
 
@@ -2067,7 +2036,6 @@ void
 SaveHelpResources(
         WmScreenData *pSD)
 {
-#ifndef NO_DT
     PtrWsDtHelpData  pHelp;
     CacheListStruct *pTemp; 
     Arg getArgs[20];
@@ -2389,7 +2357,6 @@ SaveHelpResources(
 	_DtAddToResource (DISPLAY, data);
 	XtFree(data);
     }
-#endif /*  NO_DT */
 } /* END OF FUNCTION  SaveHelpResources */
 
 
@@ -2592,25 +2559,6 @@ wmDtHelpSetPosition(
 	    GetSystemMenuPosition (pHelp->pCDforClient, 
 				   &x, &y, height,
 				   (Context)0);
-#ifdef NO
-	    if(y < pHelp->pCDforClient->frameInfo.y)
-	    {
-		if (!XFindContext (DISPLAY, XtWindow(pHelp->shell),
-				   wmGD.windowContextType, 
-				   (caddr_t *)&pCDforHelp))
-		{
-		    if (wmGD.positionIsFrame)
-		    {
-/*			x = x - pCDforHelp->clientOffset.x;*/
-			y = y - pCDforHelp->clientOffset.x;
-		    }
-		}
-		else
-		{
-		    y = y - (2 * pSD->frameBorderWidth);
-		}
-	    }
-#endif
 	}
 	else
 	{
@@ -2642,24 +2590,6 @@ wmDtHelpSetPosition(
 	XtSetArg (al[ac], XmNwindowGroup, &wGroup); ac++;
 	XtGetValues (pHelp->shell, al, ac);
 
-#ifdef FUTURE
-	if (pHelp->contextForClient != F_CONTEXT_ICON)
-	{
-	    XtSetArg (args[n], XmNwindowGroup, 
-		      pHelp->pCDforClient->client); 
-	    n++;
-	}
-	else if (pSD->useIconBox && P_ICON_BOX(pHelp->pCDforClient))
-	{
-	    XtSetArg (args[n], XmNwindowGroup, 
-		      P_ICON_BOX(pHelp->pCDforClient)->pCD_iconBox->client); 
-	    n++;
-	}
-	else
-	{
-	    XtSetArg (args[n], XmNwindowGroup, 0); n++;
-	}
-#else /* FUTURE */
         if (wGroup != pHelp->pCDforClient->client)
 	{
 	    /*
@@ -2671,7 +2601,6 @@ wmDtHelpSetPosition(
 	}
 
 	XtSetArg (args[n], XmNwindowGroup, pHelp->pCDforClient->client); n++;
-#endif /* FUTURE */
     }
     else
     {

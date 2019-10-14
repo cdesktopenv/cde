@@ -46,9 +46,7 @@
 #include "WmKeyFocus.h"
 #include "WmMenu.h"
 #include "WmWinInfo.h"
-#ifndef NO_WMQUERY 
 #include "WmEvent.h"
-#endif /* NO_WMQUERY */
 #include "WmPanelP.h"
 
 /*
@@ -56,7 +54,6 @@
  */
 
 #include "WmProtocol.h"
-#ifndef NO_WMQUERY
 static Boolean wmq_convert (Widget w, Atom *pSelection, Atom *pTarget, 
     Atom *pType_return, XtPointer *pValue_return, unsigned long *pLength_return,
     int *pFormat_return);
@@ -68,13 +65,11 @@ static void wmq_add_xid (XID win);
 static void wmq_done (Widget w, Atom *pSelection, Atom *pTarget);
 static void wmq_lose (Widget w, Atom *pSelection);
 static void wmq_bump_xids(void);
-#endif /* NO_WMQUERY */
 
 
 /*
  * Global Variables:
  */
-#ifndef NO_WMQUERY
 Atom *xa_WM_QUERY = NULL;
 Atom xa_WM_POINTER_WINDOW;
 Atom xa_WM_CLIENT_WINDOW;
@@ -82,7 +77,6 @@ Atom xa_WM_ALL_CLIENTS;
 XID *pXids = NULL;
 int numXids = -1;
 int curXids = 0;
-#endif /* NO_WMQUERY */
 
 
 
@@ -110,10 +104,8 @@ void SetupWmICCC (void)
 	   XA_WM_SAVE_YOURSELF, XA_WM_DELETE_WINDOW,
 	   XA_WM_COLORMAP_WINDOWS, XA_WM_TAKE_FOCUS, XA_MWM_HINTS,
 	   XA_MWM_MENU, XA_MWM_MESSAGES, XA_MOTIF_WM_OFFSET,
-#if !defined(NO_WMQUERY)
 	   XA_MOTIF_WM_CLIENT_WINDOW, XA_MOTIF_WM_POINTER_WINDOW,
 	   XA_MOTIF_WM_ALL_CLIENTS,
-#endif
 	   XA_COMPOUND_TEXT, NUM_ATOMS };
 
     static char *atom_names[] = {
@@ -121,7 +113,6 @@ void SetupWmICCC (void)
 	   _XA_WM_SAVE_YOURSELF, _XA_WM_DELETE_WINDOW,
 	   _XA_WM_COLORMAP_WINDOWS, _XA_WM_TAKE_FOCUS, _XA_MWM_HINTS,
 	   _XA_MWM_MENU, _XA_MWM_MESSAGES, _XA_MOTIF_WM_OFFSET,
-#if !defined(NO_WMQUERY)
 # ifdef _XA_MOTIF_WM_CLIENT_WINDOW
 	   _XA_MOTIF_WM_CLIENT_WINDOW, _XA_MOTIF_WM_POINTER_WINDOW,
 	   _XA_MOTIF_WM_ALL_CLIENTS, 
@@ -129,7 +120,6 @@ void SetupWmICCC (void)
 	   "_MOTIF_WM_CLIENT_WINDOW", "_MOTIF_WM_POINTER_WINDOW",
 	   "_MOTIF_WM_ALL_CLIENTS",
 # endif
-#endif
 	   "COMPOUND_TEXT"
     };
 
@@ -157,7 +147,6 @@ void SetupWmICCC (void)
 
     wmGD.xa_COMPOUND_TEXT = atoms[XA_COMPOUND_TEXT];
 
-#ifndef NO_WMQUERY
     if (!(xa_WM_QUERY = (Atom *) XtMalloc (wmGD.numScreens * (sizeof (Atom)))))
     {
 	Warning (((char *)GETMESSAGE(56, 2, "Insufficient memory to XInternAtom _MOTIF_WM_QUERY_nn")));
@@ -181,8 +170,6 @@ void SetupWmICCC (void)
     xa_WM_CLIENT_WINDOW  = atoms[XA_MOTIF_WM_CLIENT_WINDOW];
     xa_WM_POINTER_WINDOW = atoms[XA_MOTIF_WM_POINTER_WINDOW];
     xa_WM_ALL_CLIENTS    = atoms[XA_MOTIF_WM_ALL_CLIENTS];
-#endif /* NO_WMQUERY */
-
 
     /*
      * Setup the icon size property on the root window.
@@ -205,7 +192,6 @@ void SetupWmICCC (void)
 	}
     }
 
-#ifndef NO_WMQUERY
     /*
      * Assert ownership of the WM_QUERY selection
      */
@@ -224,9 +210,6 @@ void SetupWmICCC (void)
 	      }
 	}
     }
-#endif /* NO_WMQUERY */
-
-
 } /* END OF FUNCTION SetupWmICCC */
 
 
@@ -692,8 +675,6 @@ void TimeoutProc (caddr_t client_data, XtIntervalId *id)
 } /* END OF FUNCTION TimeoutProc */
 
 
-#ifndef NO_WMQUERY 
-
 /*************************************<->*************************************
  *
  *  Boolean wmq_convert (w, pSelection, pTarget, pType_return, 
@@ -1070,4 +1051,3 @@ wmq_bump_xids ( void )
     }
 }
 
-#endif /* NO_WMQUERY */

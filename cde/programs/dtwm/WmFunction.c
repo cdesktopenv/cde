@@ -955,7 +955,6 @@ Boolean F_Exec (String args, ClientData *pCD, XEvent *event)
 #endif
     {
 
-#ifndef NO_SETPGRP
 #if defined(SVR4) || defined(__linux__)
 	setsid();
 #else
@@ -968,7 +967,6 @@ Boolean F_Exec (String args, ClientData *pCD, XEvent *event)
 	setpgrp(tpid, tpid);
 #endif /* SYSV */
 #endif /* SVR4 */
-#endif /* NO_SETPGRP */
 
 	/*
 	 * Clean up window manager resources.
@@ -1830,30 +1828,10 @@ F_Help_Mode (String args, ClientData *pCD, XEvent *event)
 
 Boolean F_Next_Key (String args, ClientData *pCD, XEvent *event)
 {
-#ifdef ROOT_ICON_MENU
-    Boolean focused = False;
-#endif /*  ROOT_ICON_MENU */
     if (wmGD.keyboardFocusPolicy == KEYBOARD_FOCUS_EXPLICIT)
     {
-#ifdef ROOT_ICON_MENU
-	focused = 
-#endif /*  ROOT_ICON_MENU */
 	FocusNextWindow ((unsigned long)args,
 			 GetFunctionTimestamp ((XButtonEvent *)event));
-#ifdef ROOT_ICON_MENU
-        if (focused && wmGD.iconClick &&
-            event && event->type == KeyPress &&
-            wmGD.nextKeyboardFocus &&
-            wmGD.nextKeyboardFocus->clientState == MINIMIZED_STATE &&
-            !P_ICON_BOX(wmGD.nextKeyboardFocus))
-        {
-            /*
-             * Post system menu from the icon
-             */
-            F_Post_SMenu (args, wmGD.nextKeyboardFocus, event);
-            return (False);
-        }
-#endif /*  ROOT_ICON_MENU */
     }
 
     return (True);
@@ -1892,16 +1870,12 @@ Boolean F_Prev_Cmap (String args, ClientData *pCD, XEvent *event)
 	pCD->clientColormap = pCD->clientCmapList[pCD->clientCmapIndex];
 	if (ACTIVE_PSD->colormapFocus == pCD)
 	{
-#ifndef OLD_COLORMAP /* colormap */
 	    /*
 	     * We just re-ordered the colormaps list,
 	     * so we need to re-run the whole thing.
 	     */
 	    pCD->clientCmapFlagsInitialized = 0;
 	    ProcessColormapList (ACTIVE_PSD, pCD);
-#else /* OSF original */
-	    WmInstallColormap (ACTIVE_PSD, pCD->clientColormap);
-#endif
 	}
     }
 
@@ -1934,31 +1908,10 @@ Boolean F_Prev_Cmap (String args, ClientData *pCD, XEvent *event)
 
 Boolean F_Prev_Key (String args, ClientData *pCD, XEvent *event)
 {
-#ifdef ROOT_ICON_MENU
-    Boolean focused = False;
-#endif /*  ROOT_ICON_MENU */
     if (wmGD.keyboardFocusPolicy == KEYBOARD_FOCUS_EXPLICIT)
     {
-#ifdef ROOT_ICON_MENU
-	focused = 
-#endif /*  ROOT_ICON_MENU */
 	FocusPrevWindow ((unsigned long)args,
 			    GetFunctionTimestamp ((XButtonEvent *)event));
-#ifdef ROOT_ICON_MENU
-        if (focused && wmGD.iconClick &&
-            event && event->type == KeyPress &&
-            wmGD.nextKeyboardFocus &&
-            wmGD.nextKeyboardFocus->clientState == MINIMIZED_STATE &&
-            !P_ICON_BOX(wmGD.nextKeyboardFocus))
-        {
-            /*
-             * Post system menu from the icon
-             */
-            F_Post_SMenu (args, wmGD.nextKeyboardFocus, event);
-            return (False);
-        }
-#endif /*  ROOT_ICON_MENU */
-
     }
 
     return (True);
@@ -2468,16 +2421,12 @@ Boolean F_Next_Cmap (String args, ClientData *pCD, XEvent *event)
 	pCD->clientColormap = pCD->clientCmapList[pCD->clientCmapIndex];
 	if (ACTIVE_PSD->colormapFocus == pCD)
 	{
-#ifndef OLD_COLORMAP /* colormap */
 	    /*
 	     * We just re-ordered the colormaps list,
 	     * so we need to re-run the whole thing.
 	     */
 	    pCD->clientCmapFlagsInitialized = 0;
 	    ProcessColormapList (ACTIVE_PSD, pCD);
-#else /* OSF original */
-	    WmInstallColormap (ACTIVE_PSD, pCD->clientColormap);
-#endif
 	}
     }
 

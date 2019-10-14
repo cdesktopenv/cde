@@ -159,7 +159,6 @@ void AdoptInitialClients (WmScreenData *pSD)
     if (XQueryTree (DISPLAY, pSD->rootWindow, &root, &parent, &clients,
 	    &nclients))
     {
-#ifndef DONT_FILTER_ICON_WINDOWS
 	/*
 	 * Filter out icon windows so they don't get managed as a client
 	 * window.  Icon windows will be process in SetupClientIconWindow().
@@ -181,7 +180,6 @@ void AdoptInitialClients (WmScreenData *pSD)
 		}
 	    }
 	}
-#endif
 
 	for (i = 0; i < nclients; i++)
 	{
@@ -1153,9 +1151,7 @@ void WithdrawWindow (ClientData *pCD)
 	}
 	XtFree ((char *) (pCD->cmapWindows));
 	XtFree ((char *) (pCD->clientCmapList));
-#ifndef OLD_COLORMAP /* colormap */
 	XtFree ((char  *) (pCD->clientCmapFlags));
-#endif
     }
 
     /*

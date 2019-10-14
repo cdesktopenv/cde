@@ -122,14 +122,6 @@ Pixmap MakeClientIconPixmap (
 	return ((Pixmap)NULL);
     }
 
-#ifdef DISALLOW_DEEP_ICONS
-    if (depth != 1)
-    {
-	Warning (((char *)GETMESSAGE(38, 10, "Color icon pixmap not supported")));
-	return ((Pixmap)NULL);
-    }
-#endif
-
     /*
      * Color the bitmap, center it in a pixmap ....
      */
@@ -582,7 +574,6 @@ Pixmap MakeIconPixmap (ClientData *pCD, Pixmap bitmap, Pixmap mask, unsigned int
     XChangeGC (DISPLAY, imageGC, gc_mask, &gcv);
 
     /* copy the bitmap to the pixmap */
-#ifndef DISALLOW_DEEP_ICONS
     if ((depth > 1) &&
         (depth == DefaultDepth(DISPLAY, pSD->screen)))
     {
@@ -595,7 +586,6 @@ Pixmap MakeIconPixmap (ClientData *pCD, Pixmap bitmap, Pixmap mask, unsigned int
 #endif /* NO_CLIP_CENTER */
     }
     else
-#endif /* DISALLOW_DEEP_ICONS */
 #ifndef NO_CLIP_CENTER
     XCopyPlane (DISPLAY, bitmap, iconPixmap, imageGC, src_x, src_y, width, 
 		height, dest_x, dest_y, 1L);

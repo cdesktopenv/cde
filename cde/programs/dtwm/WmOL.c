@@ -20,7 +20,6 @@
  * to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301 USA
  */
-#ifndef NO_OL_COMPAT
 /* 
  * (c) Copyright 1989 Sun Microsystems, Inc.
  * (c) Copyright 1993 HEWLETT-PACKARD COMPANY 
@@ -469,4 +468,3 @@ ProcessOLDecoration(
 
 } /* END OF FUNCTION ProcessOLDecoration */
 
-#endif /* NO_OL_COMPAT */

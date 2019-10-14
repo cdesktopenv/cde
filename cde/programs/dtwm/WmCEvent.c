@@ -641,13 +641,11 @@ Boolean HandleEventsOnClientWindow (ClientData *pCD, XEvent *pEvent)
 {
     Boolean doXtDispatchEvent = True;
 
-#ifndef NO_SHAPE
     if (pEvent->type == (wmGD.shapeEventBase+ShapeNotify))
     {
         HandleCShapeNotify (pCD, (XShapeEvent *)pEvent);
     }
     else
-#endif /* NO_SHAPE */
     switch (pEvent->type)
     {
 	case ColormapNotify:
@@ -822,16 +820,12 @@ void HandleCPropertyNotify (ClientData *pCD, XPropertyEvent *propertyEvent)
 		     * The client window has the colormap focus, install the
 		     * colormap.
 		     */
-#ifndef OLD_COLORMAP /* colormap */
 		    /*
 		     * We just changed the colormaps list,
 		     * so we need to re-run the whole thing.
 		     */
 		    pCD->clientCmapFlagsInitialized = 0;
 		    ProcessColormapList (ACTIVE_PSD, pCD);
-#else /* OSF original */
-		    WmInstallColormap (ACTIVE_PSD, pCD->clientColormap);
-#endif
 		}
 	    }
 	    break;
@@ -1945,9 +1939,6 @@ void HandleCEnterNotify (ClientData *pCD, XEnterWindowEvent *enterEvent)
  *	* the menu comes unposted, the new window has input focus, but no
  *	  client active decorations are changed.
  */
-#ifdef SGI_FOCUS_PATCH
-		    SetKeyboardFocus (pCD, REFRESH_LAST_FOCUS);
-#endif
 		}
 	    }
 	    if (wmGD.colormapFocusPolicy == CMAP_FOCUS_POINTER)
@@ -2570,8 +2561,6 @@ void HandleClientMessage (ClientData *pCD, XClientMessageEvent *clientEvent)
 } /* END OF FUNCTION HandleClientMessage */
 
 
-#ifndef NO_SHAPE
-
 /*************************************<->*************************************
  *
  *  HandleCShapeNotify (pCD, shapeEvent)
@@ -2602,9 +2591,7 @@ HandleCShapeNotify (ClientData *pCD,  XShapeEvent *shapeEvent)
 	SetFrameShape (pCD);
     }
 } /* END OF FUNCTION HandleCShapeNotify */
-#endif /* NO_SHAPE */
 
-
 /*************************************<->*************************************
  *
  *  GetParentWindow (window)

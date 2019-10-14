@@ -51,9 +51,7 @@
 #include <stdio.h>
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
-#ifndef NO_SHAPE
 #include <X11/extensions/shape.h>
-#endif /* NO_SHAPE  */
 #include <X11/IntrinsicP.h>
 #include <X11/Intrinsic.h>
 #include <X11/StringDefs.h>
@@ -1536,19 +1534,15 @@ typedef struct _ClientData
     Colormap	*clientCmapList;
     int		clientCmapCount;		/* len of clientCmapList */
     int		clientCmapIndex;		/* current cmap in list */
-#ifndef OLD_COLORMAP /* colormap */
     int		*clientCmapFlags;		/* installed, uninstalled */
     Bool	clientCmapFlagsInitialized;	/* Are clientCmapFlags valid? */
-#endif
 
     /* associated window data: */
 
     ClientListEntry clientEntry;
     ClientListEntry iconEntry;
     XID		windowGroup;			/* WM_HINTS field */
-#ifndef NO_OL_COMPAT
     Boolean	bPseudoTransient;		/* transientFor window group */
-#endif /* NO_OL_COMPAT */
     IconBoxData *thisIconBox;			/* icon box data for self */
     						/*   if this is an icon box */
     Context    grabContext;                     /* used to support icon box */
@@ -1687,9 +1681,7 @@ typedef struct _ClientData
     Window	attachWindow;		/* _DT_WM_HINTS */
     SlideDirection	slideDirection;	/* slide-up direction */
     SlideOutRec	*pSOR;			/* slide-out record */
-#ifndef NO_SHAPE
     short       wShaped;                /* this window has a bounding shape */
-#endif /* NO_SHAPE  */
 
     int		usePPosition;		/* indicate whether to use PPosition */
 
@@ -1957,7 +1949,6 @@ typedef struct _WmGlobalData
     Atom        xa_DT_WM_LOCK_DISPLAY;
     Atom        xa_DT_WM_READY;
 
-#ifndef NO_OL_COMPAT
     Atom	xa_OL_WIN_ATTR;
     Atom	xa_OL_DECOR_RESIZE;
     Atom	xa_OL_DECOR_HEADER;
@@ -1974,7 +1965,6 @@ typedef struct _WmGlobalData
     Atom	xa_OL_PIN_OUT;
     Atom	xa_OL_MENU_LIMITED;
     Atom	xa_OL_MENU_FULL;
-#endif /* NO_OL_COMPAT */
 
     /* mwm specific appearance and behavior resources and data: */
 
@@ -2038,10 +2028,8 @@ typedef struct _WmGlobalData
     Window	attributesWindow;
     XWindowAttributes	windowAttributes;
 
-#ifndef NO_SHAPE
     Boolean     hasShape;                /* server supports Shape extension */
     int         shapeEventBase, shapeErrorBase;
-#endif /* NO_SHAPE */
     /* Need to replay enter notify events on windows with the
        pointer that used to be modalized.  This is for pointer focus. */
     int         replayEnterEvent;

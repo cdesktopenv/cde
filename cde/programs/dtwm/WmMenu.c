@@ -1439,29 +1439,7 @@ void PostMenu (MenuSpec *menuSpec, ClientData *pCD, int x, int y, unsigned int b
 			   passedInEvent->xbutton.time);
     }
     
-#ifndef ALTERNATE_POSTMENU
-
     XtManageChild (menuSpec->menuWidget);
-
-#else
-    if (flags & POST_STICKY)
-    {
-	_XmSetPopupMenuClick(menuSpec->menuWidget, True);
-    }
-    else
-    {
-	_XmSetPopupMenuClick(menuSpec->menuWidget, False);
-    }
-
-    /* 
-     * Post the menu by calling the convenience routine that verifies
-     * the button event, updates the Xt timestamp, and finally manages
-     * the pane.
-     */
-
-    _XmPostPopupMenu( menuSpec->menuWidget, passedInEvent);
-#endif
-
 
     /*
      *  set the traversal state.
@@ -1516,9 +1494,7 @@ void UnpostMenu (MenuSpec *menuSpec)
      */
     {
         XtUnmanageChild (menuSpec->menuWidget);
-#ifndef OLD_COLORMAP
         ForceColormapFocus (ACTIVE_PSD, ACTIVE_PSD->colormapFocus);
-#endif
     }
 
 } /* END OF FUNCTION UnpostMenu */
@@ -1612,9 +1588,7 @@ static void UnmapCallback (Widget w, XtPointer client_data,
 	PopGadgetOut(wmGD.gadgetClient, FRAME_SYSTEM);
     }
 
-#ifndef OLD_COLORMAP
     ForceColormapFocus (ACTIVE_PSD, ACTIVE_PSD->colormapFocus);
-#endif
     PullExposureEvents();
 
 } /* END OF FUNCTION UnmapCallback */

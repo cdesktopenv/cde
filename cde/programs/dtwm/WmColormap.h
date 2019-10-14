@@ -32,9 +32,7 @@
 
 extern void InitWorkspaceColormap (WmScreenData *pSD);
 extern void InitColormapFocus (WmScreenData *pSD);
-#ifndef OLD_COLORMAP
 extern void ForceColormapFocus (WmScreenData *pSD, ClientData *pCD);
-#endif
 extern void SetColormapFocus (WmScreenData *pSD, ClientData *pCD);
 extern void WmInstallColormap (WmScreenData *pSD, Colormap colormap);
 extern void ResetColormapData (ClientData *pCD, Window *pWindows, int count);
