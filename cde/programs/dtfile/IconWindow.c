@@ -300,7 +300,6 @@ FileWindowInputCallback(
    Modifiers modif;
    int offset;
    Boolean found;
-
    /* Do nothing if a Button 2 drag is already ramping up */
    if (B2DragPossible)
       return;
@@ -835,7 +834,15 @@ FileWindowInputCallback(
       }
       else
       {
-         event = (XButtonPressedEvent *)new_event;
+         event = (XButtonPressedEvent *)new_event;		/* %%% */
+         if(event->button == Button4 || event->button == Button5) {
+                String p = event->button == Button4 ? "up" : "down";
+                String q = event->button == Button4 ? "IncrementUpOrLeft" : "IncrementDownOrRight";
+                  if( VerticalScrollbarIsVisible(
+                              file_mgr_rec->vertical_scroll_bar,
+                              file_mgr_rec->scroll_window))
+                      XtCallActionProc( file_mgr_rec->vertical_scroll_bar, q, new_event, &p, 1 );
+         } 
          if(event->button != Button1)
             return;
       }
