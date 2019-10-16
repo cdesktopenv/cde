@@ -3669,14 +3669,9 @@ char *
 RFCMailBox::generateUniqueLockId(void)
 {
   char theId[128];
-  char hwserialbuf[64];
 
-#if !defined(__aix) && !defined(__hpux) && !defined(__linux__) && !defined(CSRG_BASED)
-  if (sysinfo(SI_HW_SERIAL, (char *)hwserialbuf, sizeof(hwserialbuf)-1) == -1)
-#endif
-    strcpy(hwserialbuf, "dtmail");
-  (void) sprintf(theId, "%08ld%08ld%s\0", (long)getpid(), (long)time(NULL), hwserialbuf);
-  assert(strlen(theId)<sizeof(theId));
+  snprintf(theId, sizeof(theId), "%08ld%08ld%s", (long)getpid(),
+           (long)time(NULL), "dtmail");
   return(strdup(theId));
 }
 
