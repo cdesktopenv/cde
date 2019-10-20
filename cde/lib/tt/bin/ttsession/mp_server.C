@@ -64,8 +64,6 @@ static char PatchID[] = "Patch Id: 100626_03.";
 static int Patch_ID100626_03;
 #endif
 
-extern char		**environ;
-
 // flag set by the signal handler function whenever we receive a
 // signal that the types database changed.
 int			signal_types_changed = 0;
@@ -139,6 +137,13 @@ pid_t			child_waited_for;
 //  _Tt_s_mp::_Tt_s_mp) 
 pid_t			failed_procs[MAXPIDS];
 
+// Forward declarations
+void install_signal_handler();
+void notify_start_failure();
+int init_types();
+void print_usage_and_exit();
+
+
 //
 // Returns diagnosed child exit status, or -1 if we are not convinced
 // the child exited.
@@ -170,10 +175,6 @@ child_exit_status(pid_t child, _Tt_wait_status status)
 
 int main(int argc, char **argv)
 {
-	void		install_signal_handler();
-	void		notify_start_failure();
-	int		init_types();
-	void		print_usage_and_exit();
 	char		*cmd = (char *)0;
 	char		*cargv[MAXARGS];
 	int		c;
