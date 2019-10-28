@@ -51,6 +51,8 @@
 #include "EnvControlI.h"
 #include "DtSvcLock.h"
 
+static int _DtEnvRemove(char *str, int length);
+
 extern char **environ;
 
  /* 
