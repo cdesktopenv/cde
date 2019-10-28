@@ -103,6 +103,8 @@ extern	void	_DtDtsDAConverter(DtDtsDbField * fields,
 extern	void	_DtDtsSeqReset(void);
 extern	int	_DtDtsNextDCSeq(void);
 extern	int	_DtDtsNextDASeq(void);
+extern  int     _DtDtsMMUnLoad(void);
+extern  void    _DtFreeActionDB(void);
 
 char **_DtsDbListDb(void);
 

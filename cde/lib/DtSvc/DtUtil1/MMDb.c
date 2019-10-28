@@ -77,6 +77,10 @@ static	DtShmProtoIntList	int_handle = 0;
 
 #define QtB(a)	_DtShmProtoAddStrtab(shm_handle, XrmQuarkToString(a), &isnew)
 
+/* DtsMM.c */
+extern int _DtDtsMMPathHash(DtDirPaths *dirs);
+
+
 int
 _MMWriteDb(DtDirPaths *dirs, int num_db, DtDtsDbDatabase **db_list,
 	   const char *CacheFile)
@@ -724,7 +728,7 @@ write_db(DtDtsMMHeader *header, void *index, int size, const char *CacheFile)
 }
 
 
-_DtActionCompareRecordBoson(
+intptr_t _DtActionCompareRecordBoson(
         DtDtsMMRecord *record1,
         DtDtsMMRecord *record2 )
 {

@@ -60,7 +60,10 @@
 #include <Dt/UserMsg.h>
 #include "DtSvcLock.h"
 
-extern char *strdup(const char *);
+extern int _MMWriteDb(DtDirPaths *dirs, int num_db, DtDtsDbDatabase **db_list,
+                      const char *CacheFile);
+
+
 
 #define PADMEM 10
 

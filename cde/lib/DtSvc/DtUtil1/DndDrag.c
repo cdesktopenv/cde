@@ -60,6 +60,7 @@
 #include <Xm/DragC.h> 
 #include <Xm/DragCP.h>
 #include <Xm/DragOverSP.h>
+#include <Dt/Wsm.h>
 #include "Dnd.h"
 #include "DndP.h"
 #include "DtSvcLock.h"
@@ -75,6 +76,14 @@ static void	dndDropFinishCallback(Widget, XtPointer, XtPointer);
 static void	dndDragDropFinishCallback(Widget, XtPointer, XtPointer);
 static void	dndTopLevelEnterCallback(Widget, XtPointer, XtPointer);
 static void	dndTopLevelLeaveCallback(Widget, XtPointer, XtPointer);
+
+extern int _DtDndCountVarArgs(va_list vaList);
+extern void _DtDndArgListFromVarArgs(va_list vaList,
+                                     Cardinal maxArgs,
+                                     ArgList *argListReturn,
+                                     Cardinal *argCountReturn);
+extern void _XmDragOverChange(Widget w,
+                              unsigned char dropSiteStatus);
 
 /*
  * Drag Initiator Resources

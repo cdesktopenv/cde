@@ -133,6 +133,9 @@ static int DtCmdGetWindowType(
         unsigned long windowTypeMask);
 static void _DtCmdInitializeErrorMessages(void);
 
+extern void _DtEnvMapForRemote (char *targetHost);
+extern void _DtEnvRestoreLocal (void);
+
 /*
  * Command invocatin error messages.
  */

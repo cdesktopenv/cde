@@ -65,6 +65,11 @@ static	size_t		mmaped_size = 0;
 static	int		mmaped_fd = 0;
 static	DtDtsMMHeader	*head = 0;
 
+int _DtDtsMMUnLoad(void);
+
+extern void _DtDbFillVariables (char **line );
+extern void _DtDtsClear(void);
+
 void *
 _DtDtsMMGetPtr(int index)
 {

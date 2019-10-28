@@ -73,9 +73,7 @@
 #include <Dt/Dts.h>
 #include "DtSvcLock.h"
 
-#if !defined(__linux__)
-extern char	*strdup(const char *);
-#endif
+extern int _DtDtsMMUnLoad(void);
 
 static int      cur_dc_count = 0;
 static int      cur_da_count = 0;

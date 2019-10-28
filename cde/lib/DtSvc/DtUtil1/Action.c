@@ -108,6 +108,23 @@ extern char * _DtStripSpaces(
                         char * string) ;
 extern char * _DtDbPathIdToString( DtDbPathId pathId) ;
 
+extern int _DtActDeleteChildRec( _DtActInvRecT *invp, _DtActChildRecT *childp);
+extern int _DtActionCommandInvoke(
+    long wintype,
+    char * cwdHost,
+    char * cwdDir,
+    char * execString,
+    char * termOpts,
+    char * execHost,
+    char * procId,
+    char * tmpFiles,
+    void (*success_proc)(),
+    void *success_data,
+    void (*failure_proc)(),
+    void *failure_data);
+
+
+
 #define _MAX_MAP_ATTEMPTS	100	/* Maximum nuber of "MAPS" that will
 					   be done. */
 #define _DT_ACTION_MAX_CLOSE_TRIES	5

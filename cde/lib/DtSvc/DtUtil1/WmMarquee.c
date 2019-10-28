@@ -44,6 +44,7 @@
 #include <Tt/tttk.h>
 #include <Dt/Wsm.h> 
 #include <Dt/WsmM.h>
+#include <Dt/SvcTT.h>
 #include "WsmP.h" 
 #include <Dt/Service.h>
 #include <Xm/Xm.h>

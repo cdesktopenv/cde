@@ -54,6 +54,7 @@
 #include <X11/Intrinsic.h>
 #include <Saver.h>
 #include <SaverP.h>
+#include <Dt/Action.h>
 #include "DtSvcLock.h"
 
 /*
@@ -223,8 +224,8 @@ _DtSaverStart(
   /*
   * Launch saver.
   */
-  DtActionInvoke(wAction, saverAction, NULL, NULL,
-                 NULL, NULL, NULL, NULL, NULL, NULL);
+  DtActionInvoke(wAction, saverAction, NULL, 0,
+                 NULL, NULL, NULL, 0, NULL, NULL);
 
  /*
   * Return array as state information.

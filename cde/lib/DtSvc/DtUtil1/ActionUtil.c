@@ -94,6 +94,10 @@ static void	 _DtActFreeChildRec( _DtActChildRecT *childp);
 #ifndef P_tmpdir
 #define P_tmpdir	"/var/tmp"
 #endif
+
+extern void _DtFreeRequest(ActionRequest *request );
+
+
 /*******************************************************************************
  *  _DtBasename -- utiltiy function to return a pointer to a
  * string containing the basename of a file name.  It doesn't
