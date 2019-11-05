@@ -102,9 +102,9 @@ ConvertRoutine()
     shift
     shift
 
-    AWK=/usr/bin/awk
-    if [ -x /usr/bin/nawk ]; then
-	AWK=/usr/bin/nawk
+    AWK=awk
+    if type nawk > /dev/null 2>&1; then
+	AWK=nawk
     fi
 
 #
