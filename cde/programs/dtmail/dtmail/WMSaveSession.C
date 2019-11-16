@@ -371,7 +371,7 @@ RoamMenuWindow::restoreSession(char *buf)
 		fp, "%s%s%d%d%d%d%d",
 		buf,workspaces,&iconic,&x,&y,&width,&height) != 7)
 	{
-	    fscanf(fp,"[\n]",buf);
+	    fscanf(fp,"%s[\n]",buf);
     	    LOG_CLOSEFILEPTR(log);
 	    return NULL;
 	}
@@ -592,7 +592,7 @@ SendMsgDialog::restoreSession(char *buf)
 		fp, "%s%s%d%d%d%d%d",
 		buf,workspaces,&iconic,&x,&y,&width,&height) != 7)
 	{
-	    fscanf(fp,"[\n]",buf);
+	    fscanf(fp,"%s[\n]",buf);
     	    LOG_CLOSEFILEPTR(log);
 	    return;
 	}

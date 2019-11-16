@@ -47,9 +47,9 @@
 #include <math.h>
 #include <setjmp.h>
 #include "GraphicsP.h"
-#include "jpeglib.h"
-#include "cdjpeg.h"
+#include <jpeglib.h>
 #include "JpegUtilsI.h"
+#include "cdjpeg.h"
 
 /*
 ** Macro definitions
@@ -202,7 +202,7 @@ static boolean fill_input_buffer (
         nbytes = 0;
         src->buffer = (JOCTET *) (*cinfo->mem->alloc_small) (
                                           (j_common_ptr) cinfo, JPOOL_IMAGE,
-				          2 * SIZEOF(JOCTET));
+				          2 * sizeof(JOCTET));
     }
     else /* _DtGrFILE, read the next chunk of data */
         nbytes = _DtGrRead (src->buffer, 1, src->input_buf_size, src->stream);
@@ -294,7 +294,7 @@ static void jpeg_stream_src (
     */
     cinfo->src = (struct jpeg_source_mgr *) (*cinfo->mem->alloc_small) (
                                             (j_common_ptr) cinfo, JPOOL_IMAGE,
-				            SIZEOF(stream_source_mgr));
+				            sizeof(stream_source_mgr));
     src = (stream_src_ptr) cinfo->src;
 
     src->stream = stream;
@@ -311,7 +311,7 @@ static void jpeg_stream_src (
     {
         src->buffer = (JOCTET *) (*cinfo->mem->alloc_small) (
                                         (j_common_ptr) cinfo, JPOOL_IMAGE,
-				        INPUT_BUF_SIZE * SIZEOF(JOCTET));
+				        INPUT_BUF_SIZE * sizeof(JOCTET));
         src->input_buf_size = INPUT_BUF_SIZE;
         src->pub.bytes_in_buffer = 0;    /* forces fill_input_buffer call */
         src->pub.next_input_byte = NULL; /* on first read                 */
@@ -410,7 +410,7 @@ djpeg_dest_ptr init_jpeg_dest_mgr (
     */
     dest = (ximg_dest_ptr) (*cinfo->mem->alloc_small) (
                                             (j_common_ptr) cinfo, JPOOL_IMAGE, 
-                                            SIZEOF(ximg_dest_struct));
+                                            sizeof(ximg_dest_struct));
     dest->pub.start_output = start_output_ximg;
     dest->pub.finish_output = finish_output_ximg;
     dest->pub.put_pixel_rows = copy_pixels;

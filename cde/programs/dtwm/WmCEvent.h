@@ -59,9 +59,7 @@ extern void HandleClientMessage (ClientData *pCD,
 extern void HandleCMotionNotify (ClientData *pCD, XMotionEvent *motionEvent);
 extern void HandleCPropertyNotify (ClientData *pCD, 
 				   XPropertyEvent *propertyEvent);
-#ifndef NO_SHAPE
 extern void HandleCShapeNotify (ClientData *pCD,  XShapeEvent *shapeEvent);
-#endif /* NO_SHAPE */
 extern Boolean HandleEventsOnClientWindow (ClientData *pCD, XEvent *pEvent);
 extern Boolean HandleEventsOnSpecialWindows (XEvent *pEvent);
 

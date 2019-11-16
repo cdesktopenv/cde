@@ -521,32 +521,6 @@ DtMailEditor::attachDragMotionHandler(
     }
 }
 
-#ifdef notdef
-void
-DtMailEditor::attachDragSetup()
-{
-    Boolean	btn1_transfer;
-    Widget	widget = _myAttachArea->baseWidget();
-
-    DebugPrintf(3, "In DtMailEditor::attachDragSetup()\n");
-
-    XtAddEventHandler(widget, Button1MotionMask, FALSE,
-		(XtEventHandler)&DtMailEditor::attachDragMotionHandler,
-		(XtPointer)this);
-
-    XtVaGetValues(
-	(Widget)XmGetXmDisplay(XtDisplayOfObject(widget)),
-	"enableBtn1Transfer", &btn1_transfer,
-	NULL);
-
-    if (!btn1_transfer) {
-	XtAddEventHandler(widget, Button2MotionMask, FALSE,
-		(XtEventHandler)&DtMailEditor::attachDragMotionHandler,
-		(XtPointer)this);
-    }
-}
-#endif
-
 void
 DtMailEditor::stripCRLF(char **buffer, const char * buf, const unsigned long len)
 {

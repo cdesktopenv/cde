@@ -813,7 +813,7 @@ TemplateCmd::doit()
 	    char * helpId = DTMAILHELPERROR;
 	    int answer = dialog->post_and_return(helpId);
 	    SafeClose(fd);
-	    delete [] mbuf.buffer;
+	    delete (char*) mbuf.buffer;
 	    free(fullpath);
 	    return;
 	}

@@ -219,7 +219,7 @@ bool(int i)
 
 #endif
 
-check_content(char *val1, char *val2)
+static int check_content(char *val1, char *val2)
 {
 	char	*v1 = strdup(val1);
 	char	*v2 = strdup(val2);
@@ -462,7 +462,7 @@ cde_dc_field_compare(DtDtsDbField ** a, DtDtsDbField ** b)
 		cde_ft_field_value((*b)->fieldName));
 }
 
-cde_da_compare(DtDtsDbRecord ** a, DtDtsDbRecord ** b)
+int cde_da_compare(DtDtsDbRecord ** a, DtDtsDbRecord ** b)
 {
 	int             results = ((*a)->recordName) - ((*b)->recordName);
 

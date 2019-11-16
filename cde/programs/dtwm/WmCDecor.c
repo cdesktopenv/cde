@@ -155,13 +155,11 @@ Boolean FrameWindow (ClientData *pcd)
 
     AdoptClient(pcd);			/* reparent the window */
 
-#ifndef NO_SHAPE
     /* shape the frame */
     if (wmGD.hasShape && pcd->wShaped)
     {
         SetFrameShape (pcd);
     }
-#endif /* NO_SHAPE */
 
     return(TRUE);
 
@@ -1038,7 +1036,6 @@ void AdoptClient (ClientData *pcd)
 
     XConfigureWindow (DISPLAY, pcd->client, mask, &windowChanges);
 
-#ifndef NO_SHAPE
     /* shape our frame to match that of the client's window */
     if (wmGD.hasShape)
     {
@@ -1052,7 +1049,6 @@ void AdoptClient (ClientData *pcd)
 			    &clipShaped, &xbs, &ybs, &wbs, &hbs);
 	pcd->wShaped = boundingShaped;
     }
-#endif /* NO_SHAPE  */
     /* reparent the window to the base window */
 
     XReparentWindow (DISPLAY, pcd->client, pcd->clientBaseWin, 
@@ -2343,12 +2339,10 @@ void RegenerateClientFrame (ClientData *pcd)
     /* regenerate the graphics */
     GenerateFrameDisplayLists (pcd);
 
-#ifndef NO_SHAPE
     if (wmGD.hasShape && pcd->wShaped)
     {
         SetFrameShape (pcd);
     }
-#endif /*  NO_SHAPE  */
 
 } /* END OF FUNCTION  RegenerateClientFrame  */
 
@@ -2808,8 +2802,6 @@ void PopGadgetOut (ClientData *pcd, int gadget)
     wmGD.gadgetDepressed = 0;
 } /* END OF FUNCTION  PopGadgetOut   */
 
-#ifndef NO_SHAPE
-
 /*************************************<->*************************************
  *
  *  SetFrameShape (pcd)
@@ -2896,7 +2888,5 @@ void SetFrameShape (ClientData *pcd)
 				   None, ShapeSet);
     }
 } /* END OF FUNCTION  SetFrameShape  */
-#endif /* NO_SHAPE */
 
 
-

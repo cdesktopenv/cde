@@ -2748,7 +2748,7 @@ void _DtGrRegisterConverter(
  *****************************************************************************/
 int _DtGrOpenFile(
     _DtGrStream *stream,
-    const char  *path)
+    char  *path)
 {
     char *fname = NULL;
 

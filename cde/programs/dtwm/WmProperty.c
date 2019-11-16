@@ -794,9 +794,7 @@ void ProcessWmColormapWindows (ClientData *pCD)
     XWindowAttributes wAttributes;
     ClientData *pcd;
     XSetWindowAttributes sAttributes;
-#ifndef OLD_COLORMAP /* colormaps */
     int *pCmapFlags;
-#endif
 
 
     /*
@@ -832,7 +830,6 @@ void ProcessWmColormapWindows (ClientData *pCD)
 		XtFree ((char *)pWindows);
 	    }
         }
-#ifndef OLD_COLORMAP /* colormap */
 	/* Is the above OSF code a bug -- allocates one extra byte, rather */
 	/* than one extra element, for the top window if needed? */
 	else if ( ! (pCmapFlags = (int *)XtCalloc(nitems+1,sizeof(int)))) {
@@ -840,7 +837,6 @@ void ProcessWmColormapWindows (ClientData *pCD)
 			Warning (((char *)GETMESSAGE(54, 4, "Insufficient memory for window manager flags")));
 			XtFree ((char *)pWindows); XtFree ((char *)pColormaps);
 	}
-#endif
 	else
 	{
 	    /*
@@ -921,9 +917,7 @@ void ProcessWmColormapWindows (ClientData *pCD)
 		pCD->cmapWindows = pWindows;
 		pCD->clientCmapList = pColormaps;
 		pCD->clientCmapIndex = 0;
-#ifndef OLD_COLORMAP /* colormap */
 		pCD->clientCmapFlags = pCmapFlags;
-#endif
 	    }
 	    else
 	    {
@@ -935,9 +929,7 @@ void ProcessWmColormapWindows (ClientData *pCD)
 		pCD->clientCmapCount = 0;
 		XtFree ((char *)pWindows);
 		XtFree ((char *)pColormaps);
-#ifndef OLD_COLORMAP /* colormap */
 		XtFree((char *)pCmapFlags);
-#endif
 	    }
 	}
     }
@@ -1197,38 +1189,7 @@ void SetEmbeddedClientsProperty (Window propWindow,
 
 } /* END OF FUNCTION SetEmbeddedClientsProperty */
 
-#ifdef HP_VUE
-
-/*************************************<->*************************************
- *
- *  SetWorkspaceInfo (propWindow, pWsInfo, cInfo)
- *
- *
- *  Description:
- *  -----------
- *  This function sets up the _DT_WORKSPACE_INFO property
- *
- *
- *  Inputs:
- *  ------
- *  propWindow = window on which the _DT_WORKSPACE_INFO property is to be set
- *  pWsInfo =  pointer to workspace info data
- *  cInfo = size of workspace info data
- * 
- *
- *************************************<->***********************************/
 
-void SetWorkspaceInfo (Window propWindow, WorkspaceInfo *pWsInfo, unsigned long cInfo)
-{
-    XChangeProperty (DISPLAY, propWindow, wmGD.xa_DT_WORKSPACE_INFO, 
-	wmGD.xa_DT_WORKSPACE_INFO,
-	32, PropModeReplace, (unsigned char *)pWsInfo,
-	(cInfo * sizeof(WorkspaceInfo))/sizeof(long));
-
-} /* END OF FUNCTION SetWorkspaceInfo */
-#endif /* HP_VUE */
-
-
 /*************************************<->*************************************
  *
  *  SetWorkspaceListProperty (pSD)
@@ -1687,14 +1648,6 @@ GetDtWmRequest (
      */
     if (property == NULL)
     {
-#ifdef PARANOID
-	/*
-	 * Lock down the server to prevent changes to this
-	 * property while we "edit" it.
-	 */
-	XGrabServer(DISPLAY);
-#endif /* PARANOID */
-
 	/*
 	 * Read the property and delete it.
 	 */
@@ -1703,11 +1656,6 @@ GetDtWmRequest (
 				     (long)1000000, True, AnyPropertyType,
 				     &actualType, &actualFormat, &nitems,
 				     &leftover, (unsigned char **)&property);
-
-#ifdef PARANOID
-	/* Give the server back */ 
-	XUngrabServer(DISPLAY);
-#endif /* PARANOID */
 
 	/* 
 	 * Validate the property that we've read

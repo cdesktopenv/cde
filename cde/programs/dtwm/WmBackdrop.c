@@ -615,9 +615,6 @@ SetNewBackdrop(
     ChangeBackdrop (pWS);
     SaveWorkspaceResources (pWS, WM_RES_BACKDROP_IMAGE);
 
-#ifdef HP_VUE
-    UpdateWorkspaceInfoProperty (pWS->pSD); /* to be backward compatible */
-#endif /* HP_VUE */
     SetWorkspaceInfoProperty (pWS);
 
     /*
@@ -627,7 +624,7 @@ SetNewBackdrop(
 						DtWSM_REASON_BACKDROP);
 }
 
-
+
 /******************************<->*************************************
  *
  *  Boolean IsBackdropWindow (pSD, win)

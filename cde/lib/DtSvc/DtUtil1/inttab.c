@@ -99,7 +99,8 @@ _DtShmProtoInitInttab(int sizeguess)
   return((void*)ptr);
 }
 
-_DtShmProtoAddInttab(DtShmProtoInttab intlist, unsigned int keyin, int datain)
+int _DtShmProtoAddInttab(DtShmProtoInttab intlist, unsigned int keyin,
+                         int datain)
 {
   intlist_t * ptr = (intlist_t *) intlist;
   int ** data;

@@ -114,6 +114,14 @@ static XtResource dropResources[] = {
 	XtRImmediate, (XtPointer)False },
 };
 
+extern int _DtDndCountVarArgs(va_list vaList);
+extern void _DtDndArgListFromVarArgs(va_list vaList,
+                                     Cardinal maxArgs,
+                                     ArgList *argListReturn,
+                                     Cardinal *argCountReturn);
+
+
+
 #undef Offset
 
 /*

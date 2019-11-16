@@ -105,15 +105,6 @@ XdmPrintDataHex(const char *s, const char *a, int l)
     Debug ("\n");
 }
 
-#ifdef notdef			/* not used */
-XdmPrintKey (s, k)
-    char	    *s;
-    XdmAuthKeyRec   *k;
-{
-    XdmPrintDataHex (s, (char *) k->data, 8);
-}
-#endif
-
 #ifdef XDMCP
 void
 XdmPrintArray8Hex(const char *s, ARRAY8Ptr a)

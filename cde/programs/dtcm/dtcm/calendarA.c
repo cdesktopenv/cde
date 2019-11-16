@@ -2916,27 +2916,6 @@ paint_canvas(
 	return stat;
 }
 
-#ifdef notdef
-extern char*
-cm_get_relname()
-{
-        char s[BUFSIZ];
-        static char *CM_name;
-
-        /* we now make a composite name for the tool, combining
-         * "Calendar Manager" with a release identifier
-         */
-	if (CM_name == NULL) {
-                sprintf(s, "%s", catgets(calendar->DT_catd, 1, 113, "Calendar"));
-        	CM_name = (char*)ckalloc(cm_strlen(s) + 2);
-	 
-        	sprintf(CM_name, "%s", s);
-	}
- 
-        return (char*)CM_name;
-}
-#endif 
-
 extern Boolean
 in_range(time_t start, time_t stop, time_t tick) {
         if (tick >= start && tick <= stop)

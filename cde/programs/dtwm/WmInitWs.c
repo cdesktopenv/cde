@@ -44,9 +44,7 @@
 #include "WmICCC.h"
 #define DTWM_NEED_FNTPL
 #include "WmIBitmap.h"
-#ifndef NO_OL_COMPAT
 #include "WmOL.h"
-#endif /* NO_OL_COMPAT */
 #include <X11/Xos.h>
 #include <X11/cursorfont.h>
 #include <Xm/Xm.h>
@@ -695,14 +693,10 @@ void InitWmGlobal (int argc, char *argv [], char *environ [])
 		    wmGD.xa_DT_WM_EXIT_SESSION = atoms[XA_DT_WM_EXIT_SESSION];
                     wmGD.xa_DT_WM_LOCK_DISPLAY = atoms[XA_DT_WM_LOCK_DISPLAY];
                     wmGD.xa_DT_WM_READY = atoms[XA_DT_WM_READY];
-#ifndef NO_OL_COMPAT
 		    InitOLCompat();
-#endif /* NO_OL_COMPAT */
-#ifndef NO_SHAPE
 		    wmGD.hasShape = XShapeQueryExtension (DISPLAY,
 							  &wmGD.shapeEventBase,
 							  &wmGD.shapeErrorBase);
-#endif /*  NO_SHAPE  */
 
                     wmGD.replayEnterEvent = False;
 		    wmGD.menuActive = NULL;
@@ -761,19 +755,6 @@ void InitWmGlobal (int argc, char *argv [], char *environ [])
 		    _DtGetSmWindow(DISPLAY, 
 				  RootWindow(DISPLAY, 0), 
 				  &wmGD.dtSmWindow) ;
-#ifdef PANACOMM
-		    /*
-		     * If this is the first screen we've managed,
-		     * tell the session manager we're ready 
-		     */
-		    if (!processedGlobalResources)
-		    {
-			SendClientMsg( wmGD.dtSmWindow,
-				      (long) wmGD.xa_DT_SM_WM_PROTOCOL,
-				      (long) wmGD.xa_DT_WM_READY,
-				      CurrentTime, NULL, 0);
-		    }
-#endif /* PANACOMM */
 
 		    /* create topmost shell (application shell) */
 		    argnum = 0;
@@ -1079,11 +1060,6 @@ void InitWmGlobal (int argc, char *argv [], char *environ [])
                 MapIconBoxes (pSD->pActiveWS);
 
 		ChangeBackdrop (pSD->pActiveWS);
-
-#ifdef HP_VUE
-		UpdateWorkspaceInfoProperty (pSD); /* backward compatible */
-#endif /* HP_VUE */
-
 		SetCurrentWorkspaceProperty (pSD);
 		SetWorkspaceListProperty (pSD);
 

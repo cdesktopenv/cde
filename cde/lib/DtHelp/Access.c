@@ -1073,7 +1073,7 @@ _DtHelpCeGetLangSubParts (
  *****************************************************************************/
 int
 _DtHelpCeGetUncompressedFileName (
-	char		 *name,
+	char	 *name,
 	char		**ret_name )
 {
     char *inFile = NULL;

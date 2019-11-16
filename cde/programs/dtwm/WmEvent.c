@@ -622,38 +622,6 @@ Boolean WmDispatchMenuEvent (XButtonEvent *event)
 	        doXtDispatchEvent = False;
 	    }
         }
-#ifdef ROOT_ICON_MENU
-        if (wmGD.menuActive && wmGD.F_NextKeySpec)
-        {
-            if (((wmGD.F_NextKeySpec->state == event->state) ||
-                 (wmGD.F_NextKeySpec->state == NOLOCKMOD(event->state))) &&
-                (wmGD.F_NextKeySpec->keycode == event->button))
-            {
-                /*
-                 * This is a key spec to traverse to the next window
-                 * via the keyboard.
-                 */
-		
-                UnpostMenu (wmGD.menuActive);
-                doXtDispatchEvent = False;
-            }
-        }
-        if (wmGD.menuActive && wmGD.F_PrevKeySpec)
-        {
-            if (((wmGD.F_PrevKeySpec->state == event->state) ||
-                 (wmGD.F_PrevKeySpec->state == NOLOCKMOD(event->state))) &&
-                (wmGD.F_PrevKeySpec->keycode == event->button))
-            {
-                /*
-                 * This is a key spec to traverse to the previous window
-                 * via the keyboard.
-                 */
-		
-                UnpostMenu (wmGD.menuActive);
-                doXtDispatchEvent = False;
-            }
-        }
-#endif /*  ROOT_ICON_MENU */
     }
 
     else if (wmGD.checkHotspot &&
@@ -1218,16 +1186,6 @@ Boolean HandleKeyPress (XKeyEvent *keyEvent,
 		{
 		  wmGD.passKeysKeySpec = keySpecs;
 		}
-#ifdef ROOT_ICON_MENU
-              else if (keySpecs->wmFunction == F_Next_Key)
-		{
-                  wmGD.F_NextKeySpec = keySpecs;
-		}
-              else if (keySpecs->wmFunction == F_Prev_Key)
-		{
-                  wmGD.F_PrevKeySpec = keySpecs;
-		}
-#endif /* ROOT_ICON_MENU */
 	      if (!(keySpecs->wmFunction (keySpecs->wmFuncArgs,
 					  functionClient, keyEvent)))
 		{

@@ -1714,6 +1714,9 @@ _DtpadGetMessage(
     if ( first ) {
 	first = 0;
 	nlmsg_fd = catopen(_DTPAD_CAT_NAME, NL_CAT_LOCALE);
+
+	if (nlmsg_fd == -1) 
+            perror("catopen");
     }
 #if defined(hpV4)
     msg = _DtCatgetsCached(nlmsg_fd, set, number, string);

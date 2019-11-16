@@ -240,7 +240,7 @@ void cat_open (void)
 
     if(pfile != NULL)
     {
-        sprintf(line,"/usr/bin/gencat ./.dt_pfile.cat %s",pfile);
+        sprintf(line,"gencat ./.dt_pfile.cat %s",pfile);
         if ( system(line) != 0 )
 	{
            fatal("primary .tmsg file would not gencat\n",0,9);
@@ -251,7 +251,7 @@ void cat_open (void)
 
     if(dfile != NULL)
     {
-        sprintf(line,"/usr/bin/gencat ./.dt_dfile.cat %s",dfile);
+        sprintf(line,"gencat ./.dt_dfile.cat %s",dfile);
         if ( system(line) != 0 )
 	{
            fatal("default .tmsg file would not gencat\n",0,9);

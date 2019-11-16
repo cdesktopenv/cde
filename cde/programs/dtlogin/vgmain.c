@@ -482,9 +482,6 @@ main( int argc, char **argv )
     /*
      * prevent the toolkit from starting the NLIO server...
      */
-#ifdef HP_EXTENSIONS
-    _XHPNlioctl(0,0,-1,0);
-#endif
 #ifdef VG_TRACE
     vg_TRACE_EXECUTION("main:  exited _XHPNlioctl ...");
 #endif /* VG_TRACE */

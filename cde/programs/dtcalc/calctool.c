@@ -46,19 +46,6 @@
 #include "calctool.h"
 #include "ds_common.h"
 
-#ifdef legacysun
-
-/* Copied from math.h */
-struct exception {
-        int type;
-        char *name;
-        double arg1;
-        double arg2;
-        double retval;
-};
-
-#endif
-
 time_t time() ;
 
 double max_fix[4] = {

@@ -28,7 +28,6 @@
 
 #ifndef _WM_OL_H
 #define _WM_OL_H
-#ifndef NO_OL_COMPAT
 
 /*
  * Property Names 
@@ -127,6 +126,5 @@ extern void ProcessOLDecoration(ClientData *pCD);
 #define GetOLDecorDel(pcd,ptr) (GetOLDecorFlags(pcd,wmGD.xa_OL_DECOR_DEL,ptr))
 
 
-#endif /* NO_OL_COMPAT */
 /* Do not add anything after the following #endif */
 #endif /* _WM_OL_H */

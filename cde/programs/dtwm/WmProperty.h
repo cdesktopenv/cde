@@ -49,9 +49,6 @@ extern MenuItem * GetMwmMenuItems (ClientData *pCD);
 extern void SetEmbeddedClientsProperty (Window propWindow, Window *pEmbeddedClients, unsigned long cEmbeddedClients);
 extern void GetInitialPropertyList (ClientData *pCD);
 extern Status GetWorkspaceHints (Display *display, Window window, Atom **ppWsAtoms, unsigned int *pCount, Boolean *pbAll);
-#ifdef HP_VUE
-extern void SetWorkspaceInfo (Window propWindow, WorkspaceInfo *pWsInfo, unsigned long cInfo);
-#endif /* HP_VUE */
 extern void SetWorkspacePresence (Window propWindow, Atom *pWsPresence, unsigned long cPresence);
 extern Boolean HasProperty(ClientData *pCD, Atom property);
 extern void DiscardInitialPropertyList (ClientData *pCD);

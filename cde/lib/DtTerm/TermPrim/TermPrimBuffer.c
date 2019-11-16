@@ -1852,36 +1852,6 @@ _DtTermPrimBufferInsertLineFromTB
     }
 }
 
-
-#ifdef	NOTDONE
-/**************************************************************************
- *  Function:
- *	_DtTermPrimBufferScrollToHistory():  scroll one or more lines
- *		of text from the beginning of the active buffer into
- *		the history buffer.
- *
- *  Parameters:
- *	TermBuffer tb: term buffer to scroll out of
- *	short length: number of lines to scroll
- *
- *  Returns:
- *	the number of lines scrolled (removed from active buffer)
- *
- *  Notes:
- */
-int
-_DtTermPrimBufferScrollToHistory()
-(
-    const TermBuffer tb,
-    const short length,
-)
-{
-    if (PREV_BUFFER(tb)) {
-    
-}
-#endif	/* NOTDONE */
-
-
 /**************************************************************************
  *  Function:
  *	_DtTermPrimBufferDeleteLine():  deletes one or more lines of text from

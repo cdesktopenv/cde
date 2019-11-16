@@ -53,21 +53,8 @@ awk '/^\$set/ { SET_NAME=$2; SET_COUNT++; MES_COUNT=0;
 # There are two differences between sym2num and mkcatdefs: sym2num
 # does not create a $delset line, and sym2num converts all symbols
 # to numbers, even those in comment statements. 
-if [[ -f /usr/ccs/lib/cpp ]]   #IBM & SUN
-then
-   cpp_path=/usr/ccs/lib       
-elif [[ -f /usr/libexec/cpp ]] #BSD
-then
-   cpp_path=/usr/libexec
-elif [[ -f /usr/bin/cpp ]]     #BSD
-then
-   cpp_path=/usr/bin
-elif [[ -f /lib/cpp ]]         #HP
-then
-   cpp_path=/lib
-fi
    ( cat ${inc_file} | sed -n /define/p ; cat ${SOURCE_FILE} ) | \
-   ${cpp_path}/cpp -P | sed -e '/^$/d' -e 's/^\$$/\$ /' \
+   ${CPP:-/lib/cpp} -P | sed -e '/^$/d' -e 's/^\$$/\$ /' \
     -e 's/\"\"$/\"/' -e 's/XDQUOTE/\"/' -e "s/XSQUOTE/\'/" \
     -e 's/^\([1-9][0-9]*\)[ ]*[\"]*\(\"\)\(.*\)/\1 \2\3/'
 

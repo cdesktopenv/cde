@@ -92,9 +92,9 @@ grow_region(void * old_region, const int old_size, const int new_size)
 {
     void * new_region = new unsigned char[new_size];
     if (new_region) {
-	memcpy(new_region, old_region, old_size);
+        memcpy(new_region, old_region, old_size);
     }
-    delete old_region;
+    delete (unsigned char*) old_region;
     return(new_region);
 }
 

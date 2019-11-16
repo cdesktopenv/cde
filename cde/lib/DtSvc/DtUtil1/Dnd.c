@@ -58,6 +58,7 @@
 #include <Xm/Xm.h>
 #include <Xm/DragDrop.h>
 #include <Xm/DropTrans.h>
+#include <Xm/AtomMgr.h>
 #include <Dt/UserMsg.h>
 #include "Dnd.h"
 #include "DndP.h"

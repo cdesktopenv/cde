@@ -303,11 +303,6 @@ _Tt_db_results _Tt_db_client::connectToDB (const _Tt_string &hostname)
 void _Tt_db_client::
 SetError(enum clnt_stat cf_stat)
 {
-
-#ifdef  notdef
-printf("DEBUG _Tt_db_client::SetError() -- cf_stat == %d\n", cf_stat);
-#endif  /* notdef */
-	
 	switch (cf_stat) {
 		case RPC_PROGNOTREGISTERED:
 		case RPC_AUTHERROR:

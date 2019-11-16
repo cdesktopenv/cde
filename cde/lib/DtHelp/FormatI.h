@@ -76,11 +76,11 @@ extern	int		 _DtFormatProcessString (
 				int       seg_type,
 				char	**font_attr );
 extern	int		 _DtHelpFormatToc (
-				XtPointer	  client_data,
-				_DtHelpVolumeHdl     volume,
-				char		*id_string,
-				char		*ret_id,
-				XtPointer	*ret_handle);
+				DtHelpDispAreaStruct *client_data,
+				_DtHelpVolumeHdl      volume,
+				char                 *id_string,
+				char                **ret_id,
+				XtPointer            *ret_handle);
 extern	int		 _DtHelpFormatTopic (
 				XtPointer	  client_data,
 				_DtHelpVolumeHdl     volume,

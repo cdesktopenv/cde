@@ -1082,16 +1082,11 @@ void CompleteFrameConfig (ClientData *pcd, XEvent *pev)
 	 * unexpectedly.
 	 */
 
-#ifndef CONFIG_RELATIVE_TO_CLIENT
-
 	tmpX = resizeX;
 	tmpY = resizeY;
 
 	/* Use dummy x,y so we don't add frame offset to client location */
 	FrameToClient (pcd, &tmpX, &tmpY, &resizeWidth, &resizeHeight);
-#else
-	FrameToClient (pcd, &resizeX, &resizeY, &resizeWidth, &resizeHeight);
-#endif
 
 	tmpWidth = resizeWidth;
 	tmpHeight = resizeHeight;
@@ -1286,13 +1281,8 @@ void CompleteFrameConfig (ClientData *pcd, XEvent *pev)
 	else {	/* assume normal window frame */
 	    /* reconfigure the window(s) */
 	    ProcessNewConfiguration (pcd, 
-#ifndef CONFIG_RELATIVE_TO_CLIENT
 				     moveX,
 				     moveY,
-#else
-				     moveX + offsetX,
-				     moveY + offsetY,
-#endif
 				     (unsigned int) 
 					 (moveWidth - 2*offsetX),
 				     (unsigned int) 
@@ -2024,7 +2014,6 @@ void ProcessNewConfiguration (ClientData *pCD, int x, int y, unsigned int width,
 	}
     }
 
-#ifndef CONFIG_RELATIVE_TO_CLIENT
     /*
      * If positionIsFrame or user initiated configuration request,
      * then adjust client position to by frame_width and frame_height.
@@ -2034,7 +2023,6 @@ void ProcessNewConfiguration (ClientData *pCD, int x, int y, unsigned int width,
 	xoff = pCD->clientOffset.x;
 	yoff = pCD->clientOffset.y;
     }
-#endif
 
     /*
      * Changes in position update maximum geometry on maximized windows

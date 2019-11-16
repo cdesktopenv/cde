@@ -245,31 +245,7 @@ DoExtension(byte **inbuf, int label, GifState *g)
     switch (label) {
     case 0x01:        /* Plain Text Extension */
         str = "Plain Text Extension";
-#ifdef notdef
-        if (GetDataBlock(inbuf, (unsigned char*) buf, g) == 0)
-            ;
-
-        lpos   = LM_to_uint(buf[0], buf[1]);
-        tpos   = LM_to_uint(buf[2], buf[3]);
-        width  = LM_to_uint(buf[4], buf[5]);
-        height = LM_to_uint(buf[6], buf[7]);
-        cellw  = buf[8];
-        cellh  = buf[9];
-        foreground = buf[10];
-        background = buf[11];
-
-        while (GetDataBlock(inbuf, (unsigned char*) buf, g) != 0) {
-            PPM_ASSIGN(image[ypos][xpos],
-                    cmap[CM_RED][v],
-                    cmap[CM_GREEN][v],
-                    cmap[CM_BLUE][v]);
-            ++index;
-        }
-
-        return FALSE;
-#else
         break;
-#endif
     case 0xff:        /* Application Extension */
         str = "Application Extension";
         break;

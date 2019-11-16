@@ -232,16 +232,7 @@ init_text(void)   /* Setup text strings depending upon language. */
   read_str(&buttons[i++].str2, LGET(GETMESSAGE(3, 69, "^h - Bsp"))) ;
 
 /* del */
-/* #ifdef hpux */
-#ifdef HP_EXTENSIONS
-  if(v->keybdID == HIL_ITF_KBD)
-     read_str(&buttons[i++].str2, LGET(GETMESSAGE(3, 512, "clr disp"))) ;
-  else
-     read_str(&buttons[i++].str2, LGET(GETMESSAGE(3, 70, "del - Clr"))) ;
-#else
   read_str(&buttons[i++].str2, LGET(GETMESSAGE(3, 70, "del - Clr"))) ;
-#endif
-
 
   read_str(&buttons[i++].str2, LGET(GETMESSAGE(3, 71, "d"))) ;
   read_str(&buttons[i++].str2, LGET(GETMESSAGE(3, 72, "e"))) ;

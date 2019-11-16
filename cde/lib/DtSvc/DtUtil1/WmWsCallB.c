@@ -42,6 +42,7 @@
 #include <Dt/Service.h>
 #include <Dt/Wsm.h> 
 #include <Dt/WsmM.h>
+#include <Dt/SvcTT.h>
 #include "WsmP.h" 
 #include "DtSvcLock.h"
 

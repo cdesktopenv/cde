@@ -74,6 +74,7 @@
  * private includes
  */
 #include "DisplayAreaI.h"
+#include "DisplayAreaP.h"
 
 #include "bufioI.h"
 #include "Access.h"

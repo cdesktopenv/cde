@@ -195,9 +195,7 @@ GetClientInfo (WmScreenData *pSD, Window clientWindow, long manageFlags)
     pCD->piconBottomShadows = NULL;
     pCD->internalBevel = (wmGD.frameStyle == WmSLAB) ? 0 : 
 						FRAME_INTERNAL_SHADOW_WIDTH;
-#ifndef NO_OL_COMPAT
     pCD->bPseudoTransient = False;
-#endif /* NO_OL_COMPAT */
 
     pCD->maxWidth = pCD->maxWidthLimit = BIGSIZE;
     pCD->maxHeight = pCD->maxHeightLimit = BIGSIZE;
@@ -564,10 +562,7 @@ GetWmClientInfo (WmWorkspaceData *pWS,
      */
     pCD->numInhabited = 0;
     pCD->windowGroup = 0L;
-#ifndef NO_OL_COMPAT
     pCD->bPseudoTransient = False;
-#endif /* NO_OL_COMPAT */
-
 
     /*
      * Set up _MWM_HINTS data.
@@ -799,14 +794,8 @@ ProcessWmClass (ClientData *pCD)
     XClassHint classHint;
 
 
-#ifdef PORT_OLDXLIB
-    classHint.res_class = "";
-    classHint.res_name = "";
-    XGetClassHint (DISPLAY, pCD->client, &classHint);
-#else
     if ((HasProperty (pCD, XA_WM_CLASS)) &&
 	(XGetClassHint (DISPLAY, pCD->client, &classHint)))
-#endif
     {
 	/* the WM_CLASS property exists for the client window */
 	pCD->clientClass = classHint.res_class;
@@ -993,7 +982,6 @@ ProcessWmHints (ClientData *pCD, Boolean firstTime)
 
     if (firstTime)
     {
-#ifndef NO_OL_COMPAT
         ClientData *leader;
 	Atom *pIDs;
 	unsigned int numIDs = 0;
@@ -1041,7 +1029,6 @@ ProcessWmHints (ClientData *pCD, Boolean firstTime)
 	{
 	    pCD->windowGroup = 0L;
 	}
-#endif /* NO_OL_COMPAT */
         /*
          * The window manger does not do anything with the input hint.  Input
          * always goes to the selected window.
@@ -1253,21 +1240,6 @@ ProcessWmHints (ClientData *pCD, Boolean firstTime)
 	        }
 	    }
 	}
-
-#ifdef NO_OL_COMPAT
-        /*
-         * Save the window group.
-         */
-
-        if (flags & WindowGroupHint)
-	{
-	    pCD->windowGroup = pXWMHints->window_group;
-	}
-	else
-	{
-	    pCD->windowGroup = 0L;
-	}
-#endif /* NO_OL_COMPAT */
     }
     else /* not the first time the hints are processed */
     {
@@ -2132,11 +2104,7 @@ WmICCCMToXmString (XTextProperty *wmNameProp)
   xms_return = xmsTable[0];
   for (i = 1; i < nStrings; i++)
   {
-#ifdef CONCAT_TEXTLIST
-      xms_return = XmStringConcatAndFree(xms_return, xmsTable[i]);
-#else
       XmStringFree(xmsTable[i]);
-#endif /* CONCAT_TEXTLIST */
   }
   XtFree((char *)xmsTable);
 
@@ -3916,12 +3884,10 @@ ProcessMwmHints (ClientData *pCD)
 
 	XFree ((char*)pHints);
     }
-#ifndef NO_OL_COMPAT
     else
     {
 	ProcessOLDecoration (pCD);
     }
-#endif /* NO_OL_COMPAT */
 
     /* 
      * If primary window can't move between workspaces, then

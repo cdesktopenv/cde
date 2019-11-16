@@ -624,17 +624,6 @@ donothing(int sig)
 		pam_end(pamh, PAM_ABORT);
 }
 
-#ifdef notdef
-static	int	intrupt;
-
-/*ARGSUSED*/
-static void
-catch(int sig)
-{
-	++intrupt;
-}
-#endif
-
 /*
  *			*** Bad login logging support ***
  */
