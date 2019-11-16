@@ -5,6 +5,587 @@ use 'git log', or peruse the commit history at:
 
 https://sourceforge.net/p/cdesktopenv/code/commit_browser
 
+#######################################################################
+### 2.3.1 (stable) 11/15/2019
+
+This stable release comes from the 2.3.0a development release, and
+adds a few more minor fixes and cleanups.
+
+The main highlights of this release:
+
+- All languages are built by default on Linux again.
+
+- Hundreds (perhaps thousands) of compiler warnings fixed.  Far too
+  many remain.
+
+- Hundreds of Coverity fixes.
+
+- Removal of large chunks of code, docs and the like pertaining to
+  unsupported systems and plain old ancient cruft that serves no
+  useful purpose anymore.
+
+- All non-ansi C functions (K&R style) have finally been ansi'fied.
+
+- All C/C++ 'register' declarations have finally been removed.
+
+- Integration of Antonis Tsolomitis' desktop_approots contribution.
+
+  This adds default actions for a variety of common file types.
+  Support is provided via a new dtopen script that is used to launch an
+  appropriate viewer for an appropriate file type.
+
+  The types supported are: images (jpg, png, etc), videos (mpg, avi,
+  mp4, etc), PDF files, and Postscript files.
+
+  Additionally, icons and actions for various common utilties are also
+  provided, like one for VLC.
+
+  The various "view" helpers currently installed are:
+
+  dtopen_vimage - view an image file.  Defaults to xv, display, and
+  gimp, in that order.  Override with the environment variable
+  DTOPEN_VIMAGE.
+
+  dtopen_vpdf - view a PDF file.  Defaults to okular, xpdf.  Override
+  with the environment variable DTOPEN_VPDF.
+
+  dtopen_vps - view a postscript file.  Defaults to mgv, gv.  Override
+  with the environment variable DTOPEN_VPS.
+
+  dtopen_vvideo - view a video file.  Defaults to vlc, ffplay.
+  Override with the environment variable DTOPEN_VVIDEO.
+
+  When a request is made to view one of these file types, the list of
+  possible viewers will be tried, in order, until one is found.  If
+  none are found, an error message will be displayed.
+
+  Add environment variable overrides to your ~/.dtprofile file if you
+  don't like the default(s).  ex:
+
+  export DTOPEN_VVIDEO="mpv"
+
+- sgml is gone.  We always use CDE's nsgmls program now.  In time,
+  this too will be removed and the system's nsgmls installation will
+  be used and required as an external dependency.
+
+- The included tcl interpreter is gone, we always use the system TCL
+  interpreter now (8.5+).
+
+- A potential exploit in dtprintinfo was also addressed.  This
+  affected Solaris CDE, but ours still had "issues" with amazingly
+  stupid code. It is no longer installed SUID root.
+
+- aarch64 support.
+
+- scroll wheel support for dtterm and dtfile is working now.
+
+
+Here is the git "short" log:
+
+Adam Sampson (3):
+      Avoid a NULL pointer dereference
+      Don't dereference an uninitialised pointer
+      Explicitly initialise two more static pointers
+
+Alex Ivanov (1):
+      define M4Cmd
+
+Chase (4):
+      Use iconv on linux
+      Remove old jpeg files
+      remove more internal jpeg headers
+      il: remove various deprecated files
+
+David Cantrell (1):
+      Patch out use of deprecated and now removed ustat(2) function on Linux.
+
+Jon Trulson (111):
+      Merge branch 'master' into cde-next
+      makedepend: remove register keyword
+      util/mkshadow: delete ancient unused utility
+      util/dbtoman/instant: remove register keyword
+      examples/dtwsm: remove register keyword
+      lib/DtHelp/il: remove register keyword
+      lib/DtHelp/jpeg: remove register keyword
+      lib/DtHelp: remove register keyword
+      lib/DtPrint: remove register keyword
+      DtSearch/raima: remove register keyword
+      lib/DtSearch: remove register keyword
+      DtSvc/DtCodelibs: remove register keyword
+      DtSvc/DtEncap: remove register keyword
+      DtSvc/DtUtil1: remove register keyword
+      DtSvc/DtUtil2: remove register keyword
+      DtTerm/util: remove register keyword
+      DtWidget: remove register keyword
+      lib/csa: remove register keyword
+      lib/pam/examples/login: remove register keyword
+      lib/pam: remove register keyword
+      tt/lib: remove register keyword
+      tt/bin: remove register keyword
+      dtaction: remove register keyword
+      dtappbuilder: remove register keyword
+      dtcalc: remove register keyword
+      dtcm: remove register keyword
+      dtdocbook: remove register keyword
+      dtfile: remove register keyword
+      dtimsstart: remove register keyword
+      dtinfo: remove TKTemplate.nd.c
+      dtinfo: remove register keyword
+      dtksh: remove register keyword
+      dtlogin: remove register keyword
+      dtmail: remove register keyword
+      dtpad: remove register keyword
+      dtprintinfo: remove register keyword
+      dtscreen: remove register keyword
+      dtsr: remove register keyword
+      dtstyle: remove register keyword
+      dtterm: remove register keyword
+      dtwm: remove register keyword
+      localized/util: remove register keyword
+      nsgmls: remove register keyword
+      util/dttypes: remove register keyword
+      dtudcfonted, dtudcexch: delete from repository
+      dtdocbook/regexp.c, remove register keyword
+      lib/tt/mini_isam: remove register keyword
+      FreeBSD.cf, OpenBSD.cf: remove -Wno-deprecated-register, no longer needed
+      dtdocbook/tcl/tclUtil.c: fix merge error
+      Merge branch 'master' into cde-next
+      ttsnoop: drag into a modern C++ century
+      ttsnoop: use tail arg -f rather than +0f
+      tt/mini_isam: use proper include, get rid of ultrix strdup
+      tt/mini_isam: remove all ancient sccsid blocks
+      tt/mini_isam: add new isam_prototypes.h include file and fix up problems
+      ttsnoop: resolve coverity 176047, 176046, 176044, 176043, 176042 and 176040
+      Merge branch 'master' into update-with-master
+      Merge branch 'master' into cde-next
+      lib/DtSearch/raima/proto.h: fix OBSD build - don't redef system functions
+      Add a new script, dtapp, used to locate and run various helper programs
+      Add icons from Antonis Tsolomitis desktop_approots contribution
+      databases/: remove ancient crufty scripts
+      Add actions and types from Antonis Tsolomitis' desktop_approots contribution
+      Finish integrating Antonis's desktop_approots work
+      Rename "dtapp" to "dtopen"
+      templates/types.tmpl: make sure to clean up new .dt's on a make clean
+      Merge branch 'master' into cde-next
+      dtfile: Fix up CopyCheckDeletePermission() and CheckDeletePermission
+      sgmls: remove from repository - we always use nsgmls
+      configShlibs.src: Fixup some bugs introduced by previous commits
+      tcl: use the system version, initial work only on linux for now
+      docbook.tcl: fix up some problems using a modern Tcl
+      docbook/instant: fix a few more issues
+      instant: encode 8bit chars to keep Tcl happy
+      use system tcl: clean up Imake files for dtdocbook/instant
+      Change version to 2.3.0a (devel)
+      dtdocbook/tcl/tcl.h: Add compatibility defines for old Tcl
+      Remove ancient included tcl code
+      docbook.tcl, instant: finish remaining help generation issues with tcl
+      Merge branch 'master' into cde-next
+      dtdocbook/instant: add Tcl_GetErrorLine check for older versions of Tcl
+      Merge branch 'master' into cde-next
+      linux: DtHelp/StringFuncs, enable real iconv() support
+      dtcalc/calctool.h: Use include stdlib rather than extern declarations
+      dtdockbook/instant: Add the proper paths for TCL on NetBSD
+      Merge branch 'master' of ssh://git.code.sf.net/p/cdesktopenv/code
+      NLS: fix quote issue with various OS's in C/types/_common.dt.tmsg
+      dtprintinfo: Fix a potential exploitable buffer overrun
+      dtprintinfo: correct another possible buffer overflow
+      dtprintinfo: remove SUID root on install
+      ksh/libast: include sys/sysmacros.h in fmtdev.c for linux systems
+      isfname.c: remove register keyword
+      Merge /u/jrubio/cdesktopenv/ branch dtksh_include_sys_sysmacros into master
+      Merge /u/jrubio/cdesktopenv/ branch linux_aarch64 into master
+      Merge /u/jrubio/cdesktopenv/ branch pointer-compare into master
+      Merge /u/jrubio/cdesktopenv/ branch implicit-int into master
+      Merge /u/jrubio/cdesktopenv/ branch int-conversion into master
+      Merge /u/jrubio/cdesktopenv/ branch incompatible-pointer-types into master
+      Merge /u/jrubio/cdesktopenv/ branch delete-incomplete into master
+      Merge /u/jrubio/cdesktopenv/ branch discarded-qualifiers into master
+      linux: build all languages by default again
+      dtterm: add scroll wheel support
+      dtcalc: increase highlight thickness to match Solaris CDE
+      dtfile: Add scroll wheel support
+      dtpad: emit error on catopen() failure
+      dtmail: fix NULL char embedded in format string
+      dtmail: fix extra format args warnings
+      ttserver: fixup forward (vexing) fucntion decl's in main, get rid of **environ
+      DtSvc/DtUtil1: fix implicit function declarations
+      DtSvc/DtUtil2: fix implicit function declarations
+      Change CDE version info for 2.3.1 release
+
+Jose Rubio (15):
+      Added linux/aarch64 as valid target.
+      Cleanup of -Wpointer-compare warnings.
+      Fixes for warnings related to -Wimplicit-int.
+      FIX: Define Aarch64 as little endian so DtInfo compiles.
+      Fix for deprecated warnings related to gnu libc sys macros.
+      Update TCL libraries link and restrict tcl8.6 only to SuSE.
+      Link TCL libraries and restrict tcl8.6 to SuSE only.
+      Merge branch 'linux-suse-tcl-link' of https://git.code.sf.net/u/jrubio/cdesktopenv into linux-suse-tcl-link
+      Fix openbsd compile build errors due to dependency on libiconv
+      Fix to Wenum-compare
+      Fix to different compile warnings.
+      Fix to compile warnings.
+      Fix to delete-incomplete warnings.
+      Fixes for a few -Wincompatible-pointer-types
+      get rid of the 'extern sys_errlist' and 'sys_nerr' in SysErrorMsg.
+
+Matthew R. Trower (4):
+      Add default TCLLIB, and allow override in host.def
+      Clean up UseInstalledX11 logic
+      Restore original `tail` functionality in ttsnoop, with POSIX args
+      Repair and simplify installCDE.src:CleanDaemons()
+
+Nina Didenko (4):
+      dtinfogen: don't override PATH
+      udbToAny.ksh: don't hardcode path to awk
+      merge: don't hardcode path to gencat
+      sym2num: don't hardcode path to cpp
+
+Peter Howkins (301):
+      dtwm: Remove the define PANELIST, it is always on for dtwm
+      dtwm: Remove id strings related to historic version control system used before CDE was opened.
+      dtwm: remove define MINIMAL_DT which is always on for CDE
+      dtwm: Remove WSM define, that is always on for CDE
+      dtwm: Remove define MOTIF_ONE_DOT_ONE, backwards compatibility for motif 1.1, CDE as a whole requires 2.1
+      dtwm: Remove define MWM_QATS_PROTOCOL that has to be always off for dtwm, obsolete, unavailable mwm test suite support
+      dthelp: Remove define M_PROTO that was always turned on (for all platforms) that enabled ANSI not K&R function prototypes
+      dthelp: Remove always on macro M_NOPAR which was just there to support ancient compilers that don't have 'void'
+      dthelp: Remove spectaculaly obsolete MSDOS support
+      dthelp: Convert all K&R function definitions to ANSI (C90) standard
+      dtwm: In CDE we always build with MULTIBYTE support, disable unused singlebyte only
+      dtfile: Remove define MULTIBYTE which is always on for CDE
+      config/util: Change to ANSI function definitions
+      dbtoman: Change to ANSI function definitions
+      libDtHelp: Change to ANSI function definitions
+      libcsa: Change to ANSI function definitions
+      libDtMrm: Change to ANSI function definitions
+      libDtSvc: Change to ANSI function definitions
+      libDtTerm: Change to ANSI function definition
+      libtt: Change to ANSI function definitions
+      dsdm: Change to ANSI function definitions
+      dtappbuilder: Change to ANSI function definitions
+      dtcalc: Change to ANSI function definitions
+      dtcm: Change to ANSI function definitions
+      dtcreate: Change to ANSI function definitions
+      dtdocbook: Change to ANSI function definitions
+      dtfile: Change to ANSI function definitions
+      dtfile/dtcopy: Change to ANSI function definitions
+      dtinfo: Change to ANSI function definitions
+      dticon: Change to ANSI function definitions
+      dtlogin: Change to ANSI function definitions
+      dtwm: Change to ANSI function definitions
+      dtsession: Change to ANSI function definitions
+      dtimsstart: Change to ANSI function definitions
+      dtpdm: Change to ANSI function definitions
+      dtpdmd: Change to ANSI function definitions
+      dtstyle: Change to ANSI function definitions
+      dtterm: Change to ANSI function definitions
+      dtscreen: Change to ANSI function definitions
+      dthelp: Change to ANSI function definitions
+      dtpad: Change to ANSI function definitions
+      dtsr: Change to ANSI function definitions
+      dttypes: Change to ANSI function definitions
+      localized/util: Change to ANSI function definitions
+      libDtSearch: Remove optional support for ancient DOS far pointer
+      libDtSearch: Enable compiling with const support, remove ability to build without const support.
+      libDtSearch: remove optional code MULTI_TASK that is not used on CDE
+      libDtSearch: Remove optional code for NO_DBN which is not used on CDE
+      libDtSearch: Remove define ONE_DB which is always off for CDE
+      libDtSearch: NO_TRANS is always on for CDE
+      libDtSearch: SINGLE_USER is always defined for CDE
+      libDtSearch: NO_TIMESTAMP is always on for CDE
+      libDtSearch: remove NO_COUNTRY code which is always off for CDE
+      libDtSearch: Untangle large numbers of TASK_ macros that were all unused code
+      libDtSearch: Tidy up the LOCK and DBN macro madness
+      libDtSearch: Convert to ANSI function definitions and use proper prototypes (which causes more warnings
+      libDtSearch: Remove unused C files that have now disapeared with removal of #defines
+      Merge branch 'cde-next' of ssh://git.code.sf.net/p/cdesktopenv/code into cde-next
+      dtwm: Coverity 87858
+      dtwm: Coverity 88311
+      dtwm: Coverity 88247
+      dtwm: Coverity 88714
+      dtwm: Coverity 89619
+      dtwm: Coverity 88325
+      dtwm: Coverity 88540
+      dtwm: Coverity 89124
+      dtwm: Coverity 89400
+      dtwm: 88998
+      dtwm: Coverity 87256
+      dtwm: Coverity 87236
+      dtwm: Coverity 88535
+      dtwm: Coverity 88285
+      dtwm: Coverity 88375
+      libDtSearch: Coverity 86698
+      libDtSearch: Coverity 86762
+      libDtSearch: Coverity 86768
+      libDtSearch: Coverity 86780
+      libDtSearch: Coverity 86804
+      libDtSearch: Coverity 86856
+      libDtSearch: Coverity 86944
+      libDtSearch: Coverity 87032
+      libDtSearch: Coverity 86579
+      libDtSearch: Coverity 176038
+      libDtSearch: Coverity 87018
+      libDtSearch: Coverity 86816
+      libDtSearch: Coverity 86426
+      libDtSearch: Coverity 86602
+      libDtSearch: Coverity 86119
+      libDtSearch: Coverity 86459
+      dtaction: Coverity 88210 and 87787
+      dtterm: Coverity 89479
+      dtpad: Coverity 174846
+      nsgmls: Coverity 174600
+      nsgmls: Coverity 174584
+      dticon: Coverity 89192
+      dticon: fix for \n being truncated by snprintf off end of error message
+      dtstyle: Coverity 89351
+      dtstyle: Coverity 87763
+      dtstyle: Coverity 89456
+      dtstyle: Coverity 89011
+      dtstyle: Coverity 88726
+      dtstyle: Coverity 88475
+      dtstyle: Coverity 87337
+      dtstyle: Coverity 87244
+      dtstyle: Coverity 87251
+      dtstyle: Coverity 88110
+      dtcm: Coverity 89566
+      dtcm: Coverity 88978
+      dtcm: Coverity 89423
+      dtcm: Coverity 89063
+      dtcm: Coverity 88587
+      dtcm: Coverity 89037
+      dtcm: Coverity 88902
+      dtcm: Coverity 88481
+      dtcm: Coverity 89265
+      libDtHelp: Coverity 88776
+      libDtHelp: Coverity 89548
+      libDtHelp: Coverity 88813
+      libDtHelp: Coverity 88906
+      libDtHelp: Coverity 88665
+      libDtHelp: 88550
+      libDtHelp: Coverity 88440
+      dtprintinfo: Coverity 88414
+      dtprintinfo: Coverity 89561
+      dtprintinfo: Coverity 89488
+      dtprintinfo: Coverity 88650
+      dtprintinfo: Coverity 88683
+      dtprintinfo: Coverity 88097
+      dtprintinfo: Coverity 89669
+      dtprintinfo: Coverity 88447
+      dtdocbook: Coverity 86763
+      dtdocbook: Coverity 86996
+      doc/util/dbtoman: Coverity 88244
+      doc/util/dbtoman: Coverity 89668
+      doc/util/dbtoman: Coverity 88750
+      dtdocbook: Coverity 86683
+      dtcm: Coverity 89621
+      dtcm: Coverity 89547
+      dtcm: Coverity 88910
+      dtcm: Coverity 88353
+      dtcm: Coverity 88888
+      dtcm: Coverity 88584
+      dtcm: Coverity 88468
+      dtcm: Coverity 89169
+      dtcm: Coverity 88107
+      dtcm: Coverity 174711
+      dtcm: Coverity 88514
+      dtcm: Coverity 88613
+      dtcm: Coverity 89212, 88188 and 88636
+      dtcm: Coverity 88675
+      dtcm: Coverity 88687
+      dtcm: Coverity  88741, 88121 and 88692
+      dtcm: Coverity 88768, 89297 and 89115
+      dtcm: Coverity 89452 and 89661
+      dtcm: Coverity 88904
+      dtcm: Coverity 89138
+      dtcm: Coverity 89287
+      dtcm: Coverity 89369
+      dtcm: Coverity 88303, 89531 and 89433
+      dtcm: Coverity 88113
+      dtcm: Coverity 88137
+      dtcm: Coverity 88165
+      dtcm: Coverity 88331 and 88169
+      dtcm: Coverity 89670, 88380 and 88201
+      dtcm: Coverity 88214
+      dtcm: Coverity 88383
+      dtcm: Coverity 88858
+      dtcm: Coverity 88871
+      dtcm: Coverity 89021
+      dtcm: Coverity 89105
+      dtcm: Coverity 89113
+      dtcm: Coverity 89273
+      dtcm: Coverity 89439 and 89458
+      dtcm: Coverity 89502
+      dtcm: Coverity 89593
+      dtcm: Coverity 89641
+      dtcm: Coverity 89645
+      dtcm: Coverity 174810
+      dtcm: Extend string buffer to prevent warning
+      dtcm: Coverity 89423
+      dtcm: Coverity 89273
+      dtcm: Coverity 88978
+      dtcm: Coverity 88902
+      dtcm: Coverity 88871
+      dtcm: Coverity 88672
+      dtcm: Coverity 88636
+      dtcm: Coverity 88107
+      dtcm: Coverity 88183, 88208, 89289
+      dtcm: Coverity 88351
+      dtcm: Increase buffer size to prevent warning
+      dtcm: Coverity 88080
+      dtcm: Fix typo
+      dtcm: Coverity 88236
+      dtcm: Coverity 88243
+      dtcm: Coverity 88334
+      dtcm: Coverity 88648
+      dtcm: Coverity 88860
+      dtcm: Coverity 88917
+      dtcm: Coverity 89143
+      dtcm: Coverity 88762
+      dtcm: Coverity 88792
+      dtcm: Coverity 88899
+      dtcm: Coverity 89043
+      dtcm: Coverity 89182
+      dtcm: Coverity 89275
+      dtcm: Coverity 89667
+      dtcm: Coverity 89686
+      dtcm: Coverity 87931
+      dtcm: Coverity 174713
+      dtcm: Coverity 174819
+      dtcm: Coverity 88168
+      dtcm: Coverity 88225
+      dtcm: Coverity 88235
+      dtcm: Coverity 88272
+      dtcm: Coverity 88336
+      dtcm: Coverity 88505
+      dtcm: Coverity 88575
+      dtcm: When freeing pointer, set the pointer to NULL, so that on future failures you don't return a pointer to freed data
+      dtcm: Coverity 88631
+      dtcm: Coverity 88647
+      dtcm: Coverity 88669
+      dtcm: Coverity 89081
+      dtcm: Coverity 89413
+      dtcm: Coverity 89499
+      dtcm: Coverity 89535
+      dtcm: Coverity 89542
+      dtcm: Coverity 89544
+      dtcm: When deleting data, set the pointer to NULL to avoid returning a pointer to freed data on future errors
+      dtcm: Also make sure to reset non pointer fields, so that on future failures they don't return stale data (due to static)
+      dtcm: Coverity 88206
+      dtcm: Coverity 88326
+      dtcm: Coverity 89207
+      dtcm: Coverity 89234
+      dtcm: Coverity 88778
+      dtcm: Coverity 89398
+      dtcm: Coverity 89371
+      dtcm: Coverity 88253
+      dtcm: Coverity 89595
+      dtcm: Coverity 89160
+      dtcm: Coverity 88079
+      dtcm: Coverity 88494
+      dtcm: Coverity 88200
+      dtcm: Coverity 89517
+      dtcm: Coverity 89341
+      dtcm: Coverity 89232
+      dtcm: Coverity 88745
+      dtcm: Coverity 88250
+      dtcm: Coverity 87364
+      dtcm: Coverity 87745 and 88154
+      dtcm: Coverity 88056
+      dtcm: Coverity 88279
+      dtcm: Coverity 88350
+      dtcm: Coverity 88533
+      dtcm: Coverity 89111
+      dtcm: Coverity 89685
+      dtcm: Coverity 176055
+      dtcm: Coverity 89313
+      dtcm: Coverity 88006
+      dtcm: Coverity 87565
+      dtcm: Coverity 87942
+      dtcm: Coverity 88069
+      dtcm: Coverity 88382
+      dtcm: Coverity 88884
+      dtcm: Coverity 88955
+      dtcm: Coverity 89051
+      dtcm: Coverity 89185
+      libDtHelp: Cov 87607
+      libDtHelp: Cov 89582
+      libDtHelp: Cov 88839
+      libDtHelp: Cov 88527
+      libDtHelp: Cov 88084
+      libDtUtil: Cov 88123
+      libDtUtil: Cov 88127
+      libDtHelp: Cov 89172
+      libDtHelp: Cov 89366
+      libDtHelp: Cov 88221
+      libDtHelp: Cov 88465
+      libDtHelp: Cov 88526
+      libDtHelp: Cov 88724
+      libDtHelp: Cov 88952
+      libDtHelp: Cov 89012
+      libDtHelp: Cov 89084
+      libDtHelp: Cov 89401
+      libDtHelp: Cov 89524
+      libDtHelp: Cov 89532
+      libDtHelp: Cov 174697
+      libDtHelp: Cov 88109
+      libDtHelp: Cov 88119
+      libDtHelp: Cov 88162
+      libDtHelp: Cov 88209
+      libDtHelp: Cov 88240
+      libDtHelp: Cov 88262 and 88459
+      libDtHelp: Cov 88275
+      libDtHelp: Cov 88890 and 88294
+      libDtHelp: Cov 88302
+      libDtHelp: Cov 89129 and 88355
+      libDtHelp: Cov 88365
+      libDtHelp: Cov 88381
+      installCDE: fix outputting of missing files on install, caused by C&P error in shellshock fixes
+      libDtHelp: Fix a regression with the Help Index pages caused by an overzealous Coverity fix
+      libDtHelp: Fix another regression caused by Coverity fix, clicking 'Help Manager' works again.
+
+chase (26):
+      linux.cf: Remove permissive flag
+      Remove macII support
+      Remove apollo support
+      Add debian packaging files
+      Add upstream config files
+      Remove redundant motif widgets
+      installCDE.src: Fix shellcheck warnings
+      linksLast and uncomment: Fix shellcheck warnings
+      Revert "dtudcfonted, dtudcexch: delete from repository"
+      Revert "Disable building of dtudcfonted and dtudcexch"
+      Refactor and reimplement dtudcfonted
+      CDE-RUN: Readd binary entries for dtudcfonted
+      post_install: fix shellcheck warnings
+      Remove amoeba support
+      Remove old windows support
+      Dtdocbook: Remove old sgmls program
+      DtsMM.c: Remove null in string
+      dtappintegrate.src and dtopen.src: fix shellcheck warnings
+      dtprintegrate: fix shellcheck warnings
+      il: Remove deprecated files
+      debian: misc cleanup
+      gpftobdf.c: fix long int comiler warnings
+      remove ultrix support
+      Remove hpversion.h from repository
+      Clean up OPENBUGS
+      dbtoman: Improve readability
+
+tu83 (1):
+      Fixed segfault for mode switching when compiled with clang
+
+wmoxam (7):
+      Remove NOTDONE code
+      Remove unused HP_EXTENSIONS code blocks
+      Remove legacysun code blocks
+      Remove 'oldcode'
+      Remove ancient HP VUE compatibility support
+      'notdef' means it's not used, so we remove it
+      Remove all optional compile flags from dtwm that are not referenced anywhere, and are unlikely to ever be used
+
+
+#######################################################################
 ### 2.3.0 (stable) 07/06/2018
 
 This is a very long overdue stable release.  It incorporates all of
@@ -345,6 +926,7 @@ chase (3):
 
 
 
+#######################################################################
 ### 2.2.4 (stable) 06/19/2016
 
 This release incorporates several fixes for newer operating systems
@@ -404,6 +986,7 @@ alx (14):
       dtfile: Enable FILE_MAP_OPTIMIZE on Linux. This avoids unnecessary tt_file_netfile calls on local host.
 
 
+#######################################################################
 ### 2.2.3 (stable) 05/09/2015
 
 This release incorporates several hundred fixes identified by various
@@ -565,6 +1148,7 @@ alx (1):
       dtcopy: Fix file removal
 
 
+#######################################################################
 ### 2.2.2 (stable) 07/27/2014
 
 A lot of fixes and improvements in this release.  CDE can be built on
@@ -650,6 +1234,7 @@ alx (2):
       DtWidget: Don't free random pointer on Control widget destruction
 
 
+#######################################################################
 ### 2.2.1 (stable) 03/01/2014
 
 - Forgot to update this file for the release.  Oops.  At any rate,
@@ -747,7 +1332,7 @@ alx (4):
 
   - Some screen locking issues on the BSD's have been fixed.
 
-  - /usr/sbin/sendmail is now the default mailer on OpenBSD 
+  - /usr/sbin/sendmail is now the default mailer on OpenBSD
 
   - Basic support for Xinerama has been added to dtlogin and dtsession
     using a new DtXinerama library.
@@ -802,7 +1387,7 @@ alx (4):
   ## 2.2.0a (development, alpha1) 8/6/2012
 
   - This is the initial release of CDE form The Open Group based on
-    2.1.30.   
+    2.1.30.
 
     Minimal changes to get it compiling on some common linux distros,
     primarily 32bit.
