@@ -58,7 +58,7 @@ extern "C" {
 				DtREVISION * 100 + \
 				DtUPDATE_LEVEL)
 
-#define DtVERSION_STRING "CDE Version 2.3.1"
+#define DtVERSION_STRING "CDE Version 2.3.1a"
 
 
 /* 
