@@ -52,7 +52,7 @@ LOGFILE="installCDE.$$.log"
 
 Log()
 {
-  /bin/echo "$1" | tee -a $LOGFILE
+  echo "$1" | tee -a $LOGFILE
 }
 
 MakeTarball()
@@ -537,14 +537,7 @@ XCOMM
     PLATFORM_SCRIPT_DIR=hp
   fi
 
-  if [ "$PLATFORM" = "aix" ];
-  then
-    USER=$(/bin/whoami)
-  else
-    USER=$(/usr/bin/whoami)
-  fi
-
-  if [ "$USER" != "root" ];
+  if [ $(whoami) != "root" ];
   then
     echo ""
     echo "You should be root to run this script.  Continuing anyway."

@@ -96,13 +96,6 @@ else                                                # Build system = HP
         PLATFORM=hp-ux
 fi
 
-if [ $PLATFORM = "aix" ];
-then
-        USER=`/bin/whoami`
-else
-        USER=`/usr/bin/whoami`
-fi
-
 awkit() {
 	awk  '
 	BEGIN {
@@ -504,7 +497,7 @@ doit()
 		}
 		# set permissions for non-links
 		if [ "${TYPE%link}" = "$TYPE" ]; then
-			if [ "$USER" = "root" ]; then
+			if [ $(whoami) = "root" ]; then
 				chgrp $GROUP $DEST || 
 					echo "ERROR: \"chgrp $GROUP $DEST\" failed" >&2
 				chown $OWNER $DEST || 
