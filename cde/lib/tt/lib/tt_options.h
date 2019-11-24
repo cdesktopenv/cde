@@ -529,4 +529,9 @@
 
 #endif
 
+#ifdef CPP_PROGRAM
+# undef OPT_CPP_PATH
+# define OPT_CPP_PATH CPP_PROGRAM
+#endif
+
 #endif				/* _TT_OPTIONS_H */
