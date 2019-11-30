@@ -359,7 +359,7 @@ static int DefaultOutputString(ClientData clientData,
 
     /* leave room for worst case expansion plus quotes plus null */
     pArgv = argv[1];
-    stringLength = (3 * strlen(pArgv)) + 3;
+    stringLength = (4 * strlen(pArgv)) + 3;
 
     string = Tcl_Alloc(stringLength);
     memset(string, 0, stringLength);
