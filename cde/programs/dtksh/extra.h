@@ -43,26 +43,12 @@
 #define _Dtksh_extra_h
 
 
-
 extern void env_set( 
                         char *var) ;
 extern void env_set_gbl( 
                         char *vareqval) ;
 extern char * env_get( 
                         char *var) ;
-extern void * xkhash_init( 
-                        int num) ;
-extern void xkhash_override( 
-                        Hash_table_t *tbl,
-                        const char *name,
-                        void *val) ;
-extern void * xkhash_find( 
-                        Hash_table_t *tbl,
-                        const char *name) ;
-extern void xkhash_add( 
-                        Hash_table_t *tbl,
-                        const char *name,
-                        char *val) ;
 extern int ksh_eval( 
                         char *cmd) ;
 extern void env_set_var( 
@@ -85,7 +71,6 @@ extern void printerrf(
                         char *arg5,
                         char *arg6,
                         char *arg7) ;
-
 
 
 #endif /* _Dtksh_extra_h */
