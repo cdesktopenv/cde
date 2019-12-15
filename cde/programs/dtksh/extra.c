@@ -66,39 +66,6 @@ env_get(
 }
 
 
-void *
-xkhash_init(
-        int num )
-{
-	return((void *) hashalloc(NULL,0));
-}
-
-void
-xkhash_override(
-        Hash_table_t *tbl,
-        const char *name,
-        void *val )
-{
-	hashput(tbl, name, val);
-}
-
-void *
-xkhash_find(
-        Hash_table_t *tbl,
-        const char *name )
-{
-	return(hashget(tbl, name));
-}
-
-void
-xkhash_add(
-        Hash_table_t *tbl,
-        const char *name,
-        char *val )
-{
-	hashput(tbl, name, val);
-}
-
 int
 ksh_eval(
         char *cmd )
