@@ -4078,7 +4078,7 @@ do_XtSetSensitive(
         char *argv[] )
 {
    wtab_t *w;
-   Boolean bool;
+   Boolean boolean;
    XrmValue fval, tval;
 
    if (argc != 3)
@@ -4089,13 +4089,13 @@ do_XtSetSensitive(
    XtConvert(Toplevel, XtRString, &fval, XtRBoolean, &tval);
 
    if (tval.size != 0) 
-      bool = *((Boolean *)(tval.addr));
+      boolean = *((Boolean *)(tval.addr));
    else
       return(1);
 
    w = str_to_wtab(argv[0], argv[1]);
    if (w != NULL) 
-      XtSetSensitive(w->w, bool);
+      XtSetSensitive(w->w, boolean);
    else 
       return(1);
    return(0);
