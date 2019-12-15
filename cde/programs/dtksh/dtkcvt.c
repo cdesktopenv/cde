@@ -67,11 +67,6 @@
 #include "xmwidgets.h"
 #include "msgs.h"
 
-#if defined(SYSV) || defined(SVR4_0) || defined(SVR4) || defined(CSRG_BASED) \
- || defined(__linux__) || defined(sun)
-#define lsprintf sprintf
-#endif
-
 extern Hashtab_t * Wclasses;
 
 
@@ -486,9 +481,9 @@ DtkshCvtCallbackToString(
             break;
          }
          if (count > 0)
-            p += lsprintf(p, "|%s", (String)cdata->ksh_cmd);
+            p += sprintf(p, "|%s", (String)cdata->ksh_cmd);
          else
-            p += lsprintf(p, "%s", (String)cdata->ksh_cmd);
+            p += sprintf(p, "%s", (String)cdata->ksh_cmd);
          count++;
       }
    }

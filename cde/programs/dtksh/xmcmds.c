@@ -3737,10 +3737,7 @@ do_catopen(
    char * ptr;
    nl_catd nlmsg_fd = (nl_catd)-1;
    char * errmsg;
-#if defined(SVR4) || defined (_AIX) || defined(CSRG_BASED) || \
-    defined(__linux__) || defined(sun)
    char * nextMatch;
-#endif
 
    if (argc != 3)
    {
@@ -3762,8 +3759,6 @@ do_catopen(
        */
 
       altCatName = XtMalloc(strlen(catName) + 10);
-#if defined(SVR4) || defined (_AIX) || defined(CSRG_BASED) || \
-    defined(__linux__) || defined(sun)
       /* These platforms don't have strrstr() */
       ptr = NULL;
       nextMatch = catName;
@@ -3772,9 +3767,6 @@ do_catopen(
          ptr = nextMatch;
          nextMatch++;
       }
-#else
-      ptr = (char *)strrstr(catName, ".cat");
-#endif
       if (ptr && (strlen(ptr) == 4))
       {
          /* Strip off the ".cat", and try again */
