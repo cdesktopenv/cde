@@ -38,8 +38,14 @@ DEFINES = -DDTLIB $(LOCAL_DEFINES) \
 	  -DOSMINORVERSION=OSMinorVersion \
 	  $(ICONV_INBUF_DEFINE) $(BIT_ORDER_DEFINES)
 
+#if defined(FreeBSDArchitecture)
+JPEGLIB = -ljpeg
+#endif
+
 #ifdef SharedDtHelpReqs
-REQUIREDLIBS = SharedDtHelpReqs
+REQUIREDLIBS = SharedDtHelpReqs $(JPEGLIB)
+#else
+REQUIREDLIBS = $(JPEGLIB)
 #endif
 
 HEADERS = \
