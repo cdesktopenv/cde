@@ -210,11 +210,7 @@ _DtSimpleError(
    if (NULL == message) return;
 
    Va_start(args, format);
-#if defined(USE_SNPRINTF)
    (void) vsnprintf(message, MESSAGE_BUFFER, format, args);
-#else
-   (void) vsprintf(message, format, args);
-#endif
    va_end(args);
 
    log_message(progName, help, message, severity, FALSE);
@@ -235,11 +231,7 @@ _DtSimpleErrnoError(
    if (NULL == message) return;
 
    Va_start(args, format);
-#if defined(USE_SNPRINTF)
    (void) vsnprintf(message, MESSAGE_BUFFER, format, args);
-#else
-   (void) vsprintf(message, format, args);
-#endif
    va_end(args);
 
    log_message(progName, help, message, severity, TRUE);
