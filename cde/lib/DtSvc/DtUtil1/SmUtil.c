@@ -176,10 +176,23 @@ getSessionPath(
 
    /*
     * NOTE: it is assumed that _DtCreateDtDirs() returns a buffer of 
-    *       size MAXPATHLEN+1. This allows us to avoid a extra alloc
+    *       size MAXPATHLEN. This allows us to avoid a extra alloc
     *       and copy -- at the expense of code maintainability.
+    *
+    * JET - 2020.  This is stupid.  At least account for the strings
+    * you are adding further on down...  This "solution" isn't great
+    * either.  Real fix would be to have all callers pass in bufptr
+    * and len all the way down the chain instead of tmpPath.
     */
-    if ((strlen(tmpPath) + 1 + strlen(property)) > MAXPATHLEN) goto abort;
+    if ((strlen(tmpPath)
+         + 1 /* "/" */
+         + strlen(property)
+         + 1 /* "/" */
+         + ((*saveFile == NULL) ? strlen("dtXXXXXX") + 1 : strlen(*saveFile))
+        ) >= MAXPATHLEN)
+    {
+        goto abort;
+    }
 
    /* 
     * parse the property string and create directory if needed 

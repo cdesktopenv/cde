@@ -83,33 +83,32 @@ char *
 _DtCreateDtDirs(
         Display *display )
 {
-    char 		*tmpPath;
+    char 		*tmpPath = NULL;
     Boolean 		needSessionsDir = False;
     Boolean 		useOldSession = False;
     struct stat 	buf;
     int 		status;
-    char 		*home;
-    char		*sessionDir;
-    char		*displayName;
+    char 		*home = NULL;
+    char		*sessionDir = NULL;
+    char		*displayName = NULL;
 
     /*
      * Sanity check - make sure there's an existing display
      */
     if(!display)
 	return(NULL);
-    
-    if ((home =getenv("HOME")) == NULL)
+
+    if ((home = getenv("HOME")) == NULL)
         home = "";
-    
-    tmpPath = XtCalloc(1, MAXPATHLEN + 1);
+
+    tmpPath = XtCalloc(1, MAXPATHLEN);
     if(tmpPath == NULL)
 	return(NULL);
 
     /*
      * If the $HOME/.dt directory does not exist, create it
      */
-    strncpy(tmpPath, home, MAXPATHLEN);
-    strncat(tmpPath, "/" DtPERSONAL_CONFIG_DIRECTORY, MAXPATHLEN);
+    snprintf(tmpPath, MAXPATHLEN, "%s/%s", home, DtPERSONAL_CONFIG_DIRECTORY);
 
     status = stat(tmpPath, &buf);
     if (status == -1) {
@@ -122,11 +121,10 @@ _DtCreateDtDirs(
     }
 
     /*
-     * Create the personal DB directory if it does not exist.  
+     * Create the personal DB directory if it does not exist.
      */
-    strncpy(tmpPath, home, MAXPATHLEN);
-    strncat(tmpPath, "/" DtPERSONAL_DB_DIRECTORY, MAXPATHLEN);
-    
+    snprintf(tmpPath, MAXPATHLEN, "%s/%s", home, DtPERSONAL_DB_DIRECTORY);
+
     if ((status = stat (tmpPath, &buf)) == -1) {
         if ((status = mkdir (tmpPath, 0000)) != -1)
 	    (void) chmod (tmpPath, 0755);
@@ -135,8 +133,7 @@ _DtCreateDtDirs(
     /*
      * Create the personal tmp dir if it does not exist.
      */
-    strncpy(tmpPath, home, MAXPATHLEN);
-    strncat(tmpPath, "/" DtPERSONAL_TMP_DIRECTORY, MAXPATHLEN);
+    snprintf(tmpPath, MAXPATHLEN, "%s/%s", home, DtPERSONAL_TMP_DIRECTORY);
 
     if ((status = stat (tmpPath, &buf)) == -1) {
 	if ((status = mkdir (tmpPath, 0000)) != -1)
@@ -173,12 +170,13 @@ _DtCreateDtDirs(
 	     */
 	    if ((displayName = GetDisplayName (display)) != NULL) {
 
-		strncpy (tmpPath, home, MAXPATHLEN);
-		strncat (tmpPath, "/" DtPERSONAL_CONFIG_DIRECTORY, MAXPATHLEN);
-                strncat (tmpPath, "/", MAXPATHLEN);
-                strncat (tmpPath, displayName, MAXPATHLEN);
+                snprintf(tmpPath, MAXPATHLEN, "%s/%s/%s",
+                         home,
+                         DtPERSONAL_CONFIG_DIRECTORY,
+                         displayName);
 
 		free(displayName);  /* CDExc22771 */
+                displayName = NULL;
 
                 if ((status = stat (tmpPath, &buf)) == -1) {
 	            if ((status = mkdir (tmpPath, 0000)) != -1)
@@ -215,12 +213,13 @@ _DtCreateDtDirs(
 	 */
 	if ((displayName = GetDisplayName (display)) != NULL) {
 
-	    strncpy (tmpPath, home, MAXPATHLEN);
-	    strncat (tmpPath, "/" DtPERSONAL_CONFIG_DIRECTORY, MAXPATHLEN);
-	    strncat (tmpPath, "/", MAXPATHLEN);
-	    strncat (tmpPath, displayName, MAXPATHLEN);
+            snprintf(tmpPath, MAXPATHLEN, "%s/%s/%s",
+                     home,
+                     DtPERSONAL_CONFIG_DIRECTORY,
+                     displayName);
 
 	    free(displayName);  /* CDExc22771 */
+            displayName = NULL;
 
 	    if ((status = stat(tmpPath, &buf)) != 0)
 		/*
@@ -238,9 +237,10 @@ _DtCreateDtDirs(
 	 *  If we don't have an old style directory - we check for a sessions
 	 *  directory, and create it if it doesn't exist
 	 */
-	strncpy (tmpPath, home, MAXPATHLEN);
-	strncat (tmpPath, "/" DtPERSONAL_CONFIG_DIRECTORY, MAXPATHLEN);
-	strncat (tmpPath, "/" DtSM_SESSION_DIRECTORY, MAXPATHLEN);
+        snprintf(tmpPath, MAXPATHLEN, "%s/%s/%s",
+                 home,
+                 DtPERSONAL_CONFIG_DIRECTORY,
+                 DtSM_SESSION_DIRECTORY);
 
 	if ((status = stat(tmpPath, &buf)) == -1) {
 	    if ((status = mkdir(tmpPath, 0000)) == -1) {

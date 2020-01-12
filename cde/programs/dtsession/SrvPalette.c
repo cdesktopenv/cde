@@ -501,10 +501,10 @@ CheckMonitor(
     int n, screen_number, result;
     Arg args[4];
     char screenStr[5], cust_msg[24];
-    char *tmpStr;
-    char            tmpPalette[SRVBUFSIZE];
-    char            *token1;
-    char 	    *xrdb_string;
+    char *tmpStr = NULL;
+    char tmpPalette[SRVBUFSIZE];
+    char *token1 = NULL;
+    char *xrdb_string = NULL;
 
     Widget mainShell;
     XtAppContext app_context;
@@ -541,7 +541,7 @@ CheckMonitor(
    /* cycle through each screen */
     for(screen_number=0;screen_number != colorSrv.NumOfScreens;screen_number++)
     {
-       sprintf(screenStr,"%d",screen_number);
+       snprintf(screenStr, sizeof(screenStr), "%d", screen_number);
        n = 0;
        XtSetArg(args[n], XmNbackground, 
            BlackPixelOfScreen(DefaultScreenOfDisplay(dpy))); n++;
@@ -559,7 +559,8 @@ CheckMonitor(
        
        XtRealizeWidget(shell[screen_number]);
        
-       sprintf(cust_msg,"%s%d", XmSCUSTOMIZE_DATA, screen_number);
+       snprintf(cust_msg, sizeof(cust_msg), "%s%d",
+                XmSCUSTOMIZE_DATA, screen_number);
        colorSrv.XA_CUSTOMIZE[screen_number] = 
 	   XInternAtom(dpy, cust_msg, FALSE);
        
@@ -574,11 +575,16 @@ CheckMonitor(
 	   /*
 	    * Don't forget to add length for the extra characters.
 	    */
-	   tmpStr = (char *)SRV_MALLOC(strlen(MSG1) + 25 + 5 + 1 + 1);
-	   sprintf(tmpStr,"%s colorSrv.XA_CUSTOMIZE[%d].\n", 
-		   MSG1, screen_number);
-	   _DtSimpleError(XmSCOLOR_SRV_NAME, DtWarning, NULL, tmpStr, NULL);
-	   SRV_FREE(tmpStr);
+           int len = strlen(MSG1) + 25 + 5 + 1 + 1;
+	   tmpStr = (char *)SRV_MALLOC(len);
+           if (tmpStr)
+           {
+               snprintf(tmpStr, len, "%s colorSrv.XA_CUSTOMIZE[%d].\n",
+                        MSG1, screen_number);
+               _DtSimpleError(XmSCOLOR_SRV_NAME, DtWarning, NULL, tmpStr, NULL);
+               SRV_FREE(tmpStr);
+               tmpStr = NULL;
+           }
 	   return(-1);
        }
 
@@ -608,15 +614,19 @@ CheckMonitor(
                (struct _palette *) SRV_MALLOC( sizeof(struct _palette) + 1 );
 
            /*  allocate enough space for the name */
-           strcpy(tmpPalette, pColorSrvRsrc.MonochromePalette); 
-           for (token1=tmpPalette; *token1; token1++);
-           while (token1!=tmpPalette && *token1!='.') token1--;
-	   if (!strcmp(token1,PALETTE_SUFFIX)) *token1 = '\0';
+           snprintf(tmpPalette, SRVBUFSIZE, "%s",
+                    pColorSrvRsrc.MonochromePalette);
+           for (token1=tmpPalette; *token1; token1++)
+               ;
+           while (token1 != tmpPalette && *token1 != '.')
+               token1--;
+	   if (!strcmp(token1, PALETTE_SUFFIX))
+               *token1 = '\0';
            colorSrv.pCurrentPalette[screen_number]->name = 
                (char *)SRV_MALLOC(strlen(tmpPalette) + 1);
            strcpy(colorSrv.pCurrentPalette[screen_number]->name,
                   (char *) tmpPalette);
-           colorSrv.pCurrentPalette[screen_number]->converted=NULL;
+           colorSrv.pCurrentPalette[screen_number]->converted = NULL;
        }
 
        if (colorSrv.pCurrentPalette[screen_number] == (struct _palette *) NULL)
@@ -627,19 +637,21 @@ CheckMonitor(
       /* write out the color or monochrome palette resource for the screen */
 
        xrdb_string = XtMalloc(BUFSIZ);
+       if (!xrdb_string)
+           return -1;
 
        if (colorSrv.TypeOfMonitor[0] == XmCO_HIGH_COLOR || 
            colorSrv.TypeOfMonitor[0] == XmCO_MEDIUM_COLOR ||
            colorSrv.TypeOfMonitor[0] == XmCO_LOW_COLOR)
        {
-           sprintf(xrdb_string, "*%d*ColorPalette: %s%s\n",
+           snprintf(xrdb_string, BUFSIZ, "*%d*ColorPalette: %s%s\n",
                    screen_number,
 		   colorSrv.pCurrentPalette[screen_number]->name,
 		   PALETTE_SUFFIX);
        }
        else /* XmCO_BLACK_WHITE */
        {
-           sprintf(xrdb_string, "*%d*MonochromePalette: %s%s\n",
+           snprintf(xrdb_string, BUFSIZ, "*%d*MonochromePalette: %s%s\n",
                    screen_number,
 		   colorSrv.pCurrentPalette[screen_number]->name,
 		   PALETTE_SUFFIX);
@@ -647,7 +659,7 @@ CheckMonitor(
        _DtAddToResource(dpy, xrdb_string);
 
        XtFree(xrdb_string);
-    
+
    } /* for each screen */
    return(0);
 }
